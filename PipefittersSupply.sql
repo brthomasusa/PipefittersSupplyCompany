@@ -15,6 +15,16 @@
 -- CREATE SCHEMA Purchasing
 -- GO
 
+-- DROP TABLE IF EXISTS
+--     Sales.CompositionTypes,
+--     Sales.InventoryTypes,
+--     Sales.DiameterTypes,
+--     Sales.Inventory,
+--     Sales.EmployeeTypes,
+--     Sales.Employees
+
+-- GO
+
 -- CREATE TABLE Sales.CompositionTypes
 -- (
 --     CompositionTypeID int IDENTITY NOT NULL,
@@ -136,7 +146,7 @@
 
 -- GO
 
--- ALTER TABLE Sales.Employees  WITH CHECK ADD  CONSTRAINT [FK_EmployeeTypes_EmployeeTypeID] FOREIGN KEY(EmployeeTypeID)
+-- ALTER TABLE Sales.Employees WITH CHECK ADD CONSTRAINT [FK_EmployeeTypes_EmployeeTypeID] FOREIGN KEY(EmployeeTypeID)
 -- REFERENCES Sales.EmployeeTypes (EmployeeTypeID)
 -- ON UPDATE CASCADE
 -- ON DELETE NO ACTION
