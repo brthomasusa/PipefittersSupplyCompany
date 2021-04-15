@@ -50,5 +50,48 @@ USE PipefittersSupply;
 -- CREATE UNIQUE INDEX DiameterTypes_DiameterTypeName 
 --   ON Sales.DiameterTypes (DiameterTypeName);
 
+CREATE TABLE Sales.Inventory
+-- (
+--     InventoryID int NOT NULL,
+--     CompositionTypeID int NOT NULL,
+--     InventoryTypeID int NOT NULL,
+--     DiameterTypeID int NOT NULL,
+--     ListPrice decimal(18, 2) DEFAULT 0 NOT NULL,
+--     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--     LastModifiedDate datetime2(7) NULL,
+--     PRIMARY KEY CLUSTERED (InventoryID)
+-- )
+-- GO
+
+-- CREATE INDEX Inventory_CompositionTypeID 
+--   ON Sales.Inventory (CompositionTypeID)
+-- GO
+
+-- CREATE INDEX Inventory_InventoryTypeID 
+--   ON Sales.Inventory (InventoryTypeID)
+-- GO
+
+-- CREATE INDEX Inventory_DiameterTypeID 
+--   ON Sales.Inventory (DiameterTypeID)
+-- GO
+
+-- ALTER TABLE Sales.Inventory  WITH CHECK ADD  CONSTRAINT [FK_CompositionTypes_CompositionTypeID] FOREIGN KEY(CompositionTypeID)
+-- REFERENCES Sales.CompositionTypes (CompositionTypeID)
+-- ON DELETE CASCADE
+-- GO
+
+-- ALTER TABLE Sales.Inventory  WITH CHECK ADD  CONSTRAINT [FK_InventoryTypes_InventoryTypeID] FOREIGN KEY(InventoryTypeID)
+-- REFERENCES Sales.InventoryTypes (InventoryTypeID)
+-- ON DELETE CASCADE
+-- GO
+
+-- ALTER TABLE Sales.Inventory  WITH CHECK ADD  CONSTRAINT [FK_DiameterTypes_DiameterTypeID] FOREIGN KEY(DiameterTypeID)
+-- REFERENCES Sales.DiameterTypes (DiameterTypeID)
+-- ON DELETE CASCADE
+-- GO
+
+
+
+
 
 
