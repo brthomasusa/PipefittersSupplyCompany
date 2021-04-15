@@ -26,7 +26,9 @@
 --     Sales.SalesOrders ,
 --     Sales.SalesOrderDetails,
 --     Sales.Invoices,
---     Sales.InvoiceDetails
+--     Sales.InvoiceDetails,
+--     Sales.CashAccounts,
+--     Sales.CashReceipts
 
 -- GO
 
@@ -333,6 +335,73 @@
 -- REFERENCES Sales.Inventory (InventoryID)
 -- ON UPDATE CASCADE
 -- ON DELETE NO ACTION
+-- GO
+
+-- CREATE TABLE Sales.CashAccounts (
+--   CashAccountID      int NOT NULL, 
+--   AccountDescription nvarchar(30) NOT NULL, 
+--   BankName           nvarchar(30) NOT NULL, 
+--   DateEstablished    datetime2(0) NOT NULL,
+--   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--   LastModifiedDate datetime2(7) NULL, 
+--   PRIMARY KEY CLUSTERED (CashAccountID))
+-- GO
+
+-- -- CREATE UNIQUE INDEX CashAccounts_AccountDescription 
+-- --   ON Sales.CashAccounts (AccountDescription)
+-- -- GO
+
+-- CREATE TABLE Sales.CashReceipts (
+--   CashReceiptID       int NOT NULL, 
+--   InvoiceID           int NOT NULL, 
+--   CashAccountID       int NOT NULL, 
+--   CustomerID          int NOT NULL, 
+--   EmployeeID          int NOT NULL, 
+--   RemittanceAdviceID  nvarchar(25) NOT NULL, 
+--   CashReceiptDate     datetime2(0) NOT NULL, 
+--   CashReceiptAmount   decimal(18, 2) NOT NULL, 
+--   CustomerCheckNumber nvarchar(15) NOT NULL, 
+--   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--   LastModifiedDate datetime2(7) NULL,
+--   PRIMARY KEY CLUSTERED (CashReceiptID))
+-- GO
+
+-- CREATE INDEX CashReceipts_InvoiceID 
+--   ON Sales.CashReceipts (InvoiceID);
+
+-- CREATE INDEX CashReceipts_CashAccountID 
+--   ON Sales.CashReceipts (CashAccountID);
+
+-- CREATE INDEX CashReceipts_CustomerID 
+--   ON Sales.CashReceipts (CustomerID)
+-- GO
+
+-- CREATE INDEX CashReceipts_EmployeeID 
+--   ON Sales.CashReceipts (EmployeeID)
+-- GO
+
+-- CREATE INDEX CashReceipts_CashReceiptDate 
+--   ON Sales.CashReceipts (CashReceiptDate)
+-- GO
+
+-- ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Invoices_InvoiceID] FOREIGN KEY(InvoiceID)
+-- REFERENCES Sales.Invoices (InvoiceID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_CashAccounts_CashAccountID] FOREIGN KEY(CashAccountID)
+-- REFERENCES Sales.CashAccounts (CashAccountID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Customers_CustomerID] FOREIGN KEY(CustomerID)
+-- REFERENCES Sales.Customers (CustomerID)
+-- GO
+
+-- ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Employees_EmployeeID] FOREIGN KEY(EmployeeID)
+-- REFERENCES Sales.Employees (EmployeeID)
 -- GO
 
 
