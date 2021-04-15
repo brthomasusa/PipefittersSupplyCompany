@@ -24,7 +24,9 @@
 --     Sales.Employees,
 --     Sales.Customers,
 --     Sales.SalesOrders ,
---     Sales.SalesOrderDetails
+--     Sales.SalesOrderDetails,
+--     Sales.Invoices,
+--     Sales.InvoiceDetails
 
 -- GO
 
@@ -247,6 +249,87 @@
 -- GO
 
 -- ALTER TABLE Sales.SalesOrderDetails WITH CHECK ADD CONSTRAINT [FK_Inventory_InventoryID] FOREIGN KEY(InventoryID)
+-- REFERENCES Sales.Inventory (InventoryID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- CREATE TABLE Sales.Invoices
+-- (
+--     InvoiceID int NOT NULL,
+--     SalesOrderID int NOT NULL,
+--     CustomerID int NOT NULL,
+--     EmployeeID int NOT NULL,
+--     ShippingDate datetime2(0) NOT NULL,
+--     SalesAmount decimal(18, 2) NOT NULL,
+--     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--     LastModifiedDate datetime2(7) NULL,
+--     PRIMARY KEY CLUSTERED (InvoiceID)
+-- )
+-- GO
+
+-- CREATE UNIQUE INDEX Invoices_SalesOrderID 
+--   ON Sales.Invoices (SalesOrderID)
+-- GO
+
+-- CREATE INDEX Invoices_CustomerID 
+--   ON Sales.Invoices (CustomerID)
+-- GO
+
+-- CREATE INDEX Invoices_EmployeeID 
+--   ON Sales.Invoices (EmployeeID)
+-- GO
+
+-- CREATE INDEX Invoices_ShippingDate 
+--   ON Sales.Invoices (ShippingDate)
+-- GO
+
+-- ALTER TABLE Sales.Invoices WITH CHECK ADD CONSTRAINT [FK_Invoices_SalesOrders_SalesOrderID] FOREIGN KEY(SalesOrderID)
+-- REFERENCES Sales.SalesOrders (SalesOrderID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Sales.Invoices WITH CHECK ADD CONSTRAINT [FK_Invoices_Customers_CustomerID] FOREIGN KEY(CustomerID)
+-- REFERENCES Sales.Customers (CustomerID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Sales.Invoices WITH CHECK ADD CONSTRAINT [FK_Invoices_Employees_EmployeeID] FOREIGN KEY(EmployeeID)
+-- REFERENCES Sales.Employees (EmployeeID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- CREATE TABLE Sales.InvoiceDetails
+-- (
+--     InvoiceDetailsID int NOT NULL,
+--     InvoiceID int NOT NULL,
+--     InventoryID int NOT NULL,
+--     QuantityShipped int NOT NULL,
+--     UnitPrice decimal(18, 2) NOT NULL,
+--     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--     LastModifiedDate datetime2(7) NULL,
+--     PRIMARY KEY CLUSTERED (InvoiceDetailsID)
+-- )
+-- GO
+
+-- CREATE INDEX InvoiceDetails_InvoiceID 
+--   ON Sales.InvoiceDetails (InvoiceID)
+-- GO
+
+-- CREATE INDEX InvoiceDetails_InventoryID 
+--   ON Sales.InvoiceDetails (InventoryID)
+-- GO
+
+-- ALTER TABLE Sales.InvoiceDetails WITH CHECK ADD CONSTRAINT [FK_InvoiceDetails_Invoices_InvoiceID] FOREIGN KEY(InvoiceID)
+-- REFERENCES Sales.Invoices (InvoiceID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Sales.InvoiceDetails WITH CHECK ADD CONSTRAINT [FK_InvoiceDetails_Inventory_InventoryID] FOREIGN KEY(InventoryID)
 -- REFERENCES Sales.Inventory (InventoryID)
 -- ON UPDATE CASCADE
 -- ON DELETE NO ACTION
