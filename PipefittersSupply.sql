@@ -184,6 +184,9 @@
 -- ALTER TABLE Sales.Customers
 --     ALTER COLUMN CustomerName nvarchar(25) NOT NULL
 -- GO
+-- ALTER TABLE Sales.Customers
+--     ALTER COLUMN ZipCode nvarchar(10) NOT NULL
+-- GO
 
 -- CREATE TABLE Sales.SalesOrders
 -- (
