@@ -152,6 +152,28 @@
 -- ON DELETE NO ACTION
 -- GO
 
+-- CREATE TABLE Sales.Customers
+-- (
+--     CustomerID int NOT NULL,
+--     CustomerName nvarchar(2) NOT NULL,
+--     AddressLine1 nvarchar(50) NOT NULL,
+--     AddressLine2 nvarchar(50) NULL,
+--     City nvarchar(25) NOT NULL,
+--     State char(2) NOT NULL,
+--     ZipCode int NOT NULL,
+--     Telephone nvarchar(14) NOT NULL,
+--     CreditLimit decimal(18, 2) DEFAULT 0 NOT NULL CHECK(CreditLimit <= 50000),
+--     PrimaryContact varchar(25) NOT NULL,
+--     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--     LastModifiedDate datetime2(7) NULL,
+--     PRIMARY KEY CLUSTERED (CustomerID)
+-- )
+-- GO
+
+-- CREATE UNIQUE INDEX Customers_CustomerName 
+--   ON Sales.Customers (CustomerName)
+-- GO
+
 
 
 
