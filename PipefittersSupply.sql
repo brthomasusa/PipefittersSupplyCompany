@@ -39,3 +39,16 @@ USE PipefittersSupply;
 -- CREATE UNIQUE INDEX InventoryTypes_InventoryTypeName 
 --   ON Sales.InventoryTypes (InventoryTypeName);
 
+-- CREATE TABLE Sales.DiameterTypes
+-- (
+--     DiameterTypeID int IDENTITY NOT NULL,
+--     DiameterTypeName nchar(3) NOT NULL,
+--     [Description] nvarchar(25) NOT NULL,
+--     PRIMARY KEY (DiameterTypeID)
+-- );
+
+-- CREATE UNIQUE INDEX DiameterTypes_DiameterTypeName 
+--   ON Sales.DiameterTypes (DiameterTypeName);
+
+
+
