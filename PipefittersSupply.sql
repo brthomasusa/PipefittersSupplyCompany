@@ -1,7 +1,7 @@
-CREATE DATABASE PipefittersSupply
-GO
+-- CREATE DATABASE PipefittersSupply
+-- GO
 
-USE PipefittersSupply;
+-- USE PipefittersSupply;
 
 -- SELECT type_desc, size * 8 / 1024 AS size_MB, physical_name
 -- FROM sys.master_files
@@ -50,7 +50,7 @@ USE PipefittersSupply;
 -- CREATE UNIQUE INDEX DiameterTypes_DiameterTypeName 
 --   ON Sales.DiameterTypes (DiameterTypeName);
 
-CREATE TABLE Sales.Inventory
+-- CREATE TABLE Sales.Inventory
 -- (
 --     InventoryID int NOT NULL,
 --     CompositionTypeID int NOT NULL,
@@ -89,6 +89,20 @@ CREATE TABLE Sales.Inventory
 -- REFERENCES Sales.DiameterTypes (DiameterTypeID)
 -- ON DELETE CASCADE
 -- GO
+
+-- CREATE TABLE Sales.EmployeeTypes
+-- (
+--     EmployeeTypeID int IDENTITY NOT NULL,
+--     EmployeeTypeName nvarchar(25) NOT NULL,
+--     PRIMARY KEY CLUSTERED (EmployeeTypeID)
+-- )
+-- GO
+
+-- CREATE UNIQUE INDEX EmployeeTypes_EmployeeTypeName 
+--   ON Sales.EmployeeTypes (EmployeeTypeName)
+-- GO
+
+
 
 
 
