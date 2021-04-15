@@ -21,7 +21,10 @@
 --     Sales.DiameterTypes,
 --     Sales.Inventory,
 --     Sales.EmployeeTypes,
---     Sales.Employees
+--     Sales.Employees,
+--     Sales.Customers,
+--     Sales.SalesOrders ,
+--     Sales.SalesOrderDetails
 
 -- GO
 
@@ -174,6 +177,80 @@
 --   ON Sales.Customers (CustomerName)
 -- GO
 
+-- CREATE TABLE Sales.SalesOrders
+-- (
+--     SalesOrderID int NOT NULL,
+--     CustomerID int NOT NULL,
+--     EmployeeID int NOT NULL,
+--     SalesOrderDate datetime2(0) NOT NULL,
+--     CustomerPO nvarchar(15) NOT NULL,
+--     SalesOrderAmount decimal(18, 2) DEFAULT 0 NOT NULL CHECK(SalesOrderAmount >= 0),
+--     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--     LastModifiedDate datetime2(7) NULL,
+--     PRIMARY KEY CLUSTERED (SalesOrderID)
+-- )
+-- GO
+
+-- CREATE INDEX SalesOrders_CustomerID 
+--   ON Sales.SalesOrders (CustomerID)
+-- GO
+
+-- CREATE INDEX SalesOrders_EmployeeID 
+--   ON Sales.SalesOrders (EmployeeID)
+-- GO
+
+-- CREATE INDEX SalesOrders_SalesOrderDate 
+--   ON Sales.SalesOrders (SalesOrderDate)
+-- GO
+
+-- CREATE INDEX SalesOrders_CustomerPO 
+--   ON Sales.SalesOrders (CustomerPO)
+-- GO
+
+-- ALTER TABLE Sales.SalesOrders WITH CHECK ADD CONSTRAINT [FK_Customers_CustomerID] FOREIGN KEY(CustomerID)
+-- REFERENCES Sales.Customers (CustomerID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Sales.SalesOrders WITH CHECK ADD CONSTRAINT [FK_Employees_EmployeeID] FOREIGN KEY(EmployeeID)
+-- REFERENCES Sales.Employees (EmployeeID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- CREATE TABLE Sales.SalesOrderDetails
+-- (
+--     SalesOrderDetailID int NOT NULL,
+--     SalesOrderID int NOT NULL,
+--     InventoryID int NOT NULL,
+--     QuantityOrdered int NOT NULL,
+--     UnitPrice decimal(18, 2) NOT NULL,
+--     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+--     LastModifiedDate datetime2(7) NULL,
+--     PRIMARY KEY CLUSTERED (SalesOrderDetailID)
+-- )
+-- GO
+
+-- CREATE INDEX SalesOrderDetails_SalesOrderID 
+--   ON Sales.SalesOrderDetails (SalesOrderID)
+-- GO
+
+-- CREATE INDEX SalesOrderDetails_InventoryID 
+--   ON Sales.SalesOrderDetails (InventoryID)
+-- GO
+
+-- ALTER TABLE Sales.SalesOrderDetails WITH CHECK ADD CONSTRAINT [FK_SalesOrders_SalesOrderID] FOREIGN KEY(SalesOrderID)
+-- REFERENCES Sales.SalesOrders (SalesOrderID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Sales.SalesOrderDetails WITH CHECK ADD CONSTRAINT [FK_Inventory_InventoryID] FOREIGN KEY(InventoryID)
+-- REFERENCES Sales.Inventory (InventoryID)
+-- ON UPDATE CASCADE
+-- ON DELETE NO ACTION
+-- GO
 
 
 
