@@ -181,6 +181,10 @@
 --   ON Sales.Customers (CustomerName)
 -- GO
 
+-- ALTER TABLE Sales.Customers
+--     ALTER COLUMN CustomerName nvarchar(25) NOT NULL
+-- GO
+
 -- CREATE TABLE Sales.SalesOrders
 -- (
 --     SalesOrderID int NOT NULL,
