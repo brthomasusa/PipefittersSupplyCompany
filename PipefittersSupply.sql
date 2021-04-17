@@ -74,6 +74,7 @@
 --     InventoryTypeID int NOT NULL,
 --     DiameterTypeID int NOT NULL,
 --     ListPrice decimal(18, 2) DEFAULT 0 NOT NULL,
+--     [Description] varchar(35) NOT NULL,
 --     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
 --     LastModifiedDate datetime2(7) NULL,
 --     PRIMARY KEY CLUSTERED (InventoryID)
