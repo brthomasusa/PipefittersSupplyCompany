@@ -3,25 +3,23 @@
 
 -- USE PipefittersSupply;
 
--- SELECT type_desc, size * 8 / 1024 AS size_MB, physical_name
--- FROM sys.master_files
--- WHERE database_id = DB_ID('PipefittersSupply');
-
--- SELECT SUSER_SNAME(owner_sid) AS databaseOwner, name FROM sys.databases; 
-
 CREATE SCHEMA Sales
 GO
-
 CREATE SCHEMA Purchasing
+GO
+CREATE SCHEMA HumanResources
+GO
+CREATE SCHEMA Finance
 GO
 
 DROP TABLE IF EXISTS
+    HumanResources.EmployeeTypes,
+    HumanResources.Employees,
+
     Sales.CompositionTypes,
     Sales.InventoryTypes,
     Sales.DiameterTypes,
-    Sales.Inventory,
-    Sales.EmployeeTypes,
-    Sales.Employees,
+    Sales.Inventory,    
     Sales.Customers,
     Sales.SalesOrders ,
     Sales.SalesOrderDetails,
@@ -29,6 +27,74 @@ DROP TABLE IF EXISTS
     Sales.InvoiceDetails,
     Sales.CashAccounts,
     Sales.CashReceipts
+GO
+
+CREATE TABLE HumanResources.EmployeeTypes
+(
+    EmployeeTypeID int IDENTITY NOT NULL,
+    EmployeeTypeName nvarchar(25) NOT NULL,
+    PRIMARY KEY CLUSTERED (EmployeeTypeID)
+)
+GO
+
+CREATE TABLE HumanResources.Employees
+(
+    EmployeeID int NOT NULL,
+    EmployeeTypeID int NOT NULL,
+    LastName nvarchar(25) NOT NULL,
+    FirstName nvarchar(25) NOT NULL,
+    MiddleInitial nchar(1) NULL,
+    SSN nchar(9) NOT NULL,
+    AddressLine1 nvarchar(30) NOT NULL,
+    AddressLine2 nvarchar(30) NULL,
+    City nvarchar(30) NOT NULL,
+    [State] nchar(2) NOT NULL,
+    ZipCode nvarchar(10) NOT NULL,
+    Telephone nvarchar(14) NOT NULL,
+    MaritalStatus nchar(1) DEFAULT 'S' NOT NULL,
+    Exemptions int DEFAULT 0 NOT NULL,
+    PayRate decimal(18, 2) NOT NULL,
+    StartDate datetime2(0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    PRIMARY KEY CLUSTERED (EmployeeID),
+    CONSTRAINT CHK_MaritalStatus CHECK (MaritalStatus IN ('M', 'S')),
+    CONSTRAINT CHK_TaxExemption CHECK (Exemptions >= 0 AND Exemptions <= 9),
+    CONSTRAINT CHK_PayRate CHECK (PayRate >= 7.50 AND PayRate <= 40.00)
+);
+GO
+
+CREATE INDEX Employees_EmployeeTypeID 
+  ON HumanResources.Employees (EmployeeTypeID);
+
+CREATE UNIQUE INDEX Employees_FullName 
+  ON HumanResources.Employees (LastName, FirstName, MiddleInitial);
+
+CREATE UNIQUE INDEX Employees_SSN 
+  ON HumanResources.Employees (SSN);
+GO
+
+ALTER TABLE HumanResources.Employees WITH CHECK ADD CONSTRAINT [FK_Employees$EmployeeTypeID_EmployeeTypes$EmployeeTypeID] FOREIGN KEY(EmployeeTypeID)
+REFERENCES HumanResources.EmployeeTypes (EmployeeTypeID)
+ON DELETE NO ACTION
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CREATE UNIQUE INDEX EmployeeTypes_EmployeeTypeName 
+  ON HumanResources.EmployeeTypes (EmployeeTypeName)
 GO
 
 CREATE TABLE Sales.CompositionTypes
@@ -111,58 +177,6 @@ GO
 ALTER TABLE Sales.Inventory  WITH CHECK ADD  CONSTRAINT [FK_DiameterTypes_DiameterTypeID] FOREIGN KEY(DiameterTypeID)
 REFERENCES Sales.DiameterTypes (DiameterTypeID)
 ON DELETE CASCADE
-GO
-
-CREATE TABLE Sales.EmployeeTypes
-(
-    EmployeeTypeID int IDENTITY NOT NULL,
-    EmployeeTypeName nvarchar(25) NOT NULL,
-    PRIMARY KEY CLUSTERED (EmployeeTypeID)
-)
-GO
-
-CREATE UNIQUE INDEX EmployeeTypes_EmployeeTypeName 
-  ON Sales.EmployeeTypes (EmployeeTypeName)
-GO
-
-CREATE TABLE Sales.Employees
-(
-    EmployeeID int NOT NULL,
-    EmployeeTypeID int NOT NULL,
-    LastName nvarchar(25) NOT NULL,
-    FirstName nvarchar(25) NOT NULL,
-    MiddleInitial nchar(1) NULL,
-    SSN nchar(9) NOT NULL,
-    AddressLine1 nvarchar(30) NOT NULL,
-    AddressLine2 nvarchar(30) NULL,
-    City nvarchar(30) NOT NULL,
-    State nchar(2) NOT NULL,
-    ZipCode nvarchar(10) NOT NULL,
-    Telephone nvarchar(14) NOT NULL,
-    MaritalStatus nchar(1) NOT NULL,
-    Exemptions int NOT NULL,
-    PayRate decimal(18, 2) NOT NULL,
-    StartDate datetime2(0) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY (EmployeeID)
-);
-GO
-
-CREATE INDEX Employees_EmployeeTypeID 
-  ON Sales.Employees (EmployeeTypeID);
-
-CREATE UNIQUE INDEX Employees_FullName 
-  ON Sales.Employees (LastName, FirstName, MiddleInitial);
-
-CREATE UNIQUE INDEX Employees_SSN 
-  ON Sales.Employees (SSN);
-GO
-
-ALTER TABLE Sales.Employees WITH CHECK ADD CONSTRAINT [FK_EmployeeTypes_EmployeeTypeID] FOREIGN KEY(EmployeeTypeID)
-REFERENCES Sales.EmployeeTypes (EmployeeTypeID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
 GO
 
 CREATE TABLE Sales.Customers

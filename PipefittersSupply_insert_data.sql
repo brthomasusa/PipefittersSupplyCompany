@@ -1,3 +1,32 @@
+INSERT INTO HumanResources.EmployeeTypes
+    (EmployeeTypeName)
+VALUES
+    ('Accountant'),
+    ('Administrator'),
+    ('Maintenance'),
+    ('Materials Handler'),
+    ('Purchasing Agent'),
+    ('Salesperson')
+GO
+
+INSERT INTO HumanResources.Employees
+(EmployeeID, EmployeeTypeID, LastName, FirstName, MiddleInitial, SSN, AddressLine1, City, [State], ZipCode, Telephone, MaritalStatus, Exemptions, PayRate, StartDate)
+VALUES
+(107, 2, 'Sanchez', 'Ken', 'J', '123789999', '321 Tarrant Pl', 'Fort Worth', 'TX', '78965', '817-987-1234', 'M', 5, 39.55, '1998-12-02'),
+(109, 1, 'Duffy', 'Terri', 'L', '999912345', '98 Reiger Ave', 'Dallas', 'TX', '75214', '214-987-1234', 'M', 2, 30.00, '2018-10-22'),
+(111, 6, 'Goldberg', 'Jozef', 'P', '036889999', '6667 Melody Lane, Apt 2', 'Dallas', 'TX', '75231', '469-321-1234', 'S', 1, 25.00, '2013-02-28'),
+(112, 6, 'Brown', 'Jamie', 'J', '123700009', '98777 Nigeria Town Rd', 'Arlington', 'TX', '78658', '817-555-5555', 'M', 2, 25.00, '2017-12-22'),
+(115, 3, 'Trump', 'Donald', 'J', '781287999', '1 Cowgirl Circle', 'Fort Worth', 'TX', '78965', '817-123-9874', 'M', 4, 8.00, '2003-07-02'),
+(130, 3, 'Trump', 'Ivanka', 'Z', '256281432', '1 Cowgirl Circle', 'Fort Worth', 'TX', '78965', '817-123-9874', 'M', 2, 10.50, '2003-07-02')
+GO
+
+
+
+
+
+
+
+
 INSERT INTO Sales.Customers
     (CustomerID, CustomerName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, CreditLimit, PrimaryContact)
 VALUES
@@ -54,27 +83,6 @@ VALUES
     (1053, 2, 4, 5, 5.29, '3.00-inch copper Elbow'),
     (1056, 2, 5, 2, 3.39, '0.50-inch T-Connector'),
     (1059, 2, 5, 5, 6.59, '3.00-inch T-Connector')    
-GO
-
-INSERT INTO Sales.EmployeeTypes
-    (EmployeeTypeName)
-VALUES
-    ('Salesperson')
-GO
-INSERT INTO Sales.EmployeeTypes
-    (EmployeeTypeName)
-VALUES
-    ('Accountant')
-GO
-
-INSERT INTO Sales.Employees
-(EmployeeID, EmployeeTypeID, LastName, FirstName, MiddleInitial, SSN, AddressLine1, City, [State], ZipCode, Telephone, MaritalStatus, Exemptions, PayRate, StartDate)
-VALUES
-(107, 1, 'Sanchez', 'Ken', 'J', '123789999', '321 Tarrant Pl', 'Fort Worth', 'TX', '78965', '817-987-1234', 'M', 5, 59.55, '1998-12-02'),
-(109, 1, 'Duffy', 'Terri', 'L', '999912345', '98 Reiger Ave', 'Dallas', 'TX', '75214', '214-987-1234', 'M', 2, 15.00, '2018-10-22'),
-(111, 1, 'Goldberg', 'Jozef', 'P', '036889999', '6667 Melody Lane, Apt 2', 'Dallas', 'TX', '75231', '469-321-1234', 'S', 1, 25.00, '2013-02-28'),
-(112, 1, 'Brown', 'Jamie', 'J', '123700009', '98777 Nigeria Town Rd', 'Arlington', 'TX', '78658', '817-555-5555', 'M', 2, 25.00, '2017-12-22'),
-(115, 1, 'Trump', 'Donald', 'J', '781287999', '1 Cowgirl Circle', 'Fort Worth', 'TX', '78965', '817-123-9874', 'M', 4, 35.00, '2003-07-02')
 GO
 
 INSERT INTO Sales.SalesOrders
