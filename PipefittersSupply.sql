@@ -15,6 +15,12 @@ GO
 DROP TABLE IF EXISTS
     HumanResources.EmployeeTypes,
     HumanResources.Employees,
+    HumanResources.TimeCard,
+    Finance.CashAccounts,
+    Finance.CashReceipts
+    Finance.CashDisbursementType,
+    Finance.CashDisbursement,
+
 
     Sales.CompositionTypes,
     Sales.InventoryTypes,
@@ -24,9 +30,9 @@ DROP TABLE IF EXISTS
     Sales.SalesOrders ,
     Sales.SalesOrderDetails,
     Sales.Invoices,
-    Sales.InvoiceDetails,
-    Sales.CashAccounts,
-    Sales.CashReceipts
+    Sales.InvoiceDetails
+    
+    
 GO
 
 CREATE TABLE HumanResources.EmployeeTypes
@@ -35,6 +41,10 @@ CREATE TABLE HumanResources.EmployeeTypes
     EmployeeTypeName nvarchar(25) NOT NULL,
     PRIMARY KEY CLUSTERED (EmployeeTypeID)
 )
+GO
+
+CREATE UNIQUE INDEX EmployeeTypes_EmployeeTypeName 
+  ON HumanResources.EmployeeTypes (EmployeeTypeName)
 GO
 
 CREATE TABLE HumanResources.Employees
@@ -79,23 +89,136 @@ REFERENCES HumanResources.EmployeeTypes (EmployeeTypeID)
 ON DELETE NO ACTION
 GO
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-CREATE UNIQUE INDEX EmployeeTypes_EmployeeTypeName 
-  ON HumanResources.EmployeeTypes (EmployeeTypeName)
+CREATE TABLE HumanResources.TimeCard
+(
+    TimeCardID int NOT NULL,
+    EmployeeID int NOT NULL,
+    SupervisorID int NOT NULL,
+    PayPeriodEnded DATETIME2(0) NOT NULL,
+    RegularHours int NOT NULL,
+    OverTimeHours int DEFAULT 0 NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    PRIMARY KEY CLUSTERED (TimeCardID),
+    CONSTRAINT CHK_RegularHours CHECK (RegularHours >= 0 AND RegularHours < 185),
+    CONSTRAINT CHK_OverTimeHours CHECK (OverTimeHours >= 0 AND OverTimeHours <= 201)    
+)
 GO
+
+CREATE INDEX TimeCard_EmployeeID 
+  ON HumanResources.TimeCard (EmployeeID)
+GO
+
+CREATE INDEX TimeCard_SupervisorID 
+  ON HumanResources.TimeCard (SupervisorID)
+GO
+
+ALTER TABLE HumanResources.TimeCard WITH CHECK ADD CONSTRAINT [FK_TimeCard$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
+REFERENCES HumanResources.Employees (EmployeeID)
+ON DELETE NO ACTION
+GO
+
+ALTER TABLE HumanResources.TimeCard WITH CHECK ADD CONSTRAINT [FK_TimeCard$SupervisorID_Employees$EmployeeID] FOREIGN KEY(SupervisorID)
+REFERENCES HumanResources.Employees (EmployeeID)
+ON DELETE NO ACTION
+GO
+
+CREATE TABLE Finance.CashAccounts (
+  CashAccountID      int NOT NULL, 
+  AccountDescription nvarchar(30) NOT NULL, 
+  BankName           nvarchar(30) NOT NULL, 
+  DateEstablished    datetime2(0) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL, 
+  PRIMARY KEY CLUSTERED (CashAccountID))
+GO
+
+CREATE UNIQUE INDEX CashAccounts_AccountDescription 
+  ON Finance.CashAccounts (AccountDescription)
+GO
+
+CREATE TABLE Finance.CashDisbursementType
+(
+    CashDisbursementTypeID INT NOT NULL,
+    EventTypeName NVARCHAR(25) NOT NULL,
+    PayeeTypeName NVARCHAR(25) NOT NULL,
+    PRIMARY KEY CLUSTERED (CashDisbursementTypeID),
+)
+GO
+
+CREATE TABLE Finance.CashDisbursement
+(
+    CashDisbursementID INT NOT NULL,
+    CheckNumber NVARCHAR(15) NOT NULL,
+    CashAccountID INT NOT NULL,
+    CashDisbursementTypeID INT NOT NULL,
+    PayeeID INT NOT NULL,
+    EmployeeID INT NOT NULL,
+    EventID INT NOT NULL,
+    DisbursementAmount DECIMAL(18,2) NOT NULL,
+    DisbursementDate DATETIME2(0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL, 
+    PRIMARY KEY CLUSTERED (CashDisbursementID)    
+)
+GO
+
+CREATE UNIQUE INDEX IDX_CashDisbursement$CheckNumber$CashAccountID 
+  ON Finance.CashDisbursement (CheckNumber, CashAccountID)
+GO
+
+CREATE INDEX IDX_CashDisbursements$CashAccountID
+  ON Finance.CashDisbursement(CashAccountID)
+GO
+
+CREATE INDEX IDX_CashDisbursements$CashDisbursementTypeID
+  ON Finance.CashDisbursement(CashDisbursementTypeID)
+GO
+
+CREATE INDEX IDX_CashDisbursements$PayeeID
+  ON Finance.CashDisbursement(PayeeID)
+GO
+
+CREATE INDEX IDX_CashDisbursements$EmployeeID
+  ON Finance.CashDisbursement(EmployeeID)
+GO
+
+CREATE INDEX IDX_CashDisbursements$EventID
+  ON Finance.CashDisbursement(EventID)
+GO
+
+ALTER TABLE Finance.CashDisbursement WITH CHECK ADD CONSTRAINT [FK_CashDisbursements$CashAccountID_CashAccounts$CashAccountID] FOREIGN KEY(CashAccountID)
+REFERENCES Finance.CashAccounts(CashAccountID)
+ON DELETE NO ACTION
+GO
+
+ALTER TABLE Finance.CashDisbursement WITH CHECK ADD CONSTRAINT [FK_CashDisbursements$CashDisbursementTypeID_CashDisbursementTypes$CashDisbursementTypeID] FOREIGN KEY(CashDisbursementTypeID)
+REFERENCES Finance.CashDisbursementType(CashDisbursementTypeID)
+ON DELETE NO ACTION
+GO
+
+ALTER TABLE Finance.CashDisbursement WITH CHECK ADD CONSTRAINT [FK_CashDisbursements$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
+REFERENCES HumanResources.Employees(EmployeeID)
+ON DELETE NO ACTION
+GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE TABLE Sales.CompositionTypes
 (
@@ -364,20 +487,6 @@ ON UPDATE CASCADE
 ON DELETE NO ACTION
 GO
 
-CREATE TABLE Sales.CashAccounts (
-  CashAccountID      int NOT NULL, 
-  AccountDescription nvarchar(30) NOT NULL, 
-  BankName           nvarchar(30) NOT NULL, 
-  DateEstablished    datetime2(0) NOT NULL,
-  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-  LastModifiedDate datetime2(7) NULL, 
-  PRIMARY KEY CLUSTERED (CashAccountID))
-GO
-
-CREATE UNIQUE INDEX CashAccounts_AccountDescription 
-  ON Sales.CashAccounts (AccountDescription)
-GO
-
 CREATE TABLE Sales.CashReceipts (
   CashReceiptID       int NOT NULL, 
   InvoiceID           int NOT NULL, 
@@ -413,13 +522,11 @@ GO
 
 ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Invoices_InvoiceID] FOREIGN KEY(InvoiceID)
 REFERENCES Sales.Invoices (InvoiceID)
-ON UPDATE CASCADE
 ON DELETE NO ACTION
 GO
 
-ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_CashAccounts_CashAccountID] FOREIGN KEY(CashAccountID)
-REFERENCES Sales.CashAccounts (CashAccountID)
-ON UPDATE CASCADE
+ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts$CashAccountID_CashAccounts$CashAccountID] FOREIGN KEY(CashAccountID)
+REFERENCES Finance.CashAccounts (CashAccountID)
 ON DELETE NO ACTION
 GO
 
@@ -427,8 +534,8 @@ ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Custom
 REFERENCES Sales.Customers (CustomerID)
 GO
 
-ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Employees_EmployeeID] FOREIGN KEY(EmployeeID)
-REFERENCES Sales.Employees (EmployeeID)
+ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
+REFERENCES HumanResources.Employees (EmployeeID)
 GO
 
 
