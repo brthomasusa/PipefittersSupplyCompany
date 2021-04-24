@@ -16,6 +16,7 @@ DROP TABLE IF EXISTS
     HumanResources.EmployeeTypes,
     HumanResources.Employees,
     HumanResources.TimeCard,
+    HumanResources.ExemptionLkup,
     Finance.CashAccounts,
     Finance.CashReceipts,
     Finance.CashDisbursementType,
@@ -121,6 +122,19 @@ GO
 ALTER TABLE HumanResources.TimeCard WITH CHECK ADD CONSTRAINT [FK_TimeCard$SupervisorID_Employees$EmployeeID] FOREIGN KEY(SupervisorID)
 REFERENCES HumanResources.Employees (EmployeeID)
 ON DELETE NO ACTION
+GO
+
+CREATE TABLE HumanResources.ExemptionLkup
+(
+    ExemptionLkupID INT NOT NULL,
+    NumberOfExemptions INT NOT NULL,
+    ExemptionAmount DECIMAL(18,2) NOT NULL,
+    PRIMARY KEY CLUSTERED (ExemptionLkupID)
+)
+GO
+
+CREATE UNIQUE INDEX idx_ExemptionLkup$NumberOfExemptions
+    ON HumanResources.ExemptionLkup (NumberOfExemptions)
 GO
 
 CREATE TABLE Finance.CashAccounts

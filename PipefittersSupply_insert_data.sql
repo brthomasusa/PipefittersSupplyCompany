@@ -51,6 +51,22 @@ VALUES
     (16, 123, 113, '2021-01-31', 168, 0)
 GO
 
+INSERT INTO HumanResources.ExemptionLkup
+    (ExemptionLkupID, NumberOfExemptions, ExemptionAmount)
+VALUES
+    (1, 1, 304.17),
+    (2, 2, 608.34),
+    (3, 3, 912.42),
+    (4, 4, 1216.68),
+    (5, 5, 1520.85),
+    (6, 6, 1825.02),
+    (7, 7, 2129.19),
+    (8, 8, 2433.36),
+    (9, 9, 2737.53),
+    (10, 10, 3041.70),
+    (11, 11, 3345.87)
+GO
+
 INSERT INTO Finance.CashDisbursementType
     (CashDisbursementTypeID, EventTypeName, PayeeTypeName)
 VALUES
