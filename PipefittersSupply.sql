@@ -64,14 +64,13 @@ CREATE TABLE HumanResources.Employees
   ZipCode nvarchar(10) NOT NULL,
   Telephone nvarchar(14) NOT NULL,
   MaritalStatus nchar(1) DEFAULT 'S' NOT NULL,
-  Exemptions int DEFAULT 0 NOT NULL,
+  Exemptions int NOT NULL,
   PayRate decimal(18, 2) NOT NULL,
   StartDate datetime2(0) NOT NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
   LastModifiedDate datetime2(7) NULL,
   PRIMARY KEY CLUSTERED (EmployeeID),
   CONSTRAINT CHK_MaritalStatus CHECK (MaritalStatus IN ('M', 'S')),
-  CONSTRAINT CHK_TaxExemption CHECK (Exemptions >= 0 AND Exemptions <= 9),
   CONSTRAINT CHK_PayRate CHECK (PayRate >= 7.50 AND PayRate <= 40.00)
 );
 GO
@@ -84,6 +83,10 @@ CREATE UNIQUE INDEX Employees_FullName
 
 CREATE UNIQUE INDEX Employees_SSN 
   ON HumanResources.Employees (SSN);
+GO
+
+CREATE INDEX idx_Employees$Exemptions 
+  ON HumanResources.Employees (Exemptions);
 GO
 
 ALTER TABLE HumanResources.Employees WITH CHECK ADD CONSTRAINT [FK_Employees$EmployeeTypeID_EmployeeTypes$EmployeeTypeID] FOREIGN KEY(EmployeeTypeID)
@@ -155,7 +158,10 @@ CREATE UNIQUE INDEX idx_FedWithHolding$MaritalStatus$FedTaxBracket
    ON HumanResources.FedWithHolding (MaritalStatus, FedTaxBracket)   
 GO
 
-
+ALTER TABLE HumanResources.Employees WITH CHECK ADD CONSTRAINT [FK_Employees$Exemptions_ExemptionLkup$ExemptionLkupID] FOREIGN KEY(Exemptions)
+REFERENCES HumanResources.ExemptionLkup (ExemptionLkupID)
+ON DELETE NO ACTION
+GO
 
 
 CREATE TABLE Finance.CashAccounts
