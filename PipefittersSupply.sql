@@ -17,6 +17,7 @@ DROP TABLE IF EXISTS
     HumanResources.Employees,
     HumanResources.TimeCard,
     HumanResources.ExemptionLkup,
+    HumanResources.FedWithHolding,
     Finance.CashAccounts,
     Finance.CashReceipts,
     Finance.CashDisbursementType,
@@ -136,6 +137,26 @@ GO
 CREATE UNIQUE INDEX idx_ExemptionLkup$NumberOfExemptions
     ON HumanResources.ExemptionLkup (NumberOfExemptions)
 GO
+
+CREATE TABLE HumanResources.FedWithHolding
+(
+    FedWithHoldingID INT NOT NULL,
+    MaritalStatus NCHAR(1) NOT NULL,
+    FedTaxBracket NVARCHAR(2) NOT NULL,
+    LowerLimit DECIMAL(18,2) NOT NULL,
+    UpperLimit DECIMAL(18,2) NOT NULL,
+    TaxRate DECIMAL(5,2) NOT NULL,
+    BracketBaseAmount DECIMAL(18,2) NOT NULL,
+    PRIMARY KEY CLUSTERED (FedWithHoldingID)
+)
+GO
+
+CREATE UNIQUE INDEX idx_FedWithHolding$MaritalStatus$FedTaxBracket   
+   ON HumanResources.FedWithHolding (MaritalStatus, FedTaxBracket)   
+GO
+
+
+
 
 CREATE TABLE Finance.CashAccounts
 (
