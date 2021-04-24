@@ -17,7 +17,7 @@ DROP TABLE IF EXISTS
     HumanResources.Employees,
     HumanResources.TimeCard,
     Finance.CashAccounts,
-    Finance.CashReceipts
+    Finance.CashReceipts,
     Finance.CashDisbursementType,
     Finance.CashDisbursement,
 
@@ -37,9 +37,9 @@ GO
 
 CREATE TABLE HumanResources.EmployeeTypes
 (
-    EmployeeTypeID int IDENTITY NOT NULL,
-    EmployeeTypeName nvarchar(25) NOT NULL,
-    PRIMARY KEY CLUSTERED (EmployeeTypeID)
+  EmployeeTypeID int IDENTITY NOT NULL,
+  EmployeeTypeName nvarchar(25) NOT NULL,
+  PRIMARY KEY CLUSTERED (EmployeeTypeID)
 )
 GO
 
@@ -49,28 +49,28 @@ GO
 
 CREATE TABLE HumanResources.Employees
 (
-    EmployeeID int NOT NULL,
-    EmployeeTypeID int NOT NULL,
-    LastName nvarchar(25) NOT NULL,
-    FirstName nvarchar(25) NOT NULL,
-    MiddleInitial nchar(1) NULL,
-    SSN nchar(9) NOT NULL,
-    AddressLine1 nvarchar(30) NOT NULL,
-    AddressLine2 nvarchar(30) NULL,
-    City nvarchar(30) NOT NULL,
-    [State] nchar(2) NOT NULL,
-    ZipCode nvarchar(10) NOT NULL,
-    Telephone nvarchar(14) NOT NULL,
-    MaritalStatus nchar(1) DEFAULT 'S' NOT NULL,
-    Exemptions int DEFAULT 0 NOT NULL,
-    PayRate decimal(18, 2) NOT NULL,
-    StartDate datetime2(0) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (EmployeeID),
-    CONSTRAINT CHK_MaritalStatus CHECK (MaritalStatus IN ('M', 'S')),
-    CONSTRAINT CHK_TaxExemption CHECK (Exemptions >= 0 AND Exemptions <= 9),
-    CONSTRAINT CHK_PayRate CHECK (PayRate >= 7.50 AND PayRate <= 40.00)
+  EmployeeID int NOT NULL,
+  EmployeeTypeID int NOT NULL,
+  LastName nvarchar(25) NOT NULL,
+  FirstName nvarchar(25) NOT NULL,
+  MiddleInitial nchar(1) NULL,
+  SSN nchar(9) NOT NULL,
+  AddressLine1 nvarchar(30) NOT NULL,
+  AddressLine2 nvarchar(30) NULL,
+  City nvarchar(30) NOT NULL,
+  [State] nchar(2) NOT NULL,
+  ZipCode nvarchar(10) NOT NULL,
+  Telephone nvarchar(14) NOT NULL,
+  MaritalStatus nchar(1) DEFAULT 'S' NOT NULL,
+  Exemptions int DEFAULT 0 NOT NULL,
+  PayRate decimal(18, 2) NOT NULL,
+  StartDate datetime2(0) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (EmployeeID),
+  CONSTRAINT CHK_MaritalStatus CHECK (MaritalStatus IN ('M', 'S')),
+  CONSTRAINT CHK_TaxExemption CHECK (Exemptions >= 0 AND Exemptions <= 9),
+  CONSTRAINT CHK_PayRate CHECK (PayRate >= 7.50 AND PayRate <= 40.00)
 );
 GO
 
@@ -91,17 +91,17 @@ GO
 
 CREATE TABLE HumanResources.TimeCard
 (
-    TimeCardID int NOT NULL,
-    EmployeeID int NOT NULL,
-    SupervisorID int NOT NULL,
-    PayPeriodEnded DATETIME2(0) NOT NULL,
-    RegularHours int NOT NULL,
-    OverTimeHours int DEFAULT 0 NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (TimeCardID),
-    CONSTRAINT CHK_RegularHours CHECK (RegularHours >= 0 AND RegularHours < 185),
-    CONSTRAINT CHK_OverTimeHours CHECK (OverTimeHours >= 0 AND OverTimeHours <= 201)    
+  TimeCardID int NOT NULL,
+  EmployeeID int NOT NULL,
+  SupervisorID int NOT NULL,
+  PayPeriodEnded DATETIME2(0) NOT NULL,
+  RegularHours int NOT NULL,
+  OverTimeHours int DEFAULT 0 NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (TimeCardID),
+  CONSTRAINT CHK_RegularHours CHECK (RegularHours >= 0 AND RegularHours < 185),
+  CONSTRAINT CHK_OverTimeHours CHECK (OverTimeHours >= 0 AND OverTimeHours <= 201)
 )
 GO
 
@@ -123,14 +123,16 @@ REFERENCES HumanResources.Employees (EmployeeID)
 ON DELETE NO ACTION
 GO
 
-CREATE TABLE Finance.CashAccounts (
-  CashAccountID      int NOT NULL, 
-  AccountDescription nvarchar(30) NOT NULL, 
-  BankName           nvarchar(30) NOT NULL, 
-  DateEstablished    datetime2(0) NOT NULL,
+CREATE TABLE Finance.CashAccounts
+(
+  CashAccountID int NOT NULL,
+  AccountDescription nvarchar(30) NOT NULL,
+  BankName nvarchar(30) NOT NULL,
+  DateEstablished datetime2(0) NOT NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-  LastModifiedDate datetime2(7) NULL, 
-  PRIMARY KEY CLUSTERED (CashAccountID))
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (CashAccountID)
+)
 GO
 
 CREATE UNIQUE INDEX CashAccounts_AccountDescription 
@@ -139,27 +141,27 @@ GO
 
 CREATE TABLE Finance.CashDisbursementType
 (
-    CashDisbursementTypeID INT NOT NULL,
-    EventTypeName NVARCHAR(25) NOT NULL,
-    PayeeTypeName NVARCHAR(25) NOT NULL,
-    PRIMARY KEY CLUSTERED (CashDisbursementTypeID),
+  CashDisbursementTypeID INT NOT NULL,
+  EventTypeName NVARCHAR(25) NOT NULL,
+  PayeeTypeName NVARCHAR(25) NOT NULL,
+  PRIMARY KEY CLUSTERED (CashDisbursementTypeID),
 )
 GO
 
 CREATE TABLE Finance.CashDisbursement
 (
-    CashDisbursementID INT NOT NULL,
-    CheckNumber NVARCHAR(15) NOT NULL,
-    CashAccountID INT NOT NULL,
-    CashDisbursementTypeID INT NOT NULL,
-    PayeeID INT NOT NULL,
-    EmployeeID INT NOT NULL,
-    EventID INT NOT NULL,
-    DisbursementAmount DECIMAL(18,2) NOT NULL,
-    DisbursementDate DATETIME2(0) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL, 
-    PRIMARY KEY CLUSTERED (CashDisbursementID)    
+  CashDisbursementID INT NOT NULL,
+  CheckNumber NVARCHAR(15) NOT NULL,
+  CashAccountID INT NOT NULL,
+  CashDisbursementTypeID INT NOT NULL,
+  PayeeID INT NOT NULL,
+  EmployeeID INT NOT NULL,
+  EventID INT NOT NULL,
+  DisbursementAmount DECIMAL(18,2) NOT NULL,
+  DisbursementDate DATETIME2(0) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (CashDisbursementID)
 )
 GO
 
@@ -222,10 +224,10 @@ GO
 
 CREATE TABLE Sales.CompositionTypes
 (
-    CompositionTypeID int IDENTITY NOT NULL,
-    CompositionTypeName nchar(1) NOT NULL,
-    [Description] nvarchar(25) NOT NULL UNIQUE,
-    PRIMARY KEY (CompositionTypeID)
+  CompositionTypeID int IDENTITY NOT NULL,
+  CompositionTypeName nchar(1) NOT NULL,
+  [Description] nvarchar(25) NOT NULL UNIQUE,
+  PRIMARY KEY (CompositionTypeID)
 );
 GO
 
@@ -237,10 +239,10 @@ GO
 
 CREATE TABLE Sales.InventoryTypes
 (
-    InventoryTypeID int IDENTITY NOT NULL,
-    InventoryTypeName nchar(1) NOT NULL,
-    [Description] nvarchar(25) NOT NULL,
-    PRIMARY KEY (InventoryTypeID)
+  InventoryTypeID int IDENTITY NOT NULL,
+  InventoryTypeName nchar(1) NOT NULL,
+  [Description] nvarchar(25) NOT NULL,
+  PRIMARY KEY (InventoryTypeID)
 );
 GO
 
@@ -250,10 +252,10 @@ GO
 
 CREATE TABLE Sales.DiameterTypes
 (
-    DiameterTypeID int IDENTITY NOT NULL,
-    DiameterTypeName nchar(3) NOT NULL,
-    [Description] nvarchar(25) NOT NULL,
-    PRIMARY KEY (DiameterTypeID)
+  DiameterTypeID int IDENTITY NOT NULL,
+  DiameterTypeName nchar(3) NOT NULL,
+  [Description] nvarchar(25) NOT NULL,
+  PRIMARY KEY (DiameterTypeID)
 );
 GO
 
@@ -263,15 +265,15 @@ GO
 
 CREATE TABLE Sales.Inventory
 (
-    InventoryID int NOT NULL,
-    CompositionTypeID int NOT NULL,
-    InventoryTypeID int NOT NULL,
-    DiameterTypeID int NOT NULL,
-    ListPrice decimal(18, 2) DEFAULT 0 NOT NULL,
-    [Description] varchar(35) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (InventoryID)
+  InventoryID int NOT NULL,
+  CompositionTypeID int NOT NULL,
+  InventoryTypeID int NOT NULL,
+  DiameterTypeID int NOT NULL,
+  ListPrice decimal(18, 2) DEFAULT 0 NOT NULL,
+  [Description] varchar(35) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (InventoryID)
 )
 GO
 
@@ -304,19 +306,19 @@ GO
 
 CREATE TABLE Sales.Customers
 (
-    CustomerID int NOT NULL,
-    CustomerName nvarchar(2) NOT NULL,
-    AddressLine1 nvarchar(50) NOT NULL,
-    AddressLine2 nvarchar(50) NULL,
-    City nvarchar(25) NOT NULL,
-    State char(2) NOT NULL,
-    ZipCode int NOT NULL,
-    Telephone nvarchar(14) NOT NULL,
-    CreditLimit decimal(18, 2) DEFAULT 0 NOT NULL CHECK(CreditLimit <= 50000),
-    PrimaryContact varchar(25) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (CustomerID)
+  CustomerID int NOT NULL,
+  CustomerName nvarchar(2) NOT NULL,
+  AddressLine1 nvarchar(50) NOT NULL,
+  AddressLine2 nvarchar(50) NULL,
+  City nvarchar(25) NOT NULL,
+  State char(2) NOT NULL,
+  ZipCode int NOT NULL,
+  Telephone nvarchar(14) NOT NULL,
+  CreditLimit decimal(18, 2) DEFAULT 0 NOT NULL CHECK(CreditLimit <= 50000),
+  PrimaryContact varchar(25) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (CustomerID)
 )
 GO
 
@@ -333,15 +335,15 @@ GO
 
 CREATE TABLE Sales.SalesOrders
 (
-    SalesOrderID int NOT NULL,
-    CustomerID int NOT NULL,
-    EmployeeID int NOT NULL,
-    SalesOrderDate datetime2(0) NOT NULL,
-    CustomerPO nvarchar(15) NOT NULL,
-    SalesOrderAmount decimal(18, 2) DEFAULT 0 NOT NULL CHECK(SalesOrderAmount >= 0),
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (SalesOrderID)
+  SalesOrderID int NOT NULL,
+  CustomerID int NOT NULL,
+  EmployeeID int NOT NULL,
+  SalesOrderDate datetime2(0) NOT NULL,
+  CustomerPO nvarchar(15) NOT NULL,
+  SalesOrderAmount decimal(18, 2) DEFAULT 0 NOT NULL CHECK(SalesOrderAmount >= 0),
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (SalesOrderID)
 )
 GO
 
@@ -375,14 +377,14 @@ GO
 
 CREATE TABLE Sales.SalesOrderDetails
 (
-    SalesOrderDetailID int NOT NULL,
-    SalesOrderID int NOT NULL,
-    InventoryID int NOT NULL,
-    QuantityOrdered int NOT NULL,
-    UnitPrice decimal(18, 2) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (SalesOrderDetailID)
+  SalesOrderDetailID int NOT NULL,
+  SalesOrderID int NOT NULL,
+  InventoryID int NOT NULL,
+  QuantityOrdered int NOT NULL,
+  UnitPrice decimal(18, 2) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (SalesOrderDetailID)
 )
 GO
 
@@ -408,15 +410,15 @@ GO
 
 CREATE TABLE Sales.Invoices
 (
-    InvoiceID int NOT NULL,
-    SalesOrderID int NOT NULL,
-    CustomerID int NOT NULL,
-    EmployeeID int NOT NULL,
-    ShippingDate datetime2(0) NOT NULL,
-    SalesAmount decimal(18, 2) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (InvoiceID)
+  InvoiceID int NOT NULL,
+  SalesOrderID int NOT NULL,
+  CustomerID int NOT NULL,
+  EmployeeID int NOT NULL,
+  ShippingDate datetime2(0) NOT NULL,
+  SalesAmount decimal(18, 2) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (InvoiceID)
 )
 GO
 
@@ -456,14 +458,14 @@ GO
 
 CREATE TABLE Sales.InvoiceDetails
 (
-    InvoiceDetailsID int NOT NULL,
-    InvoiceID int NOT NULL,
-    InventoryID int NOT NULL,
-    QuantityShipped int NOT NULL,
-    UnitPrice decimal(18, 2) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL,
-    PRIMARY KEY CLUSTERED (InvoiceDetailsID)
+  InvoiceDetailsID int NOT NULL,
+  InvoiceID int NOT NULL,
+  InventoryID int NOT NULL,
+  QuantityShipped int NOT NULL,
+  UnitPrice decimal(18, 2) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (InvoiceDetailsID)
 )
 GO
 
@@ -487,19 +489,21 @@ ON UPDATE CASCADE
 ON DELETE NO ACTION
 GO
 
-CREATE TABLE Sales.CashReceipts (
-  CashReceiptID       int NOT NULL, 
-  InvoiceID           int NOT NULL, 
-  CashAccountID       int NOT NULL, 
-  CustomerID          int NOT NULL, 
-  EmployeeID          int NOT NULL, 
-  RemittanceAdviceID  nvarchar(25) NOT NULL, 
-  CashReceiptDate     datetime2(0) NOT NULL, 
-  CashReceiptAmount   decimal(18, 2) NOT NULL, 
-  CustomerCheckNumber nvarchar(15) NOT NULL, 
+CREATE TABLE Sales.CashReceipts
+(
+  CashReceiptID int NOT NULL,
+  InvoiceID int NOT NULL,
+  CashAccountID int NOT NULL,
+  CustomerID int NOT NULL,
+  EmployeeID int NOT NULL,
+  RemittanceAdviceID nvarchar(25) NOT NULL,
+  CashReceiptDate datetime2(0) NOT NULL,
+  CashReceiptAmount decimal(18, 2) NOT NULL,
+  CustomerCheckNumber nvarchar(15) NOT NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
   LastModifiedDate datetime2(7) NULL,
-  PRIMARY KEY CLUSTERED (CashReceiptID))
+  PRIMARY KEY CLUSTERED (CashReceiptID)
+)
 GO
 
 CREATE INDEX CashReceipts_InvoiceID 
