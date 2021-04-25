@@ -76,3 +76,40 @@ RETURN
     WHERE tcard.PayPeriodEnded BETWEEN @periodStartDate AND  @periodEndDate
 GO
 
+CREATE OR ALTER FUNCTION HumanResources.udf_CalculateFederalWithHoldingTax(
+    @periodStartDate DATE,
+    @periodEndDate DATE
+)
+RETURNS TABLE
+AS
+RETURN
+	SELECT
+		innerQuery.EmployeeID,
+		innerQuery.TimeCardID,
+		emp.MaritalStatus,	
+		innerQuery.GrossPay,
+		innerQuery.ExemptionAmount,
+		innerQuery.TaxableAmount,
+		(
+			SELECT ROUND(((innerQuery.TaxableAmount - fwh.LowerLimit) * fwh.TaxRate) + fwh.BracketBaseAmount, 2)
+			FROM HumanResources.FedWithHolding fwh 
+			WHERE fwh.MaritalStatus = emp.MaritalStatus AND fwh.LowerLimit <= innerQuery.TaxableAmount AND fwh.UpperLimit >= innerQuery.TaxableAmount
+		) 
+		AS FederalWitholdingTax
+	FROM 
+	(
+		SELECT 
+			tcard.EmployeeID, 
+			tcard.TimeCardID, 
+			(tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5)) AS GrossPay,
+			lkup.ExemptionAmount,
+			IIF(((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) - lkup.ExemptionAmount >= 0, 
+				((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) - lkup.ExemptionAmount, 0) AS TaxableAmount
+		FROM HumanResources.TimeCard tcard
+			INNER JOIN HumanResources.Employees emp ON tcard.EmployeeID = emp.EmployeeID
+			INNER JOIN HumanResources.ExemptionLkup lkup ON emp.Exemptions = lkup.ExemptionLkupID
+		WHERE tcard.PayPeriodEnded >= @periodStartDate AND  PayPeriodEnded <= @periodEndDate
+	) AS innerQuery
+		INNER JOIN HumanResources.Employees emp ON innerQuery.EmployeeID = emp.EmployeeID;
+GO
+
