@@ -118,6 +118,10 @@ CREATE INDEX TimeCard_SupervisorID
   ON HumanResources.TimeCard (SupervisorID)
 GO
 
+CREATE INDEX idx_TimeCard$PayPeriodEnded 
+  ON HumanResources.TimeCard (PayPeriodEnded)
+GO
+
 ALTER TABLE HumanResources.TimeCard WITH CHECK ADD CONSTRAINT [FK_TimeCard$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
 REFERENCES HumanResources.Employees (EmployeeID)
 ON DELETE NO ACTION
@@ -153,6 +157,19 @@ CREATE TABLE HumanResources.FedWithHolding
     PRIMARY KEY CLUSTERED (FedWithHoldingID)
 )
 GO
+
+CREATE INDEX idx_FedWithHolding$MaritalStatus 
+  ON HumanResources.FedWithHolding (MaritalStatus)
+GO
+
+CREATE INDEX idx_FedWithHolding$UpperLimit 
+  ON HumanResources.FedWithHolding (UpperLimit)
+GO
+
+CREATE INDEX idx_FedWithHolding$LowerLimit 
+  ON HumanResources.FedWithHolding (LowerLimit)
+GO
+
 
 CREATE UNIQUE INDEX idx_FedWithHolding$MaritalStatus$FedTaxBracket   
    ON HumanResources.FedWithHolding (MaritalStatus, FedTaxBracket)   
