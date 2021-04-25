@@ -70,7 +70,7 @@ GO
 INSERT INTO HumanResources.FedWithHolding
     (FedWithHoldingID, MaritalStatus, FedTaxBracket, LowerLimit, UpperLimit, TaxRate, BracketBaseAmount)
 VALUES
-    (1, 'M', '1', 50.00, 1313.00, 0.00, 0.00),
+    (1, 'M', '1', 0.00, 1313.00, 0.00, 0.00),
     (2, 'M', '2', 1313.01, 2038.00, 10.00, 0.00),
     (3, 'M', '3', 2038.01, 6304.00, 15.00, 72.50),
     (4, 'M', '4', 6304.01, 9844.00, 25.00, 712.40),
