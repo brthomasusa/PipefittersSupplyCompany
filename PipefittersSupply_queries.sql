@@ -51,4 +51,28 @@ RETURN
     FROM HumanResources.Employees emp;
 GO
 
+CREATE OR ALTER FUNCTION HumanResources.udf_CalculateTaxablePayAmount(
+    @periodStartDate DATE,
+    @periodEndDate DATE
+)
+RETURNS TABLE
+AS
+RETURN
+    SELECT 
+        tcard.EmployeeID, 
+        tcard.TimeCardID, 
+        FORMAT(tcard.PayPeriodEnded, 'MMM dd yyyy') AS MonthEnded,
+        tcard.RegularHours,
+        tcard.OverTimeHours,
+        tcard.RegularHours * emp.PayRate AS RegularPay,
+        tcard.OverTimeHours * (emp.PayRate * 1.5) AS OverTimePay,
+        (tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5)) AS GrossPay,
+        lkup.ExemptionAmount,
+        IIF(((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) < lkup.ExemptionAmount, 
+            0, ((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) - lkup.ExemptionAmount) AS TaxableAmount
+    FROM HumanResources.TimeCard tcard
+        INNER JOIN HumanResources.Employees emp ON tcard.EmployeeID = emp.EmployeeID
+        INNER JOIN HumanResources.ExemptionLkup lkup ON emp.Exemptions = lkup.ExemptionLkupID
+    WHERE tcard.PayPeriodEnded BETWEEN @periodStartDate AND  @periodEndDate
+GO
 
