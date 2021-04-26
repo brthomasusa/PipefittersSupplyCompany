@@ -133,7 +133,12 @@ RETURN
 		CAST(getFWT.FederalWitholdingTax AS decimal(18,2)) AS FederalWitholdingTax,
 		CAST(ROUND(getFWT.GrossPay * 0.062, 2) AS decimal(18,2)) AS FICA,
 		CAST(ROUND(getFWT.GrossPay * 0.0145, 2) AS decimal(18,2)) AS Medicare,
-		CAST(ROUND(getFWT.TaxableAmount - (getFWT.FederalWitholdingTax + (getFWT.GrossPay * 0.062) + (getFWT.GrossPay * 0.0145)), 2) AS decimal(18,2)) AS NetPay
+		CAST(
+			ROUND(IIF(getFWT.TaxableAmount = 0, 
+					  getFWT.GrossPay - ((getFWT.GrossPay * 0.062) + (getFWT.GrossPay * 0.0145)), 
+					  getFWT.TaxableAmount - (getFWT.FederalWitholdingTax + (getFWT.GrossPay * 0.062) + (getFWT.GrossPay * 0.0145))), 2)
+			AS decimal(18,2)
+		) AS NetPay
 	FROM 
 	(
 		SELECT
