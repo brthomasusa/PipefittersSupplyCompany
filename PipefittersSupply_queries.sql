@@ -140,14 +140,14 @@ RETURN
 			iQ.EmployeeID,
 			iQ.TimeCardID,
 			iQ.MonthEnded,
-			emp.MaritalStatus,	
+			iQ.MaritalStatus,	
 			iQ.GrossPay,
 			iQ.ExemptionAmount,
 			iQ.TaxableAmount,
 			(
 				SELECT ROUND(((iQ.TaxableAmount - fwh.LowerLimit) * fwh.TaxRate) + fwh.BracketBaseAmount, 2)
 				FROM HumanResources.FedWithHolding fwh 
-				WHERE fwh.MaritalStatus = emp.MaritalStatus AND fwh.LowerLimit <= iQ.TaxableAmount AND fwh.UpperLimit >= iQ.TaxableAmount
+				WHERE fwh.MaritalStatus = iQ.MaritalStatus AND fwh.LowerLimit <= iQ.TaxableAmount AND fwh.UpperLimit >= iQ.TaxableAmount
 			) 
 			AS FederalWitholdingTax
 		FROM 
@@ -155,6 +155,7 @@ RETURN
 			SELECT 
 				tcard.EmployeeID, 
 				tcard.TimeCardID,
+				emp.MaritalStatus,
 				FORMAT(tcard.PayPeriodEnded, 'MMM dd yyyy') AS MonthEnded,
 				(tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5)) AS GrossPay,
 				lkup.ExemptionAmount,
@@ -164,8 +165,7 @@ RETURN
 				INNER JOIN HumanResources.Employees emp ON tcard.EmployeeID = emp.EmployeeID
 				INNER JOIN HumanResources.ExemptionLkup lkup ON emp.Exemptions = lkup.ExemptionLkupID
 			WHERE tcard.PayPeriodEnded >= @periodStartDate AND  PayPeriodEnded <= @periodEndDate
-		) AS iQ
-			INNER JOIN HumanResources.Employees emp ON iQ.EmployeeID = emp.EmployeeID	
+		) AS iQ	
 	) AS getFWT
 GO
 
