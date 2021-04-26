@@ -174,6 +174,55 @@ RETURN
 	) AS getFWT
 GO
 
+CREATE OR ALTER FUNCTION HumanResources.udf_CalculateWagesAndTaxesPayable(
+    @periodEndDate DATE
+)
+RETURNS TABLE
+AS
+RETURN
+	SELECT 
+		getFWT.MonthEnded,
+		CAST(SUM(getFWT.FederalWitholdingTax) AS decimal(18,2)) AS FedTaxPayable,
+		CAST(ROUND(SUM(getFWT.GrossPay * 0.062), 2) AS decimal(18,2)) AS FicaPayable,
+		CAST(ROUND(SUM(getFWT.GrossPay * 0.0145), 2) AS decimal(18,2)) AS MedicarePayable,
+		CAST(
+			ROUND(SUM(IIF(getFWT.TaxableAmount = 0, 
+					  getFWT.GrossPay - ((getFWT.GrossPay * 0.062) + (getFWT.GrossPay * 0.0145)), 
+					  getFWT.TaxableAmount - (getFWT.FederalWitholdingTax + (getFWT.GrossPay * 0.062) + (getFWT.GrossPay * 0.0145)))), 2)
+			AS decimal(18,2)
+		) AS WagesPayable
+	FROM 
+	(
+		SELECT
+			iQ.MonthEnded,	
+			iQ.GrossPay,
+			iQ.TaxableAmount,
+			(
+				SELECT ROUND(((iQ.TaxableAmount - fwh.LowerLimit) * fwh.TaxRate) + fwh.BracketBaseAmount, 2)
+				FROM HumanResources.FedWithHolding fwh 
+				WHERE fwh.MaritalStatus = iQ.MaritalStatus AND fwh.LowerLimit <= iQ.TaxableAmount AND fwh.UpperLimit >= iQ.TaxableAmount
+			) 
+			AS FederalWitholdingTax
+		FROM 
+		(
+			SELECT 
+				tcard.EmployeeID, 
+				tcard.TimeCardID,
+				emp.MaritalStatus,
+				FORMAT(tcard.PayPeriodEnded, 'MMM dd yyyy') AS MonthEnded,
+				(tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5)) AS GrossPay,
+				lkup.ExemptionAmount,
+				IIF(((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) - lkup.ExemptionAmount >= 0, 
+					((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) - lkup.ExemptionAmount, 0) AS TaxableAmount
+			FROM HumanResources.TimeCard tcard
+				INNER JOIN HumanResources.Employees emp ON tcard.EmployeeID = emp.EmployeeID
+				INNER JOIN HumanResources.ExemptionLkup lkup ON emp.Exemptions = lkup.ExemptionLkupID
+			WHERE tcard.PayPeriodEnded <= @periodEndDate
+		) AS iQ	
+	) AS getFWT
+	GROUP BY getFWT.MonthEnded
+GO
+
 
 
 
