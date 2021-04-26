@@ -115,3 +115,60 @@ RETURN
 		INNER JOIN HumanResources.Employees emp ON iQ.EmployeeID = emp.EmployeeID;
 GO
 
+CREATE OR ALTER FUNCTION HumanResources.udf_CalculateNetPay(
+    @periodStartDate DATE,
+    @periodEndDate DATE
+)
+RETURNS TABLE
+AS
+RETURN
+	SELECT 
+		getFWT.EmployeeID,
+		getFWT.TimeCardID,
+		getFWT.MonthEnded,
+		getFWT.MaritalStatus,	
+		CAST(getFWT.GrossPay AS decimal(18,2)) AS GrossPay,
+		getFWT.ExemptionAmount,
+		CAST(getFWT.TaxableAmount AS decimal(18,2)) AS TaxableAmount,
+		CAST(getFWT.FederalWitholdingTax AS decimal(18,2)) AS FederalWitholdingTax,
+		CAST(ROUND(getFWT.GrossPay * 0.062, 2) AS decimal(18,2)) AS FICA,
+		CAST(ROUND(getFWT.GrossPay * 0.0145, 2) AS decimal(18,2)) AS Medicare,
+		CAST(ROUND(getFWT.TaxableAmount - (getFWT.FederalWitholdingTax + (getFWT.GrossPay * 0.062) + (getFWT.GrossPay * 0.0145)), 2) AS decimal(18,2)) AS NetPay
+	FROM 
+	(
+		SELECT
+			iQ.EmployeeID,
+			iQ.TimeCardID,
+			iQ.MonthEnded,
+			emp.MaritalStatus,	
+			iQ.GrossPay,
+			iQ.ExemptionAmount,
+			iQ.TaxableAmount,
+			(
+				SELECT ROUND(((iQ.TaxableAmount - fwh.LowerLimit) * fwh.TaxRate) + fwh.BracketBaseAmount, 2)
+				FROM HumanResources.FedWithHolding fwh 
+				WHERE fwh.MaritalStatus = emp.MaritalStatus AND fwh.LowerLimit <= iQ.TaxableAmount AND fwh.UpperLimit >= iQ.TaxableAmount
+			) 
+			AS FederalWitholdingTax
+		FROM 
+		(
+			SELECT 
+				tcard.EmployeeID, 
+				tcard.TimeCardID,
+				FORMAT(tcard.PayPeriodEnded, 'MMM dd yyyy') AS MonthEnded,
+				(tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5)) AS GrossPay,
+				lkup.ExemptionAmount,
+				IIF(((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) - lkup.ExemptionAmount >= 0, 
+					((tcard.RegularHours * emp.PayRate) + (tcard.OverTimeHours * (emp.PayRate * 1.5))) - lkup.ExemptionAmount, 0) AS TaxableAmount
+			FROM HumanResources.TimeCard tcard
+				INNER JOIN HumanResources.Employees emp ON tcard.EmployeeID = emp.EmployeeID
+				INNER JOIN HumanResources.ExemptionLkup lkup ON emp.Exemptions = lkup.ExemptionLkupID
+			WHERE tcard.PayPeriodEnded >= @periodStartDate AND  PayPeriodEnded <= @periodEndDate
+		) AS iQ
+			INNER JOIN HumanResources.Employees emp ON iQ.EmployeeID = emp.EmployeeID	
+	) AS getFWT
+GO
+
+
+
+
