@@ -126,6 +126,16 @@ VALUES
     (1002, 1005, 115, 100000.00, 0.072500, '2021-01-15', '2022-01-15', 12)
 GO
 
+INSERT INTO Finance.CashReceiptType
+    (CashReceiptTypeID, EventTypeName, PayeeTypeName)
+VALUES
+    (1, 'Sale', 'Customer'),
+    (2, 'Debt Issue', 'Creditor')
+GO
+
+
+
+
 
 
 

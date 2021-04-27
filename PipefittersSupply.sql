@@ -320,7 +320,88 @@ REFERENCES HumanResources.Employees (EmployeeID)
 ON DELETE NO ACTION
 GO
 
+CREATE TABLE Finance.CashReceiptType
+(
+  CashReceiptTypeID INT NOT NULL,
+  EventTypeName NVARCHAR(25) NOT NULL,
+  PayeeTypeName NVARCHAR(25) NOT NULL,
+  PRIMARY KEY CLUSTERED (CashReceiptTypeID),
+)
+GO
 
+CREATE UNIQUE INDEX idx_CashReceiptType$EventTypeName
+    ON Finance.CashReceiptType(EventTypeName)
+GO
+
+CREATE UNIQUE INDEX idx_CashReceiptType$PayeeTypeName
+    ON Finance.CashReceiptType(PayeeTypeName)
+GO
+
+CREATE TABLE Finance.CashReceipts
+(
+  CashReceiptID int NOT NULL,
+  CashReceiptTypeID INT NOT NULL,
+  EventID int NOT NULL,
+  CashAccountID int NOT NULL,
+  PayeeID int NOT NULL,
+  EmployeeID int NOT NULL,
+  RemittanceAdviceID nvarchar(25) NOT NULL,
+  CashReceiptDate datetime2(0) NOT NULL,
+  CashReceiptAmount decimal(18, 2) NOT NULL,
+  PayorCheckNumber nvarchar(15) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (CashReceiptID)
+)
+GO
+
+CREATE INDEX idx_CashReceipts$CashReceiptTypeID 
+  ON Finance.CashReceipts (CashReceiptTypeID);
+GO
+
+CREATE INDEX idx_CashReceipts$EventID 
+  ON Finance.CashReceipts (EventID);
+GO
+
+CREATE INDEX idx_CashReceipts$CashAccountID 
+  ON Finance.CashReceipts (CashAccountID);
+GO
+
+CREATE INDEX idx_CashReceipts$PayeeID 
+  ON Finance.CashReceipts (PayeeID)
+GO
+
+CREATE INDEX idx_CashReceipts$EmployeeID 
+  ON Finance.CashReceipts (EmployeeID)
+GO
+
+CREATE INDEX idx_CashReceipts$CashReceiptDate 
+  ON Finance.CashReceipts (CashReceiptDate)
+GO
+
+ALTER TABLE Finance.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts$CashReceiptTypeID_CashReceiptType$CashReceiptTypeID] FOREIGN KEY(CashReceiptTypeID)
+REFERENCES Finance.CashReceiptType (CashReceiptTypeID)
+ON DELETE NO ACTION
+GO
+
+ALTER TABLE Finance.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts$CashAccountID_CashAccounts$CashAccountID] FOREIGN KEY(CashAccountID)
+REFERENCES Finance.CashAccounts (CashAccountID)
+ON DELETE NO ACTION
+GO
+
+ALTER TABLE Finance.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
+REFERENCES HumanResources.Employees (EmployeeID)
+ON DELETE NO ACTION
+GO
+
+-- ALTER TABLE Finance.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Invoices_InvoiceID] FOREIGN KEY(InvoiceID)
+-- REFERENCES Sales.Invoices (InvoiceID)
+-- ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLEFinance.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Customers_CustomerID] FOREIGN KEY(CustomerID)
+-- REFERENCES Sales.Customers (CustomerID)
+-- GO
 
 
 
