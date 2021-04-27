@@ -109,7 +109,15 @@ VALUES
     (2, 'Purchasing', 'Vendor')
 GO
 
-
+INSERT INTO Finance.StockholderCreditor
+    (FinancierID, FinancierName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, PrimaryContact)
+VALUES
+    (1001, 'Arturo Sandoval', '5232 Outriggers Way', 'Ste 401','Oxnard', 'CA', '93035', '888-719-8128', 'Arturo Sandoval'),
+    (1002, 'Paul Van Horn', '825 Mandalay Beach Rd', 'Level 2','Oxnard', 'CA', '93035', '415-328-9870', 'Patrick Crocker'),
+    (1003, 'New World Tatoo Parlor', '1690 S. El Camino Real', 'Room 2C','San Mateo', 'CA', '94402', '630-321-9875', 'JoJo Jozef Jr.'),
+    (1004, 'Bertha Mae Jones', '12333 Menard Heights Blvd', 'Ste 1001','Palo Alto', 'CA', '94901', '886-587-0001', 'Betty Lou Sinosky Sr.'),
+    (1005, 'Pimps-R-US', '96541 Sunset Rise Plaza', 'Ste 1','Oxnard', 'CA', '93035', '415-912-5570', 'Pimp Daddy Mofo')
+GO
 
 
 

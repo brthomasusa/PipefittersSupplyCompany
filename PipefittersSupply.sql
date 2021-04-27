@@ -22,6 +22,7 @@ DROP TABLE IF EXISTS
     Finance.CashReceipts,
     Finance.CashDisbursementType,
     Finance.CashDisbursement,
+    Finance.StockholderCreditor,
 
 
     Sales.CompositionTypes,
@@ -262,7 +263,26 @@ REFERENCES HumanResources.Employees(EmployeeID)
 ON DELETE NO ACTION
 GO
 
+CREATE TABLE Finance.StockholderCreditor
+(
+  FinancierID int NOT NULL,
+  FinancierName nvarchar(25) NOT NULL,
+  AddressLine1 nvarchar(50) NOT NULL,
+  AddressLine2 nvarchar(50) NULL,
+  City nvarchar(25) NOT NULL,
+  [State] char(2) NOT NULL,
+  ZipCode nvarchar(10) NOT NULL,
+  Telephone nvarchar(14) NOT NULL,
+  PrimaryContact varchar(25) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (FinancierID)
+)
+GO
 
+CREATE UNIQUE INDEX idx_StockholderCreditor$FinancierName 
+  ON Finance.StockholderCreditor (FinancierName)
+GO
 
 
 
@@ -365,12 +385,12 @@ GO
 CREATE TABLE Sales.Customers
 (
   CustomerID int NOT NULL,
-  CustomerName nvarchar(2) NOT NULL,
+  CustomerName nvarchar(25) NOT NULL,
   AddressLine1 nvarchar(50) NOT NULL,
   AddressLine2 nvarchar(50) NULL,
   City nvarchar(25) NOT NULL,
-  State char(2) NOT NULL,
-  ZipCode int NOT NULL,
+  [State] char(2) NOT NULL,
+  ZipCode nvarchar(10) NOT NULL,
   Telephone nvarchar(14) NOT NULL,
   CreditLimit decimal(18, 2) DEFAULT 0 NOT NULL CHECK(CreditLimit <= 50000),
   PrimaryContact varchar(25) NOT NULL,
@@ -382,13 +402,6 @@ GO
 
 CREATE UNIQUE INDEX Customers_CustomerName 
   ON Sales.Customers (CustomerName)
-GO
-
-ALTER TABLE Sales.Customers
-    ALTER COLUMN CustomerName nvarchar(25) NOT NULL
-GO
-ALTER TABLE Sales.Customers
-    ALTER COLUMN ZipCode nvarchar(10) NOT NULL
 GO
 
 CREATE TABLE Sales.SalesOrders
