@@ -24,6 +24,8 @@ DROP TABLE IF EXISTS
     Finance.CashDisbursement,
     Finance.StockholderCreditor,
     Finance.LoanAgreement,
+    Finance.CashReceiptType,
+    Finance.CashReceipts,
 
 
     Sales.CompositionTypes,
