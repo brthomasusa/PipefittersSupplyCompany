@@ -291,7 +291,7 @@ CREATE TABLE Finance.LoanAgreement
     FinancierID int NOT NULL,
     EmployeeID int NOT NULL,
     LoanAmount DECIMAL(18,2) NOT NULL,
-    InterestRate NUMERIC(3,2) NOT NULL,        
+    InterestRate NUMERIC(7,4) NOT NULL,        
     LoanDate DATETIME2(0) NOT NULL,
     MaturityDate DATETIME2(0) NOT NULL,
     PymtsPerYear INT NOT NULL,
