@@ -126,6 +126,12 @@ VALUES
     (1002, 1005, 115, 100000.00, 0.072500, '2021-01-15', '2022-01-15', 12)
 GO
 
+INSERT INTO Finance.CashAccounts
+    (CashAccountID, AccountDescription, BankName, DateEstablished)
+VALUES
+    (103, 'Financing Proceeds', 'First Bank', '2020-12-20')
+GO
+
 INSERT INTO Finance.CashReceiptType
     (CashReceiptTypeID, EventTypeName, PayeeTypeName)
 VALUES
