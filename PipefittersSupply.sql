@@ -23,6 +23,7 @@ DROP TABLE IF EXISTS
     Finance.CashDisbursementType,
     Finance.CashDisbursement,
     Finance.StockholderCreditor,
+    Finance.LoanAgreement,
 
 
     Sales.CompositionTypes,
@@ -284,6 +285,40 @@ CREATE UNIQUE INDEX idx_StockholderCreditor$FinancierName
   ON Finance.StockholderCreditor (FinancierName)
 GO
 
+CREATE TABLE Finance.LoanAgreement
+(
+    LoadID INT NOT NULL,
+    FinancierID int NOT NULL,
+    EmployeeID int NOT NULL,
+    LoanAmount DECIMAL(18,2) NOT NULL,
+    InterestRate NUMERIC(3,2) NOT NULL,        
+    LoanDate DATETIME2(0) NOT NULL,
+    MaturityDate DATETIME2(0) NOT NULL,
+    PymtsPerYear INT NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    PRIMARY KEY CLUSTERED (LoadID),
+    CONSTRAINT CHK_LoanDateMaturityDate CHECK (LoanDate < MaturityDate)
+)
+GO
+
+CREATE INDEX idx_LoanAgreement$FinancierID 
+  ON Finance.LoanAgreement (FinancierID);
+GO
+
+CREATE INDEX idx_LoanAgreement$EmployeeID 
+  ON Finance.LoanAgreement (EmployeeID);
+GO
+
+ALTER TABLE Finance.LoanAgreement WITH CHECK ADD CONSTRAINT [FK_LoanAgreement$FinancierID_StockholderCreditor$FinancierID] FOREIGN KEY(FinancierID)
+REFERENCES Finance.StockholderCreditor (FinancierID)
+ON DELETE NO ACTION
+GO
+
+ALTER TABLE Finance.LoanAgreement WITH CHECK ADD CONSTRAINT [FK_LoanAgreement$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
+REFERENCES HumanResources.Employees (EmployeeID)
+ON DELETE NO ACTION
+GO
 
 
 
