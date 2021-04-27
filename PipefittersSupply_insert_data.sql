@@ -119,6 +119,13 @@ VALUES
     (1005, 'Pimps-R-US', '96541 Sunset Rise Plaza', 'Ste 1','Oxnard', 'CA', '93035', '415-912-5570', 'Pimp Daddy Mofo')
 GO
 
+INSERT INTO Finance.LoanAgreement
+    (LoadID, FinancierID, EmployeeID, LoanAmount, InterestRate, LoanDate, MaturityDate, PymtsPerYear)
+VALUES
+    (1001, 1003, 114, 50000.00, 0.086250, '2021-01-02', '2022-01-02', 12),
+    (1002, 1005, 115, 100000.00, 0.072500, '2021-01-15', '2022-01-15', 12)
+GO
+
 
 
 
