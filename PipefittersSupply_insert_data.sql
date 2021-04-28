@@ -107,7 +107,8 @@ INSERT INTO Finance.CashDisbursementType
 VALUES
     (1, 'Labor Acquisition', 'Employee'),
     (2, 'Purchasing', 'Vendor'),
-    (3, 'Loan Payment', 'Creditor')
+    (3, 'Loan Payment', 'Creditor'),
+    (4, 'Dividend Payments', 'Stockholder')
 GO
 
 INSERT INTO Finance.StockholderCreditor

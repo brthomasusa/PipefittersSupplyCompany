@@ -28,6 +28,7 @@ DROP TABLE IF EXISTS
     Finance.CashReceipts,
     Finance.LoanRepaymentSchedule,
     Finance.StockSubscription,
+    Finance.DividendPymtRate,
 
 
     Sales.CompositionTypes,
@@ -462,7 +463,26 @@ REFERENCES Finance.StockholderCreditor (FinancierID)
 ON DELETE NO ACTION
 GO
 
+CREATE TABLE Finance.DividendPymtRate
+(
+    DividendID INT NOT NULL,
+    StockID INT NOT NULL,
+    DividendDeclarationDate DATETIME2(0) NOT NULL,
+    DividendPerShare DECIMAL(18,2) CHECK (DividendPerShare >= 0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    PRIMARY KEY CLUSTERED (DividendID)
+)
+GO
 
+CREATE INDEX idx_DividendPymtRate$StockID 
+  ON Finance.DividendPymtRate (StockID)
+GO
+
+ALTER TABLE Finance.DividendPymtRate WITH CHECK ADD CONSTRAINT [FK_DividendPymtRate$StockID_StockSubscription$StockID] FOREIGN KEY(StockID)
+REFERENCES Finance.StockSubscription (StockID)
+ON DELETE NO ACTION
+GO
 
 
 
