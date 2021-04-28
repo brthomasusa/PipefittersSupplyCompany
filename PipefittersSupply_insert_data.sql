@@ -176,6 +176,12 @@ VALUES
     (24, 1002, '2022-01-15', 12, 8612.00, 52.00)    
 GO
 
+INSERT INTO Finance.StockSubscription
+    (StockID, FinancierID, EmployeeID, SharesIssured, PricePerShare, StockIssueDate)
+VALUES
+    (1001, 1001,101, 50000, 1.00, '2020-09-03')
+GO
+
 
 
 
