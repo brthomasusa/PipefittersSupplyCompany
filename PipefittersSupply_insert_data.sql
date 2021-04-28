@@ -130,7 +130,8 @@ INSERT INTO Finance.CashReceiptType
     (CashReceiptTypeID, EventTypeName, PayeeTypeName)
 VALUES
     (1, 'Sale', 'Customer'),
-    (2, 'Debt Issue', 'Creditor')
+    (2, 'Debt Issue', 'Creditor'),
+    (3, 'Stock Issue', 'Stockholder')
 GO
 
 INSERT INTO Finance.LoanAgreement
@@ -180,12 +181,21 @@ INSERT INTO Finance.StockSubscription
     (StockID, FinancierID, EmployeeID, SharesIssured, PricePerShare, StockIssueDate)
 VALUES
     (1001, 1001,101, 50000, 1.00, '2020-09-03'),
-    (1002, 1002,101, 50000, 1.00, '2020-09-01'),
+    (1002, 1002,101, 50000, 1.00, '2020-09-03'),
     (1003, 1001,101, 25000, 1.00, '2020-11-01'),
     (1004, 1002,101, 10000, 1.00, '2020-11-01'),
-    (1005, 1004,101, 105000, 1.00, '2021-03-10')    
+    (1005, 1004,101, 35000, 3.00, '2021-03-01')
 GO
 
+INSERT INTO Finance.CashReceipts
+    (CashReceiptID, CashReceiptTypeID, EventID, CashAccountID, PayeeID, EmployeeID, RemittanceAdviceID, CashReceiptDate, CashReceiptAmount, PayorCheckNumber)
+VALUES
+    (3, 3, 1001, 103, 1001, 101, 100084, '2020-09-03', 50000.00, '2305'),
+    (4, 3, 1002, 103, 1002, 101, 100085, '2020-09-01', 50000.00, '3150'),
+    (5, 3, 1003, 103, 1001, 101, 100086, '2020-11-01', 25000.00, '2187'),
+    (6, 3, 1004, 103, 1002, 101, 100087, '2020-11-01', 10000.00, '3199'),
+    (7, 3, 1005, 103, 1004, 101, 100088, '2021-03-10', 105000.00, '556102')    
+GO
 
 
 
