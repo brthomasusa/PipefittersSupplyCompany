@@ -26,6 +26,7 @@ DROP TABLE IF EXISTS
     Finance.LoanAgreement,
     Finance.CashReceiptType,
     Finance.CashReceipts,
+    Finance.LoanRepaymentSchedule,
 
 
     Sales.CompositionTypes,
@@ -405,7 +406,28 @@ GO
 -- REFERENCES Sales.Customers (CustomerID)
 -- GO
 
+CREATE TABLE Finance.LoanRepaymentSchedule
+(
+    ScheduledPaymentID int NOT NULL,
+    LoanID INT NOT NULL,
+    PaymentDueDate DATETIME2(2) NOT NULL,
+    PaymentNumber INT CHECK (PaymentNumber >= 0) NOT NULL,
+    PrincipalAmount DECIMAL(18,2) CHECK (PrincipalAmount >= 0) NOT NULL,
+    InterestAmount DECIMAL(18,2) CHECK (InterestAmount >= 0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    PRIMARY KEY CLUSTERED (ScheduledPaymentID)
+)
+GO
 
+CREATE INDEX idx_LoanPayments$LoanID 
+  ON Finance.LoanRepaymentSchedule (LoanID)
+GO
+
+ALTER TABLE Finance.LoanRepaymentSchedule WITH CHECK ADD CONSTRAINT [FK_LoanPayments$LoadID_LoanAgreement$LoanID] FOREIGN KEY(LoanID)
+REFERENCES Finance.LoanAgreement (LoadID)
+ON DELETE NO ACTION
+GO
 
 
 
