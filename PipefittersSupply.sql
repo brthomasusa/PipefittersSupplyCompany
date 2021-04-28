@@ -27,6 +27,7 @@ DROP TABLE IF EXISTS
     Finance.CashReceiptType,
     Finance.CashReceipts,
     Finance.LoanRepaymentSchedule,
+    Finance.StockSubscription,
 
 
     Sales.CompositionTypes,
@@ -426,6 +427,38 @@ GO
 
 ALTER TABLE Finance.LoanRepaymentSchedule WITH CHECK ADD CONSTRAINT [FK_LoanPayments$LoadID_LoanAgreement$LoanID] FOREIGN KEY(LoanID)
 REFERENCES Finance.LoanAgreement (LoadID)
+ON DELETE NO ACTION
+GO
+
+CREATE TABLE Finance.StockSubscription
+(
+    StockID int NOT NULL,
+    FinancierID INT NOT NULL,
+    EmployeeID INT NOT NULL,
+    SharesIssured INT NOT NULL,
+    PricePerShare DECIMAL(18,2) NOT NULL,
+    StockIssueDate DATETIME2(0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    PRIMARY KEY CLUSTERED (StockID)
+)
+GO
+
+CREATE INDEX idx_StockSubscription$FinancierID 
+  ON Finance.StockSubscription (FinancierID)
+GO
+
+CREATE INDEX idx_StockSubscription$EmployeeID 
+  ON Finance.StockSubscription (EmployeeID)
+GO
+
+ALTER TABLE Finance.StockSubscription WITH CHECK ADD CONSTRAINT [FK_StockSubscription$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
+REFERENCES HumanResources.Employees (EmployeeID)
+ON DELETE NO ACTION
+GO
+
+ALTER TABLE Finance.StockSubscription WITH CHECK ADD CONSTRAINT [FK_StockSubscription$FinancierID_StockholderCreditor$FinancierID] FOREIGN KEY(FinancierID)
+REFERENCES Finance.StockholderCreditor (FinancierID)
 ON DELETE NO ACTION
 GO
 
