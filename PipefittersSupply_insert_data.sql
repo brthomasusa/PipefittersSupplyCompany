@@ -106,7 +106,8 @@ INSERT INTO Finance.CashDisbursementType
     (CashDisbursementTypeID, EventTypeName, PayeeTypeName)
 VALUES
     (1, 'Labor Acquisition', 'Employee'),
-    (2, 'Purchasing', 'Vendor')
+    (2, 'Purchasing', 'Vendor'),
+    (3, 'Loan Payment', 'Creditor')
 GO
 
 INSERT INTO Finance.StockholderCreditor
