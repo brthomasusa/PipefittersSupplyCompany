@@ -221,7 +221,11 @@ GO
 INSERT INTO Purchasing.Vendors
     (VendorID, VendorName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, PrimaryContact)
 VALUES
-    (1001, 'Indumar Products, Inc.', '2500 Tanglewilde', 'Ste 260', 'Houston', 'TX', '77063-5401', '713-977-4100', 'John Anderson')
+    (1001, 'Indumar Products, Inc.', '2500 Tanglewilde', 'Ste 260', 'Houston', 'TX', '77063-5401', '713-977-4100', 'John Anderson'),
+    (1002, 'Binford Products, Inc.', '1620 S. Canal St.', NULL, 'Chicago', 'IL', '60616', '312-829-3851', 'Ronald Smith'),
+    (1003, 'Zurn Industries', '1801 Pittsburgh Ave', NULL, 'Erie', 'PA', '16414-1801', '818-455-0921', 'Homer Somerset'),
+    (1004, 'Technical Alloys, Inc.', '9411 Wallisville Rd', NULL, 'Houston', 'TX', '77013-0957', '205-626-0100', 'Elba Wye'),
+    (1005, 'Fittube, Inc.', '15 Ocean Blvd', 'Ste 308', 'Boca Raton', 'FL', '33412-0855', '407-391-1611', 'Bob MacKenzie')    
 GO
 
 
