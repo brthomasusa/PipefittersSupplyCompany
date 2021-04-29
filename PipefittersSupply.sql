@@ -611,7 +611,26 @@ ALTER TABLE Purchasing.PurchaseOrders
     ADD CONSTRAINT CHK_PurchaseOrderDate$ExpectedDeliveryDate CHECK (ExpectedDeliveryDate >= PurchaseOrderDate)
 GO
 
+CREATE TABLE Purchasing.PurchaseOrderDetails
+(
+    PurchaseOrderDetailID INT PRIMARY KEY CLUSTERED,
+    PurchaseOrderID INT NOT NULL REFERENCES Purchasing.PurchaseOrders(PurchaseOrderID),
+    InventoryID INT NOT NULL REFERENCES Purchasing.Inventory(InventoryID),
+    VendorPartNumber NVARCHAR(25) NOT NULL,
+    QuantityOrdered INT CHECK (QuantityOrdered >= 0) NOT NULL,
+    UnitCost DECIMAL(18,2) CHECK (UnitCost >= 0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL     
+)
+GO
 
+CREATE INDEX idx_PurchaseOrderDetails$PurchaseOrderID 
+  ON Purchasing.PurchaseOrderDetails (PurchaseOrderID)
+GO
+
+CREATE INDEX idx_PurchaseOrderDetails$InventoryID 
+  ON Purchasing.PurchaseOrderDetails (InventoryID)
+GO
 
 
 
