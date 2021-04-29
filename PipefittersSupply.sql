@@ -586,7 +586,30 @@ REFERENCES Purchasing.DiameterTypes (DiameterTypeID)
 ON DELETE CASCADE
 GO
 
+CREATE TABLE Purchasing.PurchaseOrders
+(
+    PurchaseOrderID INT PRIMARY KEY CLUSTERED,
+    VendorID INT NOT NULL REFERENCES Purchasing.Vendors(VendorID),
+    EmployeeID INT NOT NULL REFERENCES HumanResources.Employees(EmployeeID),
+    PurchaseOrderDate DATETIME2(0) NOT NULL,
+    ExpectedDeliveryDate DATETIME2(2) NOT NULL,
+    PurchaseOrderAmount DECIMAL(18,2) CHECK (PurchaseOrderAmount >= 0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL   
+)
+GO
 
+CREATE INDEX idx_PurchaseOrders$VendorID 
+  ON Purchasing.PurchaseOrders (VendorID)
+GO
+
+CREATE INDEX idx_PurchaseOrders$EmployeeID 
+  ON Purchasing.PurchaseOrders (EmployeeID)
+GO
+
+ALTER TABLE Purchasing.PurchaseOrders
+    ADD CONSTRAINT CHK_PurchaseOrderDate$ExpectedDeliveryDate CHECK (ExpectedDeliveryDate >= PurchaseOrderDate)
+GO
 
 
 
