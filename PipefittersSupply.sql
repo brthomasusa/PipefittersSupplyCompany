@@ -484,6 +484,34 @@ REFERENCES Finance.StockSubscription (StockID)
 ON DELETE NO ACTION
 GO
 
+CREATE TABLE Purchasing.Vendors
+(
+  VendorID int NOT NULL,
+  VendorName nvarchar(25) NOT NULL,
+  AddressLine1 nvarchar(50) NOT NULL,
+  AddressLine2 nvarchar(50) NULL,
+  City nvarchar(25) NOT NULL,
+  [State] char(2) NOT NULL,
+  ZipCode nvarchar(10) NOT NULL,
+  Telephone nvarchar(14) NOT NULL,
+  PrimaryContact varchar(25) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  PRIMARY KEY CLUSTERED (VendorID)
+)
+GO 
+
+CREATE UNIQUE INDEX idx_Vendors$VendorName 
+  ON Purchasing.Vendors (VendorName)
+GO
+
+
+
+
+
+
+
+
 
 
 
