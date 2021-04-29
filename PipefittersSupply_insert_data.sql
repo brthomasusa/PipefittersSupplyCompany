@@ -242,14 +242,14 @@ VALUES
     (10010, 'Cole & Co.', '2700 Centerville Road', 'Dock 13', 'Garland', 'TX', '76987', '972-913-2063', 8000, 'Cassandra Didonato')
 GO
 
-INSERT INTO Sales.CompositionTypes
+INSERT INTO Purchasing.CompositionTypes
     (CompositionTypeName, [Description])
 VALUES
     ('B', 'Brass'),
     ('C', 'Copper')
 GO
 
-INSERT INTO Sales.InventoryTypes
+INSERT INTO Purchasing.InventoryTypes
     (InventoryTypeName, [Description])
 VALUES
     ('4', '4-foot pipe'),
@@ -259,7 +259,7 @@ VALUES
     ('T', 'T-connector')
 GO
 
-INSERT INTO Sales.DiameterTypes
+INSERT INTO Purchasing.DiameterTypes
     (DiameterTypeName, [Description])
 VALUES
     ('025', '0.25'),
@@ -270,24 +270,24 @@ VALUES
     ('400', '4.00')
 GO
 
-INSERT INTO Sales.Inventory
-    (InventoryID, CompositionTypeID, InventoryTypeID, DiameterTypeID, ListPrice, [Description])
+INSERT INTO Purchasing.Inventory
+    (InventoryID, CompositionTypeID, InventoryTypeID, DiameterTypeID, StandardCost, ListPrice, [Description])
 VALUES
-    (1001, 1, 1, 1, 21.95, '0.25-inch brass 4-foot pipe'),
-    (1002, 1, 1, 2, 26.49, '0.50-inch brass 4-foot pipe'),
-    (1003, 1, 1, 3, 34.79, '1.00-inch brass 4-foot pipe'),
-    (1004, 1, 1, 4, 43.69, '2.00-inch brass 4-foot pipe'),
-    (1005, 1, 1, 5, 55.29, '3.00-inch brass 4-foot pipe'),
-    (1006, 1, 1, 6, 65.19, '4.00-inch brass 4-foot pipe'),
-    (1030, 1, 5, 6, 28.49, '4.00-inch brass T-Connector'),
-    (1035, 2, 1, 5, 18.25, '3.00-inch copper 4-foot pipe'),
-    (1038, 2, 2, 2, 14.95, '0.50-inch copper 8-foot pipe'),
-    (1041, 2, 2, 5, 38.59, '3.00-inch copper 8-foot pipe'),
-    (1044, 2, 3, 2, 1.95, '0.50-inch copper Cap fitting'),
-    (1047, 2, 3, 5, 4.19, '3.00-inch copper Cap fitting'),
-    (1053, 2, 4, 5, 5.29, '3.00-inch copper Elbow'),
-    (1056, 2, 5, 2, 3.39, '0.50-inch T-Connector'),
-    (1059, 2, 5, 5, 6.59, '3.00-inch T-Connector')    
+    (1001, 1, 1, 1, 10.03, 21.95, '0.25-inch brass 4-foot pipe'),
+    (1002, 1, 1, 2, 15.90, 26.49, '0.50-inch brass 4-foot pipe'),
+    (1003, 1, 1, 3, 20.90, 34.79, '1.00-inch brass 4-foot pipe'),
+    (1004, 1, 1, 4, 26.30, 43.69, '2.00-inch brass 4-foot pipe'),
+    (1005, 1, 1, 5, 33.20, 55.29, '3.00-inch brass 4-foot pipe'),
+    (1006, 1, 1, 6, 39.13, 65.19, '4.00-inch brass 4-foot pipe'),
+    (1030, 1, 5, 6, 17.66, 28.49, '4.00-inch brass T-Connector'),
+    (1035, 2, 1, 5, 10.59, 18.25, '3.00-inch copper 4-foot pipe'),
+    (1038, 2, 2, 2, 8.97, 14.95, '0.50-inch copper 8-foot pipe'),
+    (1041, 2, 2, 5, 23.17, 38.59, '3.00-inch copper 8-foot pipe'),
+    (1044, 2, 3, 2, 1.40, 1.95, '0.50-inch copper Cap fitting'),
+    (1047, 2, 3, 5, 2.93, 4.19, '3.00-inch copper Cap fitting'),
+    (1053, 2, 4, 5, 3.60, 5.29, '3.00-inch copper Elbow'),
+    (1056, 2, 5, 2, 2.75, 3.39, '0.50-inch T-Connector'),
+    (1059, 2, 5, 5, 4.81, 6.59, '3.00-inch T-Connector')    
 GO
 
 INSERT INTO Sales.SalesOrders
