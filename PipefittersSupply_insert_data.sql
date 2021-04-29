@@ -294,6 +294,37 @@ VALUES
     (1059, 2, 5, 5, 4.81, 6.59, '3.00-inch T-Connector')    
 GO
 
+INSERT INTO Purchasing.PurchaseOrders
+    (PurchaseOrderID, VendorID, EmployeeID, PurchaseOrderDate, ExpectedDeliveryDate, PurchaseOrderAmount)
+VALUES
+    (100000, 1001, 120, '2021-01-02', '2021-01-05', 0),
+    (100001, 1002, 120, '2021-01-02', '2021-01-02', 0),
+    (100002, 1003, 120, '2021-01-02', '2021-01-02', 0),
+    (100003, 1004, 121, '2021-01-02', '2021-01-04', 0),
+    (100004, 1005, 121, '2021-01-02', '2021-01-06', 0)
+GO
+
+INSERT INTO Purchasing.PurchaseOrderDetails
+    (PurchaseOrderDetailID, PurchaseOrderID, InventoryID, VendorPartNumber, QuantityOrdered, UnitCost)
+VALUES
+    (1, 100000, 1001, 'B4P025' ,1000, 10.03),
+    (2, 100000, 1002, 'B4P050' ,1000, 15.90),
+    (3, 100000, 1003, 'B4P100' ,1000, 20.90),
+    (4, 100000, 1004, 'B4P200' ,700, 26.30),
+    (5, 100000, 1005, 'B4P300' ,500, 33.20),
+    (6, 100000, 1006, 'B4P400' ,450, 39.13),
+    (7, 100001, 1035, 'Copper-3-4' ,1000, 10.59),
+    (8, 100001, 1038, 'Copper-.5-8' ,1000, 8.97),
+    (9, 100001, 1041, 'Copper-3-8' ,500, 23.17),     
+    (10, 100002, 1047, 'CCP-3-inch' ,1000, 2.93),
+    (11, 100002, 1053, 'CELB-3-inch' ,1000, 3.60),
+    (12, 100002, 1056, 'CTCONN-.5' ,1000, 2.75),
+    (13, 100002, 1059, 'CTCONN-3' ,700, 6.59),
+    (14, 100003, 1030, 'BRASS4TCONN' ,1000, 17.66),
+    (15, 100004, 1044, 'SKU9874111' ,2500, 1.40)      
+GO
+
+
 INSERT INTO Sales.SalesOrders
     (SalesOrderID, CustomerID, EmployeeID, SalesOrderDate, CustomerPO, SalesOrderAmount)
 VALUES
