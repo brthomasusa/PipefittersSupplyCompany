@@ -29,7 +29,7 @@ DROP TABLE IF EXISTS
     Finance.LoanRepaymentSchedule,
     Finance.StockSubscription,
     Finance.DividendPymtRate,
-
+    Purchasing.Vendors,
 
     Sales.CompositionTypes,
     Sales.InventoryTypes,
@@ -505,23 +505,7 @@ CREATE UNIQUE INDEX idx_Vendors$VendorName
   ON Purchasing.Vendors (VendorName)
 GO
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-CREATE TABLE Sales.CompositionTypes
+CREATE TABLE Purchasing.CompositionTypes
 (
   CompositionTypeID int IDENTITY NOT NULL,
   CompositionTypeName nchar(1) NOT NULL,
@@ -530,13 +514,11 @@ CREATE TABLE Sales.CompositionTypes
 );
 GO
 
-CREATE UNIQUE INDEX CompositionTypes_CompositionTypeName 
-  ON Sales.CompositionTypes (CompositionTypeName);
+CREATE UNIQUE INDEX idx_CompositionTypes$CompositionTypeName 
+  ON Purchasing.CompositionTypes (CompositionTypeName);
 GO
 
--- SELECT name, USER_NAME(principal_id) AS principal FROM sys.schemas WHERE name <> USER_NAME(principal_id); --don't list user schemas
-
-CREATE TABLE Sales.InventoryTypes
+CREATE TABLE Purchasing.InventoryTypes
 (
   InventoryTypeID int IDENTITY NOT NULL,
   InventoryTypeName nchar(1) NOT NULL,
@@ -545,11 +527,11 @@ CREATE TABLE Sales.InventoryTypes
 );
 GO
 
-CREATE UNIQUE INDEX InventoryTypes_InventoryTypeName 
-  ON Sales.InventoryTypes (InventoryTypeName);
+CREATE UNIQUE INDEX idx_InventoryTypes$InventoryTypeName 
+  ON Purchasing.InventoryTypes (InventoryTypeName);
 GO
 
-CREATE TABLE Sales.DiameterTypes
+CREATE TABLE Purchasing.DiameterTypes
 (
   DiameterTypeID int IDENTITY NOT NULL,
   DiameterTypeName nchar(3) NOT NULL,
@@ -558,16 +540,17 @@ CREATE TABLE Sales.DiameterTypes
 );
 GO
 
-CREATE UNIQUE INDEX DiameterTypes_DiameterTypeName 
-  ON Sales.DiameterTypes (DiameterTypeName);
+CREATE UNIQUE INDEX idx_DiameterTypes$DiameterTypeName 
+  ON Purchasing.DiameterTypes (DiameterTypeName);
 GO
 
-CREATE TABLE Sales.Inventory
+CREATE TABLE Purchasing.Inventory
 (
   InventoryID int NOT NULL,
   CompositionTypeID int NOT NULL,
   InventoryTypeID int NOT NULL,
   DiameterTypeID int NOT NULL,
+  StandardCost DECIMAL(18,2) DEFAULT 0 NOT NULL,
   ListPrice decimal(18, 2) DEFAULT 0 NOT NULL,
   [Description] varchar(35) NOT NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
@@ -576,32 +559,57 @@ CREATE TABLE Sales.Inventory
 )
 GO
 
-CREATE INDEX Inventory_CompositionTypeID 
-  ON Sales.Inventory (CompositionTypeID)
+CREATE INDEX idx_Inventory$CompositionTypeID 
+  ON Purchasing.Inventory (CompositionTypeID)
 GO
 
-CREATE INDEX Inventory_InventoryTypeID 
-  ON Sales.Inventory (InventoryTypeID)
+CREATE INDEX idx_Inventory$InventoryTypeID 
+  ON Purchasing.Inventory (InventoryTypeID)
 GO
 
-CREATE INDEX Inventory_DiameterTypeID 
-  ON Sales.Inventory (DiameterTypeID)
+CREATE INDEX idx_Inventory$DiameterTypeID 
+  ON Purchasing.Inventory (DiameterTypeID)
 GO
 
-ALTER TABLE Sales.Inventory  WITH CHECK ADD  CONSTRAINT [FK_CompositionTypes_CompositionTypeID] FOREIGN KEY(CompositionTypeID)
-REFERENCES Sales.CompositionTypes (CompositionTypeID)
+ALTER TABLE Purchasing.Inventory  WITH CHECK ADD  CONSTRAINT [FK_Inventory$CompositionTypeID_CompositionType$CompositionTypeID] FOREIGN KEY(CompositionTypeID)
+REFERENCES Purchasing.CompositionTypes (CompositionTypeID)
 ON DELETE CASCADE
 GO
 
-ALTER TABLE Sales.Inventory  WITH CHECK ADD  CONSTRAINT [FK_InventoryTypes_InventoryTypeID] FOREIGN KEY(InventoryTypeID)
-REFERENCES Sales.InventoryTypes (InventoryTypeID)
+ALTER TABLE Purchasing.Inventory  WITH CHECK ADD  CONSTRAINT [FK_Inventory$InventoryTypeID_InventoryTypes$InventoryTypeID] FOREIGN KEY(InventoryTypeID)
+REFERENCES Purchasing.InventoryTypes (InventoryTypeID)
 ON DELETE CASCADE
 GO
 
-ALTER TABLE Sales.Inventory  WITH CHECK ADD  CONSTRAINT [FK_DiameterTypes_DiameterTypeID] FOREIGN KEY(DiameterTypeID)
-REFERENCES Sales.DiameterTypes (DiameterTypeID)
+ALTER TABLE Purchasing.Inventory  WITH CHECK ADD  CONSTRAINT [FK_Inventory$DiameterTypeID_DiameterTypes$DiameterTypeID] FOREIGN KEY(DiameterTypeID)
+REFERENCES Purchasing.DiameterTypes (DiameterTypeID)
 ON DELETE CASCADE
 GO
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 CREATE TABLE Sales.Customers
 (

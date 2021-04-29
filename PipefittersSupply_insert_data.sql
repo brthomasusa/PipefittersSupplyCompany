@@ -218,7 +218,11 @@ VALUES
     (15, 1005, '2021-03-15', 0.07)
 GO 
 
-
+INSERT INTO Purchasing.Vendors
+    (VendorID, VendorName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, PrimaryContact)
+VALUES
+    (1001, 'Indumar Products, Inc.', '2500 Tanglewilde', 'Ste 260', 'Houston', 'TX', '77063-5401', '713-977-4100', 'John Anderson')
+GO
 
 
 
