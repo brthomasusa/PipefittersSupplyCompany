@@ -30,6 +30,10 @@ DROP TABLE IF EXISTS
     Finance.StockSubscription,
     Finance.DividendPymtRate,
     Purchasing.Vendors,
+    Purchasing.PurchaseOrders,
+    Purchasing.PurchaseOrderDetails,
+    Purchasing.InventoryReceipts,
+    Purchasing.InventoryReceiptDetails,
 
     Sales.CompositionTypes,
     Sales.InventoryTypes,
@@ -632,7 +636,51 @@ CREATE INDEX idx_PurchaseOrderDetails$InventoryID
   ON Purchasing.PurchaseOrderDetails (InventoryID)
 GO
 
+CREATE TABLE Purchasing.InventoryReceipts
+(
+    InventoryReceiptsID INT PRIMARY KEY CLUSTERED,
+    PurchaseOrderID INT REFERENCES Purchasing.PurchaseOrders (PurchaseOrderID) NOT NULL,
+    VendorID INT NOT NULL REFERENCES Purchasing.Vendors(VendorID),
+    EmployeeID INT NOT NULL REFERENCES HumanResources.Employees(EmployeeID),
+    InventoryReceiptDate DATETIME2(0) NOT NULL,
+    InventoryReceiptAmount DECIMAL(18,2) CHECK (InventoryReceiptAmount >= 0) NOT NULL,
+    VendorInvoiceID NVARCHAR(30) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL     
+)
+GO
+      
+CREATE INDEX idx_InventoryReceipts$PurchaseOrderID 
+  ON Purchasing.InventoryReceipts (PurchaseOrderID)
+GO
 
+CREATE INDEX idx_InventoryReceipts$VendorID 
+  ON Purchasing.InventoryReceipts (VendorID)
+GO
+
+CREATE INDEX idx_InventoryReceipts$EmployeeID 
+  ON Purchasing.InventoryReceipts (EmployeeID)
+GO
+
+CREATE TABLE Purchasing.InventoryReceiptDetails
+(
+    InventoryReceiptDetailID INT PRIMARY KEY CLUSTERED,
+    InventoryReceiptsID INT NOT NULL REFERENCES Purchasing.InventoryReceipts (InventoryReceiptsID),
+    InventoryID INT NOT NULL REFERENCES Purchasing.Inventory (InventoryID),
+    QuantityReceived INT CHECK (QuantityReceived >= 0) NOT NULL,
+    ReceivedPrice DECIMAL(18,2) CHECK (ReceivedPrice >= 0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL    
+)
+GO
+
+CREATE INDEX idx_InventoryReceiptDetails$InventoryID 
+  ON Purchasing.InventoryReceiptDetails (InventoryID)
+GO
+
+CREATE INDEX idx_InventoryReceiptDetails$InventoryReceiptsID 
+  ON Purchasing.InventoryReceiptDetails (InventoryReceiptsID)
+GO
 
 
 

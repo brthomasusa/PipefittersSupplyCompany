@@ -297,11 +297,11 @@ GO
 INSERT INTO Purchasing.PurchaseOrders
     (PurchaseOrderID, VendorID, EmployeeID, PurchaseOrderDate, ExpectedDeliveryDate, PurchaseOrderAmount)
 VALUES
-    (100000, 1001, 120, '2021-01-02', '2021-01-05', 0),
-    (100001, 1002, 120, '2021-01-02', '2021-01-02', 0),
-    (100002, 1003, 120, '2021-01-02', '2021-01-02', 0),
-    (100003, 1004, 121, '2021-01-02', '2021-01-04', 0),
-    (100004, 1005, 121, '2021-01-02', '2021-01-06', 0)
+    (100000, 1001, 120, '2021-01-02', '2021-01-05', 99448.50),
+    (100001, 1002, 120, '2021-01-02', '2021-01-02', 31145.00),
+    (100002, 1003, 120, '2021-01-02', '2021-01-02', 13893.00),
+    (100003, 1004, 121, '2021-01-02', '2021-01-04', 17660.00),
+    (100004, 1005, 121, '2021-01-02', '2021-01-06', 3500.00)
 GO
 
 INSERT INTO Purchasing.PurchaseOrderDetails
@@ -323,6 +323,43 @@ VALUES
     (14, 100003, 1030, 'BRASS4TCONN' ,1000, 17.66),
     (15, 100004, 1044, 'SKU9874111' ,2500, 1.40)      
 GO
+
+CREATE TABLE Purchasing.InventoryReceipts
+(
+    InventoryReceiptsID INT PRIMARY KEY CLUSTERED,
+    PurchaseOrderID INT REFERENCES Purchasing.PurchaseOrders (PurchaseOrderID) NOT NULL,
+    VendorID INT NOT NULL REFERENCES Purchasing.Vendors(VendorID),
+    EmployeeID INT NOT NULL REFERENCES HumanResources.Employees(EmployeeID),
+    InventoryReceiptDate DATETIME2(0) NOT NULL,
+    InventoryReceiptAmount DECIMAL(18,2) CHECK (InventoryReceiptAmount >= 0) NOT NULL,
+    VendorInvoiceID NVARCHAR(30) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL     
+)
+GO
+      
+CREATE INDEX idx_InventoryReceipts$PurchaseOrderID 
+  ON Purchasing.InventoryReceipts (PurchaseOrderID)
+GO
+
+CREATE UNIQUE INDEX idx_InventoryReceipts$VendorID 
+  ON Purchasing.InventoryReceipts (VendorID)
+GO
+
+CREATE UNIQUE INDEX idx_InventoryReceipts$EmployeeID 
+  ON Purchasing.InventoryReceipts (EmployeeID)
+GO
+
+
+
+
+
+
+
+
+
+
+
 
 
 INSERT INTO Sales.SalesOrders
@@ -358,3 +395,4 @@ VALUES
     (18, 100005, 1056, 9, 3.39),
     (19, 100005, 1059, 18, 6.59)             
 GO
+
