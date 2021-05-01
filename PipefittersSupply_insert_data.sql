@@ -228,24 +228,6 @@ VALUES
     (1005, 'Fittube, Inc.', '15 Ocean Blvd', 'Ste 308', 'Boca Raton', 'FL', '33412-0855', '407-391-1611', 'Bob MacKenzie')    
 GO
 
-
-
-
-
-
-
-
-
-INSERT INTO Sales.Customers
-    (CustomerID, CustomerName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, CreditLimit, PrimaryContact)
-VALUES
-    (10001, 'Dunn Plumbing', '2763 Cosgrove Road', '2nd Floor', 'West Haven', 'CT', '06516-1960', '203-913-2063', 6000, 'Bill Dunn'),
-    (10003, 'Ace Construction', '3755 Spring Valley Rd', 'Ste 111', 'Dallas', 'TX', '75518', '972-328-1111', 9000, 'Roger A. McPherson'),
-    (10005, 'Bryant Boiler Repair', '10740 N. Central Exprwy', 'Ste 11', 'Richardson', 'TX', '75665', '214-913-2063', 15000, 'William Bryant'),
-    (10007, 'Bucknell Air Conditioner', '33 Airport Blvd', 'Ste 322', 'Irving', 'TX', '75123', '972-913-2063', 6000, 'Michelle Willetson'),
-    (10010, 'Cole & Co.', '2700 Centerville Road', 'Dock 13', 'Garland', 'TX', '76987', '972-913-2063', 8000, 'Cassandra Didonato')
-GO
-
 INSERT INTO Purchasing.CompositionTypes
     (CompositionTypeName, [Description])
 VALUES
@@ -354,24 +336,24 @@ VALUES
     (15, 5, 1044, 2500, 1.40)
 GO
 
-
-
-
-
-
-
-
-
-
+INSERT INTO Sales.Customers
+    (CustomerID, CustomerName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, CreditLimit, PrimaryContact)
+VALUES
+    (10001, 'Dunn Plumbing', '2763 Cosgrove Road', '2nd Floor', 'West Haven', 'CT', '06516-1960', '203-913-2063', 6000, 'Bill Dunn'),
+    (10003, 'Ace Construction', '3755 Spring Valley Rd', 'Ste 111', 'Dallas', 'TX', '75518', '972-328-1111', 9000, 'Roger A. McPherson'),
+    (10005, 'Bryant Boiler Repair', '10740 N. Central Exprwy', 'Ste 11', 'Richardson', 'TX', '75665', '214-913-2063', 15000, 'William Bryant'),
+    (10007, 'Bucknell Air Conditioner', '33 Airport Blvd', 'Ste 322', 'Irving', 'TX', '75123', '972-913-2063', 6000, 'Michelle Willetson'),
+    (10010, 'Cole & Co.', '2700 Centerville Road', 'Dock 13', 'Garland', 'TX', '76987', '972-913-2063', 8000, 'Cassandra Didonato')
+GO
 
 INSERT INTO Sales.SalesOrders
     (SalesOrderID, CustomerID, EmployeeID, SalesOrderDate, CustomerPO, SalesOrderAmount)
 VALUES
-    (100001, 10001, 112, '2021-01-14', '101-PR-753979', 1941.51),
-    (100002, 10003, 107, '2021-01-16', '26754', 3406.01),
-    (100003, 10007, 109, '2021-01-16', 'BP-8666789', 21.95),
-    (100004, 10005, 111, '2021-01-17', '276-555438', 659.10),
-    (100005, 10010, 115, '2021-01-17', '985553', 488.89)
+    (100001, 10001, 122, '2021-01-14', '101-PR-753979', 1941.51),
+    (100002, 10003, 122, '2021-01-16', '26754', 3406.01),
+    (100003, 10007, 123, '2021-01-16', 'BP-8666789', 21.95),
+    (100004, 10005, 123, '2021-01-17', '276-555438', 659.10),
+    (100005, 10010, 122, '2021-01-17', '985553', 488.89)
 GO
 
 INSERT INTO Sales.SalesOrderDetails
