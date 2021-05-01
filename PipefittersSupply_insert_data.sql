@@ -324,33 +324,35 @@ VALUES
     (15, 100004, 1044, 'SKU9874111' ,2500, 1.40)      
 GO
 
-CREATE TABLE Purchasing.InventoryReceipts
-(
-    InventoryReceiptsID INT PRIMARY KEY CLUSTERED,
-    PurchaseOrderID INT REFERENCES Purchasing.PurchaseOrders (PurchaseOrderID) NOT NULL,
-    VendorID INT NOT NULL REFERENCES Purchasing.Vendors(VendorID),
-    EmployeeID INT NOT NULL REFERENCES HumanResources.Employees(EmployeeID),
-    InventoryReceiptDate DATETIME2(0) NOT NULL,
-    InventoryReceiptAmount DECIMAL(18,2) CHECK (InventoryReceiptAmount >= 0) NOT NULL,
-    VendorInvoiceID NVARCHAR(30) NOT NULL,
-    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-    LastModifiedDate datetime2(7) NULL     
-)
-GO
-      
-CREATE INDEX idx_InventoryReceipts$PurchaseOrderID 
-  ON Purchasing.InventoryReceipts (PurchaseOrderID)
+INSERT INTO Purchasing.InventoryReceipts
+    (InventoryReceiptsID, PurchaseOrderID, VendorID, EmployeeID, InventoryReceiptDate, InventoryReceiptAmount)
+VALUES
+    (1, 100000, 1001, 119, '2021-01-05', 94188.5),
+    (2, 100001, 1002, 119, '2021-01-02', 33792.50),
+    (3, 100002, 1003, 118, '2021-01-12', 10253.00),
+    (4, 100003, 1004, 118, '2021-01-03', 17660.00),
+    (5, 100004, 1005, 119, '2021-01-07', 3500.00)
 GO
 
-CREATE UNIQUE INDEX idx_InventoryReceipts$VendorID 
-  ON Purchasing.InventoryReceipts (VendorID)
+INSERT INTO Purchasing.InventoryReceiptDetails
+    (InventoryReceiptDetailID, InventoryReceiptsID, InventoryID, QuantityReceived, ReceivedPrice)
+VALUES
+    (1, 1, 1001, 1000, 10.03),
+    (2, 1, 1002, 1000, 15.90),
+    (3, 1, 1003, 1000, 20.90),
+    (4, 1, 1004, 500, 26.30),
+    (5, 1, 1005, 500, 33.20),
+    (6, 1, 1006, 450, 39.13),
+    (7, 2, 1035, 1250, 10.59),
+    (8, 2, 1038, 1000, 8.97),
+    (9, 2, 1041, 500, 23.17),
+    (10, 3, 1047, 1000, 2.93),
+    (11, 3, 1053, 0, 0),
+    (12, 3, 1056, 1000, 2.85),
+    (13, 3, 1059, 700, 6.39),
+    (14, 4, 1030, 1000, 17.66),
+    (15, 5, 1044, 2500, 1.40)
 GO
-
-CREATE UNIQUE INDEX idx_InventoryReceipts$EmployeeID 
-  ON Purchasing.InventoryReceipts (EmployeeID)
-GO
-
-
 
 
 

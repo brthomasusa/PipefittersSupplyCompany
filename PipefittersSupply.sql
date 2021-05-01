@@ -19,33 +19,30 @@ DROP TABLE IF EXISTS
     HumanResources.ExemptionLkup,
     HumanResources.FedWithHolding,
     Finance.CashAccounts,
-    Finance.CashReceipts,
-    Finance.CashDisbursementType,
-    Finance.CashDisbursement,
-    Finance.StockholderCreditor,
-    Finance.LoanAgreement,
     Finance.CashReceiptType,
     Finance.CashReceipts,
+    Finance.CashDisbursementType,
+    Finance.CashDisbursement,               
+    Finance.StockholderCreditor,
+    Finance.LoanAgreement,
     Finance.LoanRepaymentSchedule,
     Finance.StockSubscription,
     Finance.DividendPymtRate,
     Purchasing.Vendors,
+    Purchasing.CompositionTypes,
+    Purchasing.InventoryTypes,
+    Purchasing.DiameterTypes,
+    Purchasing.Inventory,     
     Purchasing.PurchaseOrders,
     Purchasing.PurchaseOrderDetails,
     Purchasing.InventoryReceipts,
     Purchasing.InventoryReceiptDetails,
-
-    Sales.CompositionTypes,
-    Sales.InventoryTypes,
-    Sales.DiameterTypes,
-    Sales.Inventory,    
+   
     Sales.Customers,
     Sales.SalesOrders ,
     Sales.SalesOrderDetails,
     Sales.Invoices,
-    Sales.InvoiceDetails
-    
-    
+    Sales.InvoiceDetails    
 GO
 
 CREATE TABLE HumanResources.EmployeeTypes
@@ -654,11 +651,11 @@ CREATE INDEX idx_InventoryReceipts$PurchaseOrderID
   ON Purchasing.InventoryReceipts (PurchaseOrderID)
 GO
 
-CREATE INDEX idx_InventoryReceipts$VendorID 
+CREATE UNIQUE INDEX idx_InventoryReceipts$VendorID 
   ON Purchasing.InventoryReceipts (VendorID)
 GO
 
-CREATE INDEX idx_InventoryReceipts$EmployeeID 
+CREATE UNIQUE INDEX idx_InventoryReceipts$EmployeeID 
   ON Purchasing.InventoryReceipts (EmployeeID)
 GO
 
@@ -682,40 +679,21 @@ CREATE INDEX idx_InventoryReceiptDetails$InventoryReceiptsID
   ON Purchasing.InventoryReceiptDetails (InventoryReceiptsID)
 GO
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 CREATE TABLE Sales.Customers
 (
-  CustomerID int NOT NULL,
-  CustomerName nvarchar(25) NOT NULL,
-  AddressLine1 nvarchar(50) NOT NULL,
-  AddressLine2 nvarchar(50) NULL,
-  City nvarchar(25) NOT NULL,
-  [State] char(2) NOT NULL,
-  ZipCode nvarchar(10) NOT NULL,
-  Telephone nvarchar(14) NOT NULL,
-  CreditLimit decimal(18, 2) DEFAULT 0 NOT NULL CHECK(CreditLimit <= 50000),
-  PrimaryContact varchar(25) NOT NULL,
-  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-  LastModifiedDate datetime2(7) NULL,
-  PRIMARY KEY CLUSTERED (CustomerID)
+    CustomerID int NOT NULL,
+    CustomerName nvarchar(25) NOT NULL,
+    AddressLine1 nvarchar(50) NOT NULL,
+    AddressLine2 nvarchar(50) NULL,
+    City nvarchar(25) NOT NULL,
+    [State] char(2) NOT NULL,
+    ZipCode nvarchar(10) NOT NULL,
+    Telephone nvarchar(14) NOT NULL,
+    CreditLimit decimal(18, 2) DEFAULT 0 NOT NULL CHECK(CreditLimit <= 50000),
+    PrimaryContact varchar(25) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    PRIMARY KEY CLUSTERED (CustomerID)
 )
 GO
 
@@ -755,21 +733,19 @@ GO
 
 ALTER TABLE Sales.SalesOrders WITH CHECK ADD CONSTRAINT [FK_Customers_CustomerID] FOREIGN KEY(CustomerID)
 REFERENCES Sales.Customers (CustomerID)
-ON UPDATE CASCADE
 ON DELETE NO ACTION
 GO
 
 ALTER TABLE Sales.SalesOrders WITH CHECK ADD CONSTRAINT [FK_Employees_EmployeeID] FOREIGN KEY(EmployeeID)
-REFERENCES Sales.Employees (EmployeeID)
-ON UPDATE CASCADE
+REFERENCES HumanResources.Employees (EmployeeID)
 ON DELETE NO ACTION
 GO
-
+    
 CREATE TABLE Sales.SalesOrderDetails
 (
   SalesOrderDetailID int NOT NULL,
-  SalesOrderID int NOT NULL,
-  InventoryID int NOT NULL,
+  SalesOrderID int NOT NULL REFERENCES Sales.SalesOrders (SalesOrderID),
+  InventoryID INT NOT NULL REFERENCES Purchasing.Inventory (InventoryID),
   QuantityOrdered int NOT NULL,
   UnitPrice decimal(18, 2) NOT NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
@@ -778,159 +754,61 @@ CREATE TABLE Sales.SalesOrderDetails
 )
 GO
 
-CREATE INDEX SalesOrderDetails_SalesOrderID 
+CREATE INDEX idx_SalesOrderDetails$SalesOrderID 
   ON Sales.SalesOrderDetails (SalesOrderID)
 GO
 
-CREATE INDEX SalesOrderDetails_InventoryID 
+CREATE INDEX idx_SalesOrderDetails$InventoryID 
   ON Sales.SalesOrderDetails (InventoryID)
-GO
-
-ALTER TABLE Sales.SalesOrderDetails WITH CHECK ADD CONSTRAINT [FK_SalesOrders_SalesOrderID] FOREIGN KEY(SalesOrderID)
-REFERENCES Sales.SalesOrders (SalesOrderID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
-GO
-
-ALTER TABLE Sales.SalesOrderDetails WITH CHECK ADD CONSTRAINT [FK_Inventory_InventoryID] FOREIGN KEY(InventoryID)
-REFERENCES Sales.Inventory (InventoryID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
 GO
 
 CREATE TABLE Sales.Invoices
 (
-  InvoiceID int NOT NULL,
-  SalesOrderID int NOT NULL,
-  CustomerID int NOT NULL,
-  EmployeeID int NOT NULL,
+  InvoiceID int PRIMARY KEY CLUSTERED,
+  SalesOrderID int NOT NULL REFERENCES Sales.SalesOrders (SalesOrderID),
+  CustomerID int NOT NULL REFERENCES Sales.Customers (CustomerID),
+  EmployeeID int NOT NULL REFERENCES HumanResources.Employees (EmployeeID),
   ShippingDate datetime2(0) NOT NULL,
   SalesAmount decimal(18, 2) NOT NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-  LastModifiedDate datetime2(7) NULL,
-  PRIMARY KEY CLUSTERED (InvoiceID)
+  LastModifiedDate datetime2(7) NULL
 )
 GO
 
-CREATE UNIQUE INDEX Invoices_SalesOrderID 
+CREATE UNIQUE INDEX idx_Invoices$SalesOrderID 
   ON Sales.Invoices (SalesOrderID)
 GO
 
-CREATE INDEX Invoices_CustomerID 
+CREATE INDEX idx_Invoices$CustomerID 
   ON Sales.Invoices (CustomerID)
 GO
 
-CREATE INDEX Invoices_EmployeeID 
+CREATE INDEX idx_Invoices$EmployeeID 
   ON Sales.Invoices (EmployeeID)
-GO
-
-CREATE INDEX Invoices_ShippingDate 
-  ON Sales.Invoices (ShippingDate)
-GO
-
-ALTER TABLE Sales.Invoices WITH CHECK ADD CONSTRAINT [FK_Invoices_SalesOrders_SalesOrderID] FOREIGN KEY(SalesOrderID)
-REFERENCES Sales.SalesOrders (SalesOrderID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
-GO
-
-ALTER TABLE Sales.Invoices WITH CHECK ADD CONSTRAINT [FK_Invoices_Customers_CustomerID] FOREIGN KEY(CustomerID)
-REFERENCES Sales.Customers (CustomerID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
-GO
-
-ALTER TABLE Sales.Invoices WITH CHECK ADD CONSTRAINT [FK_Invoices_Employees_EmployeeID] FOREIGN KEY(EmployeeID)
-REFERENCES Sales.Employees (EmployeeID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
 GO
 
 CREATE TABLE Sales.InvoiceDetails
 (
-  InvoiceDetailsID int NOT NULL,
-  InvoiceID int NOT NULL,
-  InventoryID int NOT NULL,
-  QuantityShipped int NOT NULL,
-  UnitPrice decimal(18, 2) NOT NULL,
+  InvoiceDetailsID int PRIMARY KEY CLUSTERED,
+  InvoiceID int NOT NULL REFERENCES Sales.Invoices (InvoiceID),
+  InventoryID int NOT NULL REFERENCES Purchasing.Inventory (InventoryID),
+  QuantityShipped int CHECK (QuantityShipped >= 0) NOT NULL,
+  UnitPrice decimal(18, 2) CHECK (UnitPrice >= 0) NOT NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-  LastModifiedDate datetime2(7) NULL,
-  PRIMARY KEY CLUSTERED (InvoiceDetailsID)
+  LastModifiedDate datetime2(7) NULL
 )
 GO
 
-CREATE INDEX InvoiceDetails_InvoiceID 
+CREATE INDEX idx_InvoiceDetails$InvoiceID 
   ON Sales.InvoiceDetails (InvoiceID)
 GO
 
-CREATE INDEX InvoiceDetails_InventoryID 
+CREATE INDEX idx_InvoiceDetails$InventoryID 
   ON Sales.InvoiceDetails (InventoryID)
 GO
 
-ALTER TABLE Sales.InvoiceDetails WITH CHECK ADD CONSTRAINT [FK_InvoiceDetails_Invoices_InvoiceID] FOREIGN KEY(InvoiceID)
-REFERENCES Sales.Invoices (InvoiceID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
-GO
 
-ALTER TABLE Sales.InvoiceDetails WITH CHECK ADD CONSTRAINT [FK_InvoiceDetails_Inventory_InventoryID] FOREIGN KEY(InventoryID)
-REFERENCES Sales.Inventory (InventoryID)
-ON UPDATE CASCADE
-ON DELETE NO ACTION
-GO
 
-CREATE TABLE Sales.CashReceipts
-(
-  CashReceiptID int NOT NULL,
-  InvoiceID int NOT NULL,
-  CashAccountID int NOT NULL,
-  CustomerID int NOT NULL,
-  EmployeeID int NOT NULL,
-  RemittanceAdviceID nvarchar(25) NOT NULL,
-  CashReceiptDate datetime2(0) NOT NULL,
-  CashReceiptAmount decimal(18, 2) NOT NULL,
-  CustomerCheckNumber nvarchar(15) NOT NULL,
-  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-  LastModifiedDate datetime2(7) NULL,
-  PRIMARY KEY CLUSTERED (CashReceiptID)
-)
-GO
-
-CREATE INDEX CashReceipts_InvoiceID 
-  ON Sales.CashReceipts (InvoiceID);
-
-CREATE INDEX CashReceipts_CashAccountID 
-  ON Sales.CashReceipts (CashAccountID);
-
-CREATE INDEX CashReceipts_CustomerID 
-  ON Sales.CashReceipts (CustomerID)
-GO
-
-CREATE INDEX CashReceipts_EmployeeID 
-  ON Sales.CashReceipts (EmployeeID)
-GO
-
-CREATE INDEX CashReceipts_CashReceiptDate 
-  ON Sales.CashReceipts (CashReceiptDate)
-GO
-
-ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Invoices_InvoiceID] FOREIGN KEY(InvoiceID)
-REFERENCES Sales.Invoices (InvoiceID)
-ON DELETE NO ACTION
-GO
-
-ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts$CashAccountID_CashAccounts$CashAccountID] FOREIGN KEY(CashAccountID)
-REFERENCES Finance.CashAccounts (CashAccountID)
-ON DELETE NO ACTION
-GO
-
-ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts_Customers_CustomerID] FOREIGN KEY(CustomerID)
-REFERENCES Sales.Customers (CustomerID)
-GO
-
-ALTER TABLE Sales.CashReceipts WITH CHECK ADD CONSTRAINT [FK_CashReceipts$EmployeeID_Employees$EmployeeID] FOREIGN KEY(EmployeeID)
-REFERENCES HumanResources.Employees (EmployeeID)
-GO
 
 
 
