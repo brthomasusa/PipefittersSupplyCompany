@@ -640,7 +640,7 @@ CREATE TABLE Purchasing.InventoryReceipts
     EmployeeID INT NOT NULL REFERENCES HumanResources.Employees(EmployeeID),
     InventoryReceiptDate DATETIME2(0) NOT NULL,
     InventoryReceiptAmount DECIMAL(18,2) CHECK (InventoryReceiptAmount >= 0) NOT NULL,
-    VendorInvoiceID NVARCHAR(30) NOT NULL,
+    VendorInvoiceNumber NVARCHAR(30) NOT NULL,
     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
     LastModifiedDate datetime2(7) NULL     
 )
