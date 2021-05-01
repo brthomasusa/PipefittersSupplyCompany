@@ -36,8 +36,7 @@ DROP TABLE IF EXISTS
     Purchasing.PurchaseOrders,
     Purchasing.PurchaseOrderDetails,
     Purchasing.InventoryReceipts,
-    Purchasing.InventoryReceiptDetails,
-   
+    Purchasing.InventoryReceiptDetails,   
     Sales.Customers,
     Sales.SalesOrders ,
     Sales.SalesOrderDetails,

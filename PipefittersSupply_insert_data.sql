@@ -102,6 +102,20 @@ VALUES
     (14, 'S', '7', 31250.01, 1000000.00, 0.35, 9017.98)    
 GO
 
+INSERT INTO Finance.CashAccounts
+    (CashAccountID, AccountDescription, BankName, DateEstablished)
+VALUES
+    (103, 'Financing Proceeds', 'First Bank', '2020-12-20')
+GO
+
+INSERT INTO Finance.CashReceiptType
+    (CashReceiptTypeID, EventTypeName, PayeeTypeName)
+VALUES
+    (1, 'Sale', 'Customer'),
+    (2, 'Debt Issue', 'Creditor'),
+    (3, 'Stock Issue', 'Stockholder')
+GO
+
 INSERT INTO Finance.CashDisbursementType
     (CashDisbursementTypeID, EventTypeName, PayeeTypeName)
 VALUES
@@ -119,20 +133,6 @@ VALUES
     (1003, 'New World Tatoo Parlor', '1690 S. El Camino Real', 'Room 2C','San Mateo', 'CA', '94402', '630-321-9875', 'JoJo Jozef Jr.'),
     (1004, 'Bertha Mae Jones', '12333 Menard Heights Blvd', 'Ste 1001','Palo Alto', 'CA', '94901', '886-587-0001', 'Betty Lou Sinosky Sr.'),
     (1005, 'Pimps-R-US', '96541 Sunset Rise Plaza', 'Ste 1','Oxnard', 'CA', '93035', '415-912-5570', 'Pimp Daddy Mofo')
-GO
-
-INSERT INTO Finance.CashAccounts
-    (CashAccountID, AccountDescription, BankName, DateEstablished)
-VALUES
-    (103, 'Financing Proceeds', 'First Bank', '2020-12-20')
-GO
-
-INSERT INTO Finance.CashReceiptType
-    (CashReceiptTypeID, EventTypeName, PayeeTypeName)
-VALUES
-    (1, 'Sale', 'Customer'),
-    (2, 'Debt Issue', 'Creditor'),
-    (3, 'Stock Issue', 'Stockholder')
 GO
 
 INSERT INTO Finance.LoanAgreement
