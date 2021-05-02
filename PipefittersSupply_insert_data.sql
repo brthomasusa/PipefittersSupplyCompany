@@ -473,3 +473,9 @@ VALUES
     (110, 'Bank Charges', NULL, 'Bank Charges', 'Bank fees related to account maintenance and credit cards')
 GO
 
+INSERT INTO Purchasing.PurchaseType
+    (PurchaseTypeID, ResourceTypeName)
+VALUES
+    (1, 'Inventory'),
+    (2, 'Non-inventory')
+GO

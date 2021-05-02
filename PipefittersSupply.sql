@@ -818,6 +818,12 @@ CREATE TABLE Purchasing.NonInventoryItems
 )
 GO
 
+CREATE TABLE Purchasing.PurchaseType
+(
+    PurchaseTypeID INT PRIMARY KEY CLUSTERED,
+    ResourceTypeName NVARCHAR(25) NOT NULL UNIQUE
+)
+GO
 
 
 
