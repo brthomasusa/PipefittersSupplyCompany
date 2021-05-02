@@ -309,13 +309,13 @@ VALUES
 GO
 
 INSERT INTO Purchasing.InventoryReceipts
-    (InventoryReceiptsID, PurchaseOrderID, VendorID, EmployeeID, InventoryReceiptDate, InventoryReceiptAmount)
+    (InventoryReceiptsID, PurchaseOrderID, VendorID, EmployeeID, InventoryReceiptDate, InventoryReceiptAmount, VendorInvoiceNumber)
 VALUES
-    (1, 100000, 1001, 119, '2021-01-05', 8359.88),
-    (2, 100001, 1002, 119, '2021-01-02', 5753.60),
-    (3, 100002, 1003, 118, '2021-01-12', 10253.00),
-    (4, 100003, 1004, 118, '2021-01-03', 5298.00),
-    (5, 100004, 1005, 119, '2021-01-07', 3500.00)
+    (1, 100000, 1001, 119, '2021-01-05', 8359.88, 'ZF987'),
+    (2, 100001, 1002, 119, '2021-01-02', 5753.60, '1258744444a'),
+    (3, 100002, 1003, 118, '2021-01-12', 10253.00, '202102-98712'),
+    (4, 100003, 1004, 118, '2021-01-03', 5298.00, 'H98-6541111'),
+    (5, 100004, 1005, 119, '2021-01-07', 3500.00, '3987')
 GO
 
 INSERT INTO Purchasing.InventoryReceiptDetails
@@ -382,3 +382,12 @@ VALUES
     (19, 100005, 1059, 18, 6.59)             
 GO
 
+INSERT INTO Finance.CashDisbursement
+    (CashDisbursementID, CheckNumber, CashAccountID, CashDisbursementTypeID, PayeeID, EmployeeID, EventID, DisbursementAmount, DisbursementDate)
+VALUES
+    (1, '100', 101, 2, 1002, 114, 2, 5000.00, '2021-01-12'),
+    (2, '101', 101, 2, 1004, 114, 4, 5000.00, '2021-01-13'),
+    (3, '102', 101, 2, 1001, 114, 1, 5000.00, '2021-01-15'),
+    (4, '103', 101, 2, 1005, 115, 5, 3500.00, '2021-01-17'),
+    (5, '104', 101, 2, 1003, 115, 3, 5000.00, '2021-01-22')
+GO
