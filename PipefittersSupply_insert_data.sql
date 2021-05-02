@@ -425,3 +425,13 @@ VALUES
     (18, 100005, 1056, 9, 3.39),
     (19, 100005, 1059, 18, 6.59) 
 GO
+
+INSERT INTO Finance.CashReceipts
+    (CashReceiptID, CashReceiptTypeID, EventID, CashAccountID, PayeeID, EmployeeID, RemittanceAdviceID, CashReceiptDate, CashReceiptAmount, PayorCheckNumber)
+VALUES
+    (8, 1, 100003, 101, 10003, 114, '100089', '2021-01-20', 21.95, '325'),
+    (9, 1, 100001, 101, 10001, 114, '100090', '2021-01-23', 1941.51, '2658'),
+    (10, 1, 100002, 101, 10002, 115, '100091', '2021-01-23', 3406.01, '71'),
+    (11, 1, 100004, 101, 10004, 114, '100092', '2021-01-28', 659.10, '1987'),
+    (12, 1, 100005, 101, 10005, 114, '100093', '2021-01-30', 488.89, '10011')
+GO

@@ -650,11 +650,11 @@ CREATE INDEX idx_InventoryReceipts$PurchaseOrderID
   ON Purchasing.InventoryReceipts (PurchaseOrderID)
 GO
 
-CREATE UNIQUE INDEX idx_InventoryReceipts$VendorID 
+CREATE INDEX idx_InventoryReceipts$VendorID 
   ON Purchasing.InventoryReceipts (VendorID)
 GO
 
-CREATE UNIQUE INDEX idx_InventoryReceipts$EmployeeID 
+CREATE INDEX idx_InventoryReceipts$EmployeeID 
   ON Purchasing.InventoryReceipts (EmployeeID)
 GO
 
