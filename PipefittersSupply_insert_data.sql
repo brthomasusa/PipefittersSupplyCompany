@@ -457,3 +457,19 @@ VALUES
     (20, '114', 102, 1, 122, 114, 15, 1795.18, '2021-02-03'),
     (21, '115', 102, 1, 123, 114, 16, 1385.34, '2021-02-03')    
 GO
+
+INSERT INTO Purchasing.NonInventoryItems
+    (ResourceID, ResourceName, BalanceSheetName, IncomeStmtName, [Description])
+VALUES
+    (101, 'Advertising', 'Prepaid Advertising', 'Advertising Expense', 'Advertising costs'),
+    (102, 'Office Supplies', 'Office Supplies', 'Supplies Expense - Office', 'Office supplies'),
+    (103, 'Product Supplies', 'Product Supplies', 'Supplies Expense - Other', 'Supplies related to acquiring, storing, and delivering merchandise'),
+    (104, 'Insurance', 'Prepaid Insurance', 'Insurance Expense', 'Advertising costs'),
+    (105, 'Equipment', 'Equipment', 'Depreciation Expense', 'Equipment, furniture, and fixtures'),
+    (106, 'Land', 'Land', NULL, 'Land'),
+    (107, 'Rent', 'Prepaid Rent', 'Rent Expense', 'Building and equipment rental costs'),
+    (108, 'Repairs and Maintenance', NULL, 'Repairs and Maintenance Expense', 'Repairs and Maintenance costs not included in other categories'),
+    (109, 'Utilities', 'Prepaid Utilities', 'Utilities Expense', 'Electric, gas, water, phones, internet, etc.'),
+    (110, 'Bank Charges', NULL, 'Bank Charges', 'Bank fees related to account maintenance and credit cards')
+GO
+

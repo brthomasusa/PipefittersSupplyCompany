@@ -806,7 +806,17 @@ CREATE INDEX idx_InvoiceDetails$InventoryID
   ON Sales.InvoiceDetails (InventoryID)
 GO
 
-
+CREATE TABLE Purchasing.NonInventoryItems
+(
+    ResourceID INT PRIMARY KEY CLUSTERED,
+    ResourceName NVARCHAR(30) NOT NULL UNIQUE,
+    BalanceSheetName NVARCHAR(50) NULL,
+    IncomeStmtName NVARCHAR(50) NULL,
+    [Description] NVARCHAR(100) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL      
+)
+GO
 
 
 
