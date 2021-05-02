@@ -338,6 +338,16 @@ VALUES
     (15, 5, 1044, 2500, 1.40)
 GO
 
+INSERT INTO Finance.CashDisbursement
+    (CashDisbursementID, CheckNumber, CashAccountID, CashDisbursementTypeID, PayeeID, EmployeeID, EventID, DisbursementAmount, DisbursementDate)
+VALUES
+    (1, '100', 101, 2, 1002, 114, 2, 5000.00, '2021-01-12'),
+    (2, '101', 101, 2, 1004, 114, 4, 5000.00, '2021-01-13'),
+    (3, '102', 101, 2, 1001, 114, 1, 5000.00, '2021-01-15'),
+    (4, '103', 101, 2, 1005, 115, 5, 3500.00, '2021-01-17'),
+    (5, '104', 101, 2, 1003, 115, 3, 5000.00, '2021-01-22')
+GO
+
 INSERT INTO Sales.Customers
     (CustomerID, CustomerName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, CreditLimit, PrimaryContact)
 VALUES
@@ -382,12 +392,36 @@ VALUES
     (19, 100005, 1059, 18, 6.59)             
 GO
 
-INSERT INTO Finance.CashDisbursement
-    (CashDisbursementID, CheckNumber, CashAccountID, CashDisbursementTypeID, PayeeID, EmployeeID, EventID, DisbursementAmount, DisbursementDate)
+INSERT INTO Sales.Invoices
+    (InvoiceID, SalesOrderID, CustomerID, EmployeeID, ShippingDate, SalesAmount)
 VALUES
-    (1, '100', 101, 2, 1002, 114, 2, 5000.00, '2021-01-12'),
-    (2, '101', 101, 2, 1004, 114, 4, 5000.00, '2021-01-13'),
-    (3, '102', 101, 2, 1001, 114, 1, 5000.00, '2021-01-15'),
-    (4, '103', 101, 2, 1005, 115, 5, 3500.00, '2021-01-17'),
-    (5, '104', 101, 2, 1003, 115, 3, 5000.00, '2021-01-22')
+    (100001, 100001, 10001, 118, '2021-01-16', 1941.51),
+    (100002, 100002, 10003, 118, '2021-01-17', 3406.01),
+    (100003, 100003, 10007, 118, '2021-01-17', 21.95),
+    (100004, 100004, 10005, 118, '2021-01-18', 659.10),
+    (100005, 100005, 10010, 118, '2021-01-19', 488.89)
+GO
+
+INSERT INTO Sales.InvoiceDetails
+    (InvoiceDetailsID, InvoiceID, InventoryID, QuantityShipped, UnitPrice)
+VALUES
+    (1, 100001, 1006, 10, 65.19),
+    (2, 100001, 1030, 14, 28.49),
+    (3, 100001, 1038, 50, 14.95),
+    (4, 100001, 1044, 30, 1.95),
+    (5, 100001, 1056, 25, 3.39),
+    (6, 100002, 1005, 42, 55.29),
+    (7, 100002, 1041, 27, 38.59),
+    (8, 100002, 1047, 10, 4.19),
+    (9, 100003, 1001, 100, 21.95),
+    (10, 100004, 1035, 19, 18.25),
+    (11, 100004, 1044, 25, 1.95),
+    (12, 100004, 1059, 40, 6.59),
+    (13, 100005, 1002, 5, 26.49),
+    (14, 100005, 1005, 2, 55.29),
+    (15, 100005, 1044, 21, 1.95),
+    (16, 100005, 1047, 7, 4.19),
+    (17, 100005, 1053, 5, 5.29),
+    (18, 100005, 1056, 9, 3.39),
+    (19, 100005, 1059, 18, 6.59) 
 GO
