@@ -36,7 +36,10 @@ DROP TABLE IF EXISTS
     Purchasing.PurchaseOrders,
     Purchasing.PurchaseOrderDetails,
     Purchasing.InventoryReceipts,
-    Purchasing.InventoryReceiptDetails,   
+    Purchasing.InventoryReceiptDetails,
+    Purchasing.PurchaseType,
+    Purchasing.InventoryReceipts,
+    Purchasing.InventoryReceiptDetails,
     Sales.Customers,
     Sales.SalesOrders ,
     Sales.SalesOrderDetails,
@@ -632,6 +635,13 @@ CREATE INDEX idx_PurchaseOrderDetails$InventoryID
   ON Purchasing.PurchaseOrderDetails (InventoryID)
 GO
 
+CREATE TABLE Purchasing.PurchaseType
+(
+    PurchaseTypeID INT PRIMARY KEY CLUSTERED,
+    ResourceTypeName NVARCHAR(25) NOT NULL UNIQUE
+)
+GO
+
 CREATE TABLE Purchasing.InventoryReceipts
 (
     InventoryReceiptsID INT PRIMARY KEY CLUSTERED,
@@ -673,6 +683,42 @@ CREATE TABLE Purchasing.InventoryReceiptDetails
     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
     LastModifiedDate datetime2(7) NULL    
 )
+GO
+
+CREATE TABLE Purchasing.NonInventoryItems
+(
+    ResourceID INT PRIMARY KEY CLUSTERED,
+    ResourceName NVARCHAR(30) NOT NULL UNIQUE,
+    BalanceSheetName NVARCHAR(50) NULL,
+    IncomeStmtName NVARCHAR(50) NULL,
+    [Description] NVARCHAR(100) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL      
+)
+GO
+
+CREATE TABLE Purchasing.NonInventoryItemDetails
+(
+    NonInventoryItemDetailID INT PRIMARY KEY CLUSTERED,
+    InventoryReceiptsID INT REFERENCES Purchasing.InventoryReceipts (InventoryReceiptsID),
+    ResourceID INT REFERENCES Purchasing.NonInventoryItems (ResourceID),
+    ResourceDetailName NVARCHAR(50) NOT NULL,
+    ResourceItemDesc NVARCHAR(256) NOT NULL,
+    UsefulLife INT CHECK (UsefulLife >= 0) NOT NULL,
+    QuantityPurchased INT CHECK (QuantityPurchased >= 0) NOT NULL,
+    UnitCost DECIMAL(18,2) CHECK (UnitCost >= 0) NOT NULL,
+    SalvageValue DECIMAL(18,2) CHECK (SalvageValue >= 0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL     
+)
+GO
+
+CREATE INDEX idx_NonInventoryItemDetails$ResourceID 
+  ON Purchasing.NonInventoryItemDetails (ResourceID)
+GO
+ 
+CREATE INDEX idx_NonInventoryItemDetails$InventoryReceiptsID 
+  ON Purchasing.NonInventoryItemDetails (InventoryReceiptsID)
 GO
 
 CREATE INDEX idx_InventoryReceiptDetails$InventoryID 
@@ -823,12 +869,6 @@ CREATE TABLE Purchasing.NonInventoryItems
 )
 GO
 
-CREATE TABLE Purchasing.PurchaseType
-(
-    PurchaseTypeID INT PRIMARY KEY CLUSTERED,
-    ResourceTypeName NVARCHAR(25) NOT NULL UNIQUE
-)
-GO
 
 
 
