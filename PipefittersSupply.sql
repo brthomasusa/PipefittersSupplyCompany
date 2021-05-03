@@ -638,6 +638,7 @@ CREATE TABLE Purchasing.InventoryReceipts
     PurchaseOrderID INT REFERENCES Purchasing.PurchaseOrders (PurchaseOrderID) NOT NULL,
     VendorID INT NOT NULL REFERENCES Purchasing.Vendors(VendorID),
     EmployeeID INT NOT NULL REFERENCES HumanResources.Employees(EmployeeID),
+    PurchaseTypeID INT REFERENCES Purchasing.PurchaseType (PurchaseTypeID),
     InventoryReceiptDate DATETIME2(0) NOT NULL,
     InventoryReceiptAmount DECIMAL(18,2) CHECK (InventoryReceiptAmount >= 0) NOT NULL,
     VendorInvoiceNumber NVARCHAR(30) NOT NULL,
@@ -656,6 +657,10 @@ GO
 
 CREATE INDEX idx_InventoryReceipts$EmployeeID 
   ON Purchasing.InventoryReceipts (EmployeeID)
+GO
+
+CREATE INDEX idx_InventoryReceipts$PurchaseTypeID 
+  ON Purchasing.InventoryReceipts (PurchaseTypeID)
 GO
 
 CREATE TABLE Purchasing.InventoryReceiptDetails

@@ -309,13 +309,13 @@ VALUES
 GO
 
 INSERT INTO Purchasing.InventoryReceipts
-    (InventoryReceiptsID, PurchaseOrderID, VendorID, EmployeeID, InventoryReceiptDate, InventoryReceiptAmount, VendorInvoiceNumber)
+    (InventoryReceiptsID, PurchaseOrderID, VendorID, EmployeeID, PurchaseTypeID, InventoryReceiptDate, InventoryReceiptAmount, VendorInvoiceNumber)
 VALUES
-    (1, 100000, 1001, 119, '2021-01-05', 8359.88, 'ZF987'),
-    (2, 100001, 1002, 119, '2021-01-02', 5753.60, '1258744444a'),
-    (3, 100002, 1003, 118, '2021-01-12', 10253.00, '202102-98712'),
-    (4, 100003, 1004, 118, '2021-01-03', 5298.00, 'H98-6541111'),
-    (5, 100004, 1005, 119, '2021-01-07', 3500.00, '3987')
+    (1, 100000, 1001, 119, 1, '2021-01-05', 8359.88, 'ZF987'),
+    (2, 100001, 1002, 119, 1, '2021-01-02', 5753.60, '1258744444a'),
+    (3, 100002, 1003, 118, 1, '2021-01-12', 10253.00, '202102-98712'),
+    (4, 100003, 1004, 118, 1, '2021-01-03', 5298.00, 'H98-6541111'),
+    (5, 100004, 1005, 119, 1, '2021-01-07', 3500.00, '3987')
 GO
 
 INSERT INTO Purchasing.InventoryReceiptDetails
