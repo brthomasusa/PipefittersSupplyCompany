@@ -359,3 +359,92 @@ CREATE INDEX idx_CashReceipts$PayeeID
   ON Finance.CashReceipts (PayeeID)
 GO
 
+CREATE TABLE Finance.StockholderCreditor
+(
+  FinancierID int PRIMARY KEY CLUSTERED,
+  FinancierName nvarchar(25) NOT NULL,
+  AddressLine1 nvarchar(50) NOT NULL,
+  AddressLine2 nvarchar(50) NULL,
+  City nvarchar(25) NOT NULL,
+  [State] char(2) NOT NULL,
+  ZipCode nvarchar(10) NOT NULL,
+  Telephone nvarchar(14) NOT NULL,
+  PrimaryContact varchar(25) NOT NULL,
+  IsActive BIT DEFAULT 0 NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL
+)
+GO
+
+INSERT INTO Finance.StockholderCreditor
+    (FinancierID, FinancierName, AddressLine1, AddressLine2, City, [State], ZipCode, Telephone, PrimaryContact, IsActive)
+VALUES
+    (1001, 'Arturo Sandoval', '5232 Outriggers Way', 'Ste 401','Oxnard', 'CA', '93035', '888-719-8128', 'Arturo Sandoval', 1),
+    (1002, 'Paul Van Horn', '825 Mandalay Beach Rd', 'Level 2','Oxnard', 'CA', '93035', '415-328-9870', 'Patrick Crocker', 1),
+    (1003, 'New World Tatoo Parlor', '1690 S. El Camino Real', 'Room 2C','San Mateo', 'CA', '94402', '630-321-9875', 'JoJo Jozef Jr.', 1),
+    (1004, 'Bertha Mae Jones', '12333 Menard Heights Blvd', 'Ste 1001','Palo Alto', 'CA', '94901', '886-587-0001', 'Betty Lou Sinosky Sr.', 1),
+    (1005, 'Pimps-R-US', '96541 Sunset Rise Plaza', 'Ste 1','Oxnard', 'CA', '93035', '415-912-5570', 'Pimp Daddy Mofo', 1)
+GO
+
+CREATE TABLE Finance.LoanAgreements
+(
+    LoanID INT NOT NULL PRIMARY KEY CLUSTERED,
+    FinancierID int NOT NULL REFERENCES Finance.StockholderCreditor (FinancierID),
+    EmployeeID int NOT NULL REFERENCES HumanResources.Employees (EmployeeID),
+    LoanAmount DECIMAL(18,2) CHECK(LoanAmount > 0) NOT NULL,
+    InterestRate NUMERIC(9,6) CHECK(InterestRate >= 0) NOT NULL,        
+    LoanDate DATETIME2(0) NOT NULL,
+    MaturityDate DATETIME2(0) NOT NULL,
+    PymtsPerYear INT CHECK(PymtsPerYear > 0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL,
+    CONSTRAINT CHK_LoanDateMaturityDate CHECK (LoanDate < MaturityDate)
+)
+GO
+
+CREATE INDEX idx_LoanAgreement$FinancierID 
+  ON Finance.LoanAgreements (FinancierID);
+GO
+
+CREATE INDEX idx_LoanAgreement$EmployeeID 
+  ON Finance.LoanAgreements (EmployeeID);
+GO
+
+INSERT INTO Finance.LoanAgreements
+    (LoanID, FinancierID, EmployeeID, LoanAmount, InterestRate, LoanDate, MaturityDate, PymtsPerYear)
+VALUES
+    (1001, 1003, 114, 50000.00, 0.086250, '2021-01-02', '2022-01-02', 12),
+    (1002, 1005, 115, 100000.00, 0.072500, '2021-01-15', '2022-01-15', 12)
+GO
+
+CREATE TABLE Finance.StockSubscriptions
+(
+    StockID int PRIMARY KEY CLUSTERED,
+    FinancierID INT NOT NULL REFERENCES Finance.StockholderCreditor (FinancierID),
+    EmployeeID INT NOT NULL REFERENCES HumanResources.Employees (EmployeeID),
+    SharesIssured INT CHECK (SharesIssured >= 0) NOT NULL,
+    PricePerShare DECIMAL(18,2) CHECK (PricePerShare >= 0) NOT NULL,
+    StockIssueDate DATETIME2(0) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL
+)
+GO
+
+CREATE INDEX idx_StockSubscription$FinancierID 
+  ON Finance.StockSubscriptions (FinancierID)
+GO
+
+CREATE INDEX idx_StockSubscription$EmployeeID 
+  ON Finance.StockSubscriptions (EmployeeID)
+GO
+
+INSERT INTO Finance.StockSubscriptions
+    (StockID, FinancierID, EmployeeID, SharesIssured, PricePerShare, StockIssueDate)
+VALUES
+    (1001, 1001,101, 50000, 1.00, '2020-09-03'),
+    (1002, 1002,101, 50000, 1.00, '2020-09-03'),
+    (1003, 1001,101, 25000, 1.00, '2020-11-01'),
+    (1004, 1002,101, 10000, 1.00, '2020-11-01'),
+    (1005, 1004,101, 35000, 3.00, '2021-03-01')
+GO
+
