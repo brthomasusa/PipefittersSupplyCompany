@@ -12,16 +12,11 @@ namespace PipefittersSupply.Domain.HumanResources
         private int _overtimeHours;
         private DateTime _createdDate;
         private DateTime _lastModifiedDate;
-        public Guid Id { get; private set; }
+        public TimeCardId Id { get; private set; }
 
 
-        public TimeCard(Guid id, EmployeeId employeeID, EmployeeId supervisorID)
+        public TimeCard(TimeCardId id, EmployeeId employeeID, EmployeeId supervisorID)
         {
-            if (id == default)
-            {
-                throw new ArgumentException("Identity must be specified", nameof(id));
-            }
-
             Id = id;
             _employeeId = employeeID;
             _supervisorId = supervisorID;

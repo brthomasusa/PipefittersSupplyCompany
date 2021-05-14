@@ -2,8 +2,6 @@ namespace PipefittersSupply.Domain.HumanResources
 {
     public class Employee
     {
-        private EmployeeId _employeeID;
-
         public EmployeeId Id { get; }
 
         public string LastName { get; }

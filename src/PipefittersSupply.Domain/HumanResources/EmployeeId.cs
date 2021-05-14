@@ -7,7 +7,15 @@ namespace PipefittersSupply.Domain.HumanResources
     {
         private readonly Guid _value;
 
-        public EmployeeId(Guid value) => _value = value;
+        public EmployeeId(Guid value)
+        {
+            if (value == default)
+            {
+                throw new ArgumentException("Employee Id must be specified", nameof(value));
+            }
+
+            _value = value;
+        }
 
     }
 }
