@@ -27,23 +27,23 @@
     ]
   },
   "packageFolders": {
-    "/home/bthomas/.nuget/packages/": {},
-    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+    "C:\\Users\\brtho\\.nuget\\packages\\": {},
+    "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Domain/PipefittersSupply.Domain.csproj",
+      "projectUniqueName": "C:\\Projects\\NetCore\\PipefittersSupplyCompany\\src\\PipefittersSupply.Domain\\PipefittersSupply.Domain.csproj",
       "projectName": "PipefittersSupply.Domain",
-      "projectPath": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Domain/PipefittersSupply.Domain.csproj",
-      "packagesPath": "/home/bthomas/.nuget/packages/",
-      "outputPath": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Domain/obj/",
+      "projectPath": "C:\\Projects\\NetCore\\PipefittersSupplyCompany\\src\\PipefittersSupply.Domain\\PipefittersSupply.Domain.csproj",
+      "packagesPath": "C:\\Users\\brtho\\.nuget\\packages\\",
+      "outputPath": "C:\\Projects\\NetCore\\PipefittersSupplyCompany\\src\\PipefittersSupply.Domain\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+        "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
       ],
       "configFilePaths": [
-        "/home/bthomas/.nuget/NuGet/NuGet.Config"
+        "C:\\Users\\brtho\\AppData\\Roaming\\NuGet\\NuGet.Config"
       ],
       "originalTargetFrameworks": [
         "net5.0"
@@ -55,8 +55,8 @@
         "net5.0": {
           "targetAlias": "net5.0",
           "projectReferences": {
-            "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/PipefittersSupply.Framework.csproj": {
-              "projectPath": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/PipefittersSupply.Framework.csproj"
+            "C:\\Projects\\NetCore\\PipefittersSupplyCompany\\src\\PipefittersSupply.Framework\\PipefittersSupply.Framework.csproj": {
+              "projectPath": "C:\\Projects\\NetCore\\PipefittersSupplyCompany\\src\\PipefittersSupply.Framework\\PipefittersSupply.Framework.csproj"
             }
           }
         }
@@ -85,7 +85,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.203/RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
       }
     }
   }

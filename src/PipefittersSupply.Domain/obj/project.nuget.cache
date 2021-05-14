@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "ZuWanMdFozygAVofO3rRCcr2MGEMahBcjhWacEQbjsgvElV5C+CiiyD9YbGPqxSNlhs14YxTYjqEaa+aTUlbbw==",
+  "dgSpecHash": "RuETFa+YTyBdePScOLdKnCCQLW0/JSgDvjaO/Rpb3a4vHYhBihs1Y6VNvj+fD9I759WOe25s4H2Bwefu8RestA==",
   "success": true,
-  "projectFilePath": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Domain/PipefittersSupply.Domain.csproj",
+  "projectFilePath": "C:\\Projects\\NetCore\\PipefittersSupplyCompany\\src\\PipefittersSupply.Domain\\PipefittersSupply.Domain.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }
