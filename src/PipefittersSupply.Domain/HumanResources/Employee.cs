@@ -1,5 +1,3 @@
-using System;
-
 namespace PipefittersSupply.Domain.HumanResources
 {
     public class Employee
