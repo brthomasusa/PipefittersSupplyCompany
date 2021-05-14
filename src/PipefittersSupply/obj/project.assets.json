@@ -1,0 +1,113 @@
+{
+  "version": 3,
+  "targets": {
+    "net5.0": {
+      "PipefittersSupply.Domain/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "dependencies": {
+          "PipefittersSupply.Framework": "1.0.0"
+        },
+        "compile": {
+          "bin/placeholder/PipefittersSupply.Domain.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PipefittersSupply.Domain.dll": {}
+        }
+      },
+      "PipefittersSupply.Framework/1.0.0": {
+        "type": "project",
+        "framework": ".NETCoreApp,Version=v5.0",
+        "compile": {
+          "bin/placeholder/PipefittersSupply.Framework.dll": {}
+        },
+        "runtime": {
+          "bin/placeholder/PipefittersSupply.Framework.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "PipefittersSupply.Domain/1.0.0": {
+      "type": "project",
+      "path": "../PipefittersSupply.Domain/PipefittersSupply.Domain.csproj",
+      "msbuildProject": "../PipefittersSupply.Domain/PipefittersSupply.Domain.csproj"
+    },
+    "PipefittersSupply.Framework/1.0.0": {
+      "type": "project",
+      "path": "../PipefittersSupply.Framework/PipefittersSupply.Framework.csproj",
+      "msbuildProject": "../PipefittersSupply.Framework/PipefittersSupply.Framework.csproj"
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net5.0": [
+      "PipefittersSupply.Domain >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "/home/bthomas/.nuget/packages/": {},
+    "/usr/share/dotnet/sdk/NuGetFallbackFolder": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply/PipefittersSupply.csproj",
+      "projectName": "PipefittersSupply",
+      "projectPath": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply/PipefittersSupply.csproj",
+      "packagesPath": "/home/bthomas/.nuget/packages/",
+      "outputPath": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply/obj/",
+      "projectStyle": "PackageReference",
+      "fallbackFolders": [
+        "/usr/share/dotnet/sdk/NuGetFallbackFolder"
+      ],
+      "configFilePaths": [
+        "/home/bthomas/.nuget/NuGet/NuGet.Config"
+      ],
+      "originalTargetFrameworks": [
+        "net5.0"
+      ],
+      "sources": {
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net5.0": {
+          "targetAlias": "net5.0",
+          "projectReferences": {
+            "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Domain/PipefittersSupply.Domain.csproj": {
+              "projectPath": "/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Domain/PipefittersSupply.Domain.csproj"
+            }
+          }
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net5.0": {
+        "targetAlias": "net5.0",
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.AspNetCore.App": {
+            "privateAssets": "none"
+          },
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          }
+        },
+        "runtimeIdentifierGraphPath": "/usr/share/dotnet/sdk/5.0.203/RuntimeIdentifierGraph.json"
+      }
+    }
+  }
+}

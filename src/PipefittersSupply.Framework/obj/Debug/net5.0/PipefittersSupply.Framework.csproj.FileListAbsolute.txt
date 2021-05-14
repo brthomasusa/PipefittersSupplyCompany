@@ -1,0 +1,12 @@
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/bin/Debug/net5.0/PipefittersSupply.Framework.deps.json
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/bin/Debug/net5.0/PipefittersSupply.Framework.dll
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/bin/Debug/net5.0/ref/PipefittersSupply.Framework.dll
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/bin/Debug/net5.0/PipefittersSupply.Framework.pdb
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/PipefittersSupply.Framework.csprojAssemblyReference.cache
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/PipefittersSupply.Framework.GeneratedMSBuildEditorConfig.editorconfig
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/PipefittersSupply.Framework.AssemblyInfoInputs.cache
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/PipefittersSupply.Framework.AssemblyInfo.cs
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/PipefittersSupply.Framework.csproj.CoreCompileInputs.cache
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/PipefittersSupply.Framework.dll
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/ref/PipefittersSupply.Framework.dll
+/home/bthomas/Projects/NetCore/PipefittersSupplyCompany/src/PipefittersSupply.Framework/obj/Debug/net5.0/PipefittersSupply.Framework.pdb
