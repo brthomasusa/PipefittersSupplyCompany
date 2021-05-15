@@ -1,4 +1,4 @@
-namespace PipefittersSupply.Domain.HumanResources
+namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class Employee
     {

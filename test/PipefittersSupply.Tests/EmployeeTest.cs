@@ -1,5 +1,5 @@
 using System;
-using PipefittersSupply.Domain.HumanResources;
+using PipefittersSupply.Domain.HumanResources.Employee;
 using Xunit;
 
 namespace PipefittersSupply.Tests
@@ -49,7 +49,7 @@ namespace PipefittersSupply.Tests
 
             var caughtException = Assert.Throws<ArgumentException>(action);
 
-            Assert.True(caughtException.Message.Contains("Employee type must be specified."));
+            Assert.Contains("Employee type must be specified.", caughtException.Message);
         }
 
         [Fact]
@@ -59,7 +59,8 @@ namespace PipefittersSupply.Tests
 
             var caughtException = Assert.Throws<ArgumentException>(action);
 
-            Assert.True(caughtException.Message.Contains("Invalid employee type; employee type can not be negative."));
+            // Assert.True(caughtException.Message.Contains("Invalid employee type; employee type can not be negative."));
+            Assert.Contains("Invalid employee type; employee type can not be negative.", caughtException.Message);
         }
     }
 }

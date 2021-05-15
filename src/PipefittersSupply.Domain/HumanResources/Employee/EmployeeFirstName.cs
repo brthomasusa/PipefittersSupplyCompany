@@ -1,7 +1,7 @@
 using System;
 using PipefittersSupply.Framework;
 
-namespace PipefittersSupply.Domain.HumanResources
+namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class EmployeeFirstName : Value<EmployeeFirstName>
     {

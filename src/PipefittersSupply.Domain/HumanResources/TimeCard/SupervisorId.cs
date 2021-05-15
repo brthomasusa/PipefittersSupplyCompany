@@ -1,7 +1,7 @@
 using System;
 using PipefittersSupply.Framework;
 
-namespace PipefittersSupply.Domain.HumanResources
+namespace PipefittersSupply.Domain.HumanResources.TimeCard
 {
     public class SupervisorId : Value<SupervisorId>
     {

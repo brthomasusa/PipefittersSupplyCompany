@@ -1,9 +1,10 @@
 using System;
 using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.HumanResources.Employee;
 
-namespace PipefittersSupply.Domain.HumanResources
+namespace PipefittersSupply.Domain.HumanResources.TimeCard
 {
-    public class TimeCard
+    public class TimeCard : Value<TimeCard>
     {
         private EmployeeId _employeeId;
         private SupervisorId _supervisorId;
@@ -27,6 +28,8 @@ namespace PipefittersSupply.Domain.HumanResources
         public void UpdateRegularHours(int hrs) => _regularHours = hrs;
 
         public void UpdateOvertimeHours(int hrs) => _overtimeHours = hrs;
+
+        public void UpdateCreatedDate(DateTime createdDate) => _createdDate = createdDate;
 
         public void UpdateLastModifiedDate(DateTime lastModified) => _lastModifiedDate = lastModified;
     }
