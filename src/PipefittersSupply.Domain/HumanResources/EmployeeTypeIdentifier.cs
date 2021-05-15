@@ -11,7 +11,7 @@ namespace PipefittersSupply.Domain.HumanResources
         {
             if (value == default)
             {
-                throw new ArgumentException("Employee type must be specified", nameof(value));
+                throw new ArgumentException("Employee type must be specified.", nameof(value));
             }
 
             if (value < 0)

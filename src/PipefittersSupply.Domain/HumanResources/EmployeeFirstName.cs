@@ -22,6 +22,6 @@ namespace PipefittersSupply.Domain.HumanResources
             _value = value;
         }
 
-
+        public static EmployeeFirstName FromString(string firstName) => new EmployeeFirstName(firstName);
     }
 }

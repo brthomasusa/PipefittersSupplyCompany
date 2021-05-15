@@ -41,5 +41,25 @@ namespace PipefittersSupply.Tests
 
             Assert.Equal("Last name can not be longer than 25 characters.", caughtException.ParamName);
         }
+
+        [Fact]
+        public void ShouldRaiseError_EmployeeTypeId_EqualsZero()
+        {
+            Action action = () => EmployeeTypeIdentifier.FromInterger(0);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.True(caughtException.Message.Contains("Employee type must be specified."));
+        }
+
+        [Fact]
+        public void ShouldRaiseError_EmployeeTypeId_NegativeNumberNotValid()
+        {
+            Action action = () => EmployeeTypeIdentifier.FromInterger(-1);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.True(caughtException.Message.Contains("Invalid employee type; employee type can not be negative."));
+        }
     }
 }
