@@ -5,9 +5,9 @@ namespace PipefittersSupply.Domain.HumanResources
 {
     public class TimeCardId : Value<TimeCardId>
     {
-        private readonly Guid _value;
+        private readonly int _value;
 
-        public TimeCardId(Guid value)
+        public TimeCardId(int value)
         {
             if (value == default)
             {

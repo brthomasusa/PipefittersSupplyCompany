@@ -9,7 +9,7 @@ namespace PipefittersSupply.Tests
         [Fact]
         public void ShouldCreateValidEmployee()
         {
-            var ee = new Employee(new EmployeeId(Guid.NewGuid()), "Test");
+            var ee = new Employee(new EmployeeId(1), "Test");
 
             Assert.NotNull(ee);
             Assert.Equal("Test", ee.LastName);
@@ -20,8 +20,8 @@ namespace PipefittersSupply.Tests
         {
             Guid eeID = Guid.NewGuid();
 
-            var employee1 = new Employee(new EmployeeId(eeID), "Test");
-            var employee2 = new Employee(new EmployeeId(eeID), "Test");
+            var employee1 = new Employee(new EmployeeId(1), "Test");
+            var employee2 = new Employee(new EmployeeId(1), "Test");
 
             Assert.Equal(employee1.Id, employee2.Id);
         }
