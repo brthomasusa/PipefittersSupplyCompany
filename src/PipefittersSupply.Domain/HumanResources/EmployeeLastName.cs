@@ -9,6 +9,11 @@ namespace PipefittersSupply.Domain.HumanResources
 
         private EmployeeLastName(string value)
         {
+            if (string.IsNullOrEmpty(value))
+            {
+                throw new ArgumentNullException("The employee last name is required.", nameof(value));
+            }
+
             if (value.Length > 25)
             {
                 throw new ArgumentOutOfRangeException("Last name can not be longer than 25 characters.", nameof(value));

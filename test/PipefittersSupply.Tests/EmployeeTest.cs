@@ -7,23 +7,39 @@ namespace PipefittersSupply.Tests
     public class EmployeeTest
     {
         [Fact]
-        public void ShouldCreateValidEmployee()
+        public void ShouldBeEqual()
         {
-            var ee = new Employee(new EmployeeId(1), "Test");
+            var employee1 = new Employee(new EmployeeId(1));
+            var employee2 = new Employee(new EmployeeId(1));
 
-            Assert.NotNull(ee);
-            Assert.Equal("Test", ee.LastName);
+            Assert.Equal(employee1.Id, employee2.Id);
         }
 
         [Fact]
-        public void ShouldBeEqual()
+        public void ShouldReturnEmployeeLastNameAsValueObject()
         {
-            Guid eeID = Guid.NewGuid();
+            var lastName = EmployeeLastName.FromString("Santana");
+            Assert.NotNull(lastName);
+        }
 
-            var employee1 = new Employee(new EmployeeId(1), "Test");
-            var employee2 = new Employee(new EmployeeId(1), "Test");
+        [Fact]
+        public void ShouldRaiseError_EmptyLastNameParameter()
+        {
+            Action action = () => EmployeeLastName.FromString("");
 
-            Assert.Equal(employee1.Id, employee2.Id);
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Equal("The employee last name is required.", caughtException.ParamName);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_LastNameParameterLengthTooLong()
+        {
+            Action action = () => EmployeeLastName.FromString("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+
+            var caughtException = Assert.Throws<ArgumentOutOfRangeException>(action);
+
+            Assert.Equal("Last name can not be longer than 25 characters.", caughtException.ParamName);
         }
     }
 }

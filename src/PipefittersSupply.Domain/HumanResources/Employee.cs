@@ -4,12 +4,11 @@ namespace PipefittersSupply.Domain.HumanResources
     {
         public EmployeeId Id { get; }
 
-        public string LastName { get; }
+        public EmployeeLastName LastName { get; private set; }
 
-        public Employee(EmployeeId id, string lname)
+        public Employee(EmployeeId id)
         {
             Id = id;
-            LastName = lname;
         }
     }
 }
