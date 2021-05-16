@@ -9,12 +9,7 @@ namespace PipefittersSupply.Domain.Common
 
         private AddressLine2(string value)
         {
-            if (string.IsNullOrEmpty(value))
-            {
-                throw new ArgumentNullException("The first address line is required.", nameof(value));
-            }
-
-            if (value.Length > 25)
+            if (value.Length > 30)
             {
                 throw new ArgumentOutOfRangeException("Address line can not be longer than 30 characters.", nameof(value));
             }

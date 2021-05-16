@@ -1,4 +1,5 @@
 using System;
+using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employee;
 using Xunit;
 
@@ -93,6 +94,14 @@ namespace PipefittersSupply.Tests
         }
 
         [Fact]
+        public void ShouldReturnValid_SSN()
+        {
+            var ssn = EmployeeSSN.FromString("123456789");
+
+            Assert.IsType<EmployeeSSN>(ssn);
+        }
+
+        [Fact]
         public void ShouldRaiseError_SSN_BadCharacters()
         {
             Action action = () => EmployeeSSN.FromString("q23457890");
@@ -110,6 +119,96 @@ namespace PipefittersSupply.Tests
             var caughtException = Assert.Throws<ArgumentException>(action);
 
             Assert.Contains("Invalid social security number!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_SSN_EmptyString()
+        {
+            Action action = () => EmployeeSSN.FromString("");
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid social security number!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldAccept_Valid_US_Zipcode_5digits()
+        {
+            var zipcode = Zipcode.FromString("12345");
+
+            Assert.IsType<Zipcode>(zipcode);
+        }
+
+        [Fact]
+        public void ShouldAccept_Valid_US_Zipcode_9digits()
+        {
+            var zipcode = Zipcode.FromString("12345-1234");
+
+            Assert.IsType<Zipcode>(zipcode);
+        }
+
+        [Fact]
+        public void ShouldAccept_Valid_Canadian_Zipcode_Space()
+        {
+            var zipcode = Zipcode.FromString("K1A 0B1");
+
+            Assert.IsType<Zipcode>(zipcode);
+        }
+
+        [Fact]
+        public void ShouldAccept_Valid_Canadian_Zipcode_NoSpace()
+        {
+            var zipcode = Zipcode.FromString("K1A0B1");
+
+            Assert.IsType<Zipcode>(zipcode);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Zipcode_InvalidUsCanada()
+        {
+            Action action = () => Zipcode.FromString("1222");
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid zip code!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldReturnValid_StateProvinceCode()
+        {
+            var stateCode = StateProvinceCode.FromString("Tx");
+
+            Assert.IsType<StateProvinceCode>(stateCode);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_StateProvinceCode_InvalidCharacter()
+        {
+            Action action = () => StateProvinceCode.FromString("T7");
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("The 2-digit state (province) code contains only letters.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_StateProvinceCode_EmptyString()
+        {
+            Action action = () => StateProvinceCode.FromString("");
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The 2-digit state (province) code is required.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_StateProvinceCode_TooLong()
+        {
+            Action action = () => StateProvinceCode.FromString("ABC");
+
+            var caughtException = Assert.Throws<ArgumentOutOfRangeException>(action);
+
+            Assert.Contains("The state (province) code must be 2 characters.", caughtException.Message);
         }
     }
 }
