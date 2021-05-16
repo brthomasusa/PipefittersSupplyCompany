@@ -23,6 +23,15 @@ namespace PipefittersSupply.Tests
         }
 
         [Fact]
+        public void ShouldReturnTrue_LastNamesValueObjects_AreEqual()
+        {
+            var lastName1 = EmployeeFirstName.FromString("Testing");
+            var lastName2 = EmployeeFirstName.FromString("Testing");
+
+            Assert.Equal(lastName1, lastName2);
+        }
+
+        [Fact]
         public void ShouldRaiseError_EmptyLastNameParameter()
         {
             Action action = () => EmployeeLastName.FromString("");
@@ -61,6 +70,26 @@ namespace PipefittersSupply.Tests
 
             // Assert.True(caughtException.Message.Contains("Invalid employee type; employee type can not be negative."));
             Assert.Contains("Invalid employee type; employee type can not be negative.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_MiddleInitial_TooSmall()
+        {
+            Action action = () => EmployeeMiddleInitial.FromString("");
+
+            var caughtException = Assert.Throws<ArgumentOutOfRangeException>(action);
+
+            Assert.Contains("Middle initial is limited to 1 character.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_MiddleInitial_TooLarge()
+        {
+            Action action = () => EmployeeMiddleInitial.FromString("aa");
+
+            var caughtException = Assert.Throws<ArgumentOutOfRangeException>(action);
+
+            Assert.Contains("Middle initial is limited to 1 character.", caughtException.Message);
         }
     }
 }
