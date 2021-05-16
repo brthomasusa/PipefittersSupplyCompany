@@ -210,5 +210,39 @@ namespace PipefittersSupply.Tests
 
             Assert.Contains("The state (province) code must be 2 characters.", caughtException.Message);
         }
+
+        [Fact]
+        public void ShouldReturnValid_Telephone_10Digits_Dashes()
+        {
+            var telephone = Telephone.FromString("555-555-5555");
+
+            Assert.IsType<Telephone>(telephone);
+        }
+
+        [Fact]
+        public void ShouldReturnValid_Telephone_10Digits_FullyFormatted()
+        {
+            var telephone = Telephone.FromString("(555)-555-5555");
+
+            Assert.IsType<Telephone>(telephone);
+        }
+
+        [Fact]
+        public void ShouldReturnValid_Telephone_10Digits_NoDashes()
+        {
+            var telephone = Telephone.FromString("5555555555");
+
+            Assert.IsType<Telephone>(telephone);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Telephone_EmptyString()
+        {
+            Action action = () => Telephone.FromString("");
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The telephone number is required.", caughtException.Message);
+        }
     }
 }
