@@ -91,5 +91,25 @@ namespace PipefittersSupply.Tests
 
             Assert.Contains("Middle initial is limited to 1 character.", caughtException.Message);
         }
+
+        [Fact]
+        public void ShouldRaiseError_SSN_BadCharacters()
+        {
+            Action action = () => EmployeeSSN.FromString("q23457890");
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid social security number!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_SSN_BeginWith9()
+        {
+            Action action = () => EmployeeSSN.FromString("923457890");
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid social security number!", caughtException.Message);
+        }
     }
 }
