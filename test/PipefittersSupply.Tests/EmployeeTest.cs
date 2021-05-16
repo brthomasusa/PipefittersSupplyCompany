@@ -280,5 +280,13 @@ namespace PipefittersSupply.Tests
 
             Assert.Contains("Invalid marital status, valid statues are 'S' and 'M'.", caughtException.Message);
         }
+
+        [Fact]
+        public void ShouldReturnValid_EmployeePayRate()
+        {
+            var payRate = EmployeePayRate.FromDecimal(7.50M);
+
+            Assert.IsType<EmployeePayRate>(payRate);
+        }
     }
 }
