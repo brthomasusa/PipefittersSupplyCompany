@@ -244,5 +244,41 @@ namespace PipefittersSupply.Tests
 
             Assert.Contains("The telephone number is required.", caughtException.Message);
         }
+
+        [Fact]
+        public void ShouldReturnValid_MaritalStatus_UCase()
+        {
+            var status = MaritalStatus.FromString("M");
+
+            Assert.IsType<MaritalStatus>(status);
+        }
+
+        [Fact]
+        public void ShouldReturnValid_MaritalStatus_LCase()
+        {
+            var status = MaritalStatus.FromString("s");
+
+            Assert.IsType<MaritalStatus>(status);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_MaritalStatus_EmptyString()
+        {
+            Action action = () => MaritalStatus.FromString("");
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The marital status is required.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_MaritalStatus_InvalidCharacter()
+        {
+            Action action = () => MaritalStatus.FromString("T");
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid marital status, valid statues are 'S' and 'M'.", caughtException.Message);
+        }
     }
 }
