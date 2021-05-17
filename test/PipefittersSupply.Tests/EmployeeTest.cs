@@ -288,5 +288,43 @@ namespace PipefittersSupply.Tests
 
             Assert.IsType<EmployeePayRate>(payRate);
         }
+
+        [Fact]
+        public void ShouldRaiseError_PayRate_TooLow()
+        {
+            Action action = () => EmployeePayRate.FromDecimal(7.49M);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid pay rate, must be between $7.50 and $40.00 (per hour) inclusive!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_PayRate_TooHigh()
+        {
+            Action action = () => EmployeePayRate.FromDecimal(40.01M);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid pay rate, must be between $7.50 and $40.00 (per hour) inclusive!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldReturnValid_EmployeeStartDate()
+        {
+            var startDate = EmployeeStartDate.FromDateTime(new DateTime(2021, 1, 1));
+
+            Assert.IsType<EmployeeStartDate>(startDate);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_EmployeeStartDate_DefaultDate()
+        {
+            Action action = () => EmployeeStartDate.FromDateTime(new DateTime());
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The employee start date is required.", caughtException.Message);
+        }
     }
 }
