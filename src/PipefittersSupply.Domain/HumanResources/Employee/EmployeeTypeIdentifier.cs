@@ -5,7 +5,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class EmployeeTypeIdentifier
     {
-        private readonly int _value;
+        public int Value { get; }
 
         private EmployeeTypeIdentifier(int value)
         {
@@ -19,8 +19,10 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
                 throw new ArgumentException("Invalid employee type; employee type can not be negative.", nameof(value));
             }
 
-            _value = value;
+            Value = value;
         }
+
+        public static implicit operator int(EmployeeTypeIdentifier self) => self.Value;
 
         public static EmployeeTypeIdentifier FromInterger(int employeeTypeID) => new EmployeeTypeIdentifier(employeeTypeID);
     }

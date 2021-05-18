@@ -5,7 +5,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class EmployeeStartDate : Value<EmployeeStartDate>
     {
-        private readonly DateTime _value;
+        public DateTime Value { get; }
 
         private EmployeeStartDate(DateTime value)
         {
@@ -14,8 +14,10 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
                 throw new ArgumentNullException("The employee start date is required.", nameof(value));
             }
 
-            _value = value;
+            Value = value;
         }
+
+        public static implicit operator DateTime(EmployeeStartDate self) => self.Value;
 
         public static EmployeeStartDate FromDateTime(DateTime startDate) => new EmployeeStartDate(startDate);
     }

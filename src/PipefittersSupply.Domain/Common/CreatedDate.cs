@@ -5,7 +5,7 @@ namespace PipefittersSupply.Domain.Common
 {
     public class CreatedDate : Value<CreatedDate>
     {
-        private readonly DateTime _value;
+        public DateTime Value { get; }
 
         private CreatedDate(DateTime value)
         {
@@ -14,8 +14,10 @@ namespace PipefittersSupply.Domain.Common
                 throw new ArgumentNullException("The employee creation date is required.", nameof(value));
             }
 
-            _value = value;
+            Value = value;
         }
+
+        public static implicit operator DateTime(CreatedDate self) => self.Value;
 
         public static CreatedDate FromDateTime(DateTime createdDate) => new CreatedDate(createdDate);
     }

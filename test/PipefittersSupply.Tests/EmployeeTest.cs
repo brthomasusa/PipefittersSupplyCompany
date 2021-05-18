@@ -8,15 +8,6 @@ namespace PipefittersSupply.Tests
     public class EmployeeTest
     {
         [Fact]
-        public void ShouldBeEqual()
-        {
-            var employee1 = new Employee(new EmployeeId(1));
-            var employee2 = new Employee(new EmployeeId(1));
-
-            Assert.Equal(employee1.Id, employee2.Id);
-        }
-
-        [Fact]
         public void ShouldReturnEmployeeLastNameAsValueObject()
         {
             var lastName = EmployeeLastName.FromString("Santana");

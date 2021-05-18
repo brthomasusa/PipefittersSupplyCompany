@@ -5,7 +5,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class EmployeeLastName : Value<EmployeeLastName>
     {
-        private readonly string _value;
+        public string Value { get; }
 
         private EmployeeLastName(string value)
         {
@@ -19,8 +19,10 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
                 throw new ArgumentOutOfRangeException("Last name can not be longer than 25 characters.", nameof(value));
             }
 
-            _value = value;
+            Value = value;
         }
+
+        public static implicit operator string(EmployeeLastName self) => self.Value;
 
         public static EmployeeLastName FromString(string lastName) => new EmployeeLastName(lastName);
     }

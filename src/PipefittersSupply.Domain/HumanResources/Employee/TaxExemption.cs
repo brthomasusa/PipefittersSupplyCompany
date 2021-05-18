@@ -5,7 +5,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class TaxExemption : Value<TaxExemption>
     {
-        private readonly int _value;
+        public int Value { get; }
 
         private TaxExemption(int value)
         {
@@ -14,8 +14,10 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
                 throw new ArgumentException("Number of exemptions must be zero or greater!", nameof(value));
             }
 
-            _value = value;
+            Value = value;
         }
+
+        public static implicit operator int(TaxExemption self) => self.Value;
 
         public static TaxExemption FromInterger(int exemptions) => new TaxExemption(exemptions);
     }
