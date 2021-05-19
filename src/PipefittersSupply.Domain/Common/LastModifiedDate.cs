@@ -8,15 +8,15 @@ namespace PipefittersSupply.Domain.Common
 
         public DateTime Value { get; }
 
-        internal LastModifiedDate(DateTime value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal LastModifiedDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(LastModifiedDate self) => self.Value;
 
-        public static LastModifiedDate FromDateTime(DateTime modifiedDate) => new LastModifiedDate(modifiedDate);
+        public static LastModifiedDate FromDateTime(DateTime modifiedDate)
+        {
+            CheckValidity(modifiedDate);
+            return new LastModifiedDate(modifiedDate);
+        }
 
         private static void CheckValidity(DateTime endDate)
         {

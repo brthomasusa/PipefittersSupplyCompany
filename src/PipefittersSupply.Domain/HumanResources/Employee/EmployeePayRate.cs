@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
     {
         public decimal Value { get; }
 
-        internal EmployeePayRate(decimal value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal EmployeePayRate(decimal value) => Value = value;
 
         public static implicit operator decimal(EmployeePayRate self) => self.Value;
 
-        public static EmployeePayRate FromDecimal(decimal rate) => new EmployeePayRate(rate);
+        public static EmployeePayRate FromDecimal(decimal rate)
+        {
+            CheckValidity(rate);
+            return new EmployeePayRate(rate);
+        }
 
         private static void CheckValidity(decimal value)
         {

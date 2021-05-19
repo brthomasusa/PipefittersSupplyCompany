@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
     {
         public string Value { get; }
 
-        internal EmployeeLastName(string value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal EmployeeLastName(string value) => Value = value;
 
         public static implicit operator string(EmployeeLastName self) => self.Value;
 
-        public static EmployeeLastName FromString(string lastName) => new EmployeeLastName(lastName);
+        public static EmployeeLastName FromString(string lastName)
+        {
+            CheckValidity(lastName);
+            return new EmployeeLastName(lastName);
+        }
 
         private static void CheckValidity(string value)
         {

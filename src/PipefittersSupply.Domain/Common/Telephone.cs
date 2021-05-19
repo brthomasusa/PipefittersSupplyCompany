@@ -8,15 +8,15 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
-        internal Telephone(string value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal Telephone(string value) => Value = value;
 
         public static implicit operator string(Telephone self) => self.Value;
 
-        public static Telephone FromString(string phone) => new Telephone(phone);
+        public static Telephone FromString(string phone)
+        {
+            CheckValidity(phone);
+            return new Telephone(phone);
+        }
 
         private static void CheckValidity(string value)
         {

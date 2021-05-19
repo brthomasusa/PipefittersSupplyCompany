@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
     {
         public int Value { get; }
 
-        internal EmployeeTypeIdentifier(int value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal EmployeeTypeIdentifier(int value) => Value = value;
 
         public static implicit operator int(EmployeeTypeIdentifier self) => self.Value;
 
-        public static EmployeeTypeIdentifier FromInterger(int employeeTypeID) => new EmployeeTypeIdentifier(employeeTypeID);
+        public static EmployeeTypeIdentifier FromInterger(int employeeTypeID)
+        {
+            CheckValidity(employeeTypeID);
+            return new EmployeeTypeIdentifier(employeeTypeID);
+        }
 
         private static void CheckValidity(int value)
         {

@@ -8,15 +8,15 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
     {
         public string Value { get; }
 
-        internal EmployeeSSN(string value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal EmployeeSSN(string value) => Value = value;
 
         public static implicit operator string(EmployeeSSN self) => self.Value;
 
-        public static EmployeeSSN FromString(string ssn) => new EmployeeSSN(ssn);
+        public static EmployeeSSN FromString(string ssn)
+        {
+            CheckValidity(ssn);
+            return new EmployeeSSN(ssn);
+        }
 
         private static void CheckValidity(string value)
         {

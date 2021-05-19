@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.Common
     {
         public DateTime Value { get; }
 
-        internal CreatedDate(DateTime value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal CreatedDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(CreatedDate self) => self.Value;
 
-        public static CreatedDate FromDateTime(DateTime createdDate) => new CreatedDate(createdDate);
+        public static CreatedDate FromDateTime(DateTime createdDate)
+        {
+            CheckValidity(createdDate);
+            return new CreatedDate(createdDate);
+        }
 
         private static void CheckValidity(DateTime endDate)
         {

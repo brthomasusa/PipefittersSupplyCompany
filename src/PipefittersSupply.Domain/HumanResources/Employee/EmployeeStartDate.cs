@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
     {
         public DateTime Value { get; }
 
-        internal EmployeeStartDate(DateTime value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal EmployeeStartDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(EmployeeStartDate self) => self.Value;
 
-        public static EmployeeStartDate FromDateTime(DateTime startDate) => new EmployeeStartDate(startDate);
+        public static EmployeeStartDate FromDateTime(DateTime startDate)
+        {
+            CheckValidity(startDate);
+            return new EmployeeStartDate(startDate);
+        }
 
         private static void CheckValidity(DateTime value)
         {

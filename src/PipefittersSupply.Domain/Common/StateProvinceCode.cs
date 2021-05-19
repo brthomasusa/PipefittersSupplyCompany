@@ -8,15 +8,15 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
-        internal StateProvinceCode(string value)
-        {
-            CheckValidity(value);
-            Value = value.ToUpper();
-        }
+        internal StateProvinceCode(string value) => Value = value.ToUpper();
 
         public static implicit operator string(StateProvinceCode self) => self.Value;
 
-        public static StateProvinceCode FromString(string stateCode) => new StateProvinceCode(stateCode);
+        public static StateProvinceCode FromString(string stateCode)
+        {
+            CheckValidity(stateCode);
+            return new StateProvinceCode(stateCode);
+        }
 
         private static void CheckValidity(string value)
         {

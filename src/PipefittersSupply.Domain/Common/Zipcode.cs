@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.Common
     public class Zipcode : Value<Zipcode>
     {
         public string Value { get; }
-        internal Zipcode(string value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal Zipcode(string value) => Value = value;
 
         public static implicit operator string(Zipcode self) => self.Value;
 
-        public static Zipcode FromString(string zipcode) => new Zipcode(zipcode);
+        public static Zipcode FromString(string zipcode)
+        {
+            CheckValidity(zipcode);
+            return new Zipcode(zipcode);
+        }
 
         private static void CheckValidity(string value)
         {

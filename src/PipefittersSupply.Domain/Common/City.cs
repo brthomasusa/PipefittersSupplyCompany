@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
-        internal City(string value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal City(string value) => Value = value;
 
         public static implicit operator string(City self) => self.Value;
 
-        public static City FromString(string city) => new City(city);
+        public static City FromString(string city)
+        {
+            CheckValidity(city);
+            return new City(city);
+        }
 
         private static void CheckValidity(string value)
         {

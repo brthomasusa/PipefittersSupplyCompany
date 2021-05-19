@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
-        internal AddressLine1(string value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal AddressLine1(string value) => Value = value;
 
         public static implicit operator string(AddressLine1 self) => self.Value;
 
-        public static AddressLine1 FromString(string address) => new AddressLine1(address);
+        public static AddressLine1 FromString(string address)
+        {
+            CheckValidity(address);
+            return new AddressLine1(address);
+        }
 
         private static void CheckValidity(string value)
         {

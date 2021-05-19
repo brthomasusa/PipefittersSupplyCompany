@@ -7,15 +7,15 @@ namespace PipefittersSupply.Domain.Common
     {
         public bool Value { get; }
 
-        internal IsActive(bool value)
-        {
-            CheckValidity(value);
-            Value = value;
-        }
+        internal IsActive(bool value) => Value = value;
 
         public static implicit operator bool(IsActive self) => self.Value;
 
-        public static IsActive FromBoolean(bool status) => new IsActive(status);
+        public static IsActive FromBoolean(bool status)
+        {
+            CheckValidity(status);
+            return new IsActive(status);
+        }
 
         private static void CheckValidity(bool value)
         {
