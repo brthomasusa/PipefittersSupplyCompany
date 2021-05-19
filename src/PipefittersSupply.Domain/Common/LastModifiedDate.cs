@@ -6,13 +6,24 @@ namespace PipefittersSupply.Domain.Common
     public class LastModifiedDate : Value<LastModifiedDate>
     {
 
-        private readonly DateTime _value;
+        public DateTime Value { get; }
 
-        private LastModifiedDate(DateTime value)
+        internal LastModifiedDate(DateTime value)
         {
-            _value = value;
+            CheckValidity(value);
+            Value = value;
         }
 
+        public static implicit operator DateTime(LastModifiedDate self) => self.Value;
+
         public static LastModifiedDate FromDateTime(DateTime modifiedDate) => new LastModifiedDate(modifiedDate);
+
+        private static void CheckValidity(DateTime endDate)
+        {
+            if (endDate == default)
+            {
+                throw new ArgumentNullException("The last modified date, if set, can not be null.", nameof(endDate));
+            }
+        }
     }
 }

@@ -39,7 +39,8 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCard
             SupervisorId = supervisorID,
             PayPeriodEnded = periodEndDate,
             RegularHours = regularHrs,
-            OvertimeHours = overtime
+            OvertimeHours = overtime,
+            CreatedDate = DateTime.Now
         });
 
         protected override void EnsureValidState()
@@ -63,6 +64,7 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCard
                     PayPeriodEnded = new PayPeriodEndDate(evt.PayPeriodEnded);
                     RegularHours = new RegularHours(evt.RegularHours);
                     OvertimeHours = new OvertimeHours(evt.OvertimeHours);
+                    CreatedDate = new CreatedDate(evt.CreatedDate);
                     break;
             }
         }
