@@ -1,36 +1,71 @@
 using System;
 using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employee;
 
 namespace PipefittersSupply.Domain.HumanResources.TimeCard
 {
-    public class TimeCard : Value<TimeCard>
+    public class TimeCard : Entity<TimeCardId>
     {
-        private EmployeeId _employeeId;
-        private SupervisorId _supervisorId;
-        private DateTime _payPeriodEnded;
-        private int _regularHours;
-        private int _overtimeHours;
-        private DateTime _createdDate;
-        private DateTime _lastModifiedDate;
         public TimeCardId Id { get; private set; }
 
+        public EmployeeId EmployeeId { get; private set; }
 
-        public TimeCard(TimeCardId id, EmployeeId employeeID, SupervisorId supervisorID)
+        public EmployeeId SupervisorId { get; private set; }
+
+        public PayPeriodEndDate PayPeriodEnded { get; private set; }
+
+        public RegularHours RegularHours { get; private set; }
+
+        public OvertimeHours OvertimeHours { get; private set; }
+
+        public CreatedDate CreatedDate { get; private set; }
+
+        public LastModifiedDate LastModifiedDate { get; private set; }
+
+        public TimeCard
+        (
+            TimeCardId id,
+            EmployeeId employeeID,
+            EmployeeId supervisorID,
+            PayPeriodEndDate periodEndDate,
+            RegularHours regularHrs,
+            OvertimeHours overtime
+        ) =>
+        Apply(new Events.TimeCardCreated
         {
-            Id = id;
-            _employeeId = employeeID;
-            _supervisorId = supervisorID;
+            Id = id,
+            EmployeeId = employeeID,
+            SupervisorId = supervisorID,
+            PayPeriodEnded = periodEndDate,
+            RegularHours = regularHrs,
+            OvertimeHours = overtime
+        });
+
+        protected override void EnsureValidState()
+        {
+            var valid = Id != null && EmployeeId != null && SupervisorId != null;
+
+            if (!valid)
+            {
+                throw new InvalidEntityStateException(this, "Post-checks failed!");
+            }
         }
 
-        public void UpdatePayPeriodEnded(DateTime periodEnded) => _payPeriodEnded = periodEnded;
+        protected override void When(object @event)
+        {
+            switch (@event)
+            {
+                case Events.TimeCardCreated evt:
+                    Id = new TimeCardId(evt.Id);
+                    EmployeeId = new EmployeeId(evt.EmployeeId);
+                    SupervisorId = new EmployeeId(evt.SupervisorId);
+                    PayPeriodEnded = new PayPeriodEndDate(evt.PayPeriodEnded);
+                    RegularHours = new RegularHours(evt.RegularHours);
+                    OvertimeHours = new OvertimeHours(evt.OvertimeHours);
+                    break;
+            }
+        }
 
-        public void UpdateRegularHours(int hrs) => _regularHours = hrs;
-
-        public void UpdateOvertimeHours(int hrs) => _overtimeHours = hrs;
-
-        public void UpdateCreatedDate(DateTime createdDate) => _createdDate = createdDate;
-
-        public void UpdateLastModifiedDate(DateTime lastModified) => _lastModifiedDate = lastModified;
     }
 }
