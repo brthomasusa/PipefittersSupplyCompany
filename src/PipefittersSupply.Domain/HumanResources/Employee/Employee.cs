@@ -23,8 +23,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
             TaxExemption exemptions,
             EmployeePayRate payRate,
             EmployeeStartDate startDate,
-            IsActive isActive,
-            CreatedDate createdDate
+            IsActive isActive
         ) =>
         Apply(new Events.EmployeeCreated
         {
@@ -45,7 +44,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
             PayRate = payRate,
             StartDate = startDate,
             IsActive = isActive,
-            CreatedDate = createdDate
+            CreatedDate = DateTime.Now
         });
 
 
@@ -128,6 +127,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
                     PayRate = new EmployeePayRate(evt.PayRate);
                     StartDate = new EmployeeStartDate(evt.StartDate);
                     IsActive = new IsActive(evt.IsActive);
+                    CreatedDate = new CreatedDate(evt.CreatedDate);
                     break;
             }
         }

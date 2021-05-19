@@ -8,6 +8,56 @@ namespace PipefittersSupply.Tests
     public class EmployeeTest
     {
         [Fact]
+        public void ShouldReturnValid_Employee_UsingCtor()
+        {
+            var hireDate = new DateTime(2018, 6, 17);
+            var eeID = new EmployeeId(1);
+            var eeTypeID = EmployeeTypeIdentifier.FromInterger(3);
+            var lname = EmployeeLastName.FromString("Pimp");
+            var fname = EmployeeFirstName.FromString("Big");
+            var mi = EmployeeMiddleInitial.FromString("P");
+            var ssn = EmployeeSSN.FromString("587887964");
+            var line1 = AddressLine1.FromString("123 Main Street");
+            var line2 = AddressLine2.FromString("Apt 2");
+            var city = City.FromString("Somewhere");
+            var stateCode = StateProvinceCode.FromString("TX");
+            var zipcode = Zipcode.FromString("75654");
+            var phone = Telephone.FromString("555-555-5555");
+            var maritalStatus = MaritalStatus.FromString("M");
+            var exempt = TaxExemption.FromInterger(5);
+            var payRate = EmployeePayRate.FromDecimal(25.00M);
+            var startDate = EmployeeStartDate.FromDateTime(hireDate);
+            var isActive = IsActive.FromBoolean(true);
+
+            var employee = new Employee
+            (
+                eeID, eeTypeID, lname, fname, mi, ssn, line1, line2, city, stateCode,
+                zipcode, phone, maritalStatus, exempt, payRate, startDate, isActive
+            );
+
+            Assert.IsType<Employee>(employee);
+            Assert.Equal(1, employee.Id);
+            Assert.Equal(3, employee.EmployeeTypeId);
+            Assert.Equal("Pimp", employee.LastName);
+            Assert.Equal("Big", employee.FirstName);
+            Assert.Equal("P", employee.MiddleInitial);
+            Assert.Equal("587887964", employee.SSN);
+            Assert.Equal("123 Main Street", employee.AddressLine1);
+            Assert.Equal("Apt 2", employee.AddressLine2);
+            Assert.Equal("Somewhere", employee.City);
+            Assert.Equal("TX", employee.State);
+            Assert.Equal("75654", employee.Zipcode);
+            Assert.Equal("555-555-5555", employee.Telephone);
+            Assert.Equal("M", employee.MaritalStatus);
+            Assert.Equal(5, employee.Exemptions);
+            Assert.Equal(25.00M, employee.PayRate);
+            Assert.Equal(hireDate, employee.StartDate);
+            Assert.True(employee.IsActive);
+            Assert.NotNull(employee.CreatedDate);
+            Assert.NotEqual(default(DateTime), employee.CreatedDate);
+        }
+
+        [Fact]
         public void ShouldReturnEmployeeLastNameAsValueObject()
         {
             var lastName = EmployeeLastName.FromString("Santana");

@@ -41,7 +41,7 @@ namespace PipefittersSupply.Tests
         }
 
         [Fact]
-        public void ShouldGet_TimeCard_PayPeriodEndDate_ValueObjComparision()
+        public void ShouldReturn_TimeCard_PayPeriodEndDate_ValueObjComparision()
         {
             var periodEndDate = new DateTime(2021, 1, 31);
             var endDate = PayPeriodEndDate.FromDateTime(periodEndDate);
@@ -53,6 +53,62 @@ namespace PipefittersSupply.Tests
             Assert.Equal(periodEndDate, endDate);
         }
 
+        [Fact]
+        public void ShouldReturnValid_RegularHours()
+        {
+            var hours = RegularHours.FromInterger(168);
 
+            Assert.IsType<RegularHours>(hours);
+            Assert.Equal(168, hours);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_RegularHours_TooLarge()
+        {
+            Action action = () => RegularHours.FromInterger(200);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Regular hours must be between 0 and 185 hours.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_RegularHours_Negative()
+        {
+            Action action = () => RegularHours.FromInterger(-1);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Regular hours must be between 0 and 185 hours.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldReturnValid_OvertimeHours()
+        {
+            var hours = OvertimeHours.FromInterger(50);
+
+            Assert.IsType<OvertimeHours>(hours);
+            Assert.Equal(50, hours);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_OvertimeHours_TooLarge()
+        {
+            Action action = () => OvertimeHours.FromInterger(202);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Overtime hours must be between 0 and 201 hours.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_OvertimeHours_Negative()
+        {
+            Action action = () => OvertimeHours.FromInterger(-1);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Overtime hours must be between 0 and 201 hours.", caughtException.Message);
+        }
     }
 }
