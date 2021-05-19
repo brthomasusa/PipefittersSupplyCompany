@@ -5,18 +5,24 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class EmployeePayRate : Value<EmployeePayRate>
     {
-        private readonly decimal _value;
+        public decimal Value { get; }
 
-        private EmployeePayRate(decimal value)
+        internal EmployeePayRate(decimal value)
+        {
+            CheckValidity(value);
+            Value = value;
+        }
+
+        public static implicit operator decimal(EmployeePayRate self) => self.Value;
+
+        public static EmployeePayRate FromDecimal(decimal rate) => new EmployeePayRate(rate);
+
+        private static void CheckValidity(decimal value)
         {
             if (value < 7.50M || value > 40.00M)
             {
                 throw new ArgumentException("Invalid pay rate, must be between $7.50 and $40.00 (per hour) inclusive!", nameof(value));
             }
-
-            _value = value;
         }
-
-        public static EmployeePayRate FromDecimal(decimal rate) => new EmployeePayRate(rate);
     }
 }

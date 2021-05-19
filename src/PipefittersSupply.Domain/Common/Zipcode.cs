@@ -6,9 +6,18 @@ namespace PipefittersSupply.Domain.Common
 {
     public class Zipcode : Value<Zipcode>
     {
-        private readonly string _value;
+        public string Value { get; }
+        internal Zipcode(string value)
+        {
+            CheckValidity(value);
+            Value = value;
+        }
 
-        private Zipcode(string value)
+        public static implicit operator string(Zipcode self) => self.Value;
+
+        public static Zipcode FromString(string zipcode) => new Zipcode(zipcode);
+
+        private static void CheckValidity(string value)
         {
             var usZipRegEx = @"^\d{5}(?:[-\s]\d{4})?$";
             var caZipRegEx = @"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$";
@@ -17,10 +26,6 @@ namespace PipefittersSupply.Domain.Common
             {
                 throw new ArgumentException("Invalid zip code!", nameof(value));
             }
-
-            _value = value;
         }
-
-        public static Zipcode FromString(string zipcode) => new Zipcode(zipcode);
     }
 }

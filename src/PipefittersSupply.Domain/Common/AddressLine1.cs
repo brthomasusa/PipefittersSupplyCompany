@@ -5,9 +5,19 @@ namespace PipefittersSupply.Domain.Common
 {
     public class AddressLine1 : Value<AddressLine1>
     {
-        private readonly string _value;
+        public string Value { get; }
 
-        private AddressLine1(string value)
+        internal AddressLine1(string value)
+        {
+            CheckValidity(value);
+            Value = value;
+        }
+
+        public static implicit operator string(AddressLine1 self) => self.Value;
+
+        public static AddressLine1 FromString(string address) => new AddressLine1(address);
+
+        private static void CheckValidity(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -18,10 +28,6 @@ namespace PipefittersSupply.Domain.Common
             {
                 throw new ArgumentOutOfRangeException("Address line can not be longer than 30 characters.", nameof(value));
             }
-
-            _value = value;
         }
-
-        public static AddressLine1 FromString(string address) => new AddressLine1(address);
     }
 }

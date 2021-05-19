@@ -5,23 +5,29 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 {
     public class EmployeeFirstName : Value<EmployeeFirstName>
     {
-        private readonly string _value;
+        public string Value { get; }
 
-        private EmployeeFirstName(string value)
+        internal EmployeeFirstName(string value)
+        {
+            CheckValidity(value);
+            Value = value;
+        }
+
+        public static implicit operator string(EmployeeFirstName self) => self.Value;
+
+        public static EmployeeFirstName FromString(string firstName) => new EmployeeFirstName(firstName);
+
+        private static void CheckValidity(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
-                throw new ArgumentNullException("The employee first name is required.", nameof(value));
+                throw new ArgumentNullException("The employee last name is required.", nameof(value));
             }
 
             if (value.Length > 25)
             {
-                throw new ArgumentOutOfRangeException("First name can not be longer than 25 characters.", nameof(value));
+                throw new ArgumentOutOfRangeException("Last name can not be longer than 25 characters.", nameof(value));
             }
-
-            _value = value;
         }
-
-        public static EmployeeFirstName FromString(string firstName) => new EmployeeFirstName(firstName);
     }
 }

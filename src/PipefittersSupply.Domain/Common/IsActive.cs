@@ -5,13 +5,21 @@ namespace PipefittersSupply.Domain.Common
 {
     public class IsActive : Value<IsActive>
     {
-        private readonly bool _isActive;
+        public bool Value { get; }
 
-        private IsActive(bool value)
+        internal IsActive(bool value)
         {
-            _isActive = value;
+            CheckValidity(value);
+            Value = value;
         }
 
+        public static implicit operator bool(IsActive self) => self.Value;
+
         public static IsActive FromBoolean(bool status) => new IsActive(status);
+
+        private static void CheckValidity(bool value)
+        {
+
+        }
     }
 }

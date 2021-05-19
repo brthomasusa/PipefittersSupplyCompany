@@ -5,9 +5,19 @@ namespace PipefittersSupply.Domain.Common
 {
     public class City : Value<City>
     {
-        private readonly string _value;
+        public string Value { get; }
 
-        private City(string value)
+        internal City(string value)
+        {
+            CheckValidity(value);
+            Value = value;
+        }
+
+        public static implicit operator string(City self) => self.Value;
+
+        public static City FromString(string city) => new City(city);
+
+        private static void CheckValidity(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -18,10 +28,6 @@ namespace PipefittersSupply.Domain.Common
             {
                 throw new ArgumentOutOfRangeException("City name can not be longer than 30 characters.", nameof(value));
             }
-
-            _value = value;
         }
-
-        public static City FromString(string city) => new City(city);
     }
 }

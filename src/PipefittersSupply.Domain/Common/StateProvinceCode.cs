@@ -6,9 +6,19 @@ namespace PipefittersSupply.Domain.Common
 {
     public class StateProvinceCode : Value<StateProvinceCode>
     {
-        private readonly string _value;
+        public string Value { get; }
 
-        private StateProvinceCode(string value)
+        internal StateProvinceCode(string value)
+        {
+            CheckValidity(value);
+            Value = value.ToUpper();
+        }
+
+        public static implicit operator string(StateProvinceCode self) => self.Value;
+
+        public static StateProvinceCode FromString(string stateCode) => new StateProvinceCode(stateCode);
+
+        private static void CheckValidity(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -24,10 +34,6 @@ namespace PipefittersSupply.Domain.Common
             {
                 throw new ArgumentOutOfRangeException("The state (province) code must be 2 characters.", nameof(value));
             }
-
-            _value = value.ToUpper();
         }
-
-        public static StateProvinceCode FromString(string stateCode) => new StateProvinceCode(stateCode);
     }
 }

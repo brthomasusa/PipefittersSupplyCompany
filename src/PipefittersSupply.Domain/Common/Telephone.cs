@@ -6,9 +6,19 @@ namespace PipefittersSupply.Domain.Common
 {
     public class Telephone : Value<Telephone>
     {
-        private readonly string _value;
+        public string Value { get; }
 
-        private Telephone(string value)
+        internal Telephone(string value)
+        {
+            CheckValidity(value);
+            Value = value;
+        }
+
+        public static implicit operator string(Telephone self) => self.Value;
+
+        public static Telephone FromString(string phone) => new Telephone(phone);
+
+        private static void CheckValidity(string value)
         {
             string rgTelephone = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
 
@@ -21,10 +31,6 @@ namespace PipefittersSupply.Domain.Common
             {
                 throw new ArgumentException("Invalid telephone number!", nameof(value));
             }
-
-            _value = value;
         }
-
-        public static Telephone FromString(string phone) => new Telephone(phone);
     }
 }

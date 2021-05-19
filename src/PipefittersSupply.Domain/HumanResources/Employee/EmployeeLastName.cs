@@ -7,7 +7,17 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
     {
         public string Value { get; }
 
-        private EmployeeLastName(string value)
+        internal EmployeeLastName(string value)
+        {
+            CheckValidity(value);
+            Value = value;
+        }
+
+        public static implicit operator string(EmployeeLastName self) => self.Value;
+
+        public static EmployeeLastName FromString(string lastName) => new EmployeeLastName(lastName);
+
+        private static void CheckValidity(string value)
         {
             if (string.IsNullOrEmpty(value))
             {
@@ -18,12 +28,6 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
             {
                 throw new ArgumentOutOfRangeException("Last name can not be longer than 25 characters.", nameof(value));
             }
-
-            Value = value;
         }
-
-        public static implicit operator string(EmployeeLastName self) => self.Value;
-
-        public static EmployeeLastName FromString(string lastName) => new EmployeeLastName(lastName);
     }
 }

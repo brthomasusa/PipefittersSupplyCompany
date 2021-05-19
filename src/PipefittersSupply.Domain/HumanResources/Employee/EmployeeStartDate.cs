@@ -7,18 +7,22 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
     {
         public DateTime Value { get; }
 
-        private EmployeeStartDate(DateTime value)
+        internal EmployeeStartDate(DateTime value)
         {
-            if (value == default)
-            {
-                throw new ArgumentNullException("The employee start date is required.", nameof(value));
-            }
-
+            CheckValidity(value);
             Value = value;
         }
 
         public static implicit operator DateTime(EmployeeStartDate self) => self.Value;
 
         public static EmployeeStartDate FromDateTime(DateTime startDate) => new EmployeeStartDate(startDate);
+
+        private static void CheckValidity(DateTime value)
+        {
+            if (value == default)
+            {
+                throw new ArgumentNullException("The employee start date is required.", nameof(value));
+            }
+        }
     }
 }

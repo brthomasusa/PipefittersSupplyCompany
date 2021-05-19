@@ -30,27 +30,26 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
         {
             Id = id,
             EmployeeTypeId = employeeTypeId,
-            LastName = lname
-
-
-            // public string FirstName { get; set; }
-            // public string MiddleInitial { get; set; }
-            // public string SSN { get; set; }
-            // public string AddressLine1 { get; set; }
-            // public string AddressLine2 { get; set; }
-            // public string City { get; set; }
-            // public string StateProvinceCode { get; set; }
-            // public string Zipcode { get; set; }
-            // public string Telephone { get; set; }
-            // public string MaritalStatus { get; set; }
-            // public int Exemptions { get; set; }
-            // public decimal PayRate { get; set; }
-            // public DateTime StartDate { get; set; }
-            // public DateTime CreatedDate { get; set; }            
+            LastName = lname,
+            FirstName = fname,
+            MiddleInitial = mi,
+            SSN = ssn,
+            AddressLine1 = line1,
+            AddressLine2 = line2,
+            City = city,
+            StateProvinceCode = stateProvince,
+            Zipcode = zipcode,
+            Telephone = telephone,
+            MaritalStatus = maritalStatus,
+            Exemptions = exemptions,
+            PayRate = payRate,
+            StartDate = startDate,
+            IsActive = isActive,
+            CreatedDate = createdDate
         });
 
 
-        public EmployeeId Id { get; }
+        public EmployeeId Id { get; private set; }
 
         public EmployeeTypeIdentifier EmployeeTypeId { get; private set; }
 
@@ -70,7 +69,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 
         public AddressLine2 AddressLine2 { get; private set; }
 
-        public City City { get; set; }
+        public City City { get; private set; }
 
         public StateProvinceCode State { get; private set; }
 
@@ -99,12 +98,38 @@ namespace PipefittersSupply.Domain.HumanResources.Employee
 
         protected override void EnsureValidState()
         {
-            throw new System.NotImplementedException();
+            var valid = Id != null && EmployeeTypeId != null;
+
+            if (!valid)
+            {
+                throw new InvalidEntityStateException(this, "Post-checks failed!");
+            }
         }
 
         protected override void When(object @event)
         {
-            throw new System.NotImplementedException();
+            switch (@event)
+            {
+                case Events.EmployeeCreated evt:
+                    Id = new EmployeeId(evt.Id);
+                    EmployeeTypeId = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
+                    LastName = new EmployeeLastName(evt.LastName);
+                    FirstName = new EmployeeFirstName(evt.FirstName);
+                    MiddleInitial = new EmployeeMiddleInitial(evt.MiddleInitial);
+                    SSN = new EmployeeSSN(evt.SSN);
+                    AddressLine1 = new AddressLine1(evt.AddressLine1);
+                    AddressLine2 = new AddressLine2(evt.AddressLine2);
+                    City = new City(evt.City);
+                    State = new StateProvinceCode(evt.StateProvinceCode);
+                    Zipcode = new Zipcode(evt.Zipcode);
+                    Telephone = new Telephone(evt.Telephone);
+                    MaritalStatus = new MaritalStatus(evt.MaritalStatus);
+                    Exemptions = new TaxExemption(evt.Exemptions);
+                    PayRate = new EmployeePayRate(evt.PayRate);
+                    StartDate = new EmployeeStartDate(evt.StartDate);
+                    IsActive = new IsActive(evt.IsActive);
+                    break;
+            }
         }
     }
 }
