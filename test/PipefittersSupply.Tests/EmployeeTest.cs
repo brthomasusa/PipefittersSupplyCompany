@@ -1,12 +1,16 @@
 using System;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employee;
+using PipefittersSupply.Domain.Lookup;
+using PipefittersSupply.Tests;
 using Xunit;
 
 namespace PipefittersSupply.Tests
 {
     public class EmployeeTest
     {
+        private readonly IStateProvinceLookup _stateProvinceLookup = new MockStateProvinceCodeLookup();
+
         [Fact]
         public void ShouldReturnValid_Employee_UsingCtor()
         {
@@ -20,7 +24,7 @@ namespace PipefittersSupply.Tests
             var line1 = AddressLine1.FromString("123 Main Street");
             var line2 = AddressLine2.FromString("Apt 2");
             var city = City.FromString("Somewhere");
-            var stateCode = StateProvinceCode.FromString("TX");
+            var stateCode = StateProvinceCode.FromString("TX", _stateProvinceLookup);
             var zipcode = Zipcode.FromString("75654");
             var phone = Telephone.FromString("555-555-5555");
             var maritalStatus = MaritalStatus.FromString("M");
@@ -217,7 +221,7 @@ namespace PipefittersSupply.Tests
         [Fact]
         public void ShouldReturnValid_StateProvinceCode()
         {
-            var stateCode = StateProvinceCode.FromString("Tx");
+            var stateCode = StateProvinceCode.FromString("Tx", _stateProvinceLookup);
 
             Assert.IsType<StateProvinceCode>(stateCode);
         }
@@ -225,17 +229,17 @@ namespace PipefittersSupply.Tests
         [Fact]
         public void ShouldRaiseError_StateProvinceCode_InvalidCharacter()
         {
-            Action action = () => StateProvinceCode.FromString("T7");
+            Action action = () => StateProvinceCode.FromString("T7", _stateProvinceLookup);
 
             var caughtException = Assert.Throws<ArgumentException>(action);
 
-            Assert.Contains("The 2-digit state (province) code contains only letters.", caughtException.Message);
+            Assert.Contains("The 2-digit state (province) code is invalid.", caughtException.Message);
         }
 
         [Fact]
         public void ShouldRaiseError_StateProvinceCode_EmptyString()
         {
-            Action action = () => StateProvinceCode.FromString("");
+            Action action = () => StateProvinceCode.FromString("", _stateProvinceLookup);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
@@ -245,11 +249,21 @@ namespace PipefittersSupply.Tests
         [Fact]
         public void ShouldRaiseError_StateProvinceCode_TooLong()
         {
-            Action action = () => StateProvinceCode.FromString("ABC");
+            Action action = () => StateProvinceCode.FromString("ABC", _stateProvinceLookup);
 
-            var caughtException = Assert.Throws<ArgumentOutOfRangeException>(action);
+            var caughtException = Assert.Throws<ArgumentException>(action);
 
-            Assert.Contains("The state (province) code must be 2 characters.", caughtException.Message);
+            Assert.Contains("The 2-digit state (province) code is invalid.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_StateProvinceCode_TooShort()
+        {
+            Action action = () => StateProvinceCode.FromString("A", _stateProvinceLookup);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("The 2-digit state (province) code is invalid.", caughtException.Message);
         }
 
         [Fact]
