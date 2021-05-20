@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using PipefittersSupply.Domain.HumanResources.TimeCard;
+using PipefittersSupply.Domain.HumanResources.TimeCards;
 
 namespace PipefittersSupply.Domain.Repository
 {

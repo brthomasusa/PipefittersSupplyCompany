@@ -1,9 +1,9 @@
 using System;
 using PipefittersSupply.Framework;
 using PipefittersSupply.Domain.Common;
-using PipefittersSupply.Domain.HumanResources.Employee;
+using PipefittersSupply.Domain.HumanResources.Employees;
 
-namespace PipefittersSupply.Domain.HumanResources.TimeCard
+namespace PipefittersSupply.Domain.HumanResources.TimeCards
 {
     public class TimeCard : Entity<TimeCardId>
     {

@@ -2,7 +2,7 @@ using System;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Framework;
 
-namespace PipefittersSupply.Domain.HumanResources.Employee
+namespace PipefittersSupply.Domain.HumanResources.Employees
 {
     public class Employee : Entity<EmployeeId>
     {

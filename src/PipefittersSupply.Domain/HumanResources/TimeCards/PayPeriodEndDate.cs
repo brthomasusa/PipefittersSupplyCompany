@@ -1,7 +1,7 @@
 using System;
 using PipefittersSupply.Framework;
 
-namespace PipefittersSupply.Domain.HumanResources.TimeCard
+namespace PipefittersSupply.Domain.HumanResources.TimeCards
 {
     public class PayPeriodEndDate : Value<PayPeriodEndDate>
     {

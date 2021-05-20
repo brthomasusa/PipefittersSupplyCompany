@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Domain.HumanResources.TimeCard
+namespace PipefittersSupply.Domain.HumanResources.TimeCards
 {
     public static class Events
     {

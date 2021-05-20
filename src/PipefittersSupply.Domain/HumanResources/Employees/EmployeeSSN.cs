@@ -2,7 +2,7 @@ using System;
 using System.Text.RegularExpressions;
 using PipefittersSupply.Framework;
 
-namespace PipefittersSupply.Domain.HumanResources.Employee
+namespace PipefittersSupply.Domain.HumanResources.Employees
 {
     public class EmployeeSSN : Value<EmployeeSSN>
     {

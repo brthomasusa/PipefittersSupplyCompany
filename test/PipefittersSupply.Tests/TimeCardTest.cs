@@ -1,7 +1,7 @@
 using System;
 using PipefittersSupply.Domain.Common;
-using PipefittersSupply.Domain.HumanResources.Employee;
-using PipefittersSupply.Domain.HumanResources.TimeCard;
+using PipefittersSupply.Domain.HumanResources.Employees;
+using PipefittersSupply.Domain.HumanResources.TimeCards;
 using Xunit;
 
 namespace PipefittersSupply.Tests

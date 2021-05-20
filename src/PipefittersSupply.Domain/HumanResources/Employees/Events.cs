@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Domain.HumanResources.Employee
+namespace PipefittersSupply.Domain.HumanResources.Employees
 {
     public static class Events
     {

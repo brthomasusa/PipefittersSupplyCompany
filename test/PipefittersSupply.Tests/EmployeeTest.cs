@@ -1,6 +1,6 @@
 using System;
 using PipefittersSupply.Domain.Common;
-using PipefittersSupply.Domain.HumanResources.Employee;
+using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Lookup;
 using Xunit;
 

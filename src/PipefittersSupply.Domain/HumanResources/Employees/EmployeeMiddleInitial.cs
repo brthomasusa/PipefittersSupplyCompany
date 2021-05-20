@@ -1,7 +1,7 @@
 using System;
 using PipefittersSupply.Framework;
 
-namespace PipefittersSupply.Domain.HumanResources.Employee
+namespace PipefittersSupply.Domain.HumanResources.Employees
 {
     public class EmployeeMiddleInitial : Value<EmployeeMiddleInitial>
     {

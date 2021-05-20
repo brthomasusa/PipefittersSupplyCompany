@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using PipefittersSupply.Domain.HumanResources.Employee;
+using PipefittersSupply.Domain.HumanResources.Employees;
 
 namespace PipefittersSupply.Domain.Repository
 {
