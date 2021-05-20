@@ -2,7 +2,6 @@ using System;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employee;
 using PipefittersSupply.Domain.Lookup;
-using PipefittersSupply.Tests;
 using Xunit;
 
 namespace PipefittersSupply.Tests
