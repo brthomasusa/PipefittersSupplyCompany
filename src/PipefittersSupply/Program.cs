@@ -1,26 +1,35 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.IO;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.DependencyInjection;
+using static System.Environment;
+using static System.Reflection.Assembly;
 
 namespace PipefittersSupply
 {
-    public class Program
+    public static class Program
     {
+        static Program() =>
+            CurrentDirectory = Path.GetDirectoryName(GetEntryAssembly().Location);
+
         public static void Main(string[] args)
         {
-            CreateHostBuilder(args).Build().Run();
+            var configuration = BuildConfiguration(args);
+
+            ConfigureWebHost(configuration).Build().Run();
         }
 
-        public static IHostBuilder CreateHostBuilder(string[] args) =>
-            Host.CreateDefaultBuilder(args)
-                .ConfigureWebHostDefaults(webBuilder =>
-                {
-                    webBuilder.UseStartup<Startup>();
-                });
+        private static IConfiguration BuildConfiguration(string[] args)
+            => new ConfigurationBuilder()
+                .SetBasePath(CurrentDirectory)
+                .Build();
+
+        private static IWebHostBuilder ConfigureWebHost(
+            IConfiguration configuration)
+            => new WebHostBuilder()
+                .UseStartup<Startup>()
+                .UseConfiguration(configuration)
+                .UseContentRoot(CurrentDirectory)
+                .UseKestrel();
     }
 }
