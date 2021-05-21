@@ -10,6 +10,7 @@ using Raven.Client;
 using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 using Swashbuckle.AspNetCore.Swagger;
+
 using PipefittersSupply.Api;
 using PipefittersSupply.AppServices;
 using PipefittersSupply.Repositories;
@@ -60,6 +61,7 @@ namespace PipefittersSupply
                     Title = "PipefittersSupply",
                 });
             });
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
