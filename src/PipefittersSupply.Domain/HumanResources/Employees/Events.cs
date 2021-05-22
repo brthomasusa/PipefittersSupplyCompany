@@ -30,24 +30,28 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
         {
             public int Id { get; set; }
             public string LastName { get; set; }
+            public DateTime LastModifiedDate { get; set; }
         }
 
         public class EmployeeFirstNameUpdated
         {
             public int Id { get; set; }
             public string FirstName { get; set; }
+            public DateTime LastModifiedDate { get; set; }
         }
 
         public class EmployeeMiddleInitialUpdated
         {
             public int Id { get; set; }
             public string MiddleInitial { get; set; }
+            public DateTime LastModifiedDate { get; set; }
         }
 
         public class EmployeeSSNUpdated
         {
             public int Id { get; set; }
             public string SSN { get; set; }
+            public DateTime LastModifiedDate { get; set; }
         }
     }
 }

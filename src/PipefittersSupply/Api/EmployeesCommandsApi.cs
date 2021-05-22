@@ -8,10 +8,13 @@ namespace PipefittersSupply.Api
     [ApiController]
     public class EmployeesCommandsApi : ControllerBase
     {
+        private readonly EmployeeAppicationService _employeeAppSvc;
+
+        public EmployeesCommandsApi(EmployeeAppicationService appSvc) => _employeeAppSvc = appSvc;
         [HttpPost]
-        public async Task<IActionResult> Post(Employee.V1.Create request)
+        public async Task<IActionResult> Post(EmployeeCommand.V1.Create request)
         {
-            // Handle request here
+            await _employeeAppSvc.Handle(request);
             return Ok();
         }
     }

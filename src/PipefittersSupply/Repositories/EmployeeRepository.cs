@@ -1,24 +1,29 @@
+using System;
 using System.Threading.Tasks;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Repository;
+using Raven.Client.Documents.Session;
 
 namespace PipefittersSupply.Repositories
 {
-    public class EmployeeRepository : IEmployeeRepository
+    public class EmployeeRepository : IEmployeeRepository, IDisposable
     {
-        public Task<bool> Exists(EmployeeId id)
+        private readonly AsyncDocumentSession _session;
+
+        public EmployeeRepository(AsyncDocumentSession session) => _session = session;
+
+        public Task<bool> Exists(EmployeeId id) => _session.Advanced.ExistsAsync(EntityId(id));
+
+        public Task<Employee> Load(EmployeeId id) => _session.LoadAsync<Employee>(EntityId(id));
+
+        public async Task Save(Employee entity)
         {
-            return null;
+            await _session.StoreAsync(entity, EntityId(entity.Id));
+            await _session.SaveChangesAsync();
         }
 
-        public Task<Employee> Load(EmployeeId id)
-        {
-            return null;
-        }
+        public void Dispose() => _session.Dispose();
 
-        public Task Save(Employee entity)
-        {
-            return null;
-        }
+        private string EntityId(EmployeeId id) => $"Employee/{id}";
     }
 }

@@ -49,7 +49,7 @@ namespace PipefittersSupply
             services.AddTransient(c => store.OpenAsyncSession());
             services.AddSingleton<IStateProvinceLookup, StateProvinceCodeLookup>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            // services.AddSingleton<ClassifiedAdsApplicationService>();
+            services.AddSingleton<EmployeeAppicationService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

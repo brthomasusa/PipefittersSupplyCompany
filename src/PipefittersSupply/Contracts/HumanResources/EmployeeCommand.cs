@@ -2,7 +2,7 @@ using System;
 
 namespace PipefittersSupply.Contracts.HumanResources
 {
-    public static class Employee
+    public static class EmployeeCommand
     {
         public static class V1
         {

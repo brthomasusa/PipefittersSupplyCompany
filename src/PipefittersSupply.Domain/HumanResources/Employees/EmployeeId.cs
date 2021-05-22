@@ -19,6 +19,8 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
 
         public static implicit operator int(EmployeeId self) => self.Value;
 
+        public static implicit operator EmployeeId(string value) => new EmployeeId(int.Parse(value));
+
         public bool Equals(EmployeeId other)
         {
             if (ReferenceEquals(null, other))
