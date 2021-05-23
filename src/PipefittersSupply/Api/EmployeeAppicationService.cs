@@ -25,6 +25,86 @@ namespace PipefittersSupply.Api
             {
                 V1.Create cmd =>
                     HandleCreate(cmd),
+                V1.UpdateEmployeeTypeId cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateEmployeeTypeId(EmployeeTypeIdentifier.FromInterger(cmd.EmployeeTypeId))
+                    ),
+                V1.UpdateEmployeeLastName cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateLastName(EmployeeLastName.FromString(cmd.LastName))
+                    ),
+                V1.UpdateEmployeeFirstName cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateFirstName(EmployeeFirstName.FromString(cmd.FirstName))
+                    ),
+                V1.UpdateEmployeeMiddleInitial cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateMiddleInitial(EmployeeMiddleInitial.FromString(cmd.MiddleInitial))
+                    ),
+                V1.UpdateEmployeeSSN cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateSSN(EmployeeSSN.FromString(cmd.SSN))
+                    ),
+                V1.UpdateAddressLine1 cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateAddressLine1(AddressLine1.FromString(cmd.AddressLine1))
+                    ),
+                V1.UpdateAddressLine2 cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateAddressLine2(AddressLine2.FromString(cmd.AddressLine2))
+                    ),
+                V1.UpdateCity cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateCity(City.FromString(cmd.City))
+                    ),
+                V1.UpdateStateProvinceCode cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateStateProvinceCode(StateProvinceCode.FromString(cmd.StateProvinceCode, _stateCodeLkup))
+                    ),
+                V1.UpdateZipcode cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateZipcode(Zipcode.FromString(cmd.Zipcode))
+                    ),
+                V1.UpdateTelephone cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateTelephone(Telephone.FromString(cmd.Telephone))
+                    ),
+                V1.UpdateMaritalStatus cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateMaritalStatus(MaritalStatus.FromString(cmd.MaritalStatus))
+                    ),
+                V1.UpdateTaxExemption cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateTaxExemption(TaxExemption.FromInterger(cmd.Exemptions))
+                    ),
+                V1.UpdateEmployeePayRate cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdatePayRate(EmployeePayRate.FromDecimal(cmd.PayRate))
+                    ),
+                V1.UpdateEmployeeStartDate cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateStartDate(EmployeeStartDate.FromDateTime(cmd.StartDate))
+                    ),
+                V1.UpdateIsActive cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateIsActive(IsActive.FromBoolean(cmd.IsActive))
+                    ),
                 _ => Task.CompletedTask
             };
 
@@ -55,6 +135,20 @@ namespace PipefittersSupply.Api
                 EmployeeStartDate.FromDateTime(cmd.StartDate),
                 IsActive.FromBoolean(cmd.IsActive)
             );
+
+            await _employeeRepo.Save(employee);
+        }
+
+        private async Task HandleUpdate(int employeeID, Action<Employee> operation)
+        {
+            var employee = await _employeeRepo.Load(employeeID.ToString());
+
+            if (employee == null)
+            {
+                throw new InvalidOperationException($"Entity with id {employeeID} could not be found!");
+            }
+
+            operation(employee);
 
             await _employeeRepo.Save(employee);
         }
