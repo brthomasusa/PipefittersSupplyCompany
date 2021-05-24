@@ -25,8 +25,6 @@ namespace PipefittersSupply.Contracts.HumanResources
                 public decimal PayRate { get; set; }
                 public DateTime StartDate { get; set; }
                 public bool IsActive { get; set; }
-                public DateTime CreatedDate { get; set; }
-                public DateTime LastModifiedDate { get; set; }
             }
 
             public class UpdateEmployeeTypeId
