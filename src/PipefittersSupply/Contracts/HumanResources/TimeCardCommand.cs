@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Api
+namespace PipefittersSupply.Contracts.HumanResources
 {
     public static class TimeCardCommand
     {

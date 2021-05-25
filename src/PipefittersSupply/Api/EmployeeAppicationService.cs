@@ -30,6 +30,11 @@ namespace PipefittersSupply.Api
                         cmd.Id,
                         emp => emp.UpdateEmployeeTypeId(EmployeeTypeIdentifier.FromInterger(cmd.EmployeeTypeId))
                     ),
+                V1.UpdateSupervisorId cmd =>
+                    HandleUpdate(
+                        cmd.Id,
+                        emp => emp.UpdateSupervisorId(new EmployeeId(cmd.SupervisorId))
+                    ),
                 V1.UpdateEmployeeLastName cmd =>
                     HandleUpdate(
                         cmd.Id,
@@ -119,6 +124,7 @@ namespace PipefittersSupply.Api
             (
                 new EmployeeId(cmd.Id),
                 EmployeeTypeIdentifier.FromInterger(cmd.EmployeeTypeId),
+                new EmployeeId(cmd.SupervisorId),
                 EmployeeLastName.FromString(cmd.LastName),
                 EmployeeFirstName.FromString(cmd.FirstName),
                 EmployeeMiddleInitial.FromString(cmd.MiddleInitial),

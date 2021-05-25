@@ -9,6 +9,7 @@ namespace PipefittersSupply.Repositories
     public class EmployeeRepository : IEmployeeRepository, IDisposable
     {
         private readonly AsyncDocumentSession _session;
+        private string EntityId(EmployeeId id) => $"Employee/{id}";
 
         public EmployeeRepository(AsyncDocumentSession session) => _session = session;
 
@@ -23,7 +24,5 @@ namespace PipefittersSupply.Repositories
         }
 
         public void Dispose() => _session.Dispose();
-
-        private string EntityId(EmployeeId id) => $"Employee/{id}";
     }
 }

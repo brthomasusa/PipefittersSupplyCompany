@@ -17,6 +17,7 @@ using PipefittersSupply.Repositories;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
 using PipefittersSupply.Domain.HumanResources.Employees;
+using PipefittersSupply.Domain.HumanResources.TimeCards;
 
 namespace PipefittersSupply
 {
@@ -49,7 +50,9 @@ namespace PipefittersSupply
             services.AddTransient(c => store.OpenAsyncSession());
             services.AddSingleton<IStateProvinceLookup, StateProvinceCodeLookup>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            services.AddScoped<ITimeCardRepository, TimeCardRepository>();
             services.AddSingleton<EmployeeAppicationService>();
+            // services.AddSingleton<TimeCardAppicationService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

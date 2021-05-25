@@ -7,6 +7,25 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
 {
     public class TimeCard : Entity<TimeCardId>
     {
+        public TimeCard
+        (
+            TimeCardId id,
+            EmployeeId employeeID,
+            EmployeeId supervisorID,
+            PayPeriodEndDate periodEndDate,
+            RegularHours regularHrs,
+            OvertimeHours overtime
+        ) =>
+            Apply(new Events.TimeCardCreated
+            {
+                Id = id,
+                EmployeeId = employeeID,
+                SupervisorId = supervisorID,
+                PayPeriodEnded = periodEndDate,
+                RegularHours = regularHrs,
+                OvertimeHours = overtime
+            });
+
         public TimeCardId Id { get; private set; }
 
         public EmployeeId EmployeeId { get; private set; }
@@ -57,25 +76,6 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
         public CreatedDate CreatedDate { get; private set; }
 
         public LastModifiedDate LastModifiedDate { get; private set; }
-
-        public TimeCard
-        (
-            TimeCardId id,
-            EmployeeId employeeID,
-            EmployeeId supervisorID,
-            PayPeriodEndDate periodEndDate,
-            RegularHours regularHrs,
-            OvertimeHours overtime
-        ) =>
-            Apply(new Events.TimeCardCreated
-            {
-                Id = id,
-                EmployeeId = employeeID,
-                SupervisorId = supervisorID,
-                PayPeriodEnded = periodEndDate,
-                RegularHours = regularHrs,
-                OvertimeHours = overtime
-            });
 
         protected override void EnsureValidState()
         {

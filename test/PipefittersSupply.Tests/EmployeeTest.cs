@@ -16,6 +16,7 @@ namespace PipefittersSupply.Tests
             var hireDate = new DateTime(2018, 6, 17);
             var eeID = new EmployeeId(1);
             var eeTypeID = EmployeeTypeIdentifier.FromInterger(3);
+            var mgrID = new EmployeeId(1);
             var lname = EmployeeLastName.FromString("Pimp");
             var fname = EmployeeFirstName.FromString("Big");
             var mi = EmployeeMiddleInitial.FromString("P");
@@ -34,13 +35,14 @@ namespace PipefittersSupply.Tests
 
             var employee = new Employee
             (
-                eeID, eeTypeID, lname, fname, mi, ssn, line1, line2, city, stateCode,
+                eeID, eeTypeID, mgrID, lname, fname, mi, ssn, line1, line2, city, stateCode,
                 zipcode, phone, maritalStatus, exempt, payRate, startDate, isActive
             );
 
             Assert.IsType<Employee>(employee);
             Assert.Equal(1, employee.Id);
             Assert.Equal(3, employee.EmployeeTypeId);
+            Assert.Equal(1, employee.SupervisorId);
             Assert.Equal("Pimp", employee.LastName);
             Assert.Equal("Big", employee.FirstName);
             Assert.Equal("P", employee.MiddleInitial);

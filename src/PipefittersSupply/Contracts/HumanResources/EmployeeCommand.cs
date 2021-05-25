@@ -10,6 +10,7 @@ namespace PipefittersSupply.Contracts.HumanResources
             {
                 public int Id { get; set; }
                 public int EmployeeTypeId { get; set; }
+                public int SupervisorId { get; set; }
                 public string LastName { get; set; }
                 public string FirstName { get; set; }
                 public string MiddleInitial { get; set; }
@@ -31,6 +32,12 @@ namespace PipefittersSupply.Contracts.HumanResources
             {
                 public int Id { get; set; }
                 public int EmployeeTypeId { get; set; }
+            }
+
+            public class UpdateSupervisorId
+            {
+                public int Id { get; set; }
+                public int SupervisorId { get; set; }
             }
 
             public class UpdateEmployeeLastName

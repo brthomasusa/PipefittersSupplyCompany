@@ -9,6 +9,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
         public Employee(
             EmployeeId id,
             EmployeeTypeIdentifier employeeTypeId,
+            EmployeeId supervisorID,
             EmployeeLastName lname,
             EmployeeFirstName fname,
             EmployeeMiddleInitial mi,
@@ -29,6 +30,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = id,
                 EmployeeTypeId = employeeTypeId,
+                SupervisorId = supervisorID,
                 LastName = lname,
                 FirstName = fname,
                 MiddleInitial = mi,
@@ -55,6 +57,15 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 EmployeeTypeId = employeeTypeId,
+                LastModifiedDate = LastModifiedDate
+            });
+
+        public EmployeeId SupervisorId { get; private set; }
+        public void UpdateSupervisorId(EmployeeId value) =>
+            Apply(new Events.SupervisorIdUpdated
+            {
+                Id = Id,
+                SupervisorId = SupervisorId,
                 LastModifiedDate = LastModifiedDate
             });
 
@@ -214,6 +225,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 case Events.EmployeeCreated evt:
                     Id = new EmployeeId(evt.Id);
                     EmployeeTypeId = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
+                    SupervisorId = new EmployeeId(evt.SupervisorId);
                     LastName = new EmployeeLastName(evt.LastName);
                     FirstName = new EmployeeFirstName(evt.FirstName);
                     MiddleInitial = new EmployeeMiddleInitial(evt.MiddleInitial);
@@ -233,6 +245,10 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                     break;
                 case Events.EmployeeTypeIdUpdated evt:
                     EmployeeTypeId = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
+                    LastModifiedDate = new LastModifiedDate(DateTime.Now);
+                    break;
+                case Events.SupervisorIdUpdated evt:
+                    SupervisorId = new EmployeeId(evt.SupervisorId);
                     LastModifiedDate = new LastModifiedDate(DateTime.Now);
                     break;
                 case Events.EmployeeLastNameUpdated evt:

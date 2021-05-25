@@ -19,6 +19,8 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
 
         public static implicit operator int(TimeCardId self) => self.Value;
 
+        public static implicit operator TimeCardId(string value) => new TimeCardId(int.Parse(value));
+
         public bool Equals(TimeCardId other)
         {
             if (ReferenceEquals(null, other))

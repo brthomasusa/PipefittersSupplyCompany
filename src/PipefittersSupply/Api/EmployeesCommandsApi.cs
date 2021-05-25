@@ -27,6 +27,14 @@ namespace PipefittersSupply.Api
             return Ok();
         }
 
+        [Route("supervisorid")]
+        [HttpPut]
+        public async Task<IActionResult> Put(V1.UpdateSupervisorId request)
+        {
+            await _employeeAppSvc.Handle(request);
+            return Ok();
+        }
+
         [Route("lastname")]
         [HttpPut]
         public async Task<IActionResult> Put(V1.UpdateEmployeeLastName request)
