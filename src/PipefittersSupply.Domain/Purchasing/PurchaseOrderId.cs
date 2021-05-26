@@ -1,26 +1,26 @@
 using System;
 
-namespace PipefittersSupply.Domain.HumanResources.Employees
+namespace PipefittersSupply.Domain.Purchasing
 {
-    public class EmployeeId : IEquatable<EmployeeId>
+    public class PurchaseOrderId : IEquatable<PurchaseOrderId>
     {
         private int Value { get; }
 
-        public EmployeeId(int value)
+        public PurchaseOrderId(int value)
         {
             if (value == default)
             {
-                throw new ArgumentException("Employee Id must be specified", nameof(value));
+                throw new ArgumentException("Purchase order Id must be specified", nameof(value));
             }
 
             Value = value;
         }
 
-        public static implicit operator int(EmployeeId self) => self.Value;
+        public static implicit operator int(PurchaseOrderId self) => self.Value;
 
-        public static implicit operator EmployeeId(string value) => new EmployeeId(int.Parse(value));
+        public static implicit operator PurchaseOrderId(string value) => new PurchaseOrderId(int.Parse(value));
 
-        public bool Equals(EmployeeId other)
+        public bool Equals(PurchaseOrderId other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -52,7 +52,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 return false;
             }
 
-            return Value.Equals((EmployeeId)obj);
+            return Value.Equals((PurchaseOrderId)obj);
         }
 
         public override int GetHashCode() => Value.GetHashCode();
