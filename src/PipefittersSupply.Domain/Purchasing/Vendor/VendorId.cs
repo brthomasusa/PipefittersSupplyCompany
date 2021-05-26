@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Domain.Purchasing
+namespace PipefittersSupply.Domain.Purchasing.Vendor
 {
     public class VendorId : IEquatable<VendorId>
     {

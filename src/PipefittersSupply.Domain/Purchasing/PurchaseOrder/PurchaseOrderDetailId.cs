@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Domain.Purchasing
+namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
     public class PurchaseOrderDetailId : IEquatable<PurchaseOrderDetailId>
     {

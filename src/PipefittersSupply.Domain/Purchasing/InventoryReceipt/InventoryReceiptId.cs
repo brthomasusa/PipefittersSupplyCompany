@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Domain.Purchasing
+namespace PipefittersSupply.Domain.Purchasing.InventoryReceipt
 {
     public class InventoryReceiptId : IEquatable<InventoryReceiptId>
     {

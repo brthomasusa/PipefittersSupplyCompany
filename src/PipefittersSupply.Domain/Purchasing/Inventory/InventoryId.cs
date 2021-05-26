@@ -1,7 +1,7 @@
 using System;
 using PipefittersSupply.Framework;
 
-namespace PipefittersSupply.Domain.Purchasing
+namespace PipefittersSupply.Domain.Purchasing.Inventory
 {
     public class InventoryId : IEquatable<InventoryId>
     {

@@ -1,0 +1,28 @@
+using System;
+using PipefittersSupply.Framework;
+
+namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
+{
+    public class PurchaseOrderAmount : Value<PurchaseOrderAmount>
+    {
+        public decimal Value { get; }
+
+        internal PurchaseOrderAmount(decimal value) => Value = value;
+
+        public static implicit operator decimal(PurchaseOrderAmount self) => self.Value;
+
+        public static PurchaseOrderAmount FromDecimal(decimal rate)
+        {
+            CheckValidity(rate);
+            return new PurchaseOrderAmount(rate);
+        }
+
+        private static void CheckValidity(decimal value)
+        {
+            if (value < 0M)
+            {
+                throw new ArgumentException("Invalid P.O. amount, can not be a negative amount!", nameof(value));
+            }
+        }
+    }
+}

@@ -57,7 +57,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 EmployeeTypeId = employeeTypeId,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeeId SupervisorId { get; private set; }
@@ -65,8 +65,8 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             Apply(new Events.SupervisorIdUpdated
             {
                 Id = Id,
-                SupervisorId = SupervisorId,
-                LastModifiedDate = LastModifiedDate
+                SupervisorId = value,
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeeLastName LastName { get; private set; }
@@ -75,7 +75,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 LastName = lname,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeeFirstName FirstName { get; private set; }
@@ -84,7 +84,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 FirstName = fname,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeeMiddleInitial MiddleInitial { get; private set; }
@@ -93,7 +93,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 MiddleInitial = mi,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeeSSN SSN { get; private set; }
@@ -102,7 +102,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 SSN = ssn,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public AddressLine1 AddressLine1 { get; private set; }
@@ -111,7 +111,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 AddressLine1 = address,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public AddressLine2 AddressLine2 { get; private set; }
@@ -120,7 +120,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 AddressLine2 = address,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public City City { get; private set; }
@@ -129,7 +129,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 City = city,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public StateProvinceCode State { get; private set; }
@@ -138,7 +138,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 StateProvinceCode = stateCode,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public Zipcode Zipcode { get; private set; }
@@ -147,7 +147,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 Zipcode = zipcode,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public Telephone Telephone { get; private set; }
@@ -156,7 +156,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 Telephone = phone,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public MaritalStatus MaritalStatus { get; private set; }
@@ -165,7 +165,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 MaritalStatus = status,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public TaxExemption Exemptions { get; private set; }
@@ -174,7 +174,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 Exemptions = taxExemptions,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeePayRate PayRate { get; private set; }
@@ -183,7 +183,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 PayRate = rate,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeeStartDate StartDate { get; private set; }
@@ -192,7 +192,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 StartDate = startDate,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public IsActive IsActive { get; private set; }
@@ -201,7 +201,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 Id = Id,
                 IsActive = status,
-                LastModifiedDate = LastModifiedDate
+                LastModifiedDate = DateTime.Now
             });
 
         public CreatedDate CreatedDate { get; private set; }
@@ -311,9 +311,6 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                     IsActive = new IsActive(evt.IsActive);
                     LastModifiedDate = new LastModifiedDate(DateTime.Now);
                     break;
-
-
-
             }
         }
     }
