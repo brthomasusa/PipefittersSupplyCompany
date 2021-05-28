@@ -4,30 +4,22 @@ using System.Linq;
 
 namespace PipefittersSupply.Framework
 {
-    public abstract class Entity<TId> where TId : IEquatable<TId>
+    public abstract class Entity<TId> : IInternalEventHandler where TId : Value<TId>
     {
-        private readonly List<object> _events;
+        private readonly Action<object> _applier;
 
-        protected Entity() => _events = new List<object>();
+        protected Entity(Action<object> applier) => _applier = applier;
 
-        protected void Apply(object @event)
-        {
-            // Use Event object to set/update entity properties
-            When(@event);
-
-            // Run validation check to whole entity
-            EnsureValidState();
-
-            // Add Event object to List for later processing
-            _events.Add(@event);
-        }
+        public TId Id { get; protected set; }
 
         protected abstract void When(object @event);
 
-        public IEnumerable<object> GetChanges() => _events.AsEnumerable();
+        protected void Apply(object @event)
+        {
+            When(@event);
+            _applier(@event);
+        }
 
-        public void ClearChanges() => _events.Clear();
-
-        protected abstract void EnsureValidState();
+        void IInternalEventHandler.Handle(object @event) => When(@event);
     }
 }

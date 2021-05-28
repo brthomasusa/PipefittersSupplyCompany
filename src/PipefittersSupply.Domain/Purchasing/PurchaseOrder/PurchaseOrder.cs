@@ -1,14 +1,18 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
+using PipefittersSupply.Domain.Purchasing.Inventory;
 using PipefittersSupply.Domain.Purchasing.Vendor;
 using PipefittersSupply.Framework;
 
 namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
-    public class PurchaseOrder : Entity<PurchaseOrderId>
+    public class PurchaseOrder : AggregateRoot<PurchaseOrderId>
     {
+        private int _nextItemNumber = 0;
+
         public List<PurchaseOrderDetail> PurchaseOrderDetails { get; private set; } = new List<PurchaseOrderDetail>();
 
         public PurchaseOrder
@@ -27,19 +31,17 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                 EmployeeId = employeeId,
                 PurchaseOrderDate = orderDate,
                 ExpectedDeliveryDate = deliveryDate,
-                PurchaseOrderAmount = amount
+                PurchaseOrderAmount = amount,
+                CreatedDate = DateTime.Now
             });
-
-
-        public PurchaseOrderId Id { get; private set; }
 
         public VendorId VendorId { get; private set; }
         public void UpdateVendorId(VendorId value) =>
             Apply(new Events.VendorIdUpdated
             {
                 Id = Id,
-                VendorId = EmployeeId,
-                LastModifiedDate = LastModifiedDate
+                VendorId = value,
+                LastModifiedDate = DateTime.Now
             });
 
         public EmployeeId EmployeeId { get; private set; }
@@ -47,19 +49,72 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
             Apply(new Events.EmployeeIdUpdated
             {
                 Id = Id,
-                EmployeeId = EmployeeId,
-                LastModifiedDate = LastModifiedDate
+                EmployeeId = value,
+                LastModifiedDate = DateTime.Now
             });
 
         public PurchaseOrderDate PurchaseOrderDate { get; private set; }
+        public void UpdatePurchaseOrderDate(PurchaseOrderDate value) =>
+            Apply(new Events.PurchaseOrderDateUpdated
+            {
+                Id = Id,
+                PurchaseOrderDate = value,
+                LastModifiedDate = DateTime.Now
+            });
 
         public ExpectedDeliveryDate ExpectedDeliveryDate { get; private set; }
+        public void UpdateExpectedDeliveryDate(ExpectedDeliveryDate value) =>
+            Apply(new Events.ExpectedDeliveryDateUpdated
+            {
+                Id = Id,
+                ExpectedDeliveryDate = value,
+                LastModifiedDate = DateTime.Now
+            });
 
         public PurchaseOrderAmount PurchaseOrderAmount { get; private set; }
+        public void UpdatePurchaseOrderAmount(PurchaseOrderAmount value) =>
+            Apply(new Events.PurchaseOrderAmountUpdated
+            {
+                Id = Id,
+                PurchaseOrderAmount = value,
+                LastModifiedDate = DateTime.Now
+            });
 
         public CreatedDate CreatedDate { get; private set; }
 
         public LastModifiedDate LastModifiedDate { get; private set; }
+
+        // PurchaseOrderDetail property update methods
+        public void UpdatePoDetailPurchaseOrderId(PurchaseOrderDetailId lineItemID, PurchaseOrderId value)
+        {
+            var lineItem = FindPurchaseOrderDetail(lineItemID);
+
+            if (lineItem == null)
+            {
+                throw new InvalidOperationException($"Unable to find PurchaseOrderDetail item with id: {lineItemID}.");
+            }
+
+            lineItem.PurchaseOrderId = value;
+        }
+
+        public void AddPurchaseOrderDetail
+        (
+            PurchaseOrderId poID,
+            InventoryId inventoryId,
+            VendorPartNumber partNumber,
+            Quantity quantity,
+            UnitCost unitCost
+        ) =>
+            Apply(new Events.PurchaseOrderDetailAddedToPurchaseOrder
+            {
+                Id = ++_nextItemNumber,
+                PurchaseOrderId = poID,
+                InventoryId = inventoryId,
+                VendorPartNumber = partNumber,
+                QuantityOrdered = quantity,
+                UnitCost = unitCost,
+                CreatedDate = DateTime.Now
+            });
 
         protected override void EnsureValidState()
         {
@@ -76,7 +131,46 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 
         protected override void When(object @event)
         {
-
+            switch (@event)
+            {
+                case Events.PurchaseOrderCreated evt:
+                    Id = new PurchaseOrderId(evt.Id);
+                    VendorId = new VendorId(evt.VendorId);
+                    EmployeeId = new EmployeeId(evt.EmployeeId);
+                    PurchaseOrderDate = new PurchaseOrderDate(evt.PurchaseOrderDate);
+                    ExpectedDeliveryDate = new ExpectedDeliveryDate(evt.ExpectedDeliveryDate);
+                    PurchaseOrderAmount = new PurchaseOrderAmount(evt.PurchaseOrderAmount);
+                    CreatedDate = new CreatedDate(evt.CreatedDate);
+                    break;
+                case Events.VendorIdUpdated evt:
+                    VendorId = new VendorId(evt.VendorId);
+                    LastModifiedDate = new LastModifiedDate(evt.LastModifiedDate);
+                    break;
+                case Events.EmployeeIdUpdated evt:
+                    EmployeeId = new EmployeeId(evt.EmployeeId);
+                    LastModifiedDate = new LastModifiedDate(evt.LastModifiedDate);
+                    break;
+                case Events.PurchaseOrderDateUpdated evt:
+                    PurchaseOrderDate = new PurchaseOrderDate(evt.PurchaseOrderDate);
+                    LastModifiedDate = new LastModifiedDate(evt.LastModifiedDate);
+                    break;
+                case Events.ExpectedDeliveryDateUpdated evt:
+                    ExpectedDeliveryDate = new ExpectedDeliveryDate(evt.ExpectedDeliveryDate);
+                    LastModifiedDate = new LastModifiedDate(evt.LastModifiedDate);
+                    break;
+                case Events.PurchaseOrderAmountUpdated evt:
+                    PurchaseOrderAmount = new PurchaseOrderAmount(evt.PurchaseOrderAmount);
+                    LastModifiedDate = new LastModifiedDate(evt.LastModifiedDate);
+                    break;
+                case Events.PurchaseOrderDetailAddedToPurchaseOrder evt:
+                    var detailItem = new PurchaseOrderDetail(Apply);
+                    ApplyToEntity(detailItem, evt);
+                    PurchaseOrderDetails.Add(detailItem);
+                    break;
+            }
         }
+
+        private PurchaseOrderDetail FindPurchaseOrderDetail(PurchaseOrderDetailId id) =>
+            PurchaseOrderDetails.FirstOrDefault(item => item.Id == id);
     }
 }

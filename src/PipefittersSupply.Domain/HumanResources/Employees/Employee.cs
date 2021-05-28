@@ -4,7 +4,7 @@ using PipefittersSupply.Framework;
 
 namespace PipefittersSupply.Domain.HumanResources.Employees
 {
-    public class Employee : Entity<EmployeeId>
+    public class Employee : AggregateRoot<EmployeeId>
     {
         public Employee(
             EmployeeId id,
@@ -48,8 +48,6 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 IsActive = isActive,
                 CreatedDate = DateTime.Now
             });
-
-        public EmployeeId Id { get; private set; }
 
         public EmployeeTypeIdentifier EmployeeTypeId { get; private set; }
         public void UpdateEmployeeTypeId(EmployeeTypeIdentifier employeeTypeId) =>

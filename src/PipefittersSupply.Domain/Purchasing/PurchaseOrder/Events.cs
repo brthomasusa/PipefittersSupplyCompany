@@ -12,6 +12,7 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
             public DateTime PurchaseOrderDate { get; set; }
             public DateTime ExpectedDeliveryDate { get; set; }
             public decimal PurchaseOrderAmount { get; set; }
+            public DateTime CreatedDate { get; set; }
         }
 
         public class VendorIdUpdated
@@ -46,6 +47,52 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
         {
             public int Id { get; set; }
             public decimal PurchaseOrderAmount { get; set; }
+            public DateTime LastModifiedDate { get; set; }
+        }
+
+        public class PurchaseOrderDetailAddedToPurchaseOrder
+        {
+            public int Id { get; set; }
+            public int PurchaseOrderId { get; set; }
+            public int InventoryId { get; set; }
+            public string VendorPartNumber { get; set; }
+            public int QuantityOrdered { get; set; }
+            public decimal UnitCost { get; set; }
+            public DateTime CreatedDate { get; set; }
+        }
+
+        public class PurchaseOrderDetailPurchaseOrderIdUpdated
+        {
+            public int Id { get; set; }
+            public int PurchaseOrderId { get; set; }
+            public DateTime LastModifiedDate { get; set; }
+        }
+
+        public class PurchaseOrderDetailInventoryIdUpdated
+        {
+            public int Id { get; set; }
+            public int InventoryId { get; set; }
+            public DateTime LastModifiedDate { get; set; }
+        }
+
+        public class PurchaseOrderDetailVendorPartNumberUpdated
+        {
+            public int Id { get; set; }
+            public string VendorPartNumber { get; set; }
+            public DateTime LastModifiedDate { get; set; }
+        }
+
+        public class PurchaseOrderDetailQuantityOrderedUpdated
+        {
+            public int Id { get; set; }
+            public int QuantityOrdered { get; set; }
+            public DateTime LastModifiedDate { get; set; }
+        }
+
+        public class PurchaseOrderDetailUnitCostUpdated
+        {
+            public int Id { get; set; }
+            public decimal UnitCost { get; set; }
             public DateTime LastModifiedDate { get; set; }
         }
     }

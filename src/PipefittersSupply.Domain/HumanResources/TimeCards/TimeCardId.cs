@@ -3,7 +3,7 @@ using PipefittersSupply.Framework;
 
 namespace PipefittersSupply.Domain.HumanResources.TimeCards
 {
-    public class TimeCardId : IEquatable<TimeCardId>
+    public class TimeCardId : Value<TimeCardId>
     {
         private int Value { get; }
 

@@ -5,7 +5,7 @@ using PipefittersSupply.Domain.HumanResources.Employees;
 
 namespace PipefittersSupply.Domain.HumanResources.TimeCards
 {
-    public class TimeCard : Entity<TimeCardId>
+    public class TimeCard : AggregateRoot<TimeCardId>
     {
         public TimeCard
         (
@@ -25,8 +25,6 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
                 RegularHours = regularHrs,
                 OvertimeHours = overtime
             });
-
-        public TimeCardId Id { get; private set; }
 
         public EmployeeId EmployeeId { get; private set; }
         public void UpdateEmployeeId(EmployeeId value) =>

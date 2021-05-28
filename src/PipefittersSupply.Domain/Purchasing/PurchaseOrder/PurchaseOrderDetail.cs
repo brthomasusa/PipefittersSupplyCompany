@@ -6,40 +6,54 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
     public class PurchaseOrderDetail : Entity<PurchaseOrderDetailId>
     {
-        public PurchaseOrderDetail() { }
+        public PurchaseOrderDetail(Action<object> applier)
+            : base(applier) { }
 
-        public PurchaseOrderDetailId Id { get; private set; }
+        internal PurchaseOrderId PurchaseOrderId { get; set; }
 
-        public PurchaseOrderId PurchaseOrderId { get; private set; }
+        internal InventoryId InventoryId { get; set; }
 
-        public InventoryId InventoryId { get; private set; }
+        internal VendorPartNumber VendorPartNumber { get; set; }
 
-        public VendorPartNumber VendorPartNumber { get; private set; }
+        internal Quantity QuantityOrdered { get; set; }
 
-        public Quantity QuantityOrdered { get; private set; }
+        internal UnitCost UnitCost { get; set; }
 
-        public UnitCost UnitCost { get; private set; }
+        internal CreatedDate CreatedDate { get; set; }
 
-        public CreatedDate CreatedDate { get; private set; }
-
-        public LastModifiedDate LastModifiedDate { get; private set; }
-
-
-        protected override void EnsureValidState()
-        {
-            var valid = Id != null &&
-                PurchaseOrderId != null &&
-                InventoryId != null;
-
-            if (!valid)
-            {
-                throw new InvalidEntityStateException(this, "Post-checks failed!");
-            }
-        }
+        internal LastModifiedDate LastModifiedDate { get; set; }
 
         protected override void When(object @event)
         {
-
+            switch (@event)
+            {
+                case Events.PurchaseOrderDetailAddedToPurchaseOrder evt:
+                    Id = new PurchaseOrderDetailId(evt.Id);
+                    PurchaseOrderId = new PurchaseOrderId(evt.PurchaseOrderId);
+                    InventoryId = new InventoryId(evt.InventoryId);
+                    QuantityOrdered = Quantity.FromInterger(evt.QuantityOrdered);
+                    UnitCost = UnitCost.FromDecimal(evt.UnitCost);
+                    CreatedDate = new CreatedDate(DateTime.Now);
+                    break;
+                    // case Events.OvertimeHoursUpdated evt:
+                    //     OvertimeHours = new OvertimeHours(evt.OvertimeHours);
+                    //     LastModifiedDate = new LastModifiedDate(DateTime.Now);
+                    //     break;
+            }
         }
+
+        // protected override void EnsureValidState()
+        // {
+        //     var valid = Id != null &&
+        //         PurchaseOrderId != null &&
+        //         InventoryId != null;
+
+        //     if (!valid)
+        //     {
+        //         throw new InvalidEntityStateException(this, "Post-checks failed!");
+        //     }
+        // }
+
+
     }
 }

@@ -1,8 +1,8 @@
 using System;
-
+using PipefittersSupply.Framework;
 namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
-    public class PurchaseOrderId : IEquatable<PurchaseOrderId>
+    public class PurchaseOrderId : Value<PurchaseOrderId>
     {
         private int Value { get; }
 

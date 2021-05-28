@@ -1,8 +1,8 @@
 using System;
-
+using PipefittersSupply.Framework;
 namespace PipefittersSupply.Domain.HumanResources.Employees
 {
-    public class EmployeeId : IEquatable<EmployeeId>
+    public class EmployeeId : Value<EmployeeId>
     {
         private int Value { get; }
 
