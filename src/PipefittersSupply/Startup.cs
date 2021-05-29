@@ -11,7 +11,7 @@ using Raven.Client.Documents;
 using Raven.Client.Documents.Session;
 using Swashbuckle.AspNetCore.Swagger;
 
-using PipefittersSupply.Api;
+using PipefittersSupply.Controllers;
 using PipefittersSupply.AppServices;
 using PipefittersSupply.Infrastructure.Repositories;
 using PipefittersSupply.Domain.Lookup;
@@ -49,10 +49,11 @@ namespace PipefittersSupply
 
             services.AddTransient(c => store.OpenAsyncSession());
             services.AddSingleton<IStateProvinceLookup, StateProvinceCodeLookup>();
+            services.AddSingleton<IEmployeeLookup, EmployeeLookup>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITimeCardRepository, TimeCardRepository>();
             services.AddSingleton<EmployeeAppicationService>();
-            // services.AddSingleton<TimeCardAppicationService>();
+            services.AddSingleton<TimeCardApplicationService>();
 
             services.AddControllers();
             services.AddSwaggerGen(c =>

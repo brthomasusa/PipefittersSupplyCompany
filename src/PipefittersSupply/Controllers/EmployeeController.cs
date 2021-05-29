@@ -1,16 +1,18 @@
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
+using PipefittersSupply.AppServices;
+
 using static PipefittersSupply.Contracts.HumanResources.EmployeeCommand;
 
-namespace PipefittersSupply.Api
+namespace PipefittersSupply.Controllers
 {
-    [Route("api/Employees")]
+    [Route("api/employees")]
     [ApiController]
-    public class EmployeesCommandsApi : ControllerBase
+    public class EmployeeController : ControllerBase
     {
         private readonly EmployeeAppicationService _employeeAppSvc;
 
-        public EmployeesCommandsApi(EmployeeAppicationService appSvc) => _employeeAppSvc = appSvc;
+        public EmployeeController(EmployeeAppicationService appSvc) => _employeeAppSvc = appSvc;
 
         [HttpPost]
         public async Task<IActionResult> Post(V1.Create request)

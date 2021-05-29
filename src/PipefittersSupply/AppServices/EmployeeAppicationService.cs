@@ -1,5 +1,6 @@
 using System;
 using System.Threading.Tasks;
+using PipefittersSupply.Infrastructure.Repositories;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Lookup;
@@ -7,7 +8,7 @@ using PipefittersSupply.Domain.Repository;
 using PipefittersSupply.Framework;
 using static PipefittersSupply.Contracts.HumanResources.EmployeeCommand;
 
-namespace PipefittersSupply.Api
+namespace PipefittersSupply.AppServices
 {
     public class EmployeeAppicationService : IApplicationService
     {
