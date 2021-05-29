@@ -24,7 +24,7 @@ namespace PipefittersSupply.AppServices
         public Task Handle(object command) =>
             command switch
             {
-                V1.Create cmd =>
+                V1.CreateEmployee cmd =>
                     HandleCreate(cmd),
                 V1.UpdateEmployeeTypeId cmd =>
                     HandleUpdate(
@@ -114,7 +114,7 @@ namespace PipefittersSupply.AppServices
                 _ => Task.CompletedTask
             };
 
-        private async Task HandleCreate(V1.Create cmd)
+        private async Task HandleCreate(V1.CreateEmployee cmd)
         {
             if (await _employeeRepo.Exists(cmd.Id.ToString()))
             {

@@ -8,10 +8,12 @@ namespace PipefittersSupply.Infrastructure.Repositories
 {
     public class TimeCardRepository : ITimeCardRepository, IDisposable
     {
-        private readonly AsyncDocumentSession _session;
-        private string EntityId(TimeCardId id) => $"Employee/{id}";
+        private readonly IAsyncDocumentSession _session;
+        private string EntityId(TimeCardId id) => $"TimeCard/{id}";
 
-        public TimeCardRepository(AsyncDocumentSession session) => _session = session;
+        public TimeCardRepository(IAsyncDocumentSession session) => _session = session;
+
+        public Task Add(TimeCard entity) => _session.StoreAsync(entity, EntityId(entity.Id));
 
         public Task<bool> Exists(TimeCardId id) => _session.Advanced.ExistsAsync(EntityId(id));
 

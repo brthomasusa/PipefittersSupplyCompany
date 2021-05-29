@@ -8,10 +8,10 @@ namespace PipefittersSupply.Infrastructure.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository, IDisposable
     {
-        private readonly AsyncDocumentSession _session;
+        private readonly IAsyncDocumentSession _session;
         private string EntityId(EmployeeId id) => $"Employee/{id}";
 
-        public EmployeeRepository(AsyncDocumentSession session) => _session = session;
+        public EmployeeRepository(IAsyncDocumentSession session) => _session = session;
 
         public Task<bool> Exists(EmployeeId id) => _session.Advanced.ExistsAsync(EntityId(id));
 

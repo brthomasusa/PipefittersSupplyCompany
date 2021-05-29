@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using PipefittersSupply.AppServices;
 
@@ -6,16 +7,22 @@ using static PipefittersSupply.Contracts.HumanResources.EmployeeCommand;
 
 namespace PipefittersSupply.Controllers
 {
-    [Route("api/employees")]
     [ApiController]
+    [Route("api/[controller]")]
     public class EmployeeController : ControllerBase
     {
+        private readonly ILogger<EmployeeController> _logger;
         private readonly EmployeeAppicationService _employeeAppSvc;
 
-        public EmployeeController(EmployeeAppicationService appSvc) => _employeeAppSvc = appSvc;
+        public EmployeeController(EmployeeAppicationService appSvc, ILogger<EmployeeController> logger)
+        {
+            _employeeAppSvc = appSvc;
+            _logger = logger;
+            _logger.LogInformation("EmployeeController...");
+        }
 
         [HttpPost]
-        public async Task<IActionResult> Post(V1.Create request)
+        public async Task<IActionResult> Post(V1.CreateEmployee request)
         {
             await _employeeAppSvc.Handle(request);
             return Ok();

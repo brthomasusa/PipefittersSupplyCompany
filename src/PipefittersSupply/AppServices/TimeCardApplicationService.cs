@@ -17,14 +17,14 @@ namespace PipefittersSupply.AppServices
         public Task Handle(object command) =>
             command switch
             {
-                V1.Create cmd =>
+                V1.CreateTimeCard cmd =>
                     HandleCreate(cmd),
                 V1.UpdateEmployeeId cmd =>
                     HandleUpdate(
                         cmd.Id,
                         emp => emp.UpdateEmployeeId(new EmployeeId(cmd.EmployeeId))
                     ),
-                V1.UpdateSupervisorId cmd =>
+                V1.UpdatTimeCardSupervisorId cmd =>
                     HandleUpdate(
                         cmd.Id,
                         emp => emp.UpdateSupervisorId(new EmployeeId(cmd.SupervisorId))
@@ -48,7 +48,7 @@ namespace PipefittersSupply.AppServices
             };
 
 
-        private async Task HandleCreate(V1.Create cmd)
+        private async Task HandleCreate(V1.CreateTimeCard cmd)
         {
             if (await _repo.Exists(cmd.Id.ToString()))
             {

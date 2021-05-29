@@ -6,7 +6,7 @@ namespace PipefittersSupply.Contracts.HumanResources
     {
         public static class V1
         {
-            public class Create
+            public class CreateEmployee
             {
                 public int Id { get; set; }
                 public int EmployeeTypeId { get; set; }

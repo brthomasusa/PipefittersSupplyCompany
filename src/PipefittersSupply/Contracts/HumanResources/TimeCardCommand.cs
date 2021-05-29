@@ -6,7 +6,7 @@ namespace PipefittersSupply.Contracts.HumanResources
     {
         public static class V1
         {
-            public class Create
+            public class CreateTimeCard
             {
                 public int Id { get; set; }
                 public int EmployeeId { get; set; }
@@ -22,7 +22,7 @@ namespace PipefittersSupply.Contracts.HumanResources
                 public int EmployeeId { get; set; }
             }
 
-            public class UpdateSupervisorId
+            public class UpdatTimeCardSupervisorId
             {
                 public int Id { get; set; }
                 public int SupervisorId { get; set; }
