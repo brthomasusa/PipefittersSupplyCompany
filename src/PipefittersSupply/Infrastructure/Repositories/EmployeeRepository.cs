@@ -4,7 +4,7 @@ using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Repository;
 using Raven.Client.Documents.Session;
 
-namespace PipefittersSupply.Repositories
+namespace PipefittersSupply.Infrastructure.Repositories
 {
     public class EmployeeRepository : IEmployeeRepository, IDisposable
     {

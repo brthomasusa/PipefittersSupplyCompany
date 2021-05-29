@@ -6,10 +6,16 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
     public class PurchaseOrderDetail : Entity<PurchaseOrderDetailId>
     {
-        public PurchaseOrderDetail(Action<object> applier)
-            : base(applier) { }
+        public PurchaseOrderDetail(Action<object> applier) : base(applier) { }
 
         internal PurchaseOrderId PurchaseOrderId { get; set; }
+        internal void UpdatePurchaseOrderId(PurchaseOrderId value) =>
+            Apply(new Events.PurchaseOrderDetailPurchaseOrderIdUpdated
+            {
+                Id = Id,
+                PurchaseOrderId = value,
+                LastModifiedDate = DateTime.Now
+            });
 
         internal InventoryId InventoryId { get; set; }
 
@@ -34,26 +40,14 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                     QuantityOrdered = Quantity.FromInterger(evt.QuantityOrdered);
                     UnitCost = UnitCost.FromDecimal(evt.UnitCost);
                     CreatedDate = new CreatedDate(DateTime.Now);
+                    this.EnsureValidState();
                     break;
-                    // case Events.OvertimeHoursUpdated evt:
-                    //     OvertimeHours = new OvertimeHours(evt.OvertimeHours);
-                    //     LastModifiedDate = new LastModifiedDate(DateTime.Now);
-                    //     break;
+                case Events.PurchaseOrderDetailPurchaseOrderIdUpdated evt:
+                    PurchaseOrderId = new PurchaseOrderId(evt.PurchaseOrderId);
+                    LastModifiedDate = new LastModifiedDate(evt.LastModifiedDate);
+                    this.EnsureValidState();
+                    break;
             }
         }
-
-        // protected override void EnsureValidState()
-        // {
-        //     var valid = Id != null &&
-        //         PurchaseOrderId != null &&
-        //         InventoryId != null;
-
-        //     if (!valid)
-        //     {
-        //         throw new InvalidEntityStateException(this, "Post-checks failed!");
-        //     }
-        // }
-
-
     }
 }

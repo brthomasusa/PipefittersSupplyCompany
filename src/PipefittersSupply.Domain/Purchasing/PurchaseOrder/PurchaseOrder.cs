@@ -85,6 +85,25 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
         public LastModifiedDate LastModifiedDate { get; private set; }
 
         // PurchaseOrderDetail property update methods
+
+        public void AddPurchaseOrderDetail
+        (
+            InventoryId inventoryId,
+            VendorPartNumber partNumber,
+            Quantity quantity,
+            UnitCost unitCost
+        ) =>
+            Apply(new Events.PurchaseOrderDetailAddedToPurchaseOrder
+            {
+                Id = ++_nextItemNumber,
+                PurchaseOrderId = Id,
+                InventoryId = inventoryId,
+                VendorPartNumber = partNumber,
+                QuantityOrdered = quantity,
+                UnitCost = unitCost,
+                CreatedDate = DateTime.Now
+            });
+
         public void UpdatePoDetailPurchaseOrderId(PurchaseOrderDetailId lineItemID, PurchaseOrderId value)
         {
             var lineItem = FindPurchaseOrderDetail(lineItemID);
@@ -94,39 +113,7 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                 throw new InvalidOperationException($"Unable to find PurchaseOrderDetail item with id: {lineItemID}.");
             }
 
-            lineItem.PurchaseOrderId = value;
-        }
-
-        public void AddPurchaseOrderDetail
-        (
-            PurchaseOrderId poID,
-            InventoryId inventoryId,
-            VendorPartNumber partNumber,
-            Quantity quantity,
-            UnitCost unitCost
-        ) =>
-            Apply(new Events.PurchaseOrderDetailAddedToPurchaseOrder
-            {
-                Id = ++_nextItemNumber,
-                PurchaseOrderId = poID,
-                InventoryId = inventoryId,
-                VendorPartNumber = partNumber,
-                QuantityOrdered = quantity,
-                UnitCost = unitCost,
-                CreatedDate = DateTime.Now
-            });
-
-        protected override void EnsureValidState()
-        {
-            var valid = Id != null &&
-                EmployeeId != null &&
-                VendorId != null &&
-                ExpectedDeliveryDate.Value >= PurchaseOrderDate.Value;
-
-            if (!valid)
-            {
-                throw new InvalidEntityStateException(this, "Post-checks failed!");
-            }
+            lineItem.UpdatePurchaseOrderId(value);
         }
 
         protected override void When(object @event)
@@ -167,10 +154,43 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                     ApplyToEntity(detailItem, evt);
                     PurchaseOrderDetails.Add(detailItem);
                     break;
+                case Events.PurchaseOrderDetailPurchaseOrderIdUpdated evt:
+
+                    break;
+            }
+        }
+
+        protected override void EnsureValidState()
+        {
+            var valid = Id != null &&
+                EmployeeId != null &&
+                VendorId != null &&
+                ExpectedDeliveryDate.Value >= PurchaseOrderDate.Value &&
+                EnsureValidStatePurchaseOrderDetails();
+
+            if (!valid)
+            {
+                throw new InvalidEntityStateException(this, "Post-checks failed!");
             }
         }
 
         private PurchaseOrderDetail FindPurchaseOrderDetail(PurchaseOrderDetailId id) =>
             PurchaseOrderDetails.FirstOrDefault(item => item.Id == id);
+
+        private bool EnsureValidStatePurchaseOrderDetails()
+        {
+            var retVal = true;
+
+            foreach (var item in PurchaseOrderDetails)
+            {
+                if (!item.IsValid())
+                {
+                    retVal = false;
+                    break;
+                }
+            }
+
+            return retVal;
+        }
     }
 }

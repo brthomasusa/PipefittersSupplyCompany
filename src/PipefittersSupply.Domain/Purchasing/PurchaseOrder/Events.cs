@@ -50,6 +50,8 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
             public DateTime LastModifiedDate { get; set; }
         }
 
+        // PurchaseOrderDetail domain events
+
         public class PurchaseOrderDetailAddedToPurchaseOrder
         {
             public int Id { get; set; }

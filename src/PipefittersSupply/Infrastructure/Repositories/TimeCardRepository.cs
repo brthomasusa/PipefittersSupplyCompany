@@ -4,7 +4,7 @@ using PipefittersSupply.Domain.HumanResources.TimeCards;
 using PipefittersSupply.Domain.Repository;
 using Raven.Client.Documents.Session;
 
-namespace PipefittersSupply.Repositories
+namespace PipefittersSupply.Infrastructure.Repositories
 {
     public class TimeCardRepository : ITimeCardRepository, IDisposable
     {

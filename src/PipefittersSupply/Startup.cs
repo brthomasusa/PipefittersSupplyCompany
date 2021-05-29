@@ -13,7 +13,7 @@ using Swashbuckle.AspNetCore.Swagger;
 
 using PipefittersSupply.Api;
 using PipefittersSupply.AppServices;
-using PipefittersSupply.Repositories;
+using PipefittersSupply.Infrastructure.Repositories;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
 using PipefittersSupply.Domain.HumanResources.Employees;

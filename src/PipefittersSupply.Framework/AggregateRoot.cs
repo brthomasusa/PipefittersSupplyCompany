@@ -10,7 +10,7 @@ namespace PipefittersSupply.Framework
 
         protected AggregateRoot() => _changes = new List<object>();
 
-        public TId Id { get; set; }
+        public TId Id { get; set; }       
 
         protected void Apply(object @event)
         {
