@@ -26,6 +26,12 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
                 OvertimeHours = overtime
             });
 
+        private string DbId
+        {
+            get => $"Employee/{Id}";
+            set { }
+        }
+
         public EmployeeId EmployeeId { get; private set; }
         public void UpdateEmployeeId(EmployeeId value) =>
             Apply(new Events.EmployeeIdUpdated

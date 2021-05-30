@@ -49,6 +49,12 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 CreatedDate = DateTime.Now
             });
 
+        private string DbId
+        {
+            get => $"Employee/{Id}";
+            set { }
+        }
+
         public EmployeeTypeIdentifier EmployeeTypeId { get; private set; }
         public void UpdateEmployeeTypeId(EmployeeTypeIdentifier employeeTypeId) =>
             Apply(new Events.EmployeeTypeIdUpdated

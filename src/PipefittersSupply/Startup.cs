@@ -38,23 +38,9 @@ namespace PipefittersSupply
                 Database = "PipefittersSupply",
                 Conventions =
                   {
-                      FindIdentityProperty = m => m.Name == "_databaseId"
+                      FindIdentityProperty = m => m.Name == "DbId"
                   }
             };
-
-            // store.Conventions.RegisterAsyncIdConvention<Employee>(
-            //     (dbname, employee) =>
-            //         Task.FromResult(string.Format("employees/{0}/{1}", employee.LastName, employee.FirstName)));
-
-            // store.Conventions.RegisterAsyncIdConvention<TimeCard>(
-            //     (dbname, timecard) =>
-            //         Task.FromResult(string.Format("managers/{0}/{1}", "Hello", "World")));
-
-
-            // store.Conventions.RegisterAsyncIdConvention<Employee>(
-            //     (dbName, entity) => Task.FromResult("Employee/" + entity.Id.ToString()));
-            // store.Conventions.RegisterAsyncIdConvention<TimeCard>(
-            //     (dbName, entity) => Task.FromResult("TimeCard/" + entity.Id.ToString()));
 
             store.Initialize();
 

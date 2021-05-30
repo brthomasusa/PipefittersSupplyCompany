@@ -35,6 +35,12 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                 CreatedDate = DateTime.Now
             });
 
+        private string DbId
+        {
+            get => $"Employee/{Id}";
+            set { }
+        }
+
         public VendorId VendorId { get; private set; }
         public void UpdateVendorId(VendorId value) =>
             Apply(new Events.VendorIdUpdated

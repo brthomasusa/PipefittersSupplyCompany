@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -22,11 +23,8 @@ namespace PipefittersSupply.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(V1.CreateEmployee request)
-        {
-            await _employeeAppSvc.Handle(request);
-            return Ok();
-        }
+        public Task<IActionResult> Post(V1.CreateEmployee request) => HandleRequest(request, _employeeAppSvc.Handle);
+
 
         [Route("employeetypeid")]
         [HttpPut]
@@ -162,6 +160,24 @@ namespace PipefittersSupply.Controllers
         {
             await _employeeAppSvc.Handle(request);
             return Ok();
+        }
+
+        private async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler)
+        {
+            try
+            {
+                _logger.LogDebug("Handling HTTP request of type {}", typeof(T).Name);
+
+                await handler(request);
+
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error handling the request.", e);
+
+                return new BadRequestObjectResult(new { error = e.Message, stackTrace = e.StackTrace });
+            }
         }
     }
 }
