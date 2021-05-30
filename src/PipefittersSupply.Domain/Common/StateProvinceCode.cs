@@ -1,6 +1,6 @@
 using System;
 using System.Text.RegularExpressions;
-using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Base;
 using PipefittersSupply.Domain.Lookup;
 
 namespace PipefittersSupply.Domain.Common

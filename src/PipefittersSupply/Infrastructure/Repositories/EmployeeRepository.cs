@@ -13,15 +13,11 @@ namespace PipefittersSupply.Infrastructure.Repositories
 
         public EmployeeRepository(IAsyncDocumentSession session) => _session = session;
 
+        public Task Add(Employee entity) => _session.StoreAsync(entity, EntityId(entity.Id));
+
         public Task<bool> Exists(EmployeeId id) => _session.Advanced.ExistsAsync(EntityId(id));
 
         public Task<Employee> Load(EmployeeId id) => _session.LoadAsync<Employee>(EntityId(id));
-
-        public async Task Save(Employee entity)
-        {
-            await _session.StoreAsync(entity, EntityId(entity.Id));
-            await _session.SaveChangesAsync();
-        }
 
         public void Dispose() => _session.Dispose();
     }

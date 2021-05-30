@@ -1,6 +1,6 @@
 using System;
 using PipefittersSupply.Domain.Common;
-using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Base;
 
 namespace PipefittersSupply.Domain.HumanResources.Employees
 {

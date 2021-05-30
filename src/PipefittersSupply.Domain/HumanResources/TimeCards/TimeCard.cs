@@ -1,5 +1,5 @@
 using System;
-using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Base;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
 

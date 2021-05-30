@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PipefittersSupply.Domain.Interfaces;
 
-namespace PipefittersSupply.Framework
+namespace PipefittersSupply.Domain.Base
 {
     public abstract class AggregateRoot<TId> : IInternalEventHandler where TId : Value<TId>
     {
@@ -10,7 +11,7 @@ namespace PipefittersSupply.Framework
 
         protected AggregateRoot() => _changes = new List<object>();
 
-        public TId Id { get; set; }       
+        public TId Id { get; set; }
 
         protected void Apply(object @event)
         {

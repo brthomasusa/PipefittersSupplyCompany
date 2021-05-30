@@ -1,4 +1,4 @@
-namespace PipefittersSupply.Framework
+namespace PipefittersSupply.Domain.Interfaces
 {
     public interface IInternalEventHandler
     {

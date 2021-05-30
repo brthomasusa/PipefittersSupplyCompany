@@ -1,5 +1,5 @@
 using System;
-using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Base;
 namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
     public class PurchaseOrderId : Value<PurchaseOrderId>

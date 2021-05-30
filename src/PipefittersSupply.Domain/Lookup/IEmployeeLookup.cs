@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Base;
 
 namespace PipefittersSupply.Domain.Lookup
 {

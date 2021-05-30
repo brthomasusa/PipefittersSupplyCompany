@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
-using PipefittersSupply.Infrastructure.Repositories;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
+using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
-using PipefittersSupply.Framework;
 using static PipefittersSupply.Contracts.HumanResources.EmployeeCommand;
 
 namespace PipefittersSupply.AppServices
@@ -14,11 +13,13 @@ namespace PipefittersSupply.AppServices
     {
         private readonly IStateProvinceLookup _stateCodeLkup;
         private readonly IEmployeeRepository _employeeRepo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public EmployeeAppicationService(IStateProvinceLookup lkup, IEmployeeRepository repo)
+        public EmployeeAppicationService(IStateProvinceLookup lkup, IEmployeeRepository repo, IUnitOfWork unitOfWork)
         {
             _stateCodeLkup = lkup;
             _employeeRepo = repo;
+            _unitOfWork = unitOfWork;
         }
 
         public Task Handle(object command) =>
@@ -143,7 +144,8 @@ namespace PipefittersSupply.AppServices
                 IsActive.FromBoolean(cmd.IsActive)
             );
 
-            await _employeeRepo.Save(employee);
+            await _employeeRepo.Add(employee);
+            await _unitOfWork.Commit();
         }
 
         private async Task HandleUpdate(int employeeID, Action<Employee> operation)
@@ -157,7 +159,7 @@ namespace PipefittersSupply.AppServices
 
             operation(employee);
 
-            await _employeeRepo.Save(employee);
+            await _unitOfWork.Commit();
         }
     }
 }

@@ -2,8 +2,8 @@ using System;
 using System.Threading.Tasks;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.HumanResources.TimeCards;
+using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Repository;
-using PipefittersSupply.Framework;
 using static PipefittersSupply.Contracts.HumanResources.TimeCardCommand;
 
 namespace PipefittersSupply.AppServices
@@ -11,8 +11,13 @@ namespace PipefittersSupply.AppServices
     public class TimeCardApplicationService : IApplicationService
     {
         private readonly ITimeCardRepository _repo;
+        private readonly IUnitOfWork _unitOfWork;
 
-        public TimeCardApplicationService(ITimeCardRepository repo) => _repo = repo;
+        public TimeCardApplicationService(ITimeCardRepository repo, IUnitOfWork unitOfWork)
+        {
+            _repo = repo;
+            _unitOfWork = unitOfWork;
+        }
 
         public Task Handle(object command) =>
             command switch
@@ -65,7 +70,8 @@ namespace PipefittersSupply.AppServices
                 OvertimeHours.FromInterger(cmd.OvertimeHours)
             );
 
-            await _repo.Save(timeCard);
+            await _repo.Add(timeCard);
+            await _unitOfWork.Commit();
         }
 
         private async Task HandleUpdate(int timeCardID, Action<TimeCard> operation)
@@ -79,7 +85,7 @@ namespace PipefittersSupply.AppServices
 
             operation(timeCard);
 
-            await _repo.Save(timeCard);
+            await _unitOfWork.Commit();
         }
     }
 }

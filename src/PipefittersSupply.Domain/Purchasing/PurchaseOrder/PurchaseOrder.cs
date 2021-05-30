@@ -5,7 +5,7 @@ using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Purchasing.Inventory;
 using PipefittersSupply.Domain.Purchasing.Vendor;
-using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Base;
 
 namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {

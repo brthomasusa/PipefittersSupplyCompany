@@ -1,8 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using PipefittersSupply.Domain.Interfaces;
 
-namespace PipefittersSupply.Framework
+namespace PipefittersSupply.Domain.Base
 {
     public abstract class Entity<TId> : IInternalEventHandler where TId : Value<TId>
     {

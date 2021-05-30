@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace PipefittersSupply.Framework
+namespace PipefittersSupply.Domain.Base
 {
     public abstract class Value<T> where T : Value<T>
     {

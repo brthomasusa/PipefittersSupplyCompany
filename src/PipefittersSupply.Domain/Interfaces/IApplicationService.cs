@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace PipefittersSupply.Framework
+namespace PipefittersSupply.Domain.Interfaces
 {
     public interface IApplicationService
     {

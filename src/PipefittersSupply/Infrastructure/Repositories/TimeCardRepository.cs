@@ -19,11 +19,11 @@ namespace PipefittersSupply.Infrastructure.Repositories
 
         public Task<TimeCard> Load(TimeCardId id) => _session.LoadAsync<TimeCard>(EntityId(id));
 
-        public async Task Save(TimeCard entity)
-        {
-            await _session.StoreAsync(entity, EntityId(entity.Id));
-            await _session.SaveChangesAsync();
-        }
+        // public async Task Save(TimeCard entity)
+        // {
+        //     await _session.StoreAsync(entity, EntityId(entity.Id));
+        //     await _session.SaveChangesAsync();
+        // }
 
         public void Dispose() => _session.Dispose();
     }

@@ -1,7 +1,7 @@
 using System;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.Purchasing.Inventory;
-using PipefittersSupply.Framework;
+using PipefittersSupply.Domain.Base;
 namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
     public class PurchaseOrderDetail : Entity<PurchaseOrderDetailId>

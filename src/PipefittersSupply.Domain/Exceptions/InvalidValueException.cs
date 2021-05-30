@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Framework
+namespace PipefittersSupply.Domain.Exceptions
 {
     public class InvalidValueException : Exception
     {

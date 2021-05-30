@@ -1,21 +1,16 @@
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Raven.Client;
 using Raven.Client.Documents;
-using Raven.Client.Documents.Session;
-
-using PipefittersSupply.Controllers;
 using PipefittersSupply.AppServices;
-using PipefittersSupply.Infrastructure.Repositories;
+using PipefittersSupply.Domain.Infrastructure;
+using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
-using PipefittersSupply.Domain.HumanResources.Employees;
-using PipefittersSupply.Domain.HumanResources.TimeCards;
+using PipefittersSupply.Infrastructure.Repositories;
 
 namespace PipefittersSupply
 {
@@ -68,6 +63,7 @@ namespace PipefittersSupply
             services.AddSingleton<IEmployeeLookup, EmployeeLookup>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITimeCardRepository, TimeCardRepository>();
+            services.AddScoped<IUnitOfWork, RavenDbUnitOfWork>();
             services.AddScoped<EmployeeAppicationService>();
             services.AddScoped<TimeCardApplicationService>();
 
