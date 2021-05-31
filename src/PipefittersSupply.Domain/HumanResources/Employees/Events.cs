@@ -146,5 +146,12 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             public bool IsActive { get; set; }
             public DateTime LastModifiedDate { get; set; }
         }
+
+        public class EmployeeTypeIdCreated
+        {
+            public int Id { get; set; }
+            public string EmployeeTypeName { get; set; }
+            public DateTime CreatedDate { get; set; }
+        }
     }
 }

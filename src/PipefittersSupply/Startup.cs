@@ -10,6 +10,7 @@ using PipefittersSupply.Domain.Infrastructure;
 using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
+using PipefittersSupply.Infrastructure;
 using PipefittersSupply.Infrastructure.Repositories;
 
 namespace PipefittersSupply
@@ -27,6 +28,7 @@ namespace PipefittersSupply
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+            services.AddPersistence(Configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PipefittersSupply", Version = "v1" });

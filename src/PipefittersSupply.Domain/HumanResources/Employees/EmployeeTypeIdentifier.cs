@@ -3,7 +3,7 @@ using PipefittersSupply.Domain.Base;
 
 namespace PipefittersSupply.Domain.HumanResources.Employees
 {
-    public class EmployeeTypeIdentifier
+    public class EmployeeTypeIdentifier : Value<EmployeeTypeIdentifier>
     {
         public int Value { get; }
 
