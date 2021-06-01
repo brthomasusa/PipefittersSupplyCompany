@@ -15,6 +15,10 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 
         public List<PurchaseOrderDetail> PurchaseOrderDetails { get; private set; } = new List<PurchaseOrderDetail>();
 
+        public int PurchaseOrderId { get; private set; }
+
+        protected PurchaseOrder() { }
+
         public PurchaseOrder
         (
             PurchaseOrderId id,
@@ -134,6 +138,7 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                     ExpectedDeliveryDate = new ExpectedDeliveryDate(evt.ExpectedDeliveryDate);
                     PurchaseOrderAmount = new PurchaseOrderAmount(evt.PurchaseOrderAmount);
                     CreatedDate = new CreatedDate(evt.CreatedDate);
+                    PurchaseOrderId = evt.Id;
                     break;
                 case Events.VendorIdUpdated evt:
                     VendorId = new VendorId(evt.VendorId);

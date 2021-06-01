@@ -6,9 +6,13 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
     public class PurchaseOrderDetail : Entity<PurchaseOrderDetailId>
     {
+        public int PurchaseOrderDetailId { get; private set; }
+
         public PurchaseOrderDetail(Action<object> applier) : base(applier) { }
 
-        internal PurchaseOrderId PurchaseOrderId { get; set; }
+        protected PurchaseOrderDetail() { }
+
+        public PurchaseOrderId PurchaseOrderId { get; private set; }
         internal void UpdatePurchaseOrderId(PurchaseOrderId value) =>
             Apply(new Events.PurchaseOrderDetailPurchaseOrderIdUpdated
             {
@@ -17,17 +21,17 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                 LastModifiedDate = DateTime.Now
             });
 
-        internal InventoryId InventoryId { get; set; }
+        public InventoryId InventoryId { get; private set; }
 
-        internal VendorPartNumber VendorPartNumber { get; set; }
+        public VendorPartNumber VendorPartNumber { get; private set; }
 
-        internal Quantity QuantityOrdered { get; set; }
+        public Quantity QuantityOrdered { get; private set; }
 
-        internal UnitCost UnitCost { get; set; }
+        public UnitCost UnitCost { get; private set; }
 
-        internal CreatedDate CreatedDate { get; set; }
+        public CreatedDate CreatedDate { get; private set; }
 
-        internal LastModifiedDate LastModifiedDate { get; set; }
+        public LastModifiedDate LastModifiedDate { get; private set; }
 
         protected override void When(object @event)
         {
@@ -40,6 +44,7 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
                     QuantityOrdered = Quantity.FromInterger(evt.QuantityOrdered);
                     UnitCost = UnitCost.FromDecimal(evt.UnitCost);
                     CreatedDate = new CreatedDate(DateTime.Now);
+                    PurchaseOrderDetailId = evt.Id;
                     this.EnsureValidState();
                     break;
                 case Events.PurchaseOrderDetailPurchaseOrderIdUpdated evt:

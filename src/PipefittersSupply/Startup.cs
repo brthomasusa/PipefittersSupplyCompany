@@ -1,12 +1,14 @@
+using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
 using Raven.Client.Documents;
 using PipefittersSupply.AppServices;
-using PipefittersSupply.Domain.Infrastructure;
 using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
@@ -27,8 +29,17 @@ namespace PipefittersSupply
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<PipefittersSupplyDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    msSqlOptions => msSqlOptions.MigrationsAssembly(typeof(PipefittersSupplyDbContext).Assembly.FullName)
+                )
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
+            );
+
             services.AddControllers();
-            services.AddPersistence(Configuration);
+            // services.AddPersistence(Configuration);
             services.AddSwaggerGen(c =>
             {
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PipefittersSupply", Version = "v1" });

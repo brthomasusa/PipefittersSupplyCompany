@@ -11,6 +11,8 @@ namespace PipefittersSupply.Domain.Base
 
         protected Entity(Action<object> applier) => _applier = applier;
 
+        protected Entity() { }
+
         public TId Id { get; protected set; }
 
         protected abstract void When(object @event);

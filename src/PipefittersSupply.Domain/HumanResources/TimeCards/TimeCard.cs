@@ -1,4 +1,6 @@
 using System;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using PipefittersSupply.Domain.Base;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
@@ -33,6 +35,7 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
         }
 
         public int TimeCardId { get; private set; }
+
         protected TimeCard() { }
 
         public EmployeeId EmployeeId { get; private set; }
