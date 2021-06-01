@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Common
     {
         public int Value { get; }
 
+        protected Quantity() { }
+
+
         internal Quantity(int value) => Value = value;
 
         public static implicit operator int(Quantity self) => self.Value;

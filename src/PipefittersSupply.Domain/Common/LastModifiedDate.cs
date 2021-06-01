@@ -5,8 +5,10 @@ namespace PipefittersSupply.Domain.Common
 {
     public class LastModifiedDate : Value<LastModifiedDate>
     {
-
         public DateTime Value { get; }
+
+        protected LastModifiedDate() { }
+
 
         internal LastModifiedDate(DateTime value) => Value = value;
 

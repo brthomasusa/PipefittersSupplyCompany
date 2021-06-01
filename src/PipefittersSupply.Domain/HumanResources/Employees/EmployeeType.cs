@@ -13,6 +13,9 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 EmployeeTypeName = typeName
             });
 
+        public int EmployeeTypeId { get; private set; }
+
+        protected EmployeeType() { }
 
         public EmployeeTypeName EmployeeTypeName { get; private set; }
 
@@ -38,6 +41,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                     Id = new EmployeeTypeIdentifier(evt.Id);
                     EmployeeTypeName = new EmployeeTypeName(evt.EmployeeTypeName);
                     CreatedDate = new CreatedDate(DateTime.Now);
+                    EmployeeTypeId = evt.Id;
                     break;
             }
         }

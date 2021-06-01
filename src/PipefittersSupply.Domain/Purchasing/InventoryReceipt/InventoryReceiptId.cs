@@ -6,6 +6,8 @@ namespace PipefittersSupply.Domain.Purchasing.InventoryReceipt
     {
         private int Value { get; }
 
+        protected InventoryReceiptId() { }
+
         public InventoryReceiptId(int value)
         {
             if (value == default)

@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
     {
         public int Value { get; }
 
+        protected TaxExemption() { }
+
         internal TaxExemption(int value) => Value = value;
 
         public static implicit operator int(TaxExemption self) => self.Value;

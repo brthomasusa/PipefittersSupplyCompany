@@ -32,6 +32,9 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
             set { }
         }
 
+        public int TimeCardId { get; private set; }
+        protected TimeCard() { }
+
         public EmployeeId EmployeeId { get; private set; }
         public void UpdateEmployeeId(EmployeeId value) =>
             Apply(new Events.EmployeeIdUpdated
@@ -103,6 +106,7 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
                     RegularHours = new RegularHours(evt.RegularHours);
                     OvertimeHours = new OvertimeHours(evt.OvertimeHours);
                     CreatedDate = new CreatedDate(DateTime.Now);
+                    TimeCardId = evt.Id;
                     break;
                 case Events.EmployeeIdUpdated evt:
                     EmployeeId = new EmployeeId(evt.EmployeeId);

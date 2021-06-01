@@ -8,6 +8,9 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
+        protected Telephone() { }
+
+
         internal Telephone(string value) => Value = value;
 
         public static implicit operator string(Telephone self) => self.Value;

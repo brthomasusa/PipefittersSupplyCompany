@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
     {
         public int Value { get; }
 
+        protected OvertimeHours() { }
+
         internal OvertimeHours(int value) => Value = value;
 
         public static implicit operator int(OvertimeHours self) => self.Value;

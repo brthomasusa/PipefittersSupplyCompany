@@ -8,23 +8,17 @@ namespace PipefittersSupply.Infrastructure.Repositories
 {
     public class TimeCardRepository : ITimeCardRepository, IDisposable
     {
-        private readonly IAsyncDocumentSession _session;
+        private readonly PipefittersSupplyDbContext _dbContext;
         private string EntityId(TimeCardId id) => $"TimeCard/{id}";
 
-        public TimeCardRepository(IAsyncDocumentSession session) => _session = session;
+        public TimeCardRepository(PipefittersSupplyDbContext dbCtx) => _dbContext = dbCtx;
 
-        public Task Add(TimeCard entity) => _session.StoreAsync(entity, EntityId(entity.Id));
+        public async Task Add(TimeCard entity) => await _dbContext.TimeCards.AddAsync(entity);
 
-        public Task<bool> Exists(TimeCardId id) => _session.Advanced.ExistsAsync(EntityId(id));
+        public async Task<bool> Exists(TimeCardId id) => await _dbContext.TimeCards.FindAsync(id) != null;
 
-        public Task<TimeCard> Load(TimeCardId id) => _session.LoadAsync<TimeCard>(EntityId(id));
+        public async Task<TimeCard> Load(TimeCardId id) => await _dbContext.TimeCards.FindAsync(id);
 
-        // public async Task Save(TimeCard entity)
-        // {
-        //     await _session.StoreAsync(entity, EntityId(entity.Id));
-        //     await _session.SaveChangesAsync();
-        // }
-
-        public void Dispose() => _session.Dispose();
+        public void Dispose() => _dbContext.Dispose();
     }
 }

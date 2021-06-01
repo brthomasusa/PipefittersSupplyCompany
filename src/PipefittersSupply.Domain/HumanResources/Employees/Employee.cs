@@ -55,6 +55,11 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             set { }
         }
 
+        // Properties to handle efcore persistence
+        public int EmployeeId { get; private set; }
+
+        protected Employee() { }
+
         public EmployeeTypeIdentifier EmployeeTypeId { get; private set; }
         public void UpdateEmployeeTypeId(EmployeeTypeIdentifier employeeTypeId) =>
             Apply(new Events.EmployeeTypeIdUpdated
@@ -246,6 +251,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                     StartDate = new EmployeeStartDate(evt.StartDate);
                     IsActive = new IsActive(evt.IsActive);
                     CreatedDate = new CreatedDate(evt.CreatedDate);
+                    EmployeeId = evt.Id;
                     break;
                 case Events.EmployeeTypeIdUpdated evt:
                     EmployeeTypeId = new EmployeeTypeIdentifier(evt.EmployeeTypeId);

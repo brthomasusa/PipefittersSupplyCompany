@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
     {
         public decimal Value { get; }
 
+        protected EmployeePayRate() { }
+
         internal EmployeePayRate(decimal value) => Value = value;
 
         public static implicit operator decimal(EmployeePayRate self) => self.Value;

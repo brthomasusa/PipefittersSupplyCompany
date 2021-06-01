@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
+        protected AddressLine1() { }
+
+
         internal AddressLine1(string value) => Value = value;
 
         public static implicit operator string(AddressLine1 self) => self.Value;

@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
     {
         public decimal Value { get; }
 
+        protected PurchaseOrderAmount() { }
+
+
         internal PurchaseOrderAmount(decimal value) => Value = value;
 
         public static implicit operator decimal(PurchaseOrderAmount self) => self.Value;

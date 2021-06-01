@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
     {
         public string Value { get; }
 
+        protected EmployeeMiddleInitial() { }
+
         internal EmployeeMiddleInitial(string value) => Value = value.ToUpper();
 
         public static implicit operator string(EmployeeMiddleInitial self) => self.Value;

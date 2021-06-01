@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Common
     {
         public DateTime Value { get; }
 
+        protected CreatedDate() { }
+
+
         internal CreatedDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(CreatedDate self) => self.Value;

@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
     {
         public string Value { get; }
 
+        protected VendorPartNumber() { }
+
         internal VendorPartNumber(string value) => Value = value;
 
         public static implicit operator string(VendorPartNumber self) => self.Value;

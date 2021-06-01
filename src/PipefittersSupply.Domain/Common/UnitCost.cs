@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Common
     {
         public decimal Value { get; }
 
+        protected UnitCost() { }
+
+
         internal UnitCost(decimal value) => Value = value;
 
         public static implicit operator decimal(UnitCost self) => self.Value;

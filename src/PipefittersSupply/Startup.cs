@@ -51,7 +51,7 @@ namespace PipefittersSupply
             services.AddSingleton<IEmployeeLookup, EmployeeLookup>();
             services.AddScoped<IEmployeeRepository, EmployeeRepository>();
             services.AddScoped<ITimeCardRepository, TimeCardRepository>();
-            services.AddScoped<IUnitOfWork, RavenDbUnitOfWork>();
+            services.AddScoped<IUnitOfWork, EfCoreUnitOfWork>();
             services.AddScoped<EmployeeAppicationService>();
             services.AddScoped<TimeCardApplicationService>();
 

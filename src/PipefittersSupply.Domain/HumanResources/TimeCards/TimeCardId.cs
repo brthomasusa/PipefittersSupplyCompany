@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
     {
         private int Value { get; }
 
+        protected TimeCardId() { }
+
+
         public TimeCardId(int value)
         {
             if (value == default)

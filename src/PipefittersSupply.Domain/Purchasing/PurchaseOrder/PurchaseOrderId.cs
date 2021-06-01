@@ -6,6 +6,8 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
     {
         private int Value { get; }
 
+        protected PurchaseOrderId() { }
+
         public PurchaseOrderId(int value)
         {
             if (value == default)

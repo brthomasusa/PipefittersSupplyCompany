@@ -6,6 +6,8 @@ namespace PipefittersSupply.Domain.Purchasing.Vendor
     {
         private int Value { get; }
 
+        protected VendorId() { }
+
         public VendorId(int value)
         {
             if (value == default)

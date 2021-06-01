@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
     {
         public DateTime Value { get; }
 
+        protected PayPeriodEndDate() { }
+
         internal PayPeriodEndDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(PayPeriodEndDate self) => self.Value;

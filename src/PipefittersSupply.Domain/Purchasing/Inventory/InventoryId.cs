@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.Purchasing.Inventory
     {
         private int Value { get; }
 
+        protected InventoryId() { }
+
         public InventoryId(int value)
         {
             if (value == default)

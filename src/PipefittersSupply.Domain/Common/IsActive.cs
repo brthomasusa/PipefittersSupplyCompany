@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Common
     {
         public bool Value { get; }
 
+        protected IsActive() { }
+
+
         internal IsActive(bool value) => Value = value;
 
         public static implicit operator bool(IsActive self) => self.Value;

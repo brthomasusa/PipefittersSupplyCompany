@@ -22,7 +22,7 @@ namespace PipefittersSupply.Infrastructure
             _logger = logger;
         }
 
-        public DbSet<EmployeeType> Documents { get; set; }
+        public DbSet<EmployeeType> EmployeeTypes { get; set; }
         public DbSet<Employee> Employees { get; set; }
         public DbSet<TimeCard> TimeCards { get; set; }
 

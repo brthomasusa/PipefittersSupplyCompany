@@ -9,6 +9,8 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
+        protected StateProvinceCode() { }
+
         internal StateProvinceCode(string value) => Value = value.ToUpper();
 
         public static implicit operator string(StateProvinceCode self) => self.Value;

@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
     {
         public DateTime Value { get; }
 
+        protected ExpectedDeliveryDate() { }
+
+
         internal ExpectedDeliveryDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(ExpectedDeliveryDate self) => self.Value;

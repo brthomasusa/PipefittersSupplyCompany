@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
     {
         public string Value { get; }
 
+        protected EmployeeFirstName() { }
+
         internal EmployeeFirstName(string value) => Value = value;
 
         public static implicit operator string(EmployeeFirstName self) => self.Value;

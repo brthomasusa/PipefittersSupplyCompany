@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
     {
         public DateTime Value { get; }
 
+        protected PurchaseOrderDate() { }
+
         internal PurchaseOrderDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(PurchaseOrderDate self) => self.Value;

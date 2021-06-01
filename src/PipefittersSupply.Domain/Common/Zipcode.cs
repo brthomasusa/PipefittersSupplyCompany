@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Common
     public class Zipcode : Value<Zipcode>
     {
         public string Value { get; }
+
+        protected Zipcode() { }
+
         internal Zipcode(string value) => Value = value;
 
         public static implicit operator string(Zipcode self) => self.Value;

@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
     {
         private readonly int _value;
 
+        protected SupervisorId() { }
+
         public SupervisorId(int value)
         {
             if (value == default)

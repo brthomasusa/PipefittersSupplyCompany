@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
     {
         public DateTime Value { get; }
 
+        protected EmployeeStartDate() { }
+
+
         internal EmployeeStartDate(DateTime value) => Value = value;
 
         public static implicit operator DateTime(EmployeeStartDate self) => self.Value;

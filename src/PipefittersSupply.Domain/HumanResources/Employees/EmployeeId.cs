@@ -6,6 +6,8 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
     {
         private int Value { get; }
 
+        protected EmployeeId() { }
+
         public EmployeeId(int value)
         {
             if (value == default)

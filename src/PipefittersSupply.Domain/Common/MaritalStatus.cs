@@ -7,6 +7,9 @@ namespace PipefittersSupply.Domain.Common
     {
         public string Value { get; }
 
+        protected MaritalStatus() { }
+
+
         internal MaritalStatus(string value) => Value = value.ToUpper();
 
         public static implicit operator string(MaritalStatus self) => self.Value;

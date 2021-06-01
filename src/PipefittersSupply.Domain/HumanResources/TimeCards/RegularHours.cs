@@ -7,6 +7,8 @@ namespace PipefittersSupply.Domain.HumanResources.TimeCards
     {
         public int Value { get; }
 
+        protected RegularHours() { }
+
         internal RegularHours(int value) => Value = value;
 
         public static implicit operator int(RegularHours self) => self.Value;
