@@ -41,7 +41,7 @@ namespace PipefittersSupply.Tests
 
             Assert.IsType<Employee>(employee);
             Assert.Equal(1, employee.Id);
-            Assert.Equal(3, employee.EmployeeTypeId);
+            Assert.Equal(3, employee.EmployeeType);
             Assert.Equal(1, employee.SupervisorId);
             Assert.Equal("Pimp", employee.LastName);
             Assert.Equal("Big", employee.FirstName);

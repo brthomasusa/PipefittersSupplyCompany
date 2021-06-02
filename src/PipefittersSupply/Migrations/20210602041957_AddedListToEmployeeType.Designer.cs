@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PipefittersSupply.Infrastructure;
 
 namespace PipefittersSupply.Migrations
 {
     [DbContext(typeof(PipefittersSupplyDbContext))]
-    partial class PipefittersSupplyDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210602041957_AddedListToEmployeeType")]
+    partial class AddedListToEmployeeType
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -38,12 +40,12 @@ namespace PipefittersSupply.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<int?>("EmployeeTypeId")
+                    b.Property<int?>("EmployeeTypeId1")
                         .HasColumnType("int");
 
                     b.HasKey("EmployeeId");
 
-                    b.HasIndex("EmployeeTypeId");
+                    b.HasIndex("EmployeeTypeId1");
 
                     b.ToTable("Employees", "HumanResources");
                 });
@@ -57,7 +59,7 @@ namespace PipefittersSupply.Migrations
 
                     b.HasKey("EmployeeTypeId");
 
-                    b.ToTable("EmployeeTypes", "HumanResources");
+                    b.ToTable("EmployeeTypes");
                 });
 
             modelBuilder.Entity("PipefittersSupply.Domain.HumanResources.TimeCards.TimeCard", b =>
@@ -216,7 +218,7 @@ namespace PipefittersSupply.Migrations
                 {
                     b.HasOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeType", null)
                         .WithMany("Employees")
-                        .HasForeignKey("EmployeeTypeId");
+                        .HasForeignKey("EmployeeTypeId1");
 
                     b.OwnsOne("PipefittersSupply.Domain.Common.AddressLine1", "AddressLine1", b1 =>
                         {
@@ -572,7 +574,7 @@ namespace PipefittersSupply.Migrations
                                 .HasForeignKey("EmployeeId");
                         });
 
-                    b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeTypeIdentifier", "EmployeeType", b1 =>
+                    b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeTypeIdentifier", "EmployeeTypeId", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
                                 .ValueGeneratedOnAdd()
@@ -581,7 +583,7 @@ namespace PipefittersSupply.Migrations
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int")
-                                .HasColumnName("EmployeeType");
+                                .HasColumnName("EmployeeTypeId");
 
                             b1.HasKey("EmployeeId");
 
@@ -618,7 +620,7 @@ namespace PipefittersSupply.Migrations
 
                     b.Navigation("CreatedDate");
 
-                    b.Navigation("EmployeeType");
+                    b.Navigation("EmployeeTypeId");
 
                     b.Navigation("Exemptions");
 

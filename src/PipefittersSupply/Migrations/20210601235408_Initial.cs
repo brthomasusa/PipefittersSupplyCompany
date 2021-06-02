@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace PipefittersSupply.Migrations
 {
@@ -6,12 +7,42 @@ namespace PipefittersSupply.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.EnsureSchema(
+                name: "Financing");
+
+            migrationBuilder.EnsureSchema(
+                name: "HumanResources");
+
+            migrationBuilder.EnsureSchema(
+                name: "Purchasing");
+
+            migrationBuilder.CreateTable(
+                name: "CashDisbursementTypes",
+                schema: "Financing",
+                columns: table => new
+                {
+                    CashDisbursementTypeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EventTypeName = table.Column<string>(type: "nvarchar(25)", nullable: true),
+                    PayeeTypeName = table.Column<string>(type: "nvarchar(25)", nullable: true),
+                    CreatedDate = table.Column<DateTime>(type: "datetime2(7)", nullable: true, defaultValueSql: "sysdatetime()"),
+                    LastModifiedDate = table.Column<DateTime>(type: "datetime2(7)", nullable: true),
+                    Id_Value = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CashDisbursementTypes", x => x.CashDisbursementTypeId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "Employees",
+                schema: "HumanResources",
                 columns: table => new
                 {
                     EmployeeId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    SupervisorId_Value = table.Column<int>(type: "int", nullable: true),
+                    Id_Value = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -32,10 +63,13 @@ namespace PipefittersSupply.Migrations
 
             migrationBuilder.CreateTable(
                 name: "PurchaseOrders",
+                schema: "Purchasing",
                 columns: table => new
                 {
                     PurchaseOrderId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId_Value = table.Column<int>(type: "int", nullable: true),
+                    Id_Value = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -44,10 +78,14 @@ namespace PipefittersSupply.Migrations
 
             migrationBuilder.CreateTable(
                 name: "TimeCards",
+                schema: "HumanResources",
                 columns: table => new
                 {
                     TimeCardId = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1")
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EmployeeId_Value = table.Column<int>(type: "int", nullable: true),
+                    SupervisorId_Value = table.Column<int>(type: "int", nullable: true),
+                    Id_Value = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -56,11 +94,14 @@ namespace PipefittersSupply.Migrations
 
             migrationBuilder.CreateTable(
                 name: "PurchaseOrderDetails",
+                schema: "Purchasing",
                 columns: table => new
                 {
                     PurchaseOrderDetailId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    PurchaseOrderId1 = table.Column<int>(type: "int", nullable: true)
+                    PurchaseOrderId_Value = table.Column<int>(type: "int", nullable: true),
+                    PurchaseOrderId1 = table.Column<int>(type: "int", nullable: true),
+                    Id_Value = table.Column<int>(type: "int", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -68,6 +109,7 @@ namespace PipefittersSupply.Migrations
                     table.ForeignKey(
                         name: "FK_PurchaseOrderDetails_PurchaseOrders_PurchaseOrderId1",
                         column: x => x.PurchaseOrderId1,
+                        principalSchema: "Purchasing",
                         principalTable: "PurchaseOrders",
                         principalColumn: "PurchaseOrderId",
                         onDelete: ReferentialAction.Restrict);
@@ -75,6 +117,7 @@ namespace PipefittersSupply.Migrations
 
             migrationBuilder.CreateIndex(
                 name: "IX_PurchaseOrderDetails_PurchaseOrderId1",
+                schema: "Purchasing",
                 table: "PurchaseOrderDetails",
                 column: "PurchaseOrderId1");
         }
@@ -82,19 +125,27 @@ namespace PipefittersSupply.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Employees");
+                name: "CashDisbursementTypes",
+                schema: "Financing");
+
+            migrationBuilder.DropTable(
+                name: "Employees",
+                schema: "HumanResources");
 
             migrationBuilder.DropTable(
                 name: "EmployeeTypes");
 
             migrationBuilder.DropTable(
-                name: "PurchaseOrderDetails");
+                name: "PurchaseOrderDetails",
+                schema: "Purchasing");
 
             migrationBuilder.DropTable(
-                name: "TimeCards");
+                name: "TimeCards",
+                schema: "HumanResources");
 
             migrationBuilder.DropTable(
-                name: "PurchaseOrders");
+                name: "PurchaseOrders",
+                schema: "Purchasing");
         }
     }
 }

@@ -1,9 +1,6 @@
 using System.Threading.Tasks;
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using PipefittersSupply.Infrastructure.Configuration;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.HumanResources.TimeCards;
 using PipefittersSupply.Domain.Purchasing.Inventory;
@@ -29,10 +26,6 @@ namespace PipefittersSupply.Infrastructure
         {
             modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
             // modelBuilder.ApplyConfiguration(new EmployeeTypeConfig());
-            // modelBuilder.ApplyConfiguration(new EmployeeConfig());
-            // modelBuilder.ApplyConfiguration(new TimeCardConfig());
-            // modelBuilder.ApplyConfiguration(new PurchaseOrderConfig());
-            // modelBuilder.ApplyConfiguration(new PurchaseOrderDetailConfig());
         }
     }
 }

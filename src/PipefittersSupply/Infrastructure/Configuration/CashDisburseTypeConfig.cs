@@ -11,17 +11,31 @@ namespace PipefittersSupply.Infrastructure.Configuration
         {
             entity.ToTable("CashDisbursementTypes", schema: "Financing");
             entity.HasKey(e => e.CashDisbursementTypeId);
-            entity.HasIndex(e => e.EventTypeName).IsUnique();
-            entity.HasIndex(e => e.PayeeTypeName).IsUnique();
-
-            entity.Property(prop => prop.EventTypeName).HasColumnType("nvarchar(25)");
-            entity.Property(prop => prop.PayeeTypeName).HasColumnType("nvarchar(25)");
-
-            entity.Property(e => e.CreatedDate)
+            entity.OwnsOne(e => e.Id)
+                .Property(p => p.Value)
+                .HasColumnType("int")
+                .IsRequired();
+            entity.OwnsOne(e => e.EventTypeName)
+                .Property(p => p.Value)
+                .HasColumnType("nvarchar(25)")
+                .HasColumnName("EventTypeName")
+                .IsRequired();
+            entity.OwnsOne(e => e.PayeeTypeName)
+                .Property(p => p.Value)
+                .HasColumnType("nvarchar(25)")
+                .HasColumnName("PayeeTypeName")
+                .IsRequired();
+            entity.OwnsOne(e => e.CreatedDate)
+                .Property(p => p.Value)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()
-                .HasDefaultValueSql("sysdatetime()");
-            entity.Property(e => e.LastModifiedDate).HasColumnType("datetime2(7)");
+                .HasDefaultValueSql("sysdatetime()")
+                .HasColumnName("CreatedDate")
+                .IsRequired();
+            entity.OwnsOne(e => e.LastModifiedDate)
+                .Property(p => p.Value)
+                .HasColumnType("datetime2(7)")
+                .HasColumnName("LastModifiedDate");
         }
     }
 }

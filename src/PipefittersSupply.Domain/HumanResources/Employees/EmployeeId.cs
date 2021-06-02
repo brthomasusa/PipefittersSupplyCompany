@@ -4,7 +4,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
 {
     public class EmployeeId : Value<EmployeeId>
     {
-        private int Value { get; }
+        public int Value { get; internal set; }
 
         protected EmployeeId() { }
 

@@ -11,7 +11,7 @@ namespace PipefittersSupply.Domain.Base
 
         protected AggregateRoot() => _changes = new List<object>();
 
-        public TId Id { get; set; }
+        public TId Id { get; protected set; }
 
         protected void Apply(object @event)
         {

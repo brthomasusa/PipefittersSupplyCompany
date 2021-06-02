@@ -4,7 +4,7 @@ namespace PipefittersSupply.Domain.Purchasing.PurchaseOrder
 {
     public class PurchaseOrderDetailId : Value<PurchaseOrderDetailId>
     {
-        private int Value { get; }
+        public int Value { get; internal set; }
 
         protected PurchaseOrderDetailId() { }
 

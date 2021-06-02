@@ -10,8 +10,8 @@ using PipefittersSupply.Infrastructure;
 namespace PipefittersSupply.Migrations
 {
     [DbContext(typeof(PipefittersSupplyDbContext))]
-    [Migration("20210601185304_Initial")]
-    partial class Initial
+    [Migration("20210602010007_TryingForForeignKey")]
+    partial class TryingForForeignKey
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -20,6 +20,18 @@ namespace PipefittersSupply.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("ProductVersion", "5.0.6")
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+            modelBuilder.Entity("PipefittersSupply.Domain.Financing.CashDisbursement.CashDisbursementType", b =>
+                {
+                    b.Property<int>("CashDisbursementTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("CashDisbursementTypeId");
+
+                    b.ToTable("CashDisbursementTypes", "Financing");
+                });
 
             modelBuilder.Entity("PipefittersSupply.Domain.HumanResources.Employees.Employee", b =>
                 {
@@ -30,7 +42,7 @@ namespace PipefittersSupply.Migrations
 
                     b.HasKey("EmployeeId");
 
-                    b.ToTable("Employees");
+                    b.ToTable("Employees", "HumanResources");
                 });
 
             modelBuilder.Entity("PipefittersSupply.Domain.HumanResources.Employees.EmployeeType", b =>
@@ -54,7 +66,7 @@ namespace PipefittersSupply.Migrations
 
                     b.HasKey("TimeCardId");
 
-                    b.ToTable("TimeCards");
+                    b.ToTable("TimeCards", "HumanResources");
                 });
 
             modelBuilder.Entity("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrder", b =>
@@ -66,7 +78,7 @@ namespace PipefittersSupply.Migrations
 
                     b.HasKey("PurchaseOrderId");
 
-                    b.ToTable("PurchaseOrders");
+                    b.ToTable("PurchaseOrders", "Purchasing");
                 });
 
             modelBuilder.Entity("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrderDetail", b =>
@@ -83,7 +95,116 @@ namespace PipefittersSupply.Migrations
 
                     b.HasIndex("PurchaseOrderId1");
 
-                    b.ToTable("PurchaseOrderDetails");
+                    b.ToTable("PurchaseOrderDetails", "Purchasing");
+                });
+
+            modelBuilder.Entity("PipefittersSupply.Domain.Financing.CashDisbursement.CashDisbursementType", b =>
+                {
+                    b.OwnsOne("PipefittersSupply.Domain.Common.CreatedDate", "CreatedDate", b1 =>
+                        {
+                            b1.Property<int>("CashDisbursementTypeId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTime>("Value")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("datetime2(7)")
+                                .HasColumnName("CreatedDate")
+                                .HasDefaultValueSql("sysdatetime()");
+
+                            b1.HasKey("CashDisbursementTypeId");
+
+                            b1.ToTable("CashDisbursementTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CashDisbursementTypeId");
+                        });
+
+                    b.OwnsOne("PipefittersSupply.Domain.Common.LastModifiedDate", "LastModifiedDate", b1 =>
+                        {
+                            b1.Property<int>("CashDisbursementTypeId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTime>("Value")
+                                .HasColumnType("datetime2(7)")
+                                .HasColumnName("LastModifiedDate");
+
+                            b1.HasKey("CashDisbursementTypeId");
+
+                            b1.ToTable("CashDisbursementTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CashDisbursementTypeId");
+                        });
+
+                    b.OwnsOne("PipefittersSupply.Domain.Financing.CashDisbursement.CashDisbursementTypeId", "Id", b1 =>
+                        {
+                            b1.Property<int>("CashDisbursementTypeId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
+
+                            b1.HasKey("CashDisbursementTypeId");
+
+                            b1.ToTable("CashDisbursementTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CashDisbursementTypeId");
+                        });
+
+                    b.OwnsOne("PipefittersSupply.Domain.Financing.CashDisbursement.EventTypeName", "EventTypeName", b1 =>
+                        {
+                            b1.Property<int>("CashDisbursementTypeId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("EventTypeName");
+
+                            b1.HasKey("CashDisbursementTypeId");
+
+                            b1.ToTable("CashDisbursementTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CashDisbursementTypeId");
+                        });
+
+                    b.OwnsOne("PipefittersSupply.Domain.Financing.CashDisbursement.PayeeTypeName", "PayeeTypeName", b1 =>
+                        {
+                            b1.Property<int>("CashDisbursementTypeId")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("int")
+                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("PayeeTypeName");
+
+                            b1.HasKey("CashDisbursementTypeId");
+
+                            b1.ToTable("CashDisbursementTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CashDisbursementTypeId");
+                        });
+
+                    b.Navigation("CreatedDate");
+
+                    b.Navigation("EventTypeName");
+
+                    b.Navigation("Id");
+
+                    b.Navigation("LastModifiedDate");
+
+                    b.Navigation("PayeeTypeName");
                 });
 
             modelBuilder.Entity("PipefittersSupply.Domain.HumanResources.Employees.Employee", b =>
@@ -94,6 +215,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("AddressLine1");
 
                             b1.HasKey("EmployeeId");
 
@@ -110,6 +235,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("AddressLine2");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -124,6 +253,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(30)")
+                                .HasColumnName("City");
 
                             b1.HasKey("EmployeeId");
 
@@ -140,6 +273,12 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<DateTime>("Value")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("datetime2(7)")
+                                .HasColumnName("CreatedDate")
+                                .HasDefaultValueSql("sysdatetime()");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -154,6 +293,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<bool>("Value")
+                                .HasColumnType("bit")
+                                .HasColumnName("IsActive");
 
                             b1.HasKey("EmployeeId");
 
@@ -170,6 +313,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<DateTime>("Value")
+                                .HasColumnType("datetime2(7)")
+                                .HasColumnName("LastModifiedDate");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -184,6 +331,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nchar(1)")
+                                .HasColumnName("MaritalStatus");
 
                             b1.HasKey("EmployeeId");
 
@@ -200,6 +351,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<string>("Value")
+                                .HasColumnType("nchar(2)")
+                                .HasColumnName("StateProvinceCode");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -214,6 +369,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(14)")
+                                .HasColumnName("Telephone");
 
                             b1.HasKey("EmployeeId");
 
@@ -230,6 +389,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(12)")
+                                .HasColumnName("Zipcode");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -244,6 +407,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("FirstName");
 
                             b1.HasKey("EmployeeId");
 
@@ -260,6 +427,9 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -274,6 +444,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int")
+                                .HasColumnName("SupervisorId");
 
                             b1.HasKey("EmployeeId");
 
@@ -290,6 +464,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("LastName");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -304,6 +482,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nchar(1)")
+                                .HasColumnName("MiddleInitial");
 
                             b1.HasKey("EmployeeId");
 
@@ -320,6 +502,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<decimal>("Value")
+                                .HasColumnType("decimal(18,2)")
+                                .HasColumnName("PayRate");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -334,6 +520,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(11)")
+                                .HasColumnName("SSN");
 
                             b1.HasKey("EmployeeId");
 
@@ -350,6 +540,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<DateTime>("Value")
+                                .HasColumnType("date")
+                                .HasColumnName("StartDate");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -365,6 +559,10 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<int>("Value")
+                                .HasColumnType("int")
+                                .HasColumnName("EmployeeTypeId");
+
                             b1.HasKey("EmployeeId");
 
                             b1.ToTable("Employees");
@@ -379,6 +577,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int")
+                                .HasColumnName("TaxExemptions");
 
                             b1.HasKey("EmployeeId");
 
@@ -438,6 +640,12 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<DateTime>("Value")
+                                .ValueGeneratedOnAdd()
+                                .HasColumnType("datetime2(7)")
+                                .HasColumnName("CreatedDate")
+                                .HasDefaultValueSql("sysdatetime()");
+
                             b1.HasKey("EmployeeTypeId");
 
                             b1.ToTable("EmployeeTypes");
@@ -452,6 +660,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<DateTime>("Value")
+                                .HasColumnType("datetime2(7)")
+                                .HasColumnName("LastModifiedDate");
 
                             b1.HasKey("EmployeeTypeId");
 
@@ -468,6 +680,9 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
+
                             b1.HasKey("EmployeeTypeId");
 
                             b1.ToTable("EmployeeTypes");
@@ -482,6 +697,10 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<string>("Value")
+                                .HasColumnType("nvarchar(25)")
+                                .HasColumnName("EmployeeTypeName");
 
                             b1.HasKey("EmployeeTypeId");
 
@@ -539,6 +758,9 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
+
                             b1.HasKey("TimeCardId");
 
                             b1.ToTable("TimeCards");
@@ -553,6 +775,9 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
 
                             b1.HasKey("TimeCardId");
 
@@ -613,6 +838,9 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
 
                             b1.HasKey("TimeCardId");
 
@@ -678,6 +906,9 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
+
                             b1.HasKey("PurchaseOrderId");
 
                             b1.ToTable("PurchaseOrders");
@@ -737,6 +968,9 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderId");
 
@@ -866,6 +1100,9 @@ namespace PipefittersSupply.Migrations
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
+
                             b1.HasKey("PurchaseOrderDetailId");
 
                             b1.ToTable("PurchaseOrderDetails");
@@ -880,6 +1117,9 @@ namespace PipefittersSupply.Migrations
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("int")
                                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                            b1.Property<int>("Value")
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderDetailId");
 

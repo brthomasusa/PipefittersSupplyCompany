@@ -2,7 +2,7 @@
 
 namespace PipefittersSupply.Migrations
 {
-    public partial class SecondAttempt : Migration
+    public partial class AddedDataNoWork : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

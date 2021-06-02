@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using PipefittersSupply.Domain.Base;
 using PipefittersSupply.Domain.Common;
 
@@ -6,6 +7,10 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
 {
     public class EmployeeType : AggregateRoot<EmployeeTypeIdentifier>
     {
+        public int EmployeeTypeId { get; private set; }
+
+        protected EmployeeType() { }
+
         public EmployeeType(EmployeeTypeIdentifier employeeTypeId, EmployeeTypeName typeName) =>
             Apply(new Events.EmployeeTypeIdCreated
             {
@@ -13,13 +18,11 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 EmployeeTypeName = typeName
             });
 
-        public int EmployeeTypeId { get; private set; }
-
-        protected EmployeeType() { }
-
         public EmployeeTypeName EmployeeTypeName { get; private set; }
 
         public CreatedDate CreatedDate { get; private set; }
+
+        public List<Employee> Employees { get; } = new List<Employee>();
 
         public LastModifiedDate LastModifiedDate { get; private set; }
 

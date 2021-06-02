@@ -5,7 +5,7 @@ namespace PipefittersSupply.Domain.Financing.CashDisbursement
 {
     public class CashDisbursementTypeId : Value<CashDisbursementTypeId>
     {
-        private int Value { get; }
+        public int Value { get; internal set; }
 
         protected CashDisbursementTypeId() { }
 

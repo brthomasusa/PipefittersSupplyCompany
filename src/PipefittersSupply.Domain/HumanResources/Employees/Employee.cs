@@ -6,6 +6,12 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
 {
     public class Employee : AggregateRoot<EmployeeId>
     {
+        // Properties to handle efcore persistence
+        public int EmployeeId { get; private set; }
+
+        protected Employee() { }
+
+        // Entity state        
         public Employee(
             EmployeeId id,
             EmployeeTypeIdentifier employeeTypeId,
@@ -49,18 +55,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 CreatedDate = DateTime.Now
             });
 
-        private string DbId
-        {
-            get => $"Employee/{Id}";
-            set { }
-        }
-
-        // Properties to handle efcore persistence
-        public int EmployeeId { get; private set; }
-
-        protected Employee() { }
-
-        public EmployeeTypeIdentifier EmployeeTypeId { get; private set; }
+        public EmployeeTypeIdentifier EmployeeType { get; private set; }
         public void UpdateEmployeeTypeId(EmployeeTypeIdentifier employeeTypeId) =>
             Apply(new Events.EmployeeTypeIdUpdated
             {
@@ -219,7 +214,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
 
         protected override void EnsureValidState()
         {
-            var valid = Id != null && EmployeeTypeId != null;
+            var valid = Id != null && EmployeeType != null;
 
             if (!valid)
             {
@@ -233,7 +228,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             {
                 case Events.EmployeeCreated evt:
                     Id = new EmployeeId(evt.Id);
-                    EmployeeTypeId = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
+                    EmployeeType = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
                     SupervisorId = new EmployeeId(evt.SupervisorId);
                     LastName = new EmployeeLastName(evt.LastName);
                     FirstName = new EmployeeFirstName(evt.FirstName);
@@ -254,7 +249,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                     EmployeeId = evt.Id;
                     break;
                 case Events.EmployeeTypeIdUpdated evt:
-                    EmployeeTypeId = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
+                    EmployeeType = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
                     LastModifiedDate = new LastModifiedDate(DateTime.Now);
                     break;
                 case Events.SupervisorIdUpdated evt:
