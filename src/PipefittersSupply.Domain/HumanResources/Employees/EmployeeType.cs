@@ -12,7 +12,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
         protected EmployeeType() { }
 
         public EmployeeType(EmployeeTypeIdentifier employeeTypeId, EmployeeTypeName typeName) =>
-            Apply(new Events.EmployeeTypeIdCreated
+            Apply(new Events.EmployeeTypeCreated
             {
                 Id = employeeTypeId,
                 EmployeeTypeName = typeName
@@ -40,7 +40,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
         {
             switch (@event)
             {
-                case Events.EmployeeTypeIdCreated evt:
+                case Events.EmployeeTypeCreated evt:
                     Id = new EmployeeTypeIdentifier(evt.Id);
                     EmployeeTypeName = new EmployeeTypeName(evt.EmployeeTypeName);
                     CreatedDate = new CreatedDate(DateTime.Now);

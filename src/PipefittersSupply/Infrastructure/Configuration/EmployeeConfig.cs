@@ -11,6 +11,7 @@ namespace PipefittersSupply.Infrastructure.Configuration
             entity.ToTable("Employees", schema: "HumanResources");
             entity.HasKey(e => e.EmployeeId);
 
+            
             entity.OwnsOne(e => e.Id).Property(p => p.Value).HasColumnType("int").IsRequired();
             entity.OwnsOne(e => e.EmployeeType).Property(p => p.Value).HasColumnType("int").HasColumnName("EmployeeType").IsRequired();
             entity.OwnsOne(e => e.SupervisorId).Property(p => p.Value).HasColumnName("SupervisorId").IsRequired();

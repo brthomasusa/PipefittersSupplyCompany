@@ -147,7 +147,7 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
             public DateTime LastModifiedDate { get; set; }
         }
 
-        public class EmployeeTypeIdCreated
+        public class EmployeeTypeCreated
         {
             public int Id { get; set; }
             public string EmployeeTypeName { get; set; }
