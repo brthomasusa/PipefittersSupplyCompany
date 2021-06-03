@@ -29,5 +29,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PipefittersSupply.Domain\PipefittersSupply.Domain.csproj" />
+    <ProjectReference Include="..\PipefittersSupply.Infrastructure\PipefittersSupply.Infrastructure.csproj" />
   </ItemGroup>
 </Project>

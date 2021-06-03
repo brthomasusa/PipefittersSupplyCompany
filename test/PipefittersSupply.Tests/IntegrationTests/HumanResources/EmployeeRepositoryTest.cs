@@ -2,7 +2,6 @@ using System;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
-using Xunit.Extensions.AssertExtensions;
 using PipefittersSupply.Tests.TestData;
 using PipefittersSupply.Infrastructure;
 using PipefittersSupply.Infrastructure.Repositories;

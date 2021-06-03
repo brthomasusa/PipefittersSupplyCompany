@@ -9,9 +9,11 @@ namespace PipefittersSupply.Tests.IntegrationTests
 {
     public class CreateTestDatabase : IntegrationTestBase
     {
+        const string skip = "Disabled";
+
         public CreateTestDatabase() : base() { }
 
-        [Fact]
+        [Fact(Skip = skip)]
         public void ShouldCreateNewDbForIntegrationTesting()
         {
             var optionsBuilder = new DbContextOptionsBuilder<PipefittersSupplyDbContext>();

@@ -35,6 +35,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\PipefittersSupply.Domain\PipefittersSupply.Domain.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupply.Infrastructure\PipefittersSupply.Infrastructure.csproj" />
     <ProjectReference Include="..\..\src\PipefittersSupply\PipefittersSupply.csproj" />
   </ItemGroup>
 

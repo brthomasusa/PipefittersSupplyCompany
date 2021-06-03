@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using PipefittersSupply.Domain.HumanResources.TimeCards;
 using PipefittersSupply.Domain.Repository;
-using Raven.Client.Documents.Session;
 
 namespace PipefittersSupply.Infrastructure.Repositories
 {
