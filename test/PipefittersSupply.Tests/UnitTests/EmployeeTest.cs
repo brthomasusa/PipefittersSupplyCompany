@@ -382,5 +382,64 @@ namespace PipefittersSupply.Tests
 
             Assert.Contains("The employee start date is required.", caughtException.Message);
         }
+
+        [Fact]
+        public void ShouldUpdate_Employee_EmployeeTypeId()
+        {
+            var employee = GetEmployee();
+            Assert.Equal(3, employee.EmployeeType);
+
+            employee.UpdateEmployeeTypeId(EmployeeTypeIdentifier.FromInterger(1));
+            Assert.Equal(1, employee.EmployeeType);
+        }
+
+        [Fact]
+        public void ShouldUpdate_Employee_SupervisorId()
+        {
+            var employee = GetEmployee();
+            Assert.Equal(1, employee.SupervisorId);
+
+            employee.UpdateSupervisorId(new EmployeeId(2));
+            Assert.Equal(2, employee.SupervisorId);
+        }
+
+        [Fact]
+        public void ShouldUpdate_Employee_LastName()
+        {
+            var employee = GetEmployee();
+            Assert.Equal("Pimp", employee.LastName);
+
+            employee.UpdateLastName(EmployeeLastName.FromString("Jackoff"));
+            Assert.Equal("Jackoff", employee.LastName);
+        }
+
+        private Employee GetEmployee()
+        {
+            var hireDate = new DateTime(2018, 6, 17);
+            var eeID = new EmployeeId(1);
+            var eeTypeID = EmployeeTypeIdentifier.FromInterger(3);
+            var mgrID = new EmployeeId(1);
+            var lname = EmployeeLastName.FromString("Pimp");
+            var fname = EmployeeFirstName.FromString("Big");
+            var mi = EmployeeMiddleInitial.FromString("P");
+            var ssn = EmployeeSSN.FromString("587887964");
+            var line1 = AddressLine1.FromString("123 Main Street");
+            var line2 = AddressLine2.FromString("Apt 2");
+            var city = City.FromString("Somewhere");
+            var stateCode = StateProvinceCode.FromString("TX", _stateProvinceLookup);
+            var zipcode = Zipcode.FromString("75654");
+            var phone = Telephone.FromString("555-555-5555");
+            var maritalStatus = MaritalStatus.FromString("M");
+            var exempt = TaxExemption.FromInterger(5);
+            var payRate = EmployeePayRate.FromDecimal(25.00M);
+            var startDate = EmployeeStartDate.FromDateTime(hireDate);
+            var isActive = IsActive.FromBoolean(true);
+
+            return new Employee
+                (
+                    eeID, eeTypeID, mgrID, lname, fname, mi, ssn, line1, line2, city, stateCode,
+                    zipcode, phone, maritalStatus, exempt, payRate, startDate, isActive
+                );
+        }
     }
 }
