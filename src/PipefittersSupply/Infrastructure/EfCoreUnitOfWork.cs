@@ -9,6 +9,6 @@ namespace PipefittersSupply.Infrastructure
 
         public EfCoreUnitOfWork(PipefittersSupplyDbContext ctx) => _dbContext = ctx;
 
-        public Task Commit() => _dbContext.SaveChangesAsync();
+        public async Task Commit() => await _dbContext.SaveChangesAsync();
     }
 }

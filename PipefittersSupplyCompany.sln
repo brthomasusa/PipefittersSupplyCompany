@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{234AD9AF-9
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipefittersSupply.Tests", "test\PipefittersSupply.Tests\PipefittersSupply.Tests.csproj", "{ACB4C38B-0B8D-4505-8836-034B6DA93587}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PipefittersSupply.Infrastructure", "src\PipefittersSupply.Infrastructure\PipefittersSupply.Infrastructure.csproj", "{5CE83D9D-2047-48C8-9566-11AAE3A0D077}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -62,10 +64,23 @@ Global
 		{ACB4C38B-0B8D-4505-8836-034B6DA93587}.Release|x64.Build.0 = Release|Any CPU
 		{ACB4C38B-0B8D-4505-8836-034B6DA93587}.Release|x86.ActiveCfg = Release|Any CPU
 		{ACB4C38B-0B8D-4505-8836-034B6DA93587}.Release|x86.Build.0 = Release|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Debug|x64.Build.0 = Debug|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Debug|x86.Build.0 = Debug|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Release|x64.ActiveCfg = Release|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Release|x64.Build.0 = Release|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Release|x86.ActiveCfg = Release|Any CPU
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{8673EB3C-03F6-44EE-AA2B-24E7B251769F} = {C24524C7-B55E-4754-9182-7396B9F6551C}
 		{1E9BD984-BCDD-43B5-ADEF-858401842A7D} = {C24524C7-B55E-4754-9182-7396B9F6551C}
 		{ACB4C38B-0B8D-4505-8836-034B6DA93587} = {234AD9AF-9F39-4954-B66C-DF6DE361E260}
+		{5CE83D9D-2047-48C8-9566-11AAE3A0D077} = {C24524C7-B55E-4754-9182-7396B9F6551C}
 	EndGlobalSection
 EndGlobal
