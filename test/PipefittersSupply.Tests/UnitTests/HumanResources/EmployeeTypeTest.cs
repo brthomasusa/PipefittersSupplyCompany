@@ -3,7 +3,7 @@ using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using Xunit;
 
-namespace PipefittersSupply.Tests
+namespace PipefittersSupply.Tests.UnitTests.HumanResources
 {
     public class EmployeeTypeTest
     {

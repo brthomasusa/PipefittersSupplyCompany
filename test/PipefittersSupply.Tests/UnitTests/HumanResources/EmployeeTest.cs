@@ -4,7 +4,7 @@ using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Lookup;
 using Xunit;
 
-namespace PipefittersSupply.Tests
+namespace PipefittersSupply.Tests.UnitTests.HumanResources
 {
     public class EmployeeTest
     {
