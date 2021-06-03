@@ -10,6 +10,8 @@ namespace PipefittersSupply.Infrastructure.Configuration
         {
             entity.ToTable("TimeCards", schema: "HumanResources");
             entity.HasKey(e => e.TimeCardId);
+            entity.Property(p => p.TimeCardId).ValueGeneratedNever();
+
             entity.OwnsOne(e => e.Id);
             entity.OwnsOne(e => e.EmployeeId);
             entity.OwnsOne(e => e.SupervisorId);

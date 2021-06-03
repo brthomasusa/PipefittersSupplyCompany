@@ -17,7 +17,7 @@ namespace PipefittersSupply.Tests.TestData
             {
                 new Employee
                 (
-                    new EmployeeId(-1),
+                    new EmployeeId(1),
                     EmployeeTypeIdentifier.FromInterger(2),
                     new EmployeeId(1),
                     EmployeeLastName.FromString("Sanchez"),
@@ -38,7 +38,7 @@ namespace PipefittersSupply.Tests.TestData
                 ),
                 new Employee
                 (
-                    new EmployeeId(-1),
+                    new EmployeeId(2),
                     EmployeeTypeIdentifier.FromInterger(2),
                     new EmployeeId(1),
                     EmployeeLastName.FromString("Phide"),
@@ -59,7 +59,7 @@ namespace PipefittersSupply.Tests.TestData
                 ),
                 new Employee
                 (
-                    new EmployeeId(-1),
+                    new EmployeeId(3),
                     EmployeeTypeIdentifier.FromInterger(2),
                     new EmployeeId(1),
                     EmployeeLastName.FromString("Duffy"),
@@ -76,6 +76,27 @@ namespace PipefittersSupply.Tests.TestData
                     TaxExemption.FromInterger(2),
                     EmployeePayRate.FromDecimal(30.00M),
                     EmployeeStartDate.FromDateTime(new DateTime(2018,10,17)),
+                    IsActive.FromBoolean(true)
+                ),
+                new Employee
+                (
+                    new EmployeeId(4),
+                    EmployeeTypeIdentifier.FromInterger(2),
+                    new EmployeeId(1),
+                    EmployeeLastName.FromString("Goldberg"),
+                    EmployeeFirstName.FromString("Jozef"),
+                    EmployeeMiddleInitial.FromString("L"),
+                    EmployeeSSN.FromString("036889999"),
+                    AddressLine1.FromString("6667 Melody Lane"),
+                    AddressLine2.FromString("A2"),
+                    City.FromString("Dallas"),
+                    StateProvinceCode.FromString("TX", _stateProvinceLookup),
+                    Zipcode.FromString("75231"),
+                    Telephone.FromString("469-545-5874"),
+                    MaritalStatus.FromString("S"),
+                    TaxExemption.FromInterger(1),
+                    EmployeePayRate.FromDecimal(29.00M),
+                    EmployeeStartDate.FromDateTime(new DateTime(2013,2,28)),
                     IsActive.FromBoolean(true)
                 )
             };

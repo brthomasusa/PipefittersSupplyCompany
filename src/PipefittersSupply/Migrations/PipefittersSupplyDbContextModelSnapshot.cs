@@ -22,9 +22,7 @@ namespace PipefittersSupply.Migrations
             modelBuilder.Entity("PipefittersSupply.Domain.Financing.CashDisbursement.CashDisbursementType", b =>
                 {
                     b.Property<int>("CashDisbursementTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.HasKey("CashDisbursementTypeId");
 
@@ -34,9 +32,7 @@ namespace PipefittersSupply.Migrations
             modelBuilder.Entity("PipefittersSupply.Domain.HumanResources.Employees.Employee", b =>
                 {
                     b.Property<int>("EmployeeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int?>("EmployeeTypeId")
                         .HasColumnType("int");
@@ -51,9 +47,7 @@ namespace PipefittersSupply.Migrations
             modelBuilder.Entity("PipefittersSupply.Domain.HumanResources.Employees.EmployeeType", b =>
                 {
                     b.Property<int>("EmployeeTypeId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.HasKey("EmployeeTypeId");
 
@@ -63,9 +57,7 @@ namespace PipefittersSupply.Migrations
             modelBuilder.Entity("PipefittersSupply.Domain.HumanResources.TimeCards.TimeCard", b =>
                 {
                     b.Property<int>("TimeCardId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.HasKey("TimeCardId");
 
@@ -75,9 +67,7 @@ namespace PipefittersSupply.Migrations
             modelBuilder.Entity("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrder", b =>
                 {
                     b.Property<int>("PurchaseOrderId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.HasKey("PurchaseOrderId");
 
@@ -87,9 +77,7 @@ namespace PipefittersSupply.Migrations
             modelBuilder.Entity("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrderDetail", b =>
                 {
                     b.Property<int>("PurchaseOrderDetailId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                        .HasColumnType("int");
 
                     b.Property<int?>("PurchaseOrderId1")
                         .HasColumnType("int");
@@ -106,9 +94,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.CreatedDate", "CreatedDate", b1 =>
                         {
                             b1.Property<int>("CashDisbursementTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("Value")
                                 .ValueGeneratedOnAdd()
@@ -127,9 +113,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.LastModifiedDate", "LastModifiedDate", b1 =>
                         {
                             b1.Property<int>("CashDisbursementTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("Value")
                                 .HasColumnType("datetime2(7)")
@@ -146,9 +130,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Financing.CashDisbursement.CashDisbursementTypeId", "Id", b1 =>
                         {
                             b1.Property<int>("CashDisbursementTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -164,9 +146,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Financing.CashDisbursement.EventTypeName", "EventTypeName", b1 =>
                         {
                             b1.Property<int>("CashDisbursementTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -184,9 +164,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Financing.CashDisbursement.PayeeTypeName", "PayeeTypeName", b1 =>
                         {
                             b1.Property<int>("CashDisbursementTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -221,9 +199,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.AddressLine1", "AddressLine1", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -241,9 +217,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.AddressLine2", "AddressLine2", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -261,9 +235,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.City", "City", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -281,9 +253,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.CreatedDate", "CreatedDate", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("Value")
                                 .ValueGeneratedOnAdd()
@@ -302,9 +272,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.IsActive", "IsActive", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<bool>("Value")
                                 .HasColumnType("bit")
@@ -321,9 +289,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.LastModifiedDate", "LastModifiedDate", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("Value")
                                 .HasColumnType("datetime2(7)")
@@ -340,9 +306,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.MaritalStatus", "MaritalStatus", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -360,9 +324,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.StateProvinceCode", "State", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -380,9 +342,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.Telephone", "Telephone", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -400,9 +360,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.Zipcode", "Zipcode", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -420,9 +378,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeFirstName", "FirstName", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -440,9 +396,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeId", "Id", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -458,9 +412,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeId", "SupervisorId", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int")
@@ -477,9 +429,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeLastName", "LastName", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -497,9 +447,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeMiddleInitial", "MiddleInitial", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -517,9 +465,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeePayRate", "PayRate", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<decimal>("Value")
                                 .HasColumnType("decimal(18,2)")
@@ -536,9 +482,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeSSN", "SSN", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -556,9 +500,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeStartDate", "StartDate", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("Value")
                                 .HasColumnType("date")
@@ -575,9 +517,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeTypeIdentifier", "EmployeeType", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int")
@@ -594,9 +534,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.TaxExemption", "Exemptions", b1 =>
                         {
                             b1.Property<int>("EmployeeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int")
@@ -656,9 +594,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.CreatedDate", "CreatedDate", b1 =>
                         {
                             b1.Property<int>("EmployeeTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("Value")
                                 .ValueGeneratedOnAdd()
@@ -677,9 +613,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.LastModifiedDate", "LastModifiedDate", b1 =>
                         {
                             b1.Property<int>("EmployeeTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<DateTime>("Value")
                                 .HasColumnType("datetime2(7)")
@@ -696,9 +630,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeTypeIdentifier", "Id", b1 =>
                         {
                             b1.Property<int>("EmployeeTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -714,9 +646,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeTypeName", "EmployeeTypeName", b1 =>
                         {
                             b1.Property<int>("EmployeeTypeId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<string>("Value")
                                 .IsRequired()
@@ -745,9 +675,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.CreatedDate", "CreatedDate", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("TimeCardId");
 
@@ -760,9 +688,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.LastModifiedDate", "LastModifiedDate", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("TimeCardId");
 
@@ -775,9 +701,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeId", "EmployeeId", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -793,9 +717,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeId", "SupervisorId", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -811,9 +733,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.TimeCards.OvertimeHours", "OvertimeHours", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("TimeCardId");
 
@@ -826,9 +746,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.TimeCards.PayPeriodEndDate", "PayPeriodEnded", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("TimeCardId");
 
@@ -841,9 +759,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.TimeCards.RegularHours", "RegularHours", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("TimeCardId");
 
@@ -856,9 +772,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.TimeCards.TimeCardId", "Id", b1 =>
                         {
                             b1.Property<int>("TimeCardId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -893,9 +807,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.CreatedDate", "CreatedDate", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderId");
 
@@ -908,9 +820,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.LastModifiedDate", "LastModifiedDate", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderId");
 
@@ -923,9 +833,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.HumanResources.Employees.EmployeeId", "EmployeeId", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -941,9 +849,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.PurchaseOrder.ExpectedDeliveryDate", "ExpectedDeliveryDate", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderId");
 
@@ -956,9 +862,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrderAmount", "PurchaseOrderAmount", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderId");
 
@@ -971,9 +875,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrderDate", "PurchaseOrderDate", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderId");
 
@@ -986,9 +888,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrderId", "Id", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -1004,9 +904,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.Vendor.VendorId", "VendorId", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderId");
 
@@ -1042,9 +940,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.CreatedDate", "CreatedDate", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderDetailId");
 
@@ -1057,9 +953,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.LastModifiedDate", "LastModifiedDate", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderDetailId");
 
@@ -1072,9 +966,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.Quantity", "QuantityOrdered", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderDetailId");
 
@@ -1087,9 +979,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Common.UnitCost", "UnitCost", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderDetailId");
 
@@ -1102,9 +992,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.Inventory.InventoryId", "InventoryId", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderDetailId");
 
@@ -1117,9 +1005,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrderDetailId", "Id", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -1135,9 +1021,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.PurchaseOrder.PurchaseOrderId", "PurchaseOrderId", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.Property<int>("Value")
                                 .HasColumnType("int");
@@ -1153,9 +1037,7 @@ namespace PipefittersSupply.Migrations
                     b.OwnsOne("PipefittersSupply.Domain.Purchasing.PurchaseOrder.VendorPartNumber", "VendorPartNumber", b1 =>
                         {
                             b1.Property<int>("PurchaseOrderDetailId")
-                                .ValueGeneratedOnAdd()
-                                .HasColumnType("int")
-                                .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+                                .HasColumnType("int");
 
                             b1.HasKey("PurchaseOrderDetailId");
 

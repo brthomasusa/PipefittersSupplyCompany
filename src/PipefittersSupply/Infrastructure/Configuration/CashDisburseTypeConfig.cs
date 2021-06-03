@@ -11,6 +11,8 @@ namespace PipefittersSupply.Infrastructure.Configuration
         {
             entity.ToTable("CashDisbursementTypes", schema: "Financing");
             entity.HasKey(e => e.CashDisbursementTypeId);
+            entity.Property(p => p.CashDisbursementTypeId).ValueGeneratedNever();
+
             entity.OwnsOne(e => e.Id)
                 .Property(p => p.Value)
                 .HasColumnType("int")

@@ -10,6 +10,8 @@ namespace PipefittersSupply.Infrastructure.Configuration
         {
             entity.ToTable("PurchaseOrderDetails", schema: "Purchasing");
             entity.HasKey(e => e.PurchaseOrderDetailId);
+            entity.Property(p => p.PurchaseOrderDetailId).ValueGeneratedNever();
+
             entity.OwnsOne(e => e.Id);
             entity.OwnsOne(e => e.PurchaseOrderId);
             entity.OwnsOne(e => e.InventoryId);
