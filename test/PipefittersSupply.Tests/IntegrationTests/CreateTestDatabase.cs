@@ -52,10 +52,13 @@ namespace PipefittersSupply.Tests.IntegrationTests
             using (var context = new PipefittersSupplyDbContext(optionsBuilder.Options))
             {
                 context.EmployeeTypes.AddRange(EmployeeTypes.GetEmployeeTypes());
+                context.Employees.AddRange(Employees.GetEmployees());
                 context.SaveChanges();
 
-                var numberOfEmpTypes = context.EmployeeTypes.ToList().Count;
-                numberOfEmpTypes.ShouldEqual(6);
+                var numberOfEmployeeTypes = context.EmployeeTypes.ToList().Count;
+                var numberOfEmployees = context.Employees.ToList().Count;
+                numberOfEmployeeTypes.ShouldEqual(6);
+                numberOfEmployees.ShouldEqual(4);
             }
         }
     }
