@@ -8,7 +8,7 @@ using PipefittersSupply.Domain.Repository;
 using PipefittersSupply.Infrastructure.Persistence.Repositories;
 using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.EmployeeCommand;
 
-namespace PipefittersSupply.AppServices
+namespace PipefittersSupply.Infrastructure.Application.Services
 {
     public class EmployeeAppicationService : IApplicationService
     {

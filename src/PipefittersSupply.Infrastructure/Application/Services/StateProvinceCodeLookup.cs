@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using System.Linq;
 using PipefittersSupply.Domain.Lookup;
 
-namespace PipefittersSupply.AppServices
+namespace PipefittersSupply.Infrastructure.Application.Services
 {
     public class StateProvinceCodeLookup : IStateProvinceLookup
     {

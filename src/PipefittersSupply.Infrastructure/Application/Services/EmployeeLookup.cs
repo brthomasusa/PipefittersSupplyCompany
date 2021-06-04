@@ -3,7 +3,7 @@ using System.Linq;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.HumanResources.Employees;
 
-namespace PipefittersSupply.AppServices
+namespace PipefittersSupply.Infrastructure.Application.Services
 {
     public class EmployeeLookup : IEmployeeLookup
     {

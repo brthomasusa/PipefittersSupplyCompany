@@ -1,16 +1,10 @@
 using System;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
-using PipefittersSupply.AppServices;
+using PipefittersSupply.Infrastructure.Application.Services;
 using PipefittersSupply.Tests.TestData;
-using PipefittersSupply.Infrastructure;
+using PipefittersSupply.Infrastructure.Persistence;
 using PipefittersSupply.Infrastructure.Persistence.Repositories;
-using PipefittersSupply.Domain.Common;
-using PipefittersSupply.Domain.HumanResources.Employees;
-using PipefittersSupply.Domain.Interfaces;
-using PipefittersSupply.Domain.Lookup;
-using PipefittersSupply.Domain.Repository;
 using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.EmployeeCommand;
 
 namespace PipefittersSupply.Tests.IntegrationTests.HumanResources

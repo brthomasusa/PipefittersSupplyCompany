@@ -1,7 +1,7 @@
 using System.Threading.Tasks;
 using PipefittersSupply.Domain.Interfaces;
 
-namespace PipefittersSupply.Infrastructure
+namespace PipefittersSupply.Infrastructure.Persistence.Repositories
 {
     public class EfCoreUnitOfWork : IUnitOfWork
     {

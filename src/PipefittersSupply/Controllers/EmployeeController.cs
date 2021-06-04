@@ -2,7 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using PipefittersSupply.AppServices;
+using PipefittersSupply.Infrastructure.Application.Services;
 using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.EmployeeCommand;
 
 namespace PipefittersSupply.Controllers

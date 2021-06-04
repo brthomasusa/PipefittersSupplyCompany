@@ -2,7 +2,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using TestSupport.Helpers;
 using TestSupport.EfHelpers;
-using PipefittersSupply.Infrastructure;
+using PipefittersSupply.Infrastructure.Persistence;
 
 namespace PipefittersSupply.Tests.IntegrationTests
 {

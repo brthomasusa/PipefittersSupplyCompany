@@ -6,7 +6,7 @@ using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Repository;
 using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.TimeCardCommand;
 
-namespace PipefittersSupply.AppServices
+namespace PipefittersSupply.Infrastructure.Application.Services
 {
     public class TimeCardApplicationService : IApplicationService
     {

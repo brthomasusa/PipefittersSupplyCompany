@@ -1,9 +1,8 @@
 using System;
-using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using PipefittersSupply.Tests.TestData;
-using PipefittersSupply.Infrastructure;
+using PipefittersSupply.Infrastructure.Persistence;
 using PipefittersSupply.Infrastructure.Persistence.Repositories;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;

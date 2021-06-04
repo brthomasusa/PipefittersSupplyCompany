@@ -8,7 +8,7 @@ using PipefittersSupply.Domain.Purchasing.InventoryReceipt;
 using PipefittersSupply.Domain.Purchasing.PurchaseOrder;
 using PipefittersSupply.Domain.Purchasing.Vendor;
 using PipefittersSupply.Domain.Financing.CashDisbursement;
-namespace PipefittersSupply.Infrastructure
+namespace PipefittersSupply.Infrastructure.Persistence
 {
     public class PipefittersSupplyDbContext : DbContext
     {
