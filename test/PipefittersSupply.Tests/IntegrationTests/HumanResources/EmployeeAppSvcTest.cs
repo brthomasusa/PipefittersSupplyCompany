@@ -111,7 +111,7 @@ namespace PipefittersSupply.Tests.IntegrationTests.HumanResources
                 Assert.Equal(1, before.Exemptions);
                 Assert.Equal(29.00M, before.PayRate);
                 Assert.Equal(new DateTime(2013, 2, 28), before.StartDate);
-                Assert.Equal(true, before.IsActive);
+                Assert.True(before.IsActive);
 
                 var updateEmployeeCmd = new V1.UpdateEmployee
                 {
@@ -161,7 +161,7 @@ namespace PipefittersSupply.Tests.IntegrationTests.HumanResources
                 Assert.Equal(3, after.Exemptions);
                 Assert.Equal(15.25M, after.PayRate);
                 Assert.Equal(new DateTime(2019, 6, 4), after.StartDate);
-                Assert.Equal(false, after.IsActive);
+                Assert.False(after.IsActive);
             }
         }
     }
