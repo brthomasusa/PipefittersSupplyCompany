@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -21,50 +22,24 @@ namespace PipefittersSupply.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(V1.CreateTimeCard request)
-        {
-            await _appSvc.Handle(request);
-            return Ok();
-        }
+        public async Task<IActionResult> Post(V1.CreateTimeCard request) => await HandleRequest(request, _appSvc.Handle);
 
-        [Route("employeeid")]
-        [HttpPut]
-        public async Task<IActionResult> Put(V1.UpdateEmployeeId request)
+        private async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler)
         {
-            await _appSvc.Handle(request);
-            return Ok();
-        }
+            try
+            {
+                _logger.LogDebug("Handling HTTP request of type {}", typeof(T).Name);
 
-        [Route("supervisorid")]
-        [HttpPut]
-        public async Task<IActionResult> Put(V1.UpdatTimeCardSupervisorId request)
-        {
-            await _appSvc.Handle(request);
-            return Ok();
-        }
+                await handler(request);
 
-        [Route("payperiodended")]
-        [HttpPut]
-        public async Task<IActionResult> Put(V1.UpdatePayPeriodEndDate request)
-        {
-            await _appSvc.Handle(request);
-            return Ok();
-        }
+                return Ok();
+            }
+            catch (Exception e)
+            {
+                _logger.LogError("Error handling the request.", e);
 
-        [Route("regularhours")]
-        [HttpPut]
-        public async Task<IActionResult> Put(V1.UpdateRegularHours request)
-        {
-            await _appSvc.Handle(request);
-            return Ok();
-        }
-
-        [Route("overtimehours")]
-        [HttpPut]
-        public async Task<IActionResult> Put(V1.UpdateOvertimeHours request)
-        {
-            await _appSvc.Handle(request);
-            return Ok();
+                return new BadRequestObjectResult(new { error = e.Message, stackTrace = e.StackTrace });
+            }
         }
     }
 }
