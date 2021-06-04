@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Xunit;
 using PipefittersSupply.Tests.TestData;
 using PipefittersSupply.Infrastructure;
-using PipefittersSupply.Infrastructure.Repositories;
+using PipefittersSupply.Infrastructure.Persistence.Repositories;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Lookup;

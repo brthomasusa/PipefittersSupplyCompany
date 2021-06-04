@@ -4,7 +4,7 @@ using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.HumanResources.TimeCards;
 using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Repository;
-using static PipefittersSupply.Contracts.HumanResources.TimeCardCommand;
+using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.TimeCardCommand;
 
 namespace PipefittersSupply.AppServices
 {

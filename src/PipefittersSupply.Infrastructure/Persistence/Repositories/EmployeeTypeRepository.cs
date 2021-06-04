@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using PipefittersSupply.Domain.Repository;
 using PipefittersSupply.Domain.HumanResources.Employees;
 
-namespace PipefittersSupply.Infrastructure.Repositories
+namespace PipefittersSupply.Infrastructure.Persistence.Repositories
 {
     public class EmployeeTypeRepository : IEmployeeTypeRepository, IDisposable
     {

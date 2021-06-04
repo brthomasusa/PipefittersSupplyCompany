@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
-using static PipefittersSupply.Contracts.HumanResources.TimeCardCommand;
+using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.TimeCardCommand;
 using PipefittersSupply.AppServices;
 
 namespace PipefittersSupply.Controllers

@@ -5,13 +5,13 @@ using Xunit;
 using PipefittersSupply.AppServices;
 using PipefittersSupply.Tests.TestData;
 using PipefittersSupply.Infrastructure;
-using PipefittersSupply.Infrastructure.Repositories;
+using PipefittersSupply.Infrastructure.Persistence.Repositories;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
-using static PipefittersSupply.Contracts.HumanResources.EmployeeCommand;
+using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.EmployeeCommand;
 
 namespace PipefittersSupply.Tests.IntegrationTests.HumanResources
 {

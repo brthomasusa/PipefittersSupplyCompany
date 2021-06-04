@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using PipefittersSupply.AppServices;
-using static PipefittersSupply.Contracts.HumanResources.EmployeeCommand;
+using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.EmployeeCommand;
 
 namespace PipefittersSupply.Controllers
 {

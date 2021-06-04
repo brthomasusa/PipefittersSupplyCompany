@@ -13,7 +13,7 @@ using PipefittersSupply.Domain.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
 using PipefittersSupply.Infrastructure;
-using PipefittersSupply.Infrastructure.Repositories;
+using PipefittersSupply.Infrastructure.Persistence.Repositories;
 
 namespace PipefittersSupply
 {

@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PipefittersSupply.Domain.Financing.CashDisbursement;
 
 
-namespace PipefittersSupply.Infrastructure.Configuration
+namespace PipefittersSupply.Infrastructure.Persistence.Configuration
 {
     internal class CashDisburseTypeConfig : IEntityTypeConfiguration<CashDisbursementType>
     {

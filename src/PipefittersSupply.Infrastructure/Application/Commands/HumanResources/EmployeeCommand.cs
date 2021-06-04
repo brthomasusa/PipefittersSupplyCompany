@@ -1,6 +1,6 @@
 using System;
 
-namespace PipefittersSupply.Contracts.HumanResources
+namespace PipefittersSupply.Infrastructure.Application.Commands.HumanResources
 {
     public static class EmployeeCommand
     {

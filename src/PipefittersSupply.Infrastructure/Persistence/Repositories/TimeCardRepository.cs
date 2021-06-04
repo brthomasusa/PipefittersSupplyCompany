@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using PipefittersSupply.Domain.HumanResources.TimeCards;
 using PipefittersSupply.Domain.Repository;
 
-namespace PipefittersSupply.Infrastructure.Repositories
+namespace PipefittersSupply.Infrastructure.Persistence.Repositories
 {
     public class TimeCardRepository : ITimeCardRepository, IDisposable
     {

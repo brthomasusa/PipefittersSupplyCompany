@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using PipefittersSupply.Domain.HumanResources.TimeCards;
 
-namespace PipefittersSupply.Infrastructure.Configuration
+namespace PipefittersSupply.Infrastructure.Persistence.Configuration
 {
     internal class TimeCardConfig : IEntityTypeConfiguration<TimeCard>
     {
