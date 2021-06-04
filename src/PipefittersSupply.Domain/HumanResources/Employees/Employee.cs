@@ -55,6 +55,49 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                 CreatedDate = DateTime.Now
             });
 
+        public void UpdateEmployee
+        (
+            EmployeeTypeIdentifier employeeTypeId,
+            EmployeeId supervisorID,
+            EmployeeLastName lname,
+            EmployeeFirstName fname,
+            EmployeeMiddleInitial mi,
+            EmployeeSSN ssn,
+            AddressLine1 line1,
+            AddressLine2 line2,
+            City city,
+            StateProvinceCode stateProvince,
+            Zipcode zipcode,
+            Telephone telephone,
+            MaritalStatus maritalStatus,
+            TaxExemption exemptions,
+            EmployeePayRate payRate,
+            EmployeeStartDate startDate,
+            IsActive isActive
+        ) =>
+            Apply(new Events.EmployeeUpdated
+            {
+                Id = this.Id,
+                EmployeeTypeId = employeeTypeId,
+                SupervisorId = supervisorID,
+                LastName = lname,
+                FirstName = fname,
+                MiddleInitial = mi,
+                SSN = ssn,
+                AddressLine1 = line1,
+                AddressLine2 = line2,
+                City = city,
+                StateProvinceCode = stateProvince,
+                Zipcode = zipcode,
+                Telephone = telephone,
+                MaritalStatus = maritalStatus,
+                Exemptions = exemptions,
+                PayRate = payRate,
+                StartDate = startDate,
+                IsActive = isActive,
+                LastModifiedDate = DateTime.Now
+            });
+
         public EmployeeTypeIdentifier EmployeeType { get; private set; }
         public void UpdateEmployeeTypeId(EmployeeTypeIdentifier employeeTypeId) =>
             Apply(new Events.EmployeeTypeIdUpdated
@@ -247,6 +290,26 @@ namespace PipefittersSupply.Domain.HumanResources.Employees
                     IsActive = new IsActive(evt.IsActive);
                     CreatedDate = new CreatedDate(evt.CreatedDate);
                     EmployeeId = evt.Id;
+                    break;
+                case Events.EmployeeUpdated evt:
+                    EmployeeType = new EmployeeTypeIdentifier(evt.EmployeeTypeId);
+                    SupervisorId = new EmployeeId(evt.SupervisorId);
+                    LastName = new EmployeeLastName(evt.LastName);
+                    FirstName = new EmployeeFirstName(evt.FirstName);
+                    MiddleInitial = new EmployeeMiddleInitial(evt.MiddleInitial);
+                    SSN = new EmployeeSSN(evt.SSN);
+                    AddressLine1 = new AddressLine1(evt.AddressLine1);
+                    AddressLine2 = new AddressLine2(evt.AddressLine2);
+                    City = new City(evt.City);
+                    State = new StateProvinceCode(evt.StateProvinceCode);
+                    Zipcode = new Zipcode(evt.Zipcode);
+                    Telephone = new Telephone(evt.Telephone);
+                    MaritalStatus = new MaritalStatus(evt.MaritalStatus);
+                    Exemptions = new TaxExemption(evt.Exemptions);
+                    PayRate = new EmployeePayRate(evt.PayRate);
+                    StartDate = new EmployeeStartDate(evt.StartDate);
+                    IsActive = new IsActive(evt.IsActive);
+                    LastModifiedDate = new LastModifiedDate(evt.LastModifiedDate);
                     break;
                 case Events.EmployeeTypeIdUpdated evt:
                     EmployeeType = new EmployeeTypeIdentifier(evt.EmployeeTypeId);

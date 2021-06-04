@@ -13,6 +13,8 @@ namespace PipefittersSupply.Infrastructure.Repositories
 
         public async Task Add(Employee entity) => await _dbContext.Employees.AddAsync(entity);
 
+        // public Task Update(Employee entity) => _dbContext.Employees.Update(entity);
+
         public async Task<bool> Exists(EmployeeId id) => await _dbContext.Employees.FindAsync(id.Value) != null;
 
         public async Task<Employee> Load(EmployeeId id) => await _dbContext.Employees.FindAsync(id.Value);

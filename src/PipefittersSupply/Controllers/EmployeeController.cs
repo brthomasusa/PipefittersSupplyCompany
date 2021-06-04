@@ -24,8 +24,8 @@ namespace PipefittersSupply.Controllers
         [HttpPost]
         public Task<IActionResult> Post(V1.CreateEmployee request) => HandleRequest(request, _employeeAppSvc.Handle);
 
-        [HttpPatch]
-        public Task<IActionResult> Patch(V1.UpdateEmployee request) => HandleRequest(request, _employeeAppSvc.Handle);
+        [HttpPut]
+        public Task<IActionResult> Put(V1.UpdateEmployee request) => HandleRequest(request, _employeeAppSvc.Handle);
 
         private async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler)
         {
