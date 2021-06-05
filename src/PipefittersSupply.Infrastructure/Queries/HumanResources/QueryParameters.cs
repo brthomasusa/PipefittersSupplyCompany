@@ -2,7 +2,7 @@ using System;
 
 namespace PipefittersSupply.Infrastructure.Queries.HumanResources
 {
-    public static class QueryModels
+    public static class QueryParameters
     {
         public class GetEmployees
         {
