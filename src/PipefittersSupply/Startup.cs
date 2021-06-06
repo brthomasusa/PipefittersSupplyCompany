@@ -8,6 +8,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PipefittersSupply.Domain.Interfaces;
+using PipefittersSupply.Infrastructure.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
 using PipefittersSupply.Infrastructure.Persistence;
@@ -51,7 +52,7 @@ namespace PipefittersSupply
             services.AddScoped<IUnitOfWork, EfCoreUnitOfWork>();
             services.AddScoped<EmployeeAppicationService>();
             services.AddScoped<TimeCardApplicationService>();
-
+            services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

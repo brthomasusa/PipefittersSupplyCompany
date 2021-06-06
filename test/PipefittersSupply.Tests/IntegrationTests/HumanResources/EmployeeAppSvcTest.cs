@@ -27,17 +27,13 @@ namespace PipefittersSupply.Tests.IntegrationTests.HumanResources
 
             using (var context = new PipefittersSupplyDbContext(optionsBuilder.Options))
             {
-                context.EmployeeTypes.AddRange(EmployeeTypes.GetEmployeeTypes());
-                context.Employees.AddRange(Employees.GetEmployees());
-                context.SaveChanges();
-
                 var createEmployeeCmd = new V1.CreateEmployee
                 {
-                    Id = 5,
+                    Id = 25,
                     EmployeeTypeId = 2,
                     SupervisorId = 1,
-                    LastName = "Brown",
-                    FirstName = "Jamie",
+                    LastName = "Cardin",
+                    FirstName = "Bobby",
                     MiddleInitial = "J",
                     SSN = "358881236",
                     AddressLine1 = "361 HelloWorld Blvd",
@@ -84,10 +80,6 @@ namespace PipefittersSupply.Tests.IntegrationTests.HumanResources
 
             using (var context = new PipefittersSupplyDbContext(optionsBuilder.Options))
             {
-                context.EmployeeTypes.AddRange(EmployeeTypes.GetEmployeeTypes());
-                context.Employees.AddRange(Employees.GetEmployees());
-                context.SaveChanges();
-
                 var before = await context.Employees.FindAsync(4);
 
                 Assert.Equal(2, before.EmployeeType);

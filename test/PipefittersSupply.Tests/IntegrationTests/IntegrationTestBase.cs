@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using TestSupport.Helpers;
 using TestSupport.EfHelpers;
 using PipefittersSupply.Infrastructure.Persistence;
+using PipefittersSupply.Tests.TestData;
 
 namespace PipefittersSupply.Tests.IntegrationTests
 {
@@ -28,6 +29,9 @@ namespace PipefittersSupply.Tests.IntegrationTests
             using (var context = new PipefittersSupplyDbContext(optionsBuilder.Options))
             {
                 context.Database.EnsureClean();
+                context.EmployeeTypes.AddRange(EmployeeTypes.GetEmployeeTypes());
+                context.Employees.AddRange(Employees.GetEmployees());
+                context.SaveChanges();
             }
         }
     }

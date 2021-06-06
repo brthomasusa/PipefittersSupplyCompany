@@ -6,9 +6,12 @@ namespace PipefittersSupply.Infrastructure.Queries.HumanResources
     {
         public class EmployeeDetails
         {
-            public int Id { get; set; }
-            public int EmployeeType { get; set; }
+            public int EmployeeId { get; set; }
+            public string Role { get; set; }
             public int Supervisor { get; set; }
+            public string ManagerLastName { get; set; }
+            public string ManagerFirstName { get; set; }
+            public string ManagerMiddleInitial { get; set; }
             public string LastName { get; set; }
             public string FirstName { get; set; }
             public string MiddleInitial { get; set; }
@@ -30,14 +33,17 @@ namespace PipefittersSupply.Infrastructure.Queries.HumanResources
 
         public class EmployeeListItems
         {
-            public int Id { get; set; }
-            public int EmployeeType { get; set; }
-            public int Supervisor { get; set; }
+            public int EmployeeId { get; set; }
             public string LastName { get; set; }
             public string FirstName { get; set; }
             public string MiddleInitial { get; set; }
             public string Telephone { get; set; }
             public bool IsActive { get; set; }
+            public string Role { get; set; }
+            public int SupervisorId { get; set; }
+            public string ManagerLastName { get; set; }
+            public string ManagerFirstName { get; set; }
+            public string ManagerMiddleInitial { get; set; }
         }
     }
 }
