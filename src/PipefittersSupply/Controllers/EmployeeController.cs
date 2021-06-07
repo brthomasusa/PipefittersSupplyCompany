@@ -2,8 +2,11 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using PipefittersSupply.Infrastructure.Interfaces;
 using PipefittersSupply.Infrastructure.Application.Services;
 using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.EmployeeCommand;
+using static PipefittersSupply.Infrastructure.Queries.HumanResources.QueryParameters;
+using static PipefittersSupply.Infrastructure.Queries.HumanResources.ReadModels;
 
 namespace PipefittersSupply.Controllers
 {
@@ -13,36 +16,46 @@ namespace PipefittersSupply.Controllers
     {
         private readonly ILogger<EmployeeController> _logger;
         private readonly EmployeeAppicationService _employeeAppSvc;
+        private readonly IEmployeeQueryService _employeeQrySvc;
 
-        public EmployeeController(EmployeeAppicationService appSvc, ILogger<EmployeeController> logger)
+        public EmployeeController
+        (
+            EmployeeAppicationService appSvc,
+            IEmployeeQueryService _qrySvc,
+            ILogger<EmployeeController> logger
+        )
         {
             _employeeAppSvc = appSvc;
+            _employeeQrySvc = _qrySvc;
             _logger = logger;
-            _logger.LogInformation("EmployeeController...");
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post(V1.CreateEmployee request) => await HandleRequest(request, _employeeAppSvc.Handle);
+        public async Task<IActionResult> Post(V1.CreateEmployee request) =>
+            await RequestHandler.HandleCommand<V1.CreateEmployee>(request, _employeeAppSvc.Handle, _logger);
 
         [HttpPut]
-        public Task<IActionResult> Put(V1.UpdateEmployee request) => HandleRequest(request, _employeeAppSvc.Handle);
+        public async Task<IActionResult> Put(V1.UpdateEmployee request) =>
+            await RequestHandler.HandleCommand<V1.UpdateEmployee>(request, _employeeAppSvc.Handle, _logger);
 
-        private async Task<IActionResult> HandleRequest<T>(T request, Func<T, Task> handler)
-        {
-            try
-            {
-                _logger.LogDebug("Handling HTTP request of type {}", typeof(T).Name);
+        [HttpGet]
+        [Route("list")]
+        public async Task<IActionResult> Get([FromQuery] GetEmployees request) =>
+            await RequestHandler.HandleQuery(() => _employeeQrySvc.Query(request), _logger);
 
-                await handler(request);
+        [HttpGet]
+        [Route("supervisedby")]
+        public async Task<IActionResult> Get([FromQuery] GetEmployeesSupervisedBy request) =>
+            await RequestHandler.HandleQuery(() => _employeeQrySvc.Query(request), _logger);
 
-                return Ok();
-            }
-            catch (Exception e)
-            {
-                _logger.LogError("Error handling the request.", e);
+        [HttpGet]
+        [Route("employeesoftype")]
+        public async Task<IActionResult> Get([FromQuery] GetEmployeesOfEmployeeType request) =>
+            await RequestHandler.HandleQuery(() => _employeeQrySvc.Query(request), _logger);
 
-                return new BadRequestObjectResult(new { error = e.Message, stackTrace = e.StackTrace });
-            }
-        }
+        [HttpGet]
+        [Route("details")]
+        public async Task<IActionResult> Get([FromQuery] GetEmployee request) =>
+            await RequestHandler.HandleQuery(() => _employeeQrySvc.Query(request), _logger);
     }
 }

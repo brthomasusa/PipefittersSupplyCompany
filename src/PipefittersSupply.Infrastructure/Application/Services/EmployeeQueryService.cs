@@ -1,9 +1,6 @@
-using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
-using Microsoft.Data.SqlClient;
 using Dapper;
 using PipefittersSupply.Infrastructure.Interfaces;
 using static PipefittersSupply.Infrastructure.Queries.HumanResources.ReadModels;

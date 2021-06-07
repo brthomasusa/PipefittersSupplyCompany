@@ -2,7 +2,7 @@ using System;
 using System.Threading.Tasks;
 using PipefittersSupply.Domain.HumanResources.Employees;
 using PipefittersSupply.Domain.HumanResources.TimeCards;
-using PipefittersSupply.Domain.Interfaces;
+using PipefittersSupply.Infrastructure.Interfaces;
 using PipefittersSupply.Domain.Repository;
 using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.TimeCardCommand;
 

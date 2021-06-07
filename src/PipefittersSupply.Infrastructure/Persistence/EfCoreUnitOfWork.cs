@@ -1,5 +1,5 @@
 using System.Threading.Tasks;
-using PipefittersSupply.Domain.Interfaces;
+using PipefittersSupply.Infrastructure.Interfaces;
 
 namespace PipefittersSupply.Infrastructure.Persistence.Repositories
 {

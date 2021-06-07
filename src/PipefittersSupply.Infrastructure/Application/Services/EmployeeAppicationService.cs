@@ -2,10 +2,9 @@ using System;
 using System.Threading.Tasks;
 using PipefittersSupply.Domain.Common;
 using PipefittersSupply.Domain.HumanResources.Employees;
-using PipefittersSupply.Domain.Interfaces;
+using PipefittersSupply.Infrastructure.Interfaces;
 using PipefittersSupply.Domain.Lookup;
 using PipefittersSupply.Domain.Repository;
-using PipefittersSupply.Infrastructure.Persistence.Repositories;
 using static PipefittersSupply.Infrastructure.Application.Commands.HumanResources.EmployeeCommand;
 
 namespace PipefittersSupply.Infrastructure.Application.Services
