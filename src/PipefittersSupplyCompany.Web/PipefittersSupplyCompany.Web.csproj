@@ -6,6 +6,7 @@
     <PreserveCompilationContext>true</PreserveCompilationContext>
     <OutputType>Exe</OutputType>
     <WebProjectMode>true</WebProjectMode>
+    <LangVersion>9.0</LangVersion>
   </PropertyGroup>
   
   <ItemGroup>
