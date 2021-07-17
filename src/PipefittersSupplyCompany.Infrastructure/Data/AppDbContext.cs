@@ -44,7 +44,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data
             if (_mediator == null) return result;
 
             // dispatch events only if save was successful
-            var entitiesWithEvents = ChangeTracker.Entries<BaseEntity>()
+            var entitiesWithEvents = ChangeTracker.Entries<BaseEntity<int>>()
                 .Select(e => e.Entity)
                 .Where(e => e.Events.Any())
                 .ToArray();

@@ -3,7 +3,7 @@ using PipefittersSupplyCompany.SharedKernel;
 
 namespace PipefittersSupplyCompany.Core.ProjectAggregate
 {
-    public class ToDoItem : BaseEntity
+    public class ToDoItem : BaseEntity<int>
     {
         public string Title { get; set; } = string.Empty;
         public string Description { get; set; }
