@@ -1,17 +1,18 @@
-﻿using Ardalis.GuardClauses;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Ardalis.GuardClauses;
 using PipefittersSupplyCompany.Core.ProjectAggregate.Events;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
-using System.Collections.Generic;
-using System.Linq;
+
 
 namespace PipefittersSupplyCompany.Core.ProjectAggregate
 {
     public class Project : BaseEntity<int>, IAggregateRoot
     {
-        public string Name { get; private set; }
-
         private List<ToDoItem> _items = new List<ToDoItem>();
+
+        public string Name { get; private set; }
 
         public IEnumerable<ToDoItem> Items => _items.AsReadOnly();
 
