@@ -13,10 +13,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Data
     {
         private readonly IMediator _mediator;
 
-        //public AppDbContext(DbContextOptions options) : base(options)
-        //{
-        //}
-
         public AppDbContext(DbContextOptions<AppDbContext> options, IMediator mediator)
             : base(options)
         {
@@ -31,9 +27,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Data
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.ApplyAllConfigurationsFromCurrentAssembly();
-
-            // alternately this is built-in to EF Core 2.2
-            //modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
 
         public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
