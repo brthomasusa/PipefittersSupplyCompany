@@ -24,8 +24,9 @@ namespace PipefittersSupplyCompany.FunctionalTests.ControllerApis
         public async Task ReturnsOneProject()
         {
             var result = await _client.GetAndDeserialize<IEnumerable<ProjectDTO>>("/api/projects");
+            var numberOfProjects = result.Count();
 
-            Assert.Equal(1, result.Count());
+            Assert.Equal(1, numberOfProjects);
             Assert.Contains(result, i => i.Name == SeedData.TestProject1.Name);
         }
     }
