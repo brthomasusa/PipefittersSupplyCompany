@@ -5,24 +5,31 @@ using Ardalis.GuardClauses;
 // using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate.Events;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
+using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 {
-    public class Employee : BaseEntity<Guid>
+    public class Employee : BaseEntity<Guid>, IAggregateRoot
     {
         protected Employee() { }
 
-        public Employee(Guid id, EmployeeType employeeType, Employee supervisor)
+        public Employee(Guid id, EmployeeType employeeType, Employee supervisor, PersonName name, Address address)
             : this()
         {
             Id = id;
             EmployeeType = employeeType;
             Supervisor = supervisor;
+            Name = name;
+            Address = address;
         }
 
         public virtual EmployeeType EmployeeType { get; private set; }
 
         public virtual Employee Supervisor { get; private set; }
+
+        public virtual PersonName Name { get; private set; }
+
+        public virtual Address Address { get; private set; }
 
         public bool IsActive { get; private set; }
         public DateTime CreatedDate { get; set; }
