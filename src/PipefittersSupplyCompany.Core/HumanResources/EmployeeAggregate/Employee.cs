@@ -41,7 +41,12 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public virtual MaritalStatus MaritalStatus { get; private set; }
 
-        public bool IsActive { get; private set; }
+        public virtual TaxExemption TaxExemption { get; private set; }
+
+        public virtual PayRate PayRate { get; private set; }
+
+        public virtual IsActive IsActive { get; private set; }
+
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
 
