@@ -148,5 +148,141 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Assert.Equal(stateCode, result.StateProvinceCode);
             Assert.Equal(zipcode, result.Zipcode);
         }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_StateCodeDoesNotExist()
+        {
+            string line1 = "123 Main Street";
+            string line2 = null;
+            string city = "Anywhereville";
+            string stateCode = "IX";
+            string zipcode = "75216";
+
+            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid state code!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_StateCodeIsNull()
+        {
+            string line1 = "123 Main Street";
+            string line2 = null;
+            string city = "Anywhereville";
+            string stateCode = null;
+            string zipcode = "75216";
+
+            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("A 2-digit state code is required.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_ZipcodeIsNull()
+        {
+            string line1 = "123 Main Street";
+            string line2 = null;
+            string city = "Anywhereville";
+            string stateCode = "TX";
+            string zipcode = null;
+
+            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("A zip code is required.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_Zipcode()
+        {
+            string line1 = "123 Main Street";
+            string line2 = null;
+            string city = "Anywhereville";
+            string stateCode = "TX";
+            string zipcode = "752136";
+
+            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid zip code!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldReturn_Valid_TelephoneNumber()
+        {
+            string phone = "972-555-5555";
+
+            var result = Telephone.Create(phone);
+
+            Assert.IsType<Telephone>(result);
+            Assert.Equal(phone, result.Value);
+            Assert.Equal(phone, result);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_TelephoneNumber()
+        {
+            string phone = "0972-555-5555";
+
+            Action action = () => Telephone.Create(phone);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid telephone number!", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_TelephoneNumberIsNull()
+        {
+            string phone = null;
+
+            Action action = () => Telephone.Create(phone);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The telephone number is required.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldReturn_Valid_MaritalStatus()
+        {
+            string status = "M";
+
+            var result = MaritalStatus.Create(status);
+
+            Assert.IsType<MaritalStatus>(result);
+            Assert.Equal(status, result.Value);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_MaritalStatusNotSorM()
+        {
+            string status = "D";
+
+            Action action = () => MaritalStatus.Create(status);
+
+            var caughtException = Assert.Throws<ArgumentException>(action);
+
+            Assert.Contains("Invalid marital status, valid statues are 'S' and 'M'.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_Invalid_MaritalStatusIsNull()
+        {
+            string status = null;
+
+            Action action = () => MaritalStatus.Create(status);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The marital status is required.", caughtException.Message);
+        }
+
     }
 }

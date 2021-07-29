@@ -13,7 +13,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
     {
         protected Employee() { }
 
-        public Employee(Guid id, EmployeeType employeeType, Employee supervisor, PersonName name, Address address)
+        public Employee(Guid id, EmployeeType employeeType, Employee supervisor, PersonName name,
+                        Address address, SSN ssn, Telephone telephone, MaritalStatus maritalStatus)
             : this()
         {
             Id = id;
@@ -21,6 +22,9 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             Supervisor = supervisor;
             Name = name;
             Address = address;
+            SSN = ssn;
+            Telephone = telephone;
+            MaritalStatus = maritalStatus;
         }
 
         public virtual EmployeeType EmployeeType { get; private set; }
@@ -31,6 +35,12 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public virtual Address Address { get; private set; }
 
+        public virtual SSN SSN { get; private set; }
+
+        public virtual Telephone Telephone { get; private set; }
+
+        public virtual MaritalStatus MaritalStatus { get; private set; }
+
         public bool IsActive { get; private set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
@@ -40,17 +50,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         public void Deactivate() { }
     }
 }
-// LastName = lname,
-// FirstName = fname,
-// MiddleInitial = mi,
-// SSN = ssn,
-// AddressLine1 = line1,
-// AddressLine2 = line2,
-// City = city,
-// StateProvinceCode = stateProvince,
-// Zipcode = zipcode,
-// Telephone = telephone,
-// MaritalStatus = maritalStatus,
+
 // Exemptions = exemptions,
 // PayRate = payRate,
 // StartDate = startDate,

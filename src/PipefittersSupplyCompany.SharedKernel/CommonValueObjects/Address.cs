@@ -58,15 +58,25 @@ namespace PipefittersSupplyCompany.SharedKernel.CommonValueObjects
                 throw new ArgumentOutOfRangeException("City name can not be longer than 30 characters.", nameof(city));
             }
 
+            if (string.IsNullOrEmpty(stateCode))
+            {
+                throw new ArgumentNullException("A 2-digit state code is required.", nameof(stateCode));
+            }
+
             if (!Array.Exists(_stateCodes, element => element == stateCode.ToUpper()))
             {
-                throw new ArgumentException("Invalid state code.", nameof(stateCode));
+                throw new ArgumentException("Invalid state code!", nameof(stateCode));
+            }
+
+            if (string.IsNullOrEmpty(zipcode))
+            {
+                throw new ArgumentNullException("A zip code is required.", nameof(zipcode));
             }
 
             var usZipRegEx = @"^\d{5}(?:[-\s]\d{4})?$";
-            var caZipRegEx = @"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$";
+            // var caZipRegEx = @"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$";
 
-            if (!Regex.IsMatch(zipcode, usZipRegEx) && !Regex.IsMatch(zipcode, caZipRegEx))
+            if (!Regex.IsMatch(zipcode, usZipRegEx))
             {
                 throw new ArgumentException("Invalid zip code!", nameof(zipcode));
             }
