@@ -26,16 +26,9 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         private static void CheckValidity(string value)
         {
-            string rgTelephone = @"^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$";
-
-            if (string.IsNullOrEmpty(value))
+            if (!Regex.IsMatch(value, @"^(?!219099999|078051120)(?!666|000|9\d{2})\d{3}(?!00)\d{2}(?!0{4})\d{4}$"))
             {
-                throw new ArgumentNullException("The telephone number is required.", nameof(value));
-            }
-
-            if (!Regex.IsMatch(value, rgTelephone))
-            {
-                throw new ArgumentException("Invalid telephone number!", nameof(value));
+                throw new ArgumentException("Invalid social security number!", nameof(value));
             }
         }
     }

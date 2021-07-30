@@ -12,7 +12,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.HumanResources
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("EmployeeID");
             entity.HasOne<EmployeeType>(e => e.EmployeeType).WithMany().HasForeignKey("EmployeeTypeID").IsRequired();
-            entity.HasOne<Employee>(e => e.Supervisor).WithMany().HasForeignKey("SupervisorID").IsRequired();
+            // entity.HasOne<Employee>(e => e.Supervisor).WithMany().HasForeignKey("SupervisorID").IsRequired();
             entity.OwnsOne(p => p.Name, p =>
             {
                 p.Property(pp => pp.FirstName).HasColumnName("FirstName");

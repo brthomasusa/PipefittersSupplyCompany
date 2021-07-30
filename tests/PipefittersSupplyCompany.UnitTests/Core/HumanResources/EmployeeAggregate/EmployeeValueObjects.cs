@@ -240,6 +240,17 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         }
 
         [Fact]
+        public void ShouldReturnValid_SSN()
+        {
+            string ssn = "587887964";
+
+            var result = SSN.Create(ssn);
+
+            Assert.IsType<SSN>(result);
+            Assert.Equal(ssn, result);
+        }
+
+        [Fact]
         public void ShouldReturn_Valid_TelephoneNumber()
         {
             string phone = "972-555-5555";

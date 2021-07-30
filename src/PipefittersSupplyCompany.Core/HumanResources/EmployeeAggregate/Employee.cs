@@ -13,14 +13,14 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
     {
         protected Employee() { }
 
-        public Employee(Guid id, EmployeeType employeeType, Employee supervisor, PersonName name,
+        public Employee(EmployeeID id, EmployeeType employeeType, EmployeeID supervisorId, PersonName name,
                         Address address, SSN ssn, Telephone telephone, MaritalStatus maritalStatus,
                         TaxExemption exemption, PayRate payRate, StartDate startDate, IsActive isActive)
             : this()
         {
             Id = id;
             EmployeeType = employeeType;
-            Supervisor = supervisor;
+            SupervisorId = supervisorId;
             Name = name;
             Address = address;
             SSN = ssn;
@@ -34,7 +34,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public virtual EmployeeType EmployeeType { get; private set; }
 
-        public virtual Employee Supervisor { get; private set; }
+        public virtual EmployeeID SupervisorId { get; private set; }
 
         public virtual PersonName Name { get; private set; }
 
