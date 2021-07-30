@@ -23,7 +23,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         [Fact]
         public void ShouldRaiseError_EmployeeID_IsDefaultGuid()
         {
-            Guid eeID = default;
+            Guid eeID = new Guid();
 
             Action action = () => EmployeeID.Create(eeID);
 
