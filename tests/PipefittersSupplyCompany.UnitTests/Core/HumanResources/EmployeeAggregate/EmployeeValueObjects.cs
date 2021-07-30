@@ -7,6 +7,32 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
 {
     public class EmployeeValueObjectTests
     {
+        // EmployeeId
+
+        [Fact]
+        public void ShouldReturn_Valid_EmployeeID()
+        {
+            Guid eeID = Guid.NewGuid();
+
+            var result = EmployeeID.Create(eeID);
+
+            Assert.IsType<EmployeeID>(result);
+            Assert.Equal(eeID, result);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_EmployeeID_IsDefaultGuid()
+        {
+            Guid eeID = default;
+
+            Action action = () => EmployeeID.Create(eeID);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Equal("The employee id is required.", caughtException.ParamName);
+        }
+
+
         // PersonName
 
         [Fact]

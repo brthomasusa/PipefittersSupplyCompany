@@ -14,7 +14,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         protected Employee() { }
 
         public Employee(Guid id, EmployeeType employeeType, Employee supervisor, PersonName name,
-                        Address address, SSN ssn, Telephone telephone, MaritalStatus maritalStatus)
+                        Address address, SSN ssn, Telephone telephone, MaritalStatus maritalStatus,
+                        TaxExemption exemption, PayRate payRate, StartDate startDate, IsActive isActive)
             : this()
         {
             Id = id;
@@ -25,6 +26,10 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             SSN = ssn;
             Telephone = telephone;
             MaritalStatus = maritalStatus;
+            TaxExemption = exemption;
+            PayRate = payRate;
+            StartDate = startDate;
+            IsActive = isActive;
         }
 
         public virtual EmployeeType EmployeeType { get; private set; }
@@ -45,6 +50,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public virtual PayRate PayRate { get; private set; }
 
+        public virtual StartDate StartDate { get; private set; }
+
         public virtual IsActive IsActive { get; private set; }
 
         public DateTime CreatedDate { get; set; }
@@ -55,8 +62,4 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         public void Deactivate() { }
     }
 }
-
-// Exemptions = exemptions,
-// PayRate = payRate,
-// StartDate = startDate,
 
