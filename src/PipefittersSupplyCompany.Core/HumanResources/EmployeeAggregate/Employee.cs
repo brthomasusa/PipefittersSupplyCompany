@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using Ardalis.GuardClauses;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate.Events;
+using PipefittersSupplyCompany.Core.Exceptions;
 using PipefittersSupplyCompany.SharedKernel;
 
 namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 {
     public class Employee : AggregateRoot
     {
+        private static readonly string[] _stateCodes = { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "ME", "MD", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WI", "WV", "WY" };
         private Guid _supervisorID;
         private string _lastName;
         private string _firstName;
@@ -34,11 +36,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                         string maritalStatus, int exemption, decimal payRate, DateTime startDate, bool isActive)
             : this()
         {
-            if (id == default)
-            {
-                throw new ArgumentNullException("The supervisor id is required.", nameof(id));
-            }
-
             EmployeeType = Guard.Against.Null(employeeType, nameof(employeeType));
             Supervisor = Guard.Against.Null(supervisor, nameof(supervisor));
 
@@ -197,12 +194,12 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                     throw new ArgumentNullException("The 2-digit state code is required.", nameof(value));
                 }
 
-                if (value.Length > 2)
+                if (!Array.Exists(_stateCodes, element => element == value.ToUpper()))
                 {
-                    throw new ArgumentException("The state code has a maximum length of 2 characters.", nameof(value));
+                    throw new ArgumentException("Invalid state code!", nameof(value));
                 }
 
-                _stateCode = value;
+                _stateCode = value.ToUpper();
             }
         }
 
@@ -363,10 +360,10 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         {
             var valid = Id != default;
 
-            // if (!valid)
-            // {
-            //     throw new InvalidEntityStateException(this, "Employee validity check failed!");
-            // }
+            if (!valid)
+            {
+                throw new InvalidEntityStateException(this, "Employee validity check failed; the employee id is required.!");
+            }
         }
 
         protected override void When(BaseDomainEvent @event)
@@ -375,24 +372,22 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             {
                 case EmployeeEvent.EmployeeCreated evt:
                     Id = evt.Id;
-                    // EmployeeTypeId = evt.EmployeeTypeId;
-                    // SupervisorId = evt.SupervisorId;
-                    // LastName = evt.LastName;
-                    // FirstName = evt.FirstName;
-                    // MiddleInitial = evt.MiddleInitial;
-                    // SSN = evt.SSN;
-                    // AddressLine1 = evt.AddressLine1;
-                    // AddressLine2 = evt.AddressLine2;
-                    // City = evt.City;
-                    // State = evt.StateProvinceCode;
-                    // Zipcode = evt.Zipcode;
-                    // Telephone = evt.Telephone;
-                    // MaritalStatus = evt.MaritalStatus;
-                    // Exemptions = evt.Exemptions;
-                    // PayRate = evt.PayRate;
-                    // StartDate = evt.StartDate;
-                    // IsActive = evt.IsActive;
-                    // CreatedDate = evt.CreatedDate;
+                    LastName = evt.LastName;
+                    FirstName = evt.FirstName;
+                    MiddleInitial = evt.MiddleInitial;
+                    SSN = evt.SSN;
+                    AddressLine1 = evt.AddressLine1;
+                    AddressLine2 = evt.AddressLine2;
+                    City = evt.City;
+                    StateProvinceCode = evt.StateProvinceCode;
+                    Zipcode = evt.Zipcode;
+                    Telephone = evt.Telephone;
+                    MaritalStatus = evt.MaritalStatus;
+                    TaxExemption = evt.Exemptions;
+                    PayRate = evt.PayRate;
+                    StartDate = evt.StartDate;
+                    IsActive = evt.IsActive;
+                    CreatedDate = DateTime.Now;
                     break;
 
 

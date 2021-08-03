@@ -22,7 +22,7 @@ namespace PipefittersSupplyCompany.SharedKernel
             // Use Event object to set/update entity properties
             When(@event);
 
-            // Run validation check to whole entity
+            // Run validation check on whole entity
             EnsureValidState();
 
             // Add Event object to List for later processing
