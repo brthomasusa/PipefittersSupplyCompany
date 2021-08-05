@@ -3,6 +3,7 @@ using System.Threading;
 using System.Threading.Tasks;
 using Ardalis.EFCore.Extensions;
 using PipefittersSupplyCompany.Core.ProjectAggregate;
+using PipefittersSupplyCompany.Core.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.SharedKernel;
 using MediatR;
@@ -22,8 +23,10 @@ namespace PipefittersSupplyCompany.Infrastructure.Data
 
         public DbSet<ToDoItem> ToDoItems { get; set; }
         public DbSet<Project> Projects { get; set; }
-        public DbSet<EmployeeType> EmployeeTypes { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<User> Users { get; set; }
+        public DbSet<UserRole> UserRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

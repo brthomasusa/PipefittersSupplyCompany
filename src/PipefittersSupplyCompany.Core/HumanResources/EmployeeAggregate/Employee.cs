@@ -29,21 +29,18 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         private DateTime _startDate;
         private bool _isActive;
 
+
         protected Employee() { }
 
-        public Employee(Guid id, EmployeeType employeeType, Employee supervisor, string firstName, string lastName, string mi,
-                        string line1, string line2, string city, string stateCode, string zipcode, string ssn, string telephone,
+        public Employee(Guid id, Guid supervisorId, string firstName, string lastName, string mi, string line1,
+                        string line2, string city, string stateCode, string zipcode, string ssn, string telephone,
                         string maritalStatus, int exemption, decimal payRate, DateTime startDate, bool isActive)
             : this()
         {
-            EmployeeType = Guard.Against.Null(employeeType, nameof(employeeType));
-            Supervisor = Guard.Against.Null(supervisor, nameof(supervisor));
-
             Apply(new EmployeeEvent.EmployeeCreated
             {
                 Id = id,
-                EmployeeTypeId = employeeType.Id,
-                SupervisorId = supervisor.Id,
+                SupervisorId = supervisorId,
                 LastName = lastName,
                 FirstName = firstName,
                 MiddleInitial = mi,
@@ -62,9 +59,19 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             });
         }
 
-        public virtual EmployeeType EmployeeType { get; private set; }
+        public Guid SupervisorId
+        {
+            get { return _supervisorID; }
+            private set
+            {
+                if (value == default)
+                {
+                    throw new ArgumentNullException("The supervisor id is required.", nameof(value));
+                }
 
-        public virtual Employee Supervisor { get; private set; }
+                _supervisorID = value;
+            }
+        }
 
         public string FirstName
         {
@@ -358,11 +365,11 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         protected override void EnsureValidState()
         {
-            var valid = Id != default;
+            var valid = Id != default && SupervisorId != default;
 
             if (!valid)
             {
-                throw new InvalidEntityStateException(this, "Employee validity check failed; the employee id is required.!");
+                throw new InvalidEntityStateException(this, "Employee validity check failed; the employee id and supervisor id are required.!");
             }
         }
 
@@ -372,6 +379,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             {
                 case EmployeeEvent.EmployeeCreated evt:
                     Id = evt.Id;
+                    SupervisorId = evt.SupervisorId;
                     LastName = evt.LastName;
                     FirstName = evt.FirstName;
                     MiddleInitial = evt.MiddleInitial;

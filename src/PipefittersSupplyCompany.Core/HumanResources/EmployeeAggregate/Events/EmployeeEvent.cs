@@ -8,7 +8,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate.Events
         public class EmployeeCreated : BaseDomainEvent
         {
             public Guid Id { get; set; }
-            public int EmployeeTypeId { get; set; }
             public Guid SupervisorId { get; set; }
             public string LastName { get; set; }
             public string FirstName { get; set; }
