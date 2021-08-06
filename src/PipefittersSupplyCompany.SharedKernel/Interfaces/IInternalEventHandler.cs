@@ -1,3 +1,4 @@
+using PipefittersSupplyCompany.SharedKernel;
 namespace PipefittersSupplyCompany.SharedKernel.Interfaces
 {
     public interface IInternalEventHandler
