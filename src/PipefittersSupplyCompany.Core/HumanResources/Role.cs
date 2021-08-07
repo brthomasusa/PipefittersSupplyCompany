@@ -5,15 +5,16 @@ using PipefittersSupplyCompany.SharedKernel;
 
 namespace PipefittersSupplyCompany.Core.HumanResources
 {
-    public class Role : BaseEntity<int>
+    public class Role : BaseEntity<Guid>
     {
         private readonly ICollection<UserRole> _userRole = new List<UserRole>();
         private string _roleName;
 
         protected Role() { }
 
-        public Role(string roleName)
+        public Role(Guid id, string roleName)
         {
+            Id = id;
             RoleName = roleName;
         }
 
