@@ -194,20 +194,26 @@ namespace PipefittersSupplyCompany.IntegrationTests.Data
             new User(new Guid("0cf9de54-c2ca-417e-827c-a5b87be2d788"), "jamie.j.brown@pipefitterssupplycompany.com", "jamie.j.brown@pipefitterssupplycompany.com", GetEmployees()[5]),
             new User(new Guid("e716ac28-e354-4d8d-94e4-ec51f08b1af8"), "george.w.bush@pipefitterssupplycompany.com", "george.w.bush@pipefitterssupplycompany.com", GetEmployees()[6]),
             new User(new Guid("2624b03c-901d-4618-9303-7d560d0e4507"), "ma.a.rainey@pipefitterssupplycompany.com", "ma.a.rainey@pipefitterssupplycompany.com", GetEmployees()[7])
-
-            // ('4B900A74-E2D9-4837-B9A4-9E828752716E', 'ken.j.sanchez@pipefitterssupplycompany.com', 'ken.j.sanchez@pipefitterssupplycompany.com', '4B900A74-E2D9-4837-B9A4-9E828752716E'),
-            // ('517e8a39-6fb4-4aa3-931d-d512e59066e7', 'wayne.l.carter@pipefitterssupplycompany.com', 'wayne.l.carter@pipefitterssupplycompany.com', '5C60F693-BEF5-E011-A485-80EE7300C695'),
-            // ('660bb318-649e-470d-9d2b-693bfb0b2744', 'terri.m.phide@pipefitterssupplycompany.com', 'terri.m.phide@pipefitterssupplycompany.com', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-            // ('9f7b902d-566c-4db6-b07b-716dd4e04340', 'terri.l.duffy@pipefitterssupplycompany.com', 'terri.l.duffy@pipefitterssupplycompany.com', '9f7b902d-566c-4db6-b07b-716dd4e04340'),
-            // ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', 'jozef.p.goldberg@pipefitterssupplycompany.com', 'jozef.p.goldberg@pipefitterssupplycompany.com', 'AEDC617C-D035-4213-B55A-DAE5CDFCA366'),
-            // ('0cf9de54-c2ca-417e-827c-a5b87be2d788', 'jamie.j.brown@pipefitterssupplycompany.com', 'jamie.j.brown@pipefitterssupplycompany.com', '0cf9de54-c2ca-417e-827c-a5b87be2d788'),
-            // ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', 'george.w.bush@pipefitterssupplycompany.com', 'george.w.bush@pipefitterssupplycompany.com', 'e716ac28-e354-4d8d-94e4-ec51f08b1af8')
-            // ('2624b03c-901d-4618-9303-7d560d0e4507', 'ma.a.rainey@pipefitterssupplycompany.com', 'ma.a.rainey@pipefitterssupplycompany.com', '604536a1-e734-49c4-96b3-9dfef7417f9a')
         };
 
         public static IList<UserRole> GetUserRoles() => new List<UserRole>
         {
-
+            new UserRole(1, GetUsers()[0], GetRoles()[2]),
+            new UserRole(2, GetUsers()[0], GetRoles()[6]),
+            new UserRole(3, GetUsers()[1], GetRoles()[2]),
+            new UserRole(4, GetUsers()[1], GetRoles()[6]),
+            new UserRole(5, GetUsers()[2], GetRoles()[2]),
+            new UserRole(6, GetUsers()[2], GetRoles()[0]),
+            new UserRole(7, GetUsers()[2], GetRoles()[6]),
+            new UserRole(8, GetUsers()[3], GetRoles()[2]),
+            new UserRole(9, GetUsers()[3], GetRoles()[1]),
+            new UserRole(10, GetUsers()[4], GetRoles()[2]),
+            new UserRole(11, GetUsers()[4], GetRoles()[3]),
+            new UserRole(12, GetUsers()[5], GetRoles()[2]),
+            new UserRole(13, GetUsers()[5], GetRoles()[4]),
+            new UserRole(14, GetUsers()[6], GetRoles()[2]),
+            new UserRole(15, GetUsers()[6], GetRoles()[5]),
+            new UserRole(16, GetUsers()[7], GetRoles()[0]),
         };
     }
 }
