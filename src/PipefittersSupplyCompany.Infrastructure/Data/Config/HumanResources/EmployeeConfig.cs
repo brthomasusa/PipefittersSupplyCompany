@@ -19,7 +19,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.HumanResources
             entity.Property(p => p.AddressLine1).HasColumnType("NVARCHAR(30)").HasColumnName("AddressLine1").IsRequired();
             entity.Property(p => p.AddressLine2).HasColumnType("NVARCHAR(30)").HasColumnName("AddressLine2");
             entity.Property(p => p.City).HasColumnType("NVARCHAR(30)").HasColumnName("City").IsRequired();
-            entity.Property(p => p.StateProvinceCode).HasColumnType("NCHAR(2)").HasColumnName("StateProvinceCode").IsRequired();
+            entity.Property(p => p.StateProvinceCode).HasColumnType("NCHAR(2)").HasColumnName("StateCode").IsRequired();
             entity.Property(p => p.Zipcode).HasColumnType("NVARCHAR(10)").HasColumnName("ZipCode").IsRequired();
             entity.Property(p => p.Telephone).HasColumnType("NVARCHAR(14)").HasColumnName("Telephone").IsRequired();
             entity.Property(p => p.MaritalStatus).HasColumnType("NCHAR(1)").HasColumnName("MaritalStatus").IsRequired();

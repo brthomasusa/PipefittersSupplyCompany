@@ -34,7 +34,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                     throw new ArgumentNullException("The user name is required.", nameof(value));
                 }
 
-                if (value.Length > 30)
+                if (value.Length > 256)
                 {
                     throw new ArgumentException("The user name has a maximum length of 256 characters.", nameof(value));
                 }
@@ -55,7 +55,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                     throw new ArgumentNullException("An email is required.", nameof(value));
                 }
 
-                if (value.Length > 30)
+                if (value.Length > 256)
                 {
                     throw new ArgumentException("The email has a maximum length of 256 characters.", nameof(value));
                 }

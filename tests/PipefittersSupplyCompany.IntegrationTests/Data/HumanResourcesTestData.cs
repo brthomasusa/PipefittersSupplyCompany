@@ -1,6 +1,5 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using PipefittersSupplyCompany.Core.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 
@@ -93,7 +92,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Data
                 "Dallas",
                 "TX",
                 "75214",
-                "999912345",
+                "399912345",
                 "214-987-1234",
                 "M",
                 1,

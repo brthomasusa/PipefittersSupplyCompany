@@ -5,6 +5,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources
 {
     public class UserRole : BaseEntity<int>
     {
+        protected UserRole() { }
+
         public UserRole(int id, User user, Role role)
         {
             Id = id;

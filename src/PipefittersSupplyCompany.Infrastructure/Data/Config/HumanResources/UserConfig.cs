@@ -13,7 +13,12 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.HumanResources
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("UserId");
             entity.Property(p => p.UserName).HasColumnType("NVARCHAR(256)").HasColumnName("UserName").IsRequired();
             entity.Property(p => p.Email).HasColumnType("NVARCHAR(256)").HasColumnName("Email").IsRequired();
-            entity.HasOne(e => e.Employee).WithOne();
+            entity.HasOne(e => e.Employee);
+            entity.Property(e => e.CreatedDate)
+                .HasColumnType("datetime2(7)")
+                .ValueGeneratedOnAdd()
+                .HasDefaultValueSql("sysdatetime()");
+            entity.Property(e => e.LastModifiedDate).HasColumnType("datetime2(7)");
         }
     }
 }

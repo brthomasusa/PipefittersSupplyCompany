@@ -159,12 +159,16 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
             private set
             {
-                if (value.Length > 30)
+                if (!string.IsNullOrEmpty(value))
                 {
-                    throw new ArgumentException("Address line 2 has a maximum length of 30 characters.", nameof(value));
+                    if (value.Length > 30)
+                    {
+                        throw new ArgumentException("Address line 2 has a maximum length of 30 characters.", nameof(value));
+                    }
+
+                    _line2 = value;
                 }
 
-                _line2 = value;
             }
         }
 
