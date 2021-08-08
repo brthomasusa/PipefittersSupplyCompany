@@ -7,7 +7,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources
 {
     public class Role : BaseEntity<Guid>
     {
-        private readonly ICollection<UserRole> _userRole = new List<UserRole>();
+        private readonly List<UserRole> _userRole = new List<UserRole>();
         private string _roleName;
 
         protected Role() { }

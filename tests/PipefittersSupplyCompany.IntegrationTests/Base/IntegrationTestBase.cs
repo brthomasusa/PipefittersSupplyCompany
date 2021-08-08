@@ -1,3 +1,4 @@
+using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
@@ -7,31 +8,39 @@ using PipefittersSupplyCompany.Infrastructure.Data;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Base
 {
-    public abstract class IntegrationTestBase
+    public abstract class IntegrationTestBase : IDisposable
     {
         private const string _defaultConnectionString = "DefaultConnection";
-        protected readonly string connectionString;
+        private readonly string _connectionString;
+        protected readonly AppDbContext _dbContext;
 
         public IntegrationTestBase()
         {
             var config = AppSettings.GetConfiguration();
-            connectionString = config.GetConnectionString(_defaultConnectionString);
+            _connectionString = config.GetConnectionString(_defaultConnectionString);
 
             var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
 
             optionsBuilder.UseSqlServer(
-                connectionString,
+                _connectionString,
                 mySqlOptions => mySqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
             )
             .EnableSensitiveDataLogging()
             .EnableDetailedErrors();
 
             var mockMediator = new Mock<IMediator>();
+            _dbContext = new AppDbContext(optionsBuilder.Options, mockMediator.Object);
+            TestDataInitialization.InitializeData(_dbContext);
 
-            using (var context = new AppDbContext(optionsBuilder.Options, mockMediator.Object))
-            {
-                TestDataInitialization.InitializeData(context);
-            }
+            // using (var context = new AppDbContext(optionsBuilder.Options, mockMediator.Object))
+            // {
+            //     TestDataInitialization.InitializeData(context);
+            // }
+        }
+
+        public void Dispose()
+        {
+            _dbContext.Dispose();
         }
     }
 }

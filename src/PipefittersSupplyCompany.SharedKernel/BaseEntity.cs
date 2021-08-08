@@ -9,7 +9,7 @@ namespace PipefittersSupplyCompany.SharedKernel
 
         public DateTime CreatedDate { get; protected set; }
 
-        public DateTime LastModifiedDate { get; protected set; }
+        public DateTime? LastModifiedDate { get; protected set; }
 
         public List<BaseDomainEvent> Events = new List<BaseDomainEvent>();
     }

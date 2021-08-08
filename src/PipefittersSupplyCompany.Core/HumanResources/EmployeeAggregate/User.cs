@@ -7,8 +7,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 {
     public class User : BaseEntity<Guid>
     {
-        private readonly ICollection<Role> _roles = new List<Role>();
-        private readonly ICollection<UserRole> _userRole = new List<UserRole>();
+        private readonly IList<Role> _roles = new List<Role>();
+        private readonly List<UserRole> _userRole = new List<UserRole>();
         private string _userName;
         private string _email;
 
