@@ -15,7 +15,7 @@ namespace PipefittersSupplyCompany.SharedKernel
 
         public DateTime CreatedDate { get; protected set; }
 
-        public DateTime LastModifiedDate { get; protected set; }
+        public DateTime? LastModifiedDate { get; protected set; }
 
         protected abstract void When(BaseDomainEvent @event);
 
