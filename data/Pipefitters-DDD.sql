@@ -86,6 +86,17 @@ VALUES
     ('604536a1-e734-49c4-96b3-9dfef7417f9a', 5)
 GO
 
+CREATE TABLE Shared.EconomicEvents
+(
+    EventId UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
+    EventTypeId int NOT NULL REFERENCES Shared.EconomicEventTypes (EventTypeId),
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL     
+)
+GO
+CREATE INDEX idx_EconomicEvents$EventTypeId   
+   ON Shared.EconomicEvents (EventTypeId)   
+GO
 
 CREATE TABLE HumanResources.Roles
 (
