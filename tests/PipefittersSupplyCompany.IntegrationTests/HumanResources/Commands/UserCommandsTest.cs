@@ -6,6 +6,7 @@ using Xunit;
 using PipefittersSupplyCompany.Core.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
+using PipefittersSupplyCompany.Core.Shared;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
@@ -14,12 +15,13 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         [Fact]
         public void ShouldInsert_User()
         {
+            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
             Guid employeeID = Guid.NewGuid();
             Guid userID = Guid.NewGuid();
 
             Employee employee = new Employee
             (
-                employeeID,
+                employeeAgent,
                 new Guid("4B900A74-E2D9-4837-B9A4-9E828752716E"),
                 "Doe",
                 "John",

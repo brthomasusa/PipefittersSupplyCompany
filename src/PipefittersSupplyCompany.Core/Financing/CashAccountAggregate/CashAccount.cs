@@ -135,31 +135,31 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
 
         protected override void When(BaseDomainEvent @event)
         {
-            switch (@event)
-            {
-                // case EmployeeEvent.EmployeeCreated evt:
-                //     Id = evt.Id;
-                //     SupervisorId = evt.SupervisorId;
-                //     LastName = evt.LastName;
-                //     FirstName = evt.FirstName;
-                //     MiddleInitial = evt.MiddleInitial;
-                //     SSN = evt.SSN;
-                //     AddressLine1 = evt.AddressLine1;
-                //     AddressLine2 = evt.AddressLine2;
-                //     City = evt.City;
-                //     StateProvinceCode = evt.StateProvinceCode;
-                //     Zipcode = evt.Zipcode;
-                //     Telephone = evt.Telephone;
-                //     MaritalStatus = evt.MaritalStatus;
-                //     TaxExemption = evt.Exemptions;
-                //     PayRate = evt.PayRate;
-                //     StartDate = evt.StartDate;
-                //     IsActive = evt.IsActive;
-                //     CreatedDate = DateTime.Now;
-                //     break;
+            // switch (@event)
+            // {
+            //     case EmployeeEvent.EmployeeCreated evt:
+            //         Id = evt.Id;
+            //         SupervisorId = evt.SupervisorId;
+            //         LastName = evt.LastName;
+            //         FirstName = evt.FirstName;
+            //         MiddleInitial = evt.MiddleInitial;
+            //         SSN = evt.SSN;
+            //         AddressLine1 = evt.AddressLine1;
+            //         AddressLine2 = evt.AddressLine2;
+            //         City = evt.City;
+            //         StateProvinceCode = evt.StateProvinceCode;
+            //         Zipcode = evt.Zipcode;
+            //         Telephone = evt.Telephone;
+            //         MaritalStatus = evt.MaritalStatus;
+            //         TaxExemption = evt.Exemptions;
+            //         PayRate = evt.PayRate;
+            //         StartDate = evt.StartDate;
+            //         IsActive = evt.IsActive;
+            //         CreatedDate = DateTime.Now;
+            //         break;
 
 
-            }
+            // }
         }   // End of When()         
     }
 }

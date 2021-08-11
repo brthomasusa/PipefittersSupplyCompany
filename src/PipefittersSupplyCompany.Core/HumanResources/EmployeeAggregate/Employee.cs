@@ -3,6 +3,7 @@ using System.Text.RegularExpressions;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate.Events;
 using PipefittersSupplyCompany.Core.Exceptions;
 using PipefittersSupplyCompany.SharedKernel;
+using PipefittersSupplyCompany.Core.Shared;
 
 namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 {
@@ -29,14 +30,21 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         protected Employee() { }
 
-        public Employee(Guid id, Guid supervisorId, string firstName, string lastName, string mi, string line1,
+        public Employee(ExternalAgent agent, Guid supervisorId, string lastName, string firstName, string mi, string line1,
                         string line2, string city, string stateCode, string zipcode, string ssn, string telephone,
                         string maritalStatus, int exemption, decimal payRate, DateTime startDate, bool isActive)
             : this()
         {
+            if (agent == null)
+            {
+                throw new ArgumentNullException("The external agent is required.");
+            }
+
+            ExternalAgent = agent;
+
             Apply(new EmployeeEvent.EmployeeCreated
             {
-                Id = id,
+                Id = agent.Id,
                 SupervisorId = supervisorId,
                 LastName = lastName,
                 FirstName = firstName,
@@ -355,14 +363,21 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
             private set
             {
-
                 _isActive = value;
             }
         }
 
-        public void Activate() { }
+        public void Activate()
+        {
+            _isActive = true;
+        }
 
-        public void Deactivate() { }
+        public void Deactivate()
+        {
+            _isActive = false;
+        }
+
+        public virtual ExternalAgent ExternalAgent { get; private set; }
 
         protected override void EnsureValidState()
         {
