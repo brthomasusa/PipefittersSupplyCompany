@@ -247,4 +247,56 @@ VALUES
     ('2624b03c-901d-4618-9303-7d560d0e4507', '0cceb901-e943-4dac-827e-4e440a7eed46')
 GO
 
+CREATE TABLE Shared.Addresses
+(
+  AddressId int IDENTITY PRIMARY KEY CLUSTERED,
+  AgentId UNIQUEIDENTIFIER NOT NULL REFERENCES Shared.ExternalAgents (AgentId),
+  AddressLine1 nvarchar(30) NOT NULL,
+  AddressLine2 nvarchar(30) NULL,
+  City nvarchar(30) NOT NULL,
+  StateCode nchar(2) NOT NULL,
+  Zipcode nvarchar(10) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL
+);
+GO
+CREATE INDEX idx_Addresses$AgentId   
+   ON Shared.Addresses (AgentId)   
+GO
+CREATE UNIQUE INDEX idx_Addresses$AgentIdLine1Line2CityStateZipcode   
+   ON Shared.Addresses (AgentId,AddressLine1,AddressLine2,City,StateCode,Zipcode)   
+GO
+
+INSERT INTO Shared.Addresses
+    (AgentId, AddressLine1, AddressLine2, City, StateCode, ZipCode)
+VALUES
+    ('4B900A74-E2D9-4837-B9A4-9E828752716E', '321 Tarrant Pl', null, 'Fort Worth', 'TX', '78965'),
+    ('5C60F693-BEF5-E011-A485-80EE7300C695', '321 Fort Worth Ave', null, 'Dallas', 'TX', '75211'),
+    ('660bb318-649e-470d-9d2b-693bfb0b2744', '3455 South Corinth Circle', null, 'Dallas', 'TX', '75224'),
+    ('9f7b902d-566c-4db6-b07b-716dd4e04340', '98 Reiger Ave', null, 'Dallas', 'TX', '75214'),
+    ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', '6667 Melody Lane', 'Apt 2', 'Dallas', 'TX', '75231'),
+    ('0cf9de54-c2ca-417e-827c-a5b87be2d788', '98777 Nigeria Town Rd', null, 'Arlington', 'TX', '78658'),
+    ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', '777 Ervay Street', null, 'Dallas', 'TX', '75208'),
+    ('604536a1-e734-49c4-96b3-9dfef7417f9a', '1233 Back Alley Rd', null, 'Corsicana', 'TX', '75110')
+GO
+
+CREATE TABLE Shared.Persons
+(
+  PersonId int IDENTITY PRIMARY KEY CLUSTERED,
+  AgentId UNIQUEIDENTIFIER NOT NULL REFERENCES Shared.ExternalAgents (AgentId),
+  LastName nvarchar(25) NOT NULL,
+  FirstName nvarchar(25) NOT NULL,
+  MiddleInitial nchar(1) NULL,
+  Telephone nvarchar(14) NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL
+);
+GO
+CREATE INDEX idx_ContactPerson$AgentId   
+   ON Shared.Persons (AgentId)   
+GO
+CREATE UNIQUE INDEX idx_ContactPerson$AgentIdLastFirstMiTelephone   
+   ON Shared.Persons (AgentId,LastName,FirstName,MiddleInitial,Telephone)   
+GO
+
 

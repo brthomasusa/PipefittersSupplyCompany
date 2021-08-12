@@ -10,7 +10,9 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
         {
             var tables = new[]
             {
-                "HumanResources.UserRoles"
+                "HumanResources.UserRoles",
+                "Shared.Addresses",
+                "Shared.Persons"
             };
 
             foreach (var table in tables)
@@ -27,6 +29,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
         {
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.UserRoles");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Users");
+            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.Persons");
+            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.Addresses");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Employees");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.ExternalAgents");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Roles");
@@ -88,6 +92,26 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('0cf9de54-c2ca-417e-827c-a5b87be2d788', '4B900A74-E2D9-4837-B9A4-9E828752716E','Brown', 'Jamie', 'J', '123700009', '98777 Nigeria Town Rd', null, 'Arlington', 'TX', '78658', '817-555-5555', 'M', 2, 29.00, '2017-12-22', 1),
                 ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', '4B900A74-E2D9-4837-B9A4-9E828752716E','Bush', 'George', 'W', '325559874', '777 Ervay Street', null, 'Dallas', 'TX', '75208', '214-555-5555', 'M', 5, 30.00, '2016-10-19', 1),
                 ('604536a1-e734-49c4-96b3-9dfef7417f9a', '660bb318-649e-470d-9d2b-693bfb0b2744','Rainey', 'Ma', 'A', '775559874', '1233 Back Alley Rd', null, 'Corsicana', 'TX', '75110', '903-555-5555', 'M', 2, 27.25, '2018-01-05', 1)         
+            ";
+
+            ctx.Database.ExecuteSqlRaw(sql);
+        }
+
+        private static void InsertAddresses(AppDbContext ctx)
+        {
+            string sql =
+            @"
+            INSERT INTO Shared.Addresses
+                (AgentId, AddressLine1, AddressLine2, City, StateCode, ZipCode)
+            VALUES
+                ('4B900A74-E2D9-4837-B9A4-9E828752716E', '321 Tarrant Pl', null, 'Fort Worth', 'TX', '78965'),
+                ('5C60F693-BEF5-E011-A485-80EE7300C695', '321 Fort Worth Ave', null, 'Dallas', 'TX', '75211'),
+                ('660bb318-649e-470d-9d2b-693bfb0b2744', '3455 South Corinth Circle', null, 'Dallas', 'TX', '75224'),
+                ('9f7b902d-566c-4db6-b07b-716dd4e04340', '98 Reiger Ave', null, 'Dallas', 'TX', '75214'),
+                ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', '6667 Melody Lane', 'Apt 2', 'Dallas', 'TX', '75231'),
+                ('0cf9de54-c2ca-417e-827c-a5b87be2d788', '98777 Nigeria Town Rd', null, 'Arlington', 'TX', '78658'),
+                ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', '777 Ervay Street', null, 'Dallas', 'TX', '75208'),
+                ('604536a1-e734-49c4-96b3-9dfef7417f9a', '1233 Back Alley Rd', null, 'Corsicana', 'TX', '75110')        
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
