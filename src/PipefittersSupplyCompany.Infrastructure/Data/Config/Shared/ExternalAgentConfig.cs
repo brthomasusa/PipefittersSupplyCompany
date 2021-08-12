@@ -13,7 +13,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.Shared
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("AgentId");
             entity.Property(p => p.AgentType).HasColumnType("int").HasColumnName("AgentTypeId").IsRequired();
-            entity.HasOne(e => e.Employee).WithOne(e => e.ExternalAgent);
+            entity.HasOne(e => e.Employee).WithOne(e => e.ExternalAgent).HasForeignKey<Employee>(e => e.Id);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

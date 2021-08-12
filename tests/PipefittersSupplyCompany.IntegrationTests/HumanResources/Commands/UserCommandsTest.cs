@@ -16,7 +16,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         public void ShouldInsert_User()
         {
             var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
-            Guid employeeID = Guid.NewGuid();
             Guid userID = Guid.NewGuid();
 
             Employee employee = new Employee
@@ -48,6 +47,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                 employee
             );
 
+            _dbContext.ExternalAgents.Add(employeeAgent);
             _dbContext.Employees.Add(employee);
             _dbContext.Users.Add(user);
             _dbContext.SaveChanges();

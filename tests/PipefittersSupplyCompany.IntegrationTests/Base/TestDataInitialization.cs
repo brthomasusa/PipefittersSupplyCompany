@@ -28,6 +28,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.UserRoles");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Users");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Employees");
+            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.ExternalAgents");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Roles");
 
             ResetIdentity(ctx);
@@ -47,6 +48,26 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('34af757e-666e-4ce6-9fcf-04635b9c5aa9', 'Purchasing Agent'),
                 ('a23a1148-603a-4b34-86ec-f3b32b418663', 'Salesperson'),
                 ('cad456c3-a6c8-4e7a-8be5-9aa0aedb8ec1', 'System Administrator')            
+            ";
+
+            ctx.Database.ExecuteSqlRaw(sql);
+        }
+
+        private static void InsertExternalAgentsForEmployees(AppDbContext ctx)
+        {
+            string sql =
+            @"
+            INSERT INTO Shared.ExternalAgents
+                (AgentId, AgentTypeId)
+            VALUES
+                ('4B900A74-E2D9-4837-B9A4-9E828752716E', 5),
+                ('5C60F693-BEF5-E011-A485-80EE7300C695', 5),
+                ('660bb318-649e-470d-9d2b-693bfb0b2744', 5),
+                ('9f7b902d-566c-4db6-b07b-716dd4e04340', 5),
+                ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', 5),
+                ('0cf9de54-c2ca-417e-827c-a5b87be2d788', 5),
+                ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', 5),
+                ('604536a1-e734-49c4-96b3-9dfef7417f9a', 5)         
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -126,6 +147,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             try
             {
                 InsertRoles(ctx);
+                InsertExternalAgentsForEmployees(ctx);
                 InsertEmployees(ctx);
                 InsertUsers(ctx);
                 InsertUserRoles(ctx);

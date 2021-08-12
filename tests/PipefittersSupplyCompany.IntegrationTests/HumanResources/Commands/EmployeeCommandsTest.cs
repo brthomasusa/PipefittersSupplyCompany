@@ -14,19 +14,19 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
     {
 
         [Fact]
-        public void ShouldInsert_Employee()
+        public void ShouldInsert_ExternalAgentAndEmployee()
         {
             var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
 
             Employee employee = new Employee
             (
                 employeeAgent,
-                new Guid("4B900A74-E2D9-4837-B9A4-9E828752716E"),
-                "Doe",
-                "John",
+                employeeAgent.Id,
+                "DeSantis",
+                "Ron",
                 "J",
-                "321 Main Street",
-                "#2",
+                "321 Tarrant Pl",
+                null,
                 "Fort Worth",
                 "TX",
                 "78965",
@@ -34,24 +34,61 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                 "817-987-1234",
                 "M",
                 5,
-                40.00M,
-                new DateTime(2021, 8, 8),
+                7.50M,
+                new DateTime(2021, 8, 11),
                 true
             );
 
+            _dbContext.ExternalAgents.Add(employeeAgent);
             _dbContext.Employees.Add(employee);
             _dbContext.SaveChanges();
 
-            var result = _dbContext.Employees.Find(employeeAgent.Id);
+            var employeeResult = _dbContext.Employees.Find(employeeAgent.Id);
+            var agentResult = _dbContext.ExternalAgents.Find(employeeAgent.Id);
 
-            Assert.IsType<Employee>(result);
+            Assert.IsType<ExternalAgent>(agentResult);
+            Assert.IsType<Employee>(employeeResult);
+
+            // Assert.Null(agentResult.Employee); It is doing eager loading!
         }
 
         [Fact]
-        public void ShouldUpdate_Employee()
+        public void ShouldRetrieve_ExternalAgentAndIncludeEmployee()
         {
-            Guid employeeID = new Guid("4B900A74-E2D9-4837-B9A4-9E828752716E");
+            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
 
+            Employee employee = new Employee
+            (
+                employeeAgent,
+                employeeAgent.Id,
+                "DeSantis",
+                "Ron",
+                "J",
+                "321 Tarrant Pl",
+                null,
+                "Fort Worth",
+                "TX",
+                "78965",
+                "223789999",
+                "817-987-1234",
+                "M",
+                5,
+                7.50M,
+                new DateTime(2021, 8, 11),
+                true
+            );
+
+            _dbContext.ExternalAgents.Add(employeeAgent);
+            _dbContext.Employees.Add(employee);
+            _dbContext.SaveChanges();
+
+            var result = _dbContext.ExternalAgents
+                        .Where(a => a.Id.Equals(employeeAgent.Id))
+                        .Include(e => e.Employee)
+                        .FirstOrDefault();
+
+            Assert.NotNull(result);
+            Assert.Equal("DeSantis", result.Employee.LastName);
         }
     }
 }
