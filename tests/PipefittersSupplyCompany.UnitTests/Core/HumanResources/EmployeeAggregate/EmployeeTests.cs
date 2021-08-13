@@ -47,11 +47,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                 "Sanchez",
                 "Ken",
                 "J",
-                "321 Tarrant Pl",
-                null,
-                "Fort Worth",
-                "TX",
-                "78965",
                 "123789999",
                 "817-987-1234",
                 "M",
@@ -76,11 +71,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                 "Sanchez",
                 "Ken",
                 "J",
-                "321 Tarrant Pl",
-                null,
-                "Fort Worth",
-                "TX",
-                "78965",
                 "123789999",
                 "817-987-1234",
                 "M",
@@ -118,11 +108,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                 "Sanchez",
                 "Ken",
                 "J",
-                "321 Tarrant Pl",
-                null,
-                "Fort Worth",
-                "TX",
-                "78965",
                 "123789999",
                 "817-987-1234",
                 "M",
@@ -152,11 +137,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                 "Sanchez",
                 "Ken",
                 "J",
-                "321 Tarrant Pl",
-                null,
-                "Fort Worth",
-                "TX",
-                "78965",
                 "123789999",
                 "817-987-1234",
                 "M",
@@ -188,11 +168,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                 "Sanchez",
                 "Ken",
                 "J",
-                "321 Tarrant Pl",
-                null,
-                "Fort Worth",
-                "TX",
-                "78965",
                 "123789999",
                 "817-987-1234",
                 "M",
@@ -221,11 +196,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                "Sanchez",
                "Ken",
                "J",
-               "321 Tarrant Pl",
-               null,
-               "Fort Worth",
-               "TX",
-               "78965",
                "123789999",
                "817-987-1234",
                "M",
@@ -252,11 +222,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                null,
                "Ken",
                "J",
-               "321 Tarrant Pl",
-               null,
-               "Fort Worth",
-               "TX",
-               "78965",
                "123789999",
                "817-987-1234",
                "M",
@@ -283,11 +248,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                "Sanchez",
                null,
                "J",
-               "321 Tarrant Pl",
-               null,
-               "Fort Worth",
-               "TX",
-               "78965",
                "123789999",
                "817-987-1234",
                "M",
@@ -302,36 +262,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Assert.Contains("The employee first name is required.", caughtException.Message);
         }
 
-        [Fact]
-        public void ShouldRaiseError_NewEmployee_WithNullAddressLine1()
-        {
-            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
-
-            Action action = () => new Employee
-           (
-               employeeAgent,
-               Guid.NewGuid(),
-               "Sanchez",
-               "Ken",
-               "J",
-               null,
-               null,
-               "Fort Worth",
-               "TX",
-               "78965",
-               "123789999",
-               "817-987-1234",
-               "M",
-               5,
-               40.00M,
-               new DateTime(1998, 12, 2),
-               true
-           );
-
-            var caughtException = Assert.Throws<ArgumentNullException>(action);
-
-            Assert.Contains("The first address line is required.", caughtException.Message);
-        }
 
         // private Employee GetEmployee()
         // {

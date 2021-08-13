@@ -17,7 +17,7 @@ namespace PipefittersSupplyCompany.IntegrationTests
 
             //VERIFY
             config.GetConnectionString("DefaultConnection")
-                .ShouldEqual("Server=tcp:mssql-server,1433;Database=Pipefitters_DDD;User Id=sa;Password=Info99Gum;MultipleActiveResultSets=true");
+                .ShouldEqual("Server=tcp:mssql-server,1433;Database=Pipefitters_Test;User Id=sa;Password=Info99Gum;MultipleActiveResultSets=true");
         }
     }
 }

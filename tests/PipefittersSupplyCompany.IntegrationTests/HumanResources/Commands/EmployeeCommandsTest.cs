@@ -1,9 +1,7 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
-using PipefittersSupplyCompany.Core.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.Core.Shared;
@@ -25,11 +23,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                 "DeSantis",
                 "Ron",
                 "J",
-                "321 Tarrant Pl",
-                null,
-                "Fort Worth",
-                "TX",
-                "78965",
                 "223789999",
                 "817-987-1234",
                 "M",
@@ -64,11 +57,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                 "DeSantis",
                 "Ron",
                 "J",
-                "321 Tarrant Pl",
-                null,
-                "Fort Worth",
-                "TX",
-                "78965",
                 "223789999",
                 "817-987-1234",
                 "M",

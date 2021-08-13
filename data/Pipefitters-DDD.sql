@@ -1,3 +1,15 @@
+-- DROP TABLE HumanResources.UserRoles
+-- DROP TABLE HumanResources.Users
+-- DROP TABLE Shared.Addresses
+-- DROP TABLE Shared.Persons
+-- DROP TABLE HumanResources.Employees
+-- DROP TABLE Shared.ExternalAgents
+-- DROP TABLE HumanResources.Roles
+-- DROP TABLE Shared.EconomicEvents
+-- DROP TABLE Shared.EconomicEventTypes
+-- DROP TABLE Shared.ExternalAgentTypes
+-- GO
+
 CREATE DATABASE Pipefitters_DDD
 GO
 
@@ -65,7 +77,9 @@ GO
 CREATE TABLE Shared.ExternalAgents
 (
     AgentId UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
-    AgentTypeId int NOT NULL REFERENCES Shared.ExternalAgentTypes (AgentTypeId)
+    AgentTypeId int NOT NULL REFERENCES Shared.ExternalAgentTypes (AgentTypeId),
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL     
 )
 GO
 
@@ -127,11 +141,6 @@ CREATE TABLE HumanResources.Employees
   FirstName nvarchar(25) NOT NULL,
   MiddleInitial nchar(1) NULL,
   SSN nchar(9) NOT NULL UNIQUE,
-  AddressLine1 nvarchar(30) NOT NULL,
-  AddressLine2 nvarchar(30) NULL,
-  City nvarchar(30) NOT NULL,
-  StateCode nchar(2) NOT NULL,
-  ZipCode nvarchar(10) NOT NULL,
   Telephone nvarchar(14) NOT NULL,
   MaritalStatus nchar(1) CHECK (MaritalStatus IN ('M', 'S')) DEFAULT 'S' NOT NULL,
   Exemptions int DEFAULT 0 NOT NULL,
@@ -160,16 +169,16 @@ ALTER TABLE HumanResources.Employees WITH CHECK ADD CONSTRAINT [FK_Employees$Emp
 GO
 
 INSERT INTO HumanResources.Employees
-    (EmployeeId, SupervisorID, LastName, FirstName, MiddleInitial, SSN, AddressLine1, AddressLine2, City, StateCode, ZipCode, Telephone, MaritalStatus, Exemptions, PayRate, StartDate, IsActive)
+    (EmployeeId, SupervisorID, LastName, FirstName, MiddleInitial, SSN, Telephone, MaritalStatus, Exemptions, PayRate, StartDate, IsActive)
 VALUES
-    ('4B900A74-E2D9-4837-B9A4-9E828752716E', '4B900A74-E2D9-4837-B9A4-9E828752716E','Sanchez', 'Ken', 'J', '123789999', '321 Tarrant Pl', null, 'Fort Worth', 'TX', '78965', '817-987-1234', 'M', 5, 40.00, '1998-12-02', 1),
-    ('5C60F693-BEF5-E011-A485-80EE7300C695', '5C60F693-BEF5-E011-A485-80EE7300C695','Carter', 'Wayne', 'L', '423789999', '321 Fort Worth Ave', null, 'Dallas', 'TX', '75211', '972-523-1234', 'M', 3, 40.00, '1998-12-02', 1),
-    ('660bb318-649e-470d-9d2b-693bfb0b2744', '4B900A74-E2D9-4837-B9A4-9E828752716E','Phide', 'Terri', 'M', '638912345', '3455 South Corinth Circle', null, 'Dallas', 'TX', '75224', '214-987-1234', 'M', 1, 28.00, '2014-09-22', 1),
-    ('9f7b902d-566c-4db6-b07b-716dd4e04340', '4B900A74-E2D9-4837-B9A4-9E828752716E','Duffy', 'Terri', 'L', '999912345', '98 Reiger Ave', null, 'Dallas', 'TX', '75214', '214-987-1234', 'M', 2, 30.00, '2018-10-22', 1),
-    ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', '4B900A74-E2D9-4837-B9A4-9E828752716E','Goldberg', 'Jozef', 'P', '036889999', '6667 Melody Lane', 'Apt 2', 'Dallas', 'TX', '75231', '469-321-1234', 'S', 1, 29.00, '2013-02-28', 1),
-    ('0cf9de54-c2ca-417e-827c-a5b87be2d788', '4B900A74-E2D9-4837-B9A4-9E828752716E','Brown', 'Jamie', 'J', '123700009', '98777 Nigeria Town Rd', null, 'Arlington', 'TX', '78658', '817-555-5555', 'M', 2, 29.00, '2017-12-22', 1),
-    ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', '4B900A74-E2D9-4837-B9A4-9E828752716E','Bush', 'George', 'W', '325559874', '777 Ervay Street', null, 'Dallas', 'TX', '75208', '214-555-5555', 'M', 5, 30.00, '2016-10-19', 1),
-    ('604536a1-e734-49c4-96b3-9dfef7417f9a', '660bb318-649e-470d-9d2b-693bfb0b2744','Rainey', 'Ma', 'A', '775559874', '1233 Back Alley Rd', null, 'Corsicana', 'TX', '75110', '903-555-5555', 'M', 2, 27.25, '2018-01-05', 1)
+    ('4B900A74-E2D9-4837-B9A4-9E828752716E', '4B900A74-E2D9-4837-B9A4-9E828752716E','Sanchez', 'Ken', 'J', '123789999', '817-987-1234', 'M', 5, 40.00, '1998-12-02', 1),
+    ('5C60F693-BEF5-E011-A485-80EE7300C695', '5C60F693-BEF5-E011-A485-80EE7300C695','Carter', 'Wayne', 'L', '423789999', '972-523-1234', 'M', 3, 40.00, '1998-12-02', 1),
+    ('660bb318-649e-470d-9d2b-693bfb0b2744', '4B900A74-E2D9-4837-B9A4-9E828752716E','Phide', 'Terri', 'M', '638912345', '214-987-1234', 'M', 1, 28.00, '2014-09-22', 1),
+    ('9f7b902d-566c-4db6-b07b-716dd4e04340', '4B900A74-E2D9-4837-B9A4-9E828752716E','Duffy', 'Terri', 'L', '699912345', '214-987-1234', 'M', 2, 30.00, '2018-10-22', 1),
+    ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', '4B900A74-E2D9-4837-B9A4-9E828752716E','Goldberg', 'Jozef', 'P', '036889999', '469-321-1234', 'S', 1, 29.00, '2013-02-28', 1),
+    ('0cf9de54-c2ca-417e-827c-a5b87be2d788', '4B900A74-E2D9-4837-B9A4-9E828752716E','Brown', 'Jamie', 'J', '123700009', '817-555-5555', 'M', 2, 29.00, '2017-12-22', 1),
+    ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', '4B900A74-E2D9-4837-B9A4-9E828752716E','Bush', 'George', 'W', '325559874', '214-555-5555', 'M', 5, 30.00, '2016-10-19', 1),
+    ('604536a1-e734-49c4-96b3-9dfef7417f9a', '660bb318-649e-470d-9d2b-693bfb0b2744','Rainey', 'Ma', 'A', '775559874', '903-555-5555', 'M', 2, 27.25, '2018-01-05', 1)
 GO
 
 CREATE TABLE HumanResources.Users
@@ -280,7 +289,7 @@ VALUES
     ('604536a1-e734-49c4-96b3-9dfef7417f9a', '1233 Back Alley Rd', null, 'Corsicana', 'TX', '75110')
 GO
 
-CREATE TABLE Shared.Persons
+CREATE TABLE Shared.ContactPersons
 (
   PersonId int IDENTITY PRIMARY KEY CLUSTERED,
   AgentId UNIQUEIDENTIFIER NOT NULL REFERENCES Shared.ExternalAgents (AgentId),
@@ -288,15 +297,28 @@ CREATE TABLE Shared.Persons
   FirstName nvarchar(25) NOT NULL,
   MiddleInitial nchar(1) NULL,
   Telephone nvarchar(14) NOT NULL,
+  Notes nvarchar(1024) NULL,
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
   LastModifiedDate datetime2(7) NULL
 );
 GO
 CREATE INDEX idx_ContactPerson$AgentId   
-   ON Shared.Persons (AgentId)   
+   ON Shared.ContactPersons (AgentId)   
 GO
 CREATE UNIQUE INDEX idx_ContactPerson$AgentIdLastFirstMiTelephone   
-   ON Shared.Persons (AgentId,LastName,FirstName,MiddleInitial,Telephone)   
+   ON Shared.ContactPersons (AgentId,LastName,FirstName,MiddleInitial,Telephone)   
 GO
 
+INSERT INTO Shared.ContactPersons
+    (AgentId, LastName, FirstName, MiddleInitial, Telephone)
+VALUES
+    ('4B900A74-E2D9-4837-B9A4-9E828752716E', 'Harvey', 'Steve', 'T', '972-854-5688'),
+    ('5C60F693-BEF5-E011-A485-80EE7300C695', 'Bash', 'Dana', 'D', '214-854-5688'),
+    ('660bb318-649e-470d-9d2b-693bfb0b2744', 'Hustle', 'Nipsey', 'T', '469-224-5688'),
+    ('9f7b902d-566c-4db6-b07b-716dd4e04340', 'Gutierrez', 'Monica', 'T', '972-854-5688'),
+    ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', 'Jones', 'Jim', 'A', '972-854-5688'),
+    ('0cf9de54-c2ca-417e-827c-a5b87be2d788', 'Wienstein', 'Harvey', 'T', '817-854-5688'),
+    ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', 'Harvey', 'Steve', 'T', '972-854-5688'),
+    ('604536a1-e734-49c4-96b3-9dfef7417f9a', 'Harvey', 'Steve', 'T', '903-854-5688')
+GO
 

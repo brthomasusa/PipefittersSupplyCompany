@@ -1,4 +1,6 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Text.RegularExpressions;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate.Events;
 using PipefittersSupplyCompany.Core.Exceptions;
@@ -14,11 +16,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         private string _lastName;
         private string _firstName;
         private string _middleInitial;
-        private string _line1;
-        private string _line2;
-        private string _city;
-        private string _stateCode;
-        private string _zipcode;
         private string _ssn;
         private string _telephone;
         private string _maritalStatus;
@@ -26,13 +23,14 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         private decimal _payRate;
         private DateTime _startDate;
         private bool _isActive;
+        private readonly IList<Address> _addresses = new List<Address>();
+        private readonly IList<ContactPerson> _contactPersons = new List<ContactPerson>();
 
 
         protected Employee() { }
 
-        public Employee(ExternalAgent agent, Guid supervisorId, string lastName, string firstName, string mi, string line1,
-                        string line2, string city, string stateCode, string zipcode, string ssn, string telephone,
-                        string maritalStatus, int exemption, decimal payRate, DateTime startDate, bool isActive)
+        public Employee(ExternalAgent agent, Guid supervisorId, string lastName, string firstName, string mi, string ssn,
+                        string telephone, string maritalStatus, int exemption, decimal payRate, DateTime startDate, bool isActive)
             : this()
         {
             if (agent == null)
@@ -50,11 +48,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                 FirstName = firstName,
                 MiddleInitial = mi,
                 SSN = ssn,
-                AddressLine1 = line1,
-                AddressLine2 = line2,
-                City = city,
-                StateProvinceCode = stateCode,
-                Zipcode = zipcode,
                 Telephone = telephone,
                 MaritalStatus = maritalStatus,
                 Exemptions = exemption,
@@ -133,113 +126,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                 }
 
                 _middleInitial = value;
-            }
-        }
-
-        public string AddressLine1
-        {
-            get
-            { return _line1; }
-
-            private set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("The first address line is required.", nameof(value));
-                }
-
-                if (value.Length > 30)
-                {
-                    throw new ArgumentException("Address line 1 has a maximum length of 30 characters.", nameof(value));
-                }
-
-                _line1 = value;
-            }
-        }
-
-        public string AddressLine2
-        {
-            get
-            { return _line2; }
-
-            private set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    if (value.Length > 30)
-                    {
-                        throw new ArgumentException("Address line 2 has a maximum length of 30 characters.", nameof(value));
-                    }
-
-                    _line2 = value;
-                }
-
-            }
-        }
-
-        public string City
-        {
-            get
-            { return _city; }
-
-            private set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("The city name is required.", nameof(value));
-                }
-
-                if (value.Length > 30)
-                {
-                    throw new ArgumentException("The city name has a maximum length of 30 characters.", nameof(value));
-                }
-
-                _city = value;
-            }
-        }
-
-        public string StateProvinceCode
-        {
-            get
-            { return _stateCode; }
-
-            private set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("The 2-digit state code is required.", nameof(value));
-                }
-
-                if (!Array.Exists(_stateCodes, element => element == value.ToUpper()))
-                {
-                    throw new ArgumentException("Invalid state code!", nameof(value));
-                }
-
-                _stateCode = value.ToUpper();
-            }
-        }
-
-        public string Zipcode
-        {
-            get
-            { return _zipcode; }
-
-            private set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("A zip code is required.", nameof(value));
-                }
-
-                var usZipRegEx = @"^\d{5}(?:[-\s]\d{4})?$";
-                // var caZipRegEx = @"^([ABCEGHJKLMNPRSTVXY]\d[ABCEGHJKLMNPRSTVWXYZ])\ {0,1}(\d[ABCEGHJKLMNPRSTVWXYZ]\d)$";
-
-                if (!Regex.IsMatch(value, usZipRegEx))
-                {
-                    throw new ArgumentException("Invalid zip code!", nameof(value));
-                }
-
-                _zipcode = value;
             }
         }
 
@@ -379,6 +265,10 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public virtual ExternalAgent ExternalAgent { get; private set; }
 
+        public virtual IReadOnlyList<Address> Addresses => _addresses.ToList();
+
+        public virtual IReadOnlyList<ContactPerson> ContactPersons => _contactPersons.ToList();
+
         protected override void EnsureValidState()
         {
             var valid = Id != default && SupervisorId != default;
@@ -400,11 +290,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                     FirstName = evt.FirstName;
                     MiddleInitial = evt.MiddleInitial;
                     SSN = evt.SSN;
-                    AddressLine1 = evt.AddressLine1;
-                    AddressLine2 = evt.AddressLine2;
-                    City = evt.City;
-                    StateProvinceCode = evt.StateProvinceCode;
-                    Zipcode = evt.Zipcode;
                     Telephone = evt.Telephone;
                     MaritalStatus = evt.MaritalStatus;
                     TaxExemption = evt.Exemptions;
