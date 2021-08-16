@@ -7,15 +7,15 @@ namespace PipefittersSupplyCompany.Core.HumanResources
     {
         protected UserRole() { }
 
-        public UserRole(int id, User user, Role role)
-        {
-            Id = id;
-            User = user;
-            Role = role;
-        }
+        // public UserRole(int id, User user, Role role)
+        // {
+        //     Id = id;
+        //     User = user;
+        //     Role = role;
+        // }
 
-        public virtual User User { get; private set; }
+        // public virtual User User { get; private set; }
 
-        public virtual Role Role { get; private set; }
+        // public virtual Role Role { get; private set; }
     }
 }

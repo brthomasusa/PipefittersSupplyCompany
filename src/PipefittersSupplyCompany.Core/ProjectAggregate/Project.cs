@@ -14,7 +14,7 @@ namespace PipefittersSupplyCompany.Core.ProjectAggregate
 
         public string Name { get; private set; }
 
-        public IEnumerable<ToDoItem> Items => _items.AsReadOnly();
+        public virtual IEnumerable<ToDoItem> Items => _items.AsReadOnly();
 
         public ProjectStatus Status => _items.All(i => i.IsDone) ? ProjectStatus.Complete : ProjectStatus.InProgress;
 

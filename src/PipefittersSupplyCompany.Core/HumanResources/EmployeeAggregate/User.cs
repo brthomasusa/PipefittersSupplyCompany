@@ -8,7 +8,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
     public class User : BaseEntity<Guid>
     {
         private readonly IList<Role> _roles = new List<Role>();
-        private readonly List<UserRole> _userRole = new List<UserRole>();
+        // private readonly List<UserRole> _userRole = new List<UserRole>();
         private string _userName;
         private string _email;
 
@@ -43,6 +43,7 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             }
         }
 
+
         public string Email
         {
             get
@@ -64,8 +65,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             }
         }
 
-        public Employee Employee { get; private set; }
+        public virtual Employee Employee { get; private set; }
 
-        public virtual IReadOnlyList<UserRole> RoleLink => _userRole.ToList();
+        // public virtual IReadOnlyList<UserRole> RoleLink => _userRole.ToList();
     }
 }

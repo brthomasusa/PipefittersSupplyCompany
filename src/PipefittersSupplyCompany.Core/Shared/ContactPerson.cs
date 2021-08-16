@@ -14,9 +14,14 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         protected ContactPerson() { }
 
-        public ContactPerson(string lastName, string firstName, string mi, string telephone, string notes)
+        public ContactPerson(ExternalAgent agent, string lastName, string firstName, string mi, string telephone, string notes)
             : this()
         {
+            if (agent == null)
+            {
+                throw new ArgumentNullException("External agent is required.");
+            }
+
             if (string.IsNullOrEmpty(lastName))
             {
                 throw new ArgumentNullException("The last name of the contact person is required.");
@@ -32,6 +37,7 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentNullException("The telephone number of the contact person is required.");
             }
 
+            Agent = agent;
             FirstName = firstName;
             LastName = lastName;
             MiddleInitial = mi;
@@ -121,9 +127,6 @@ namespace PipefittersSupplyCompany.Core.Shared
             }
         }
 
-        protected override void When(BaseDomainEvent @event)
-        {
-
-        }
+        public virtual ExternalAgent Agent { get; private set; }
     }
 }

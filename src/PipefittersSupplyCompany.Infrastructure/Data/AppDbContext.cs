@@ -10,6 +10,7 @@ using PipefittersSupplyCompany.Core.Shared;
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 
+
 namespace PipefittersSupplyCompany.Infrastructure.Data
 {
     public class AppDbContext : DbContext
@@ -22,11 +23,18 @@ namespace PipefittersSupplyCompany.Infrastructure.Data
             _mediator = mediator;
         }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLazyLoadingProxies();
+        }
+
         public DbSet<ToDoItem> ToDoItems { get; set; }
         public DbSet<Project> Projects { get; set; }
         public DbSet<Role> Roles { get; set; }
         public DbSet<ExternalAgent> ExternalAgents { get; set; }
         public DbSet<Employee> Employees { get; set; }
+        public DbSet<Address> Addresses { get; set; }
+        public DbSet<ContactPerson> ContactPersons { get; set; }
         public DbSet<User> Users { get; set; }
         public DbSet<UserRole> UserRoles { get; set; }
 

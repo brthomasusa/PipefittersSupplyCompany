@@ -13,6 +13,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.HumanResources
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("RoleId");
             entity.Property(p => p.RoleName).HasColumnType("NVARCHAR(256)").HasColumnName("RoleName").IsRequired();
+            // entity.HasMany(e => e.UserLink).WithOne(e => e.Role);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

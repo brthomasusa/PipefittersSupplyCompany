@@ -11,10 +11,5 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
     public class CashReceiptType : Entity<int>
     {
 
-
-        protected override void When(BaseDomainEvent @event)
-        {
-
-        }
     }
 }

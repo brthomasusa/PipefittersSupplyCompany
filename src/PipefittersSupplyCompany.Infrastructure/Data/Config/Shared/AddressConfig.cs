@@ -16,6 +16,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.Shared
             entity.Property(p => p.City).HasColumnType("NVARCHAR(30)").HasColumnName("City").IsRequired();
             entity.Property(p => p.StateCode).HasColumnType("NCHAR(2)").HasColumnName("StateCode").IsRequired();
             entity.Property(p => p.ZipCode).HasColumnType("NVARCHAR(10)").HasColumnName("Zipcode").IsRequired();
+            entity.HasOne(e => e.Agent).WithMany(e => e.Addresses);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

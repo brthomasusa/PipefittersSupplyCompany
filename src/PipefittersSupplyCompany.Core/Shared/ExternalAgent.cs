@@ -9,6 +9,9 @@ namespace PipefittersSupplyCompany.Core.Shared
     public class ExternalAgent : BaseEntity<Guid>
     {
         private AgentType _agentType;
+        private readonly IList<Address> _addresses = new List<Address>();
+        private readonly IList<ContactPerson> _contactPersons = new List<ContactPerson>();
+
         protected ExternalAgent() { }
 
         public ExternalAgent(Guid agentId, AgentType agentType)
@@ -64,6 +67,11 @@ namespace PipefittersSupplyCompany.Core.Shared
 
             Employee = employee;
         }
+
+
+        public virtual IReadOnlyList<Address> Addresses => _addresses.ToList();
+
+        public virtual IReadOnlyList<ContactPerson> ContactPersons => _contactPersons.ToList();
     }
 
 

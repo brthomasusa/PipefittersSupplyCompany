@@ -15,9 +15,14 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         protected Address() { }
 
-        public Address(string line1, string line2, string city, string stateCode, string zipcode)
+        public Address(ExternalAgent agent, string line1, string line2, string city, string stateCode, string zipcode)
             : this()
         {
+            if (agent == null)
+            {
+                throw new ArgumentNullException("External agent is required.");
+            }
+
             if (string.IsNullOrEmpty(line1))
             {
                 throw new ArgumentNullException("Address line 1 is required.");
@@ -38,6 +43,7 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentNullException("The zipcode is required.");
             }
 
+            Agent = agent;
             AddressLine1 = line1;
             AddressLine2 = line2;
             City = city;
@@ -126,9 +132,7 @@ namespace PipefittersSupplyCompany.Core.Shared
             }
         }
 
-        protected override void When(BaseDomainEvent @event)
-        {
+        public virtual ExternalAgent Agent { get; private set; }
 
-        }
     }
 }

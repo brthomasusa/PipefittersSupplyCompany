@@ -22,8 +22,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.HumanResources
             entity.Property(p => p.PayRate).HasColumnType("DECIMAL(18,2)").HasColumnName("PayRate").IsRequired();
             entity.Property(p => p.StartDate).HasColumnType("datetime2(0)").HasColumnName("StartDate").IsRequired();
             entity.Property(p => p.IsActive).HasColumnType("BIT").HasColumnName("IsActive").IsRequired();
-            entity.HasMany(e => e.Addresses).WithOne();
-            entity.HasMany(e => e.ContactPersons).WithOne();
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

@@ -14,6 +14,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.HumanResources
             entity.Property(p => p.UserName).HasColumnType("NVARCHAR(256)").HasColumnName("UserName").IsRequired();
             entity.Property(p => p.Email).HasColumnType("NVARCHAR(256)").HasColumnName("Email").IsRequired();
             entity.HasOne(e => e.Employee);
+            // entity.HasMany(e => e.RoleLink).WithMany(e => e.UserLink);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

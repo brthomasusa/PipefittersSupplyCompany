@@ -9,7 +9,7 @@ using PipefittersSupplyCompany.Core.Shared;
 
 namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 {
-    public class Employee : AggregateRoot
+    public class Employee : AggregateRoot<Guid>
     {
         private static readonly string[] _stateCodes = { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "ME", "MD", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WI", "WV", "WY" };
         private Guid _supervisorID;
@@ -23,9 +23,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         private decimal _payRate;
         private DateTime _startDate;
         private bool _isActive;
-        private readonly IList<Address> _addresses = new List<Address>();
-        private readonly IList<ContactPerson> _contactPersons = new List<ContactPerson>();
-
 
         protected Employee() { }
 
@@ -38,23 +35,19 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                 throw new ArgumentNullException("The external agent is required.");
             }
 
+            Id = agent.Id;
             ExternalAgent = agent;
-
-            Apply(new EmployeeEvent.EmployeeCreated
-            {
-                Id = agent.Id,
-                SupervisorId = supervisorId,
-                LastName = lastName,
-                FirstName = firstName,
-                MiddleInitial = mi,
-                SSN = ssn,
-                Telephone = telephone,
-                MaritalStatus = maritalStatus,
-                Exemptions = exemption,
-                PayRate = payRate,
-                StartDate = startDate,
-                IsActive = isActive
-            });
+            SupervisorId = supervisorId;
+            LastName = lastName;
+            FirstName = firstName;
+            MiddleInitial = mi;
+            SSN = ssn;
+            Telephone = telephone;
+            MaritalStatus = maritalStatus;
+            TaxExemption = exemption;
+            PayRate = payRate;
+            StartDate = startDate;
+            IsActive = isActive;
         }
 
         public Guid SupervisorId
@@ -264,44 +257,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         }
 
         public virtual ExternalAgent ExternalAgent { get; private set; }
-
-        public virtual IReadOnlyList<Address> Addresses => _addresses.ToList();
-
-        public virtual IReadOnlyList<ContactPerson> ContactPersons => _contactPersons.ToList();
-
-        protected override void EnsureValidState()
-        {
-            var valid = Id != default && SupervisorId != default;
-
-            if (!valid)
-            {
-                throw new InvalidEntityStateException(this, "Employee validity check failed; the employee id and supervisor id are required.!");
-            }
-        }
-
-        protected override void When(BaseDomainEvent @event)
-        {
-            switch (@event)
-            {
-                case EmployeeEvent.EmployeeCreated evt:
-                    Id = evt.Id;
-                    SupervisorId = evt.SupervisorId;
-                    LastName = evt.LastName;
-                    FirstName = evt.FirstName;
-                    MiddleInitial = evt.MiddleInitial;
-                    SSN = evt.SSN;
-                    Telephone = evt.Telephone;
-                    MaritalStatus = evt.MaritalStatus;
-                    TaxExemption = evt.Exemptions;
-                    PayRate = evt.PayRate;
-                    StartDate = evt.StartDate;
-                    IsActive = evt.IsActive;
-                    CreatedDate = DateTime.Now;
-                    break;
-
-
-            }
-        }   // End of When()         
     }
 }
 

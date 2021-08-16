@@ -14,6 +14,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.Shared
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("AgentId");
             entity.Property(p => p.AgentType).HasColumnType("int").HasColumnName("AgentTypeId").IsRequired();
             entity.HasOne(e => e.Employee).WithOne(e => e.ExternalAgent).HasForeignKey<Employee>(e => e.Id);
+            entity.HasMany(e => e.Addresses).WithOne(a => a.Agent);
+            entity.HasMany(e => e.ContactPersons).WithOne(a => a.Agent);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

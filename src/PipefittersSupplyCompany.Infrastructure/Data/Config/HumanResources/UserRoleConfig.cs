@@ -11,8 +11,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.HumanResources
             entity.ToTable("UserRoles", schema: "HumanResources");
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnName("UserRoleId");
-            entity.HasOne(p => p.User).WithMany(p => p.RoleLink);
-            entity.HasOne(p => p.Role).WithMany(p => p.UserLink);
+            // entity.HasOne(p => p.User).WithMany(p => p.RoleLink);
+            // entity.HasOne(p => p.Role).WithMany(p => p.UserLink);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

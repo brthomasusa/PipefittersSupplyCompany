@@ -5,40 +5,14 @@ using PipefittersSupplyCompany.SharedKernel.Interfaces;
 
 namespace PipefittersSupplyCompany.SharedKernel
 {
-    public abstract class AggregateRoot : IInternalEventHandler
+    public abstract class AggregateRoot<T> : Entity<T>
     {
-        private readonly List<BaseDomainEvent> _changes;
+        private readonly List<IDomainEvent> _domainEvents = new List<IDomainEvent>();
 
-        protected AggregateRoot() => _changes = new List<BaseDomainEvent>();
+        public virtual IReadOnlyList<IDomainEvent> DomainEvents => _domainEvents;
 
-        public Guid Id { get; protected set; }
+        protected virtual void AddDomainEvent(IDomainEvent newEvent) => _domainEvents.Add(newEvent);
 
-        public DateTime CreatedDate { get; protected set; }
-
-        public DateTime? LastModifiedDate { get; protected set; }
-
-        protected void Apply(BaseDomainEvent @event)
-        {
-            // Use Event object to set/update entity properties
-            When(@event);
-
-            // Run validation check on whole entity
-            EnsureValidState();
-
-            // Add Event object to List for later processing
-            _changes.Add(@event);
-        }
-
-        protected abstract void When(BaseDomainEvent @event);
-
-        public IEnumerable<BaseDomainEvent> GetChanges() => _changes.AsEnumerable();
-
-        public void ClearChanges() => _changes.Clear();
-
-        protected abstract void EnsureValidState();
-
-        protected void ApplyToEntity(IInternalEventHandler entity, BaseDomainEvent @event) => entity?.Handle(@event);
-
-        void IInternalEventHandler.Handle(BaseDomainEvent @event) => When(@event);
+        public virtual void ClearEvents() => _domainEvents.Clear();
     }
 }
