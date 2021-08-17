@@ -146,13 +146,13 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             string stateCode = "TX";
             string zipcode = "75216";
 
-            var result = Address.Create(line1, line2, city, stateCode, zipcode);
+            var result = AddressVO.Create(line1, line2, city, stateCode, zipcode);
 
-            Assert.IsType<Address>(result);
+            Assert.IsType<AddressVO>(result);
             Assert.Equal(line1, result.AddressLine1);
             Assert.Equal(line2, result.AddressLine2);
             Assert.Equal(city, result.City);
-            Assert.Equal(stateCode, result.StateProvinceCode);
+            Assert.Equal(stateCode, result.StateCode);
             Assert.Equal(zipcode, result.Zipcode);
         }
 
@@ -165,13 +165,13 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             string stateCode = "TX";
             string zipcode = "75216";
 
-            var result = Address.Create(line1, line2, city, stateCode, zipcode);
+            var result = AddressVO.Create(line1, line2, city, stateCode, zipcode);
 
-            Assert.IsType<Address>(result);
+            Assert.IsType<AddressVO>(result);
             Assert.Equal(line1, result.AddressLine1);
             Assert.Null(result.AddressLine2);
             Assert.Equal(city, result.City);
-            Assert.Equal(stateCode, result.StateProvinceCode);
+            Assert.Equal(stateCode, result.StateCode);
             Assert.Equal(zipcode, result.Zipcode);
         }
 
@@ -184,7 +184,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             string stateCode = "IX";
             string zipcode = "75216";
 
-            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+            Action action = () => AddressVO.Create(line1, line2, city, stateCode, zipcode);
 
             var caughtException = Assert.Throws<ArgumentException>(action);
 
@@ -200,7 +200,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             string stateCode = null;
             string zipcode = "75216";
 
-            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+            Action action = () => AddressVO.Create(line1, line2, city, stateCode, zipcode);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
@@ -216,7 +216,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             string stateCode = "TX";
             string zipcode = null;
 
-            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+            Action action = () => AddressVO.Create(line1, line2, city, stateCode, zipcode);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
@@ -232,7 +232,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             string stateCode = "TX";
             string zipcode = "752136";
 
-            Action action = () => Address.Create(line1, line2, city, stateCode, zipcode);
+            Action action = () => AddressVO.Create(line1, line2, city, stateCode, zipcode);
 
             var caughtException = Assert.Throws<ArgumentException>(action);
 

@@ -46,9 +46,9 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources
         public void ShouldReturn_Employee_WithAddresses()
         {
             Employee employee = _dbContext.Employees
-                    .AsNoTracking()
+                    // .AsNoTracking()  Lazy loading does not work if you use AsNoTracking 
                     .Where(e => e.Id.Equals(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e")))
-                    .Include(e => e.ExternalAgent).ThenInclude(a => a.Addresses)
+                    // .Include(e => e.ExternalAgent).ThenInclude(a => a.Addresses)
                     .FirstOrDefault();
 
             int count = employee.ExternalAgent.Addresses.Count;
@@ -60,9 +60,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources
         public void ShouldReturn_Employee_WithContactPeople()
         {
             Employee employee = _dbContext.Employees
-                    .AsNoTracking()
                     .Where(e => e.Id.Equals(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e")))
-                    .Include(e => e.ExternalAgent).ThenInclude(c => c.ContactPersons)
+                    // .Include(e => e.ExternalAgent).ThenInclude(c => c.ContactPersons)
                     .FirstOrDefault();
 
             int count = employee.ExternalAgent.ContactPersons.Count;

@@ -1,34 +1,35 @@
 using System;
 using System.Text.RegularExpressions;
 
+
 namespace PipefittersSupplyCompany.SharedKernel.CommonValueObjects
 {
-    public class Address : ValueObject
+    public class AddressVO : ValueObject
     {
         private static readonly string[] _stateCodes = { "AK", "AL", "AR", "AZ", "CA", "CO", "CT", "DC", "DE", "GA", "HI", "IA", "ID", "IL", "IN", "KS", "KY", "LA", "MA", "ME", "MD", "MI", "MN", "MO", "MS", "MT", "NC", "ND", "NE", "NH", "NJ", "NM", "NV", "NY", "OH", "OK", "OR", "PA", "RI", "SC", "SD", "TN", "TX", "UT", "VT", "VA", "WA", "WI", "WV", "WY" };
 
         public string AddressLine1 { get; }
         public string AddressLine2 { get; }
         public string City { get; }
-        public string StateProvinceCode { get; }
+        public string StateCode { get; }
         public string Zipcode { get; }
 
-        protected Address() { }
+        protected AddressVO() { }
 
-        private Address(string line1, string line2, string city, string stateCode, string zipcode)
+        private AddressVO(string line1, string line2, string city, string stateCode, string zipcode)
             : this()
         {
             AddressLine1 = line1;
             AddressLine2 = line2;
             City = city;
-            StateProvinceCode = stateCode;
+            StateCode = stateCode;
             Zipcode = zipcode;
         }
 
-        public static Address Create(string line1, string line2, string city, string stateCode, string zipcode)
+        public static AddressVO Create(string line1, string line2, string city, string stateCode, string zipcode)
         {
             CheckValidity(line1, line2, city, stateCode, zipcode);
-            return new Address(line1, line2, city, stateCode, zipcode);
+            return new AddressVO(line1, line2, city, stateCode, zipcode);
         }
 
         private static void CheckValidity(string line1, string line2, string city, string stateCode, string zipcode)
