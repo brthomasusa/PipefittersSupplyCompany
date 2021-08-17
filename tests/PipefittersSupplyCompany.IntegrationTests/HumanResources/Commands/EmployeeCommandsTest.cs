@@ -5,6 +5,7 @@ using Xunit;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.Core.Shared;
+using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
@@ -19,17 +20,15 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
             Employee employee = new Employee
             (
                 employeeAgent,
-                employeeAgent.Id,
-                "DeSantis",
-                "Ron",
-                "J",
-                "223789999",
-                "817-987-1234",
-                "M",
-                5,
-                7.50M,
-                new DateTime(2021, 8, 11),
-                true
+                SupervisorId.Create(employeeAgent.Id),
+                PersonName.Create("George", "Orwell", "J"),
+                SSN.Create("323789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             _dbContext.ExternalAgents.Add(employeeAgent);
@@ -53,17 +52,15 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
             Employee employee = new Employee
             (
                 employeeAgent,
-                employeeAgent.Id,
-                "DeSantis",
-                "Ron",
-                "J",
-                "223789999",
-                "817-987-1234",
-                "M",
-                5,
-                7.50M,
-                new DateTime(2021, 8, 11),
-                true
+                SupervisorId.Create(employeeAgent.Id),
+                PersonName.Create("George", "Orwell", "J"),
+                SSN.Create("523789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             _dbContext.ExternalAgents.Add(employeeAgent);
@@ -76,7 +73,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                         .FirstOrDefault();
 
             Assert.NotNull(result);
-            Assert.Equal("DeSantis", result.Employee.LastName);
+            Assert.Equal("Orwell", result.Employee.EmployeeName.LastName);
         }
     }
 }

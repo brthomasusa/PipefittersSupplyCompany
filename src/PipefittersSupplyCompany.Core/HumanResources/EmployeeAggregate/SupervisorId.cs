@@ -3,31 +3,31 @@ using PipefittersSupplyCompany.SharedKernel;
 
 namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 {
-    public class EmployeeID : ValueObject
+    public class SupervisorId : ValueObject
     {
         public Guid Value { get; }
 
-        protected EmployeeID() { }
+        protected SupervisorId() { }
 
-        private EmployeeID(Guid id)
+        private SupervisorId(Guid id)
             : this()
         {
             Value = id;
         }
 
-        public static implicit operator Guid(EmployeeID self) => self.Value;
+        public static implicit operator Guid(SupervisorId self) => self.Value;
 
-        public static EmployeeID Create(Guid id)
+        public static SupervisorId Create(Guid id)
         {
             CheckValidity(id);
-            return new EmployeeID(id);
+            return new SupervisorId(id);
         }
 
         private static void CheckValidity(Guid value)
         {
             if (value == default)
             {
-                throw new ArgumentNullException("The employee id is required.", nameof(value));
+                throw new ArgumentNullException("The supervisor id is required.");
             }
         }
     }

@@ -7,6 +7,7 @@ using PipefittersSupplyCompany.Core.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.Core.Shared;
+using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
@@ -21,24 +22,22 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
             Employee employee = new Employee
             (
                 employeeAgent,
-                new Guid("4B900A74-E2D9-4837-B9A4-9E828752716E"),
-                "Doe",
-                "John",
-                "J",
-                "223789999",
-                "817-987-1234",
-                "M",
-                5,
-                40.00M,
-                new DateTime(2021, 8, 8),
-                true
+                SupervisorId.Create(new Guid("4B900A74-E2D9-4837-B9A4-9E828752716E")),
+                PersonName.Create("George", "Orwell", "J"),
+                SSN.Create("523789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             User user = new User
             (
                 userID,
-                "john.j.doe@pipefitterssupplycompany.com",
-                "john.j.doe@pipefitterssupplycompany.com",
+                "george.m.orwell@pipefitterssupplycompany.com",
+                "george.m.orwell@pipefitterssupplycompany.com",
                 employee
             );
 

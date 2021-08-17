@@ -2,6 +2,7 @@ using System;
 using Xunit;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
+using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggregate
 {
@@ -43,17 +44,15 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Employee employee = new Employee
             (
                 employeeAgent,
-                employeeAgent.Id,
-                "Sanchez",
-                "Ken",
-                "J",
-                "123789999",
-                "817-987-1234",
-                "M",
-                5,
-                40.00M,
-                new DateTime(1998, 12, 2),
-                true
+                SupervisorId.Create(employeeAgent.Id),
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             Assert.IsType<Employee>(employee);
@@ -67,17 +66,15 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Employee employee = new Employee
             (
                 employeeAgent,
-                employeeAgent.Id,
-                "Sanchez",
-                "Ken",
-                "J",
-                "123789999",
-                "817-987-1234",
-                "M",
-                5,
-                40.00M,
-                new DateTime(1998, 12, 2),
-                true
+                SupervisorId.Create(employeeAgent.Id),
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             employeeAgent.SetEmployee(employee);
@@ -104,17 +101,15 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Employee employee = new Employee
             (
                 employeeAgent,
-                employeeAgent.Id,
-                "Sanchez",
-                "Ken",
-                "J",
-                "123789999",
-                "817-987-1234",
-                "M",
-                5,
-                40.00M,
-                new DateTime(1998, 12, 2),
-                true
+                SupervisorId.Create(employeeAgent.Id),
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             Action action = () => employeeAgent.SetEmployee(employee);
@@ -133,17 +128,15 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Employee employee = new Employee
             (
                 employeeAgent,
-                employeeAgent.Id,
-                "Sanchez",
-                "Ken",
-                "J",
-                "123789999",
-                "817-987-1234",
-                "M",
-                5,
-                40.00M,
-                new DateTime(1998, 12, 2),
-                true
+                SupervisorId.Create(employeeAgent.Id),
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             employeeAgent.SetEmployee(employee);
@@ -164,17 +157,15 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Employee employee = new Employee
             (
                 employeeAgent1,
-                employeeAgent1.Id,
-                "Sanchez",
-                "Ken",
-                "J",
-                "123789999",
-                "817-987-1234",
-                "M",
-                5,
-                40.00M,
-                new DateTime(1998, 12, 2),
-                true
+                SupervisorId.Create(employeeAgent1.Id),
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
             );
 
             Action action = () => employeeAgent2.SetEmployee(employee);
@@ -191,18 +182,16 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
 
             Action action = () => new Employee
            (
-               employeeAgent,
-               new Guid(),
-               "Sanchez",
-               "Ken",
-               "J",
-               "123789999",
-               "817-987-1234",
-               "M",
-               5,
-               40.00M,
-               new DateTime(1998, 12, 2),
-               true
+                employeeAgent,
+                SupervisorId.Create(new Guid()),
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
            );
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
@@ -217,23 +206,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
 
             Action action = () => new Employee
            (
-               employeeAgent,
-               Guid.NewGuid(),
-               null,
-               "Ken",
-               "J",
-               "123789999",
-               "817-987-1234",
-               "M",
-               5,
-               40.00M,
-               new DateTime(1998, 12, 2),
-               true
+                employeeAgent,
+                SupervisorId.Create(Guid.NewGuid()),
+                PersonName.Create("Ken", null, "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
            );
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
-            Assert.Contains("The employee last name is required.", caughtException.Message);
+            Assert.Contains("A last name is required.", caughtException.Message);
         }
 
         [Fact]
@@ -243,23 +230,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
 
             Action action = () => new Employee
            (
-               employeeAgent,
-               Guid.NewGuid(),
-               "Sanchez",
-               null,
-               "J",
-               "123789999",
-               "817-987-1234",
-               "M",
-               5,
-               40.00M,
-               new DateTime(1998, 12, 2),
-               true
+                employeeAgent,
+                SupervisorId.Create(Guid.NewGuid()),
+                PersonName.Create(null, "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
            );
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
-            Assert.Contains("The employee first name is required.", caughtException.Message);
+            Assert.Contains("A first name is required.", caughtException.Message);
         }
 
 

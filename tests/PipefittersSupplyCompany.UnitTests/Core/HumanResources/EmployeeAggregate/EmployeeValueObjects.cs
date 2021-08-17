@@ -7,29 +7,29 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
 {
     public class EmployeeValueObjectTests
     {
-        // EmployeeId
+        // SupervisorId
 
         [Fact]
-        public void ShouldReturn_Valid_EmployeeID()
+        public void ShouldReturn_Valid_SupervisorId()
         {
             Guid eeID = Guid.NewGuid();
 
-            var result = EmployeeID.Create(eeID);
+            var result = SupervisorId.Create(eeID);
 
-            Assert.IsType<EmployeeID>(result);
+            Assert.IsType<SupervisorId>(result);
             Assert.Equal(eeID, result);
         }
 
         [Fact]
-        public void ShouldRaiseError_EmployeeID_IsDefaultGuid()
+        public void ShouldRaiseError_SupervisorId_IsDefaultGuid()
         {
             Guid eeID = new Guid();
 
-            Action action = () => EmployeeID.Create(eeID);
+            Action action = () => SupervisorId.Create(eeID);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
-            Assert.Equal("The employee id is required.", caughtException.ParamName);
+            Assert.Equal("The supervisor id is required.", caughtException.ParamName);
         }
 
 
@@ -255,9 +255,9 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         {
             string phone = "972-555-5555";
 
-            var result = Telephone.Create(phone);
+            var result = PhoneNumber.Create(phone);
 
-            Assert.IsType<Telephone>(result);
+            Assert.IsType<PhoneNumber>(result);
             Assert.Equal(phone, result.Value);
             Assert.Equal(phone, result);
         }
@@ -267,11 +267,11 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         {
             string phone = "0972-555-5555";
 
-            Action action = () => Telephone.Create(phone);
+            Action action = () => PhoneNumber.Create(phone);
 
             var caughtException = Assert.Throws<ArgumentException>(action);
 
-            Assert.Contains("Invalid telephone number!", caughtException.Message);
+            Assert.Contains("Invalid PhoneNumber number!", caughtException.Message);
         }
 
         [Fact]
@@ -279,11 +279,11 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         {
             string phone = null;
 
-            Action action = () => Telephone.Create(phone);
+            Action action = () => PhoneNumber.Create(phone);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
-            Assert.Contains("The telephone number is required.", caughtException.Message);
+            Assert.Contains("The PhoneNumber number is required.", caughtException.Message);
         }
 
         [Fact]

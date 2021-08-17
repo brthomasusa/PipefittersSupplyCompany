@@ -19,7 +19,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.Shared
                 p.Property(pp => pp.MiddleInitial).HasColumnType("NCHAR(1)").HasColumnName("MiddleInitial");
             });
             entity.Property(p => p.Telephone)
-                .HasConversion(p => p.Value, p => Telephone.Create(p))
+                .HasConversion(p => p.Value, p => PhoneNumber.Create(p))
                 .HasColumnType("NVARCHAR(14)")
                 .HasColumnName("Telephone")
                 .IsRequired();

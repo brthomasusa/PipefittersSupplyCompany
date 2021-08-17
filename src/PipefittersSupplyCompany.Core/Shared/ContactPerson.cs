@@ -11,7 +11,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         protected ContactPerson() { }
 
-        public ContactPerson(ExternalAgent agent, PersonName name, Telephone telephone, string notes)
+        public ContactPerson(ExternalAgent agent, PersonName name, PhoneNumber telephone, string notes)
             : this()
         {
             if (agent == null)
@@ -27,7 +27,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         public virtual PersonName ContactName { get; private set; }
 
-        public virtual Telephone Telephone { get; private set; }
+        public virtual PhoneNumber Telephone { get; private set; }
 
         public string Notes
         {
