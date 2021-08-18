@@ -2,15 +2,16 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PipefittersSupplyCompany.SharedKernel;
+using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 
 namespace PipefittersSupplyCompany.Core.Shared
 {
-    public class ExternalAgent : BaseEntity<Guid>
+    public class ExternalAgent : AggregateRoot<Guid>
     {
         private AgentType _agentType;
-        private readonly IList<Address> _addresses = new List<Address>();
-        private readonly IList<ContactPerson> _contactPersons = new List<ContactPerson>();
+        private readonly List<Address> _addresses = new List<Address>();
+        private readonly List<ContactPerson> _contactPersons = new List<ContactPerson>();
 
         protected ExternalAgent() { }
 
@@ -21,8 +22,8 @@ namespace PipefittersSupplyCompany.Core.Shared
             {
                 throw new ArgumentNullException("The agent id is required.");
             }
-            Id = agentId;
 
+            Id = agentId;
             AgentType = agentType;
         }
 
@@ -43,35 +44,34 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         public virtual Employee Employee { get; private set; }
 
-        public void SetEmployee(Employee employee)
-        {
-            if (employee == null)
-            {
-                throw new ArgumentNullException("The employee to link to the external agent is required.");
-            }
-
-            if (Employee != null)
-            {
-                throw new InvalidOperationException("The external agent and the Employee have already been linked, they can not be re-linked.");
-            }
-
-            if (AgentType != AgentType.Employee)
-            {
-                throw new InvalidOperationException("Can not set employee if agent type does not equal employee.");
-            }
-
-            if (Id != employee.Id)
-            {
-                throw new InvalidOperationException("The external agent id and the employee id do not match.");
-            }
-
-            Employee = employee;
-        }
-
-
         public virtual IReadOnlyList<Address> Addresses => _addresses.ToList();
 
+        internal void AddAddress(AddressVO address)
+        {
+            if (address == null)
+            {
+                throw new ArgumentNullException("Can not add null to list of agent addresses.");
+            }
+
+            _addresses.Add(new Address(this, address));
+        }
+
         public virtual IReadOnlyList<ContactPerson> ContactPersons => _contactPersons.ToList();
+
+        internal void AddContactPerson(PersonName name, PhoneNumber telephone, string notes)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("The contact person name is required.");
+            }
+
+            if (telephone == null)
+            {
+                throw new ArgumentNullException("The contact person telephone number is required.");
+            }
+
+            _contactPersons.Add(new ContactPerson(this, name, telephone, notes));
+        }
     }
 
 

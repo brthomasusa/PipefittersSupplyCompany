@@ -46,15 +46,63 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         public virtual StartDate StartDate { get; private set; }
         public virtual IsActive IsActive { get; private set; }
 
+        public void UpdateSupervisorId(SupervisorId value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("The supervisor id can not be null.");
+            }
+
+            SupervisorId = value;
+        }
+
+        public void UpdateEmployeeName(PersonName value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Employee name can not be update with null.");
+            }
+
+            EmployeeName = value;
+        }
+
+        public IReadOnlyList<Address> Addresses() => ExternalAgent.Addresses;
+
+        public void AddAddress(AddressVO address)
+        {
+            if (address == null)
+            {
+                throw new ArgumentNullException("Can not add null to list of employee addresses.");
+            }
+
+            ExternalAgent.AddAddress(address);
+        }
+
+        public IReadOnlyList<ContactPerson> ContactPersons() => ExternalAgent.ContactPersons;
+
+        public void AddContactPerson(PersonName name, PhoneNumber telephone, string notes)
+        {
+            if (name == null)
+            {
+                throw new ArgumentNullException("The contact person name is required.");
+            }
+
+            if (telephone == null)
+            {
+                throw new ArgumentNullException("The contact person telephone number is required.");
+            }
+
+            ExternalAgent.AddContactPerson(name, telephone, notes);
+        }
 
         public void Activate()
         {
-            // _isActive = true;
+            IsActive = IsActive.Create(true);
         }
 
         public void Deactivate()
         {
-            // _isActive = false;
+            IsActive = IsActive.Create(false);
         }
 
         public virtual ExternalAgent ExternalAgent { get; private set; }

@@ -11,7 +11,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
     public class EmployeeCommandsTest : IntegrationTestBase
     {
-
         [Fact]
         public void ShouldInsert_ExternalAgentAndEmployee()
         {
@@ -74,6 +73,20 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 
             Assert.NotNull(result);
             Assert.Equal("Orwell", result.Employee.EmployeeName.LastName);
+        }
+
+        [Fact]
+        public void ShouldAdd_AddressToEmployee()
+        {
+            var employee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var originalAddressCount = employee.Addresses().Count;
+
+            employee.AddAddress(AddressVO.Create("123 Main", "#4", "Somewhere", "TX", "78885"));
+            _dbContext.SaveChanges();
+
+            var addressCount = employee.Addresses().Count;
+
+            Assert.True(addressCount > originalAddressCount);
         }
     }
 }

@@ -77,102 +77,8 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                 IsActive.Create(true)
             );
 
-            employeeAgent.SetEmployee(employee);
+            // employeeAgent.SetEmployee(employee);
             Assert.IsType<Employee>(employeeAgent.Employee);
-        }
-
-        [Fact]
-        public void ShouldRaiseError_SetEmployeeWithNull()
-        {
-            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
-
-            Action action = () => employeeAgent.SetEmployee(null);
-
-            var caughtException = Assert.Throws<ArgumentNullException>(action);
-
-            Assert.Contains("The employee to link to the external agent is required.", caughtException.Message);
-        }
-
-        [Fact]
-        public void ShouldRaiseError_Invalid_AgentAndAgentTypeCombo()
-        {
-            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Customer);
-
-            Employee employee = new Employee
-            (
-                employeeAgent,
-                SupervisorId.Create(employeeAgent.Id),
-                PersonName.Create("Ken", "Sanchez", "J"),
-                SSN.Create("123789999"),
-                PhoneNumber.Create("817-987-1234"),
-                MaritalStatus.Create("M"),
-                TaxExemption.Create(5),
-                PayRate.Create(40.00M),
-                StartDate.Create(new DateTime(1998, 12, 2)),
-                IsActive.Create(true)
-            );
-
-            Action action = () => employeeAgent.SetEmployee(employee);
-
-            var caughtException = Assert.Throws<InvalidOperationException>(action);
-
-            Assert.Contains("Can not set employee if agent type does not equal employee.", caughtException.Message);
-        }
-
-
-        [Fact]
-        public void ShouldRaiseError_Invalid_AttemptingToSetEmployeeThatIsAlreadySet()
-        {
-            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
-
-            Employee employee = new Employee
-            (
-                employeeAgent,
-                SupervisorId.Create(employeeAgent.Id),
-                PersonName.Create("Ken", "Sanchez", "J"),
-                SSN.Create("123789999"),
-                PhoneNumber.Create("817-987-1234"),
-                MaritalStatus.Create("M"),
-                TaxExemption.Create(5),
-                PayRate.Create(40.00M),
-                StartDate.Create(new DateTime(1998, 12, 2)),
-                IsActive.Create(true)
-            );
-
-            employeeAgent.SetEmployee(employee);
-
-            Action action = () => employeeAgent.SetEmployee(employee);
-
-            var caughtException = Assert.Throws<InvalidOperationException>(action);
-
-            Assert.Contains("The external agent and the Employee have already been linked, they can not be re-linked.", caughtException.Message);
-        }
-
-        [Fact]
-        public void ShouldRaiseError_Invalid_SetEmployeeWithIdThatDoesNotMatchAgentId()
-        {
-            var employeeAgent1 = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
-            var employeeAgent2 = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
-
-            Employee employee = new Employee
-            (
-                employeeAgent1,
-                SupervisorId.Create(employeeAgent1.Id),
-                PersonName.Create("Ken", "Sanchez", "J"),
-                SSN.Create("123789999"),
-                PhoneNumber.Create("817-987-1234"),
-                MaritalStatus.Create("M"),
-                TaxExemption.Create(5),
-                PayRate.Create(40.00M),
-                StartDate.Create(new DateTime(1998, 12, 2)),
-                IsActive.Create(true)
-            );
-
-            Action action = () => employeeAgent2.SetEmployee(employee);
-
-            var caughtException = Assert.Throws<InvalidOperationException>(action);
-
-            Assert.Contains("The external agent id and the employee id do not match.", caughtException.Message);
         }
 
         [Fact]
@@ -247,26 +153,50 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Assert.Contains("A first name is required.", caughtException.Message);
         }
 
+        [Fact]
+        public void ShouldAdd_AddressToEmployee()
+        {
+            var employee = GetEmployee();
 
-        // private Employee GetEmployee()
-        // {
-        //     EmployeeID eeID = EmployeeID.Create(Guid.NewGuid());
-        //     EmployeeType eeType = new EmployeeType(1, "Administrator");
-        //     EmployeeID supvID = eeID;
-        //     PersonName name = PersonName.Create("Joe", "Blow", "B");
-        //     Address address = Address.Create("123 Main Street", "Apt 2", "Somewhere", "TX", "75654");
-        //     SSN ssn = SSN.Create("587887964");
-        //     Telephone phone = Telephone.Create("555-555-5555");
-        //     MaritalStatus maritalStatus = MaritalStatus.Create("M");
-        //     TaxExemption exemption = TaxExemption.Create(5);
-        //     PayRate payRate = PayRate.Create(25.00M);
-        //     StartDate startDate = StartDate.Create(new DateTime(2018, 6, 17));
-        //     IsActive status = IsActive.Create(true);
+            employee.AddAddress(AddressVO.Create("123 Main", "#4", "Somewhere", "TX", "78885"));
 
-        //     return new Employee
-        //     (
-        //         eeID, eeType, supvID, name, address, ssn, phone, maritalStatus, exemption, payRate, startDate, status
-        //     );
-        // }
+            var count = employee.Addresses().Count;
+
+            Assert.Equal(1, count);
+        }
+
+        [Fact]
+        public void ShouldAdd_ContactPersonToEmployee()
+        {
+            var employee = GetEmployee();
+            var name = PersonName.Create("Fidel", "Castro", null);
+            var phone = PhoneNumber.Create("555-555-5555");
+            var notes = "You are being tested.";
+
+            employee.AddContactPerson(name, phone, notes);
+
+            var count = employee.ContactPersons().Count;
+
+            Assert.Equal(1, count);
+        }
+
+        // Helper methods
+        private Employee GetEmployee()
+        {
+            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
+            return new Employee
+           (
+                employeeAgent,
+                SupervisorId.Create(Guid.NewGuid()),
+                PersonName.Create("George", "Orwell", "Z"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
+           );
+        }
     }
 }
