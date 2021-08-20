@@ -70,11 +70,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public void AddAddress(AddressVO address)
         {
-            if (address == null)
-            {
-                throw new ArgumentNullException("Can not add null to list of employee addresses.");
-            }
-
             ExternalAgent.AddAddress(address);
         }
 
@@ -82,16 +77,6 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public void AddContactPerson(PersonName name, PhoneNumber telephone, string notes)
         {
-            if (name == null)
-            {
-                throw new ArgumentNullException("The contact person name is required.");
-            }
-
-            if (telephone == null)
-            {
-                throw new ArgumentNullException("The contact person telephone number is required.");
-            }
-
             ExternalAgent.AddContactPerson(name, telephone, notes);
         }
 

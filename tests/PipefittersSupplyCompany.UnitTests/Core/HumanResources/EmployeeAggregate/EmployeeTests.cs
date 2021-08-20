@@ -59,29 +59,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         }
 
         [Fact]
-        public void ShouldAttach_NewEmployeeToExternalAgent()
-        {
-            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
-
-            Employee employee = new Employee
-            (
-                employeeAgent,
-                SupervisorId.Create(employeeAgent.Id),
-                PersonName.Create("Ken", "Sanchez", "J"),
-                SSN.Create("123789999"),
-                PhoneNumber.Create("817-987-1234"),
-                MaritalStatus.Create("M"),
-                TaxExemption.Create(5),
-                PayRate.Create(40.00M),
-                StartDate.Create(new DateTime(1998, 12, 2)),
-                IsActive.Create(true)
-            );
-
-            // employeeAgent.SetEmployee(employee);
-            Assert.IsType<Employee>(employeeAgent.Employee);
-        }
-
-        [Fact]
         public void ShouldRaiseError_SupervisorIdEqualDefaultGuid()
         {
             var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
@@ -166,6 +143,31 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         }
 
         [Fact]
+        public void ShouldRaiseError_AddingDuplicateAddressToEmployee()
+        {
+            var employee = GetEmployee();
+
+            employee.AddAddress(AddressVO.Create("11123 Main", null, "Somewhere", "TX", "78885"));
+            Action action = () => employee.AddAddress(AddressVO.Create("11123 Main", null, "Somewhere", "TX", "78885"));
+
+            var caughtException = Assert.Throws<InvalidOperationException>(action);
+
+            Assert.Contains("We already have this address.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_CallingAddAddressWithNull()
+        {
+            var employee = GetEmployee();
+
+            Action action = () => employee.AddAddress(null);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("Can not add null to list of agent addresses.", caughtException.Message);
+        }
+
+        [Fact]
         public void ShouldAdd_ContactPersonToEmployee()
         {
             var employee = GetEmployee();
@@ -179,6 +181,54 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
 
             Assert.Equal(1, count);
         }
+
+        [Fact]
+        public void ShouldRaiseError_AddingDuplicateContactPersonToEmployee()
+        {
+            var employee = GetEmployee();
+            var name = PersonName.Create("Fidel", "Castro", null);
+            var phone = PhoneNumber.Create("555-555-5555");
+            var notes = "You are being tested.";
+
+            employee.AddContactPerson(name, phone, notes);
+
+            Action action = () => employee.AddContactPerson(name, phone, notes);
+
+            var caughtException = Assert.Throws<InvalidOperationException>(action);
+
+            Assert.Contains("We already have this contact person.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_AddingContactPersonWithNullNameToEmployee()
+        {
+            var employee = GetEmployee();
+            var phone = PhoneNumber.Create("555-555-5555");
+            var notes = "You are being tested.";
+
+            Action action = () => employee.AddContactPerson(null, phone, notes);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The contact person name is required.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_AddingContactPersonWithNullTelephoneToEmployee()
+        {
+            var employee = GetEmployee();
+            var name = PersonName.Create("Fidel", "Castro", null);
+            var notes = "You are being tested.";
+
+            Action action = () => employee.AddContactPerson(name, null, notes);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The contact person telephone number is required.", caughtException.Message);
+        }
+
+
+
 
         // Helper methods
         private Employee GetEmployee()

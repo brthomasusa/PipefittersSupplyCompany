@@ -53,6 +53,21 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentNullException("Can not add null to list of agent addresses.");
             }
 
+            var duplicate =
+                (from items in _addresses
+                 where
+                     items.AddressDetails.AddressLine1 == address.AddressLine1 &&
+                     items.AddressDetails.AddressLine2 == address.AddressLine2 &&
+                     items.AddressDetails.City == address.City &&
+                     items.AddressDetails.StateCode == address.StateCode &&
+                     items.AddressDetails.Zipcode == address.Zipcode
+                 select items).SingleOrDefault();
+
+            if (duplicate != null)
+            {
+                throw new InvalidOperationException("We already have this address.");
+            }
+
             _addresses.Add(new Address(this, address));
         }
 
@@ -68,6 +83,19 @@ namespace PipefittersSupplyCompany.Core.Shared
             if (telephone == null)
             {
                 throw new ArgumentNullException("The contact person telephone number is required.");
+            }
+
+            var duplicate = _contactPersons.Find
+            (x =>
+                x.ContactName.FirstName == name.FirstName &&
+                x.ContactName.LastName == name.LastName &&
+                x.ContactName.MiddleInitial == name.MiddleInitial &&
+                x.Telephone == telephone
+            );
+
+            if (duplicate != null)
+            {
+                throw new InvalidOperationException("We already have this contact person.");
             }
 
             _contactPersons.Add(new ContactPerson(this, name, telephone, notes));
