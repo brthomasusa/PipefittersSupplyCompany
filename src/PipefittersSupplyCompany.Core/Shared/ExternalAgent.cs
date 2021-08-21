@@ -46,7 +46,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         public virtual IReadOnlyList<Address> Addresses => _addresses.ToList();
 
-        internal void AddAddress(AddressVO address)
+        internal void AddAddress(int id, AddressVO address)
         {
             if (address == null)
             {
@@ -68,12 +68,12 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new InvalidOperationException("We already have this address.");
             }
 
-            _addresses.Add(new Address(this, address));
+            _addresses.Add(new Address(id, this, address));
         }
 
         public virtual IReadOnlyList<ContactPerson> ContactPersons => _contactPersons.ToList();
 
-        internal void AddContactPerson(PersonName name, PhoneNumber telephone, string notes)
+        internal void AddContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
         {
             if (name == null)
             {
@@ -85,7 +85,7 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentNullException("The contact person telephone number is required.");
             }
 
-            var duplicate = _contactPersons.Find
+            var duplicate = _contactPersons.Exists
             (x =>
                 x.ContactName.FirstName == name.FirstName &&
                 x.ContactName.LastName == name.LastName &&
@@ -93,12 +93,12 @@ namespace PipefittersSupplyCompany.Core.Shared
                 x.Telephone == telephone
             );
 
-            if (duplicate != null)
+            if (duplicate)
             {
                 throw new InvalidOperationException("We already have this contact person.");
             }
 
-            _contactPersons.Add(new ContactPerson(this, name, telephone, notes));
+            _contactPersons.Add(new ContactPerson(id, this, name, telephone, notes));
         }
     }
 

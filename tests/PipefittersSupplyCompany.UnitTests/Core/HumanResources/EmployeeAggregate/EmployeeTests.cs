@@ -135,7 +135,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         {
             var employee = GetEmployee();
 
-            employee.AddAddress(AddressVO.Create("123 Main", "#4", "Somewhere", "TX", "78885"));
+            employee.AddAddress(1, AddressVO.Create("123 Main", "#4", "Somewhere", "TX", "78885"));
 
             var count = employee.Addresses().Count;
 
@@ -147,8 +147,8 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         {
             var employee = GetEmployee();
 
-            employee.AddAddress(AddressVO.Create("11123 Main", null, "Somewhere", "TX", "78885"));
-            Action action = () => employee.AddAddress(AddressVO.Create("11123 Main", null, "Somewhere", "TX", "78885"));
+            employee.AddAddress(1, AddressVO.Create("11123 Main", null, "Somewhere", "TX", "78885"));
+            Action action = () => employee.AddAddress(2, AddressVO.Create("11123 Main", null, "Somewhere", "TX", "78885"));
 
             var caughtException = Assert.Throws<InvalidOperationException>(action);
 
@@ -160,7 +160,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         {
             var employee = GetEmployee();
 
-            Action action = () => employee.AddAddress(null);
+            Action action = () => employee.AddAddress(0, null);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
@@ -175,7 +175,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             var phone = PhoneNumber.Create("555-555-5555");
             var notes = "You are being tested.";
 
-            employee.AddContactPerson(name, phone, notes);
+            employee.AddContactPerson(1, name, phone, notes);
 
             var count = employee.ContactPersons().Count;
 
@@ -190,9 +190,9 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             var phone = PhoneNumber.Create("555-555-5555");
             var notes = "You are being tested.";
 
-            employee.AddContactPerson(name, phone, notes);
+            employee.AddContactPerson(1, name, phone, notes);
 
-            Action action = () => employee.AddContactPerson(name, phone, notes);
+            Action action = () => employee.AddContactPerson(2, name, phone, notes);
 
             var caughtException = Assert.Throws<InvalidOperationException>(action);
 
@@ -206,7 +206,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             var phone = PhoneNumber.Create("555-555-5555");
             var notes = "You are being tested.";
 
-            Action action = () => employee.AddContactPerson(null, phone, notes);
+            Action action = () => employee.AddContactPerson(1, null, phone, notes);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
@@ -220,15 +220,36 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             var name = PersonName.Create("Fidel", "Castro", null);
             var notes = "You are being tested.";
 
-            Action action = () => employee.AddContactPerson(name, null, notes);
+            Action action = () => employee.AddContactPerson(1, name, null, notes);
 
             var caughtException = Assert.Throws<ArgumentNullException>(action);
 
             Assert.Contains("The contact person telephone number is required.", caughtException.Message);
         }
 
+        [Fact]
+        public void ShouldUpdate_Employee_TaxExemptions()
+        {
+            var employee = GetEmployee();
 
+            Assert.Equal(5, employee.TaxExemption);
 
+            employee.UpdateTaxExemptions(TaxExemption.Create(6));
+
+            Assert.Equal(6, employee.TaxExemption);
+        }
+
+        [Fact]
+        public void ShoulRaiseError_UpdateEmployee_TaxExemptionWithNull()
+        {
+            var employee = GetEmployee();
+
+            Action action = () => employee.UpdateTaxExemptions(null);
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("Employee tax exemptions can not be updated with null.", caughtException.Message);
+        }
 
         // Helper methods
         private Employee GetEmployee()

@@ -9,7 +9,7 @@ namespace PipefittersSupplyCompany.Core.Shared
     {
         protected Address() { }
 
-        public Address(ExternalAgent agent, AddressVO addressDetails)
+        public Address(int id, ExternalAgent agent, AddressVO addressDetails)
             : this()
         {
             if (agent == null)
@@ -17,6 +17,7 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentNullException("External agent is required.");
             }
 
+            Id = id;
             Agent = agent;
             AddressDetails = addressDetails;
         }

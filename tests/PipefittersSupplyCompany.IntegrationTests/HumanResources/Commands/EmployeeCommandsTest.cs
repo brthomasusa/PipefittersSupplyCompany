@@ -81,7 +81,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
             var employee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
             var originalAddressCount = employee.Addresses().Count;
 
-            employee.AddAddress(AddressVO.Create("123 Main", "#4", "Somewhere", "TX", "78885"));
+            employee.AddAddress(0, AddressVO.Create("123 Main", "#4", "Somewhere", "TX", "78885"));
             _dbContext.SaveChanges();
 
             var addressCount = employee.Addresses().Count;

@@ -34,6 +34,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             PayRate = payRate;
             StartDate = startDate;
             IsActive = isActive;
+
+            CheckValidity();
         }
 
         public virtual SupervisorId SupervisorId { get; private set; }
@@ -54,41 +56,98 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             }
 
             SupervisorId = value;
+            CheckValidity();
         }
 
         public void UpdateEmployeeName(PersonName value)
         {
             if (value == null)
             {
-                throw new ArgumentNullException("Employee name can not be update with null.");
+                throw new ArgumentNullException("Employee name can not be updated with null.");
             }
 
             EmployeeName = value;
+            CheckValidity();
+        }
+
+        public void UpdateSSN(SSN value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Employee SSN can not be updated with null.");
+            }
+
+            SSN = value;
+            CheckValidity();
+        }
+
+        public void UpdateTelephone(PhoneNumber value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Employee telephone can not be updated with null.");
+            }
+
+            Telephone = value;
+            CheckValidity();
+        }
+
+        public void UpdateMaritalStatus(MaritalStatus value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Employee marital status can not be updated with null.");
+            }
+
+            MaritalStatus = value;
+            CheckValidity();
+        }
+
+        public void UpdateTaxExemptions(TaxExemption value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Employee tax exemptions can not be updated with null.");
+            }
+
+            TaxExemption = value;
+            CheckValidity();
+        }
+
+        public void UpdatePayRate(PayRate value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Employee pay rate can not be updated with null.");
+            }
+
+            PayRate = value;
+            CheckValidity();
+        }
+
+        public void UpdateStartDate(StartDate value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Employee start date can not be updated with null.");
+            }
+
+            StartDate = value;
+            CheckValidity();
         }
 
         public IReadOnlyList<Address> Addresses() => ExternalAgent.Addresses;
 
-        public void AddAddress(AddressVO address)
-        {
-            ExternalAgent.AddAddress(address);
-        }
+        public void AddAddress(int id, AddressVO address) => ExternalAgent.AddAddress(id, address);
 
         public IReadOnlyList<ContactPerson> ContactPersons() => ExternalAgent.ContactPersons;
 
-        public void AddContactPerson(PersonName name, PhoneNumber telephone, string notes)
-        {
-            ExternalAgent.AddContactPerson(name, telephone, notes);
-        }
+        public void AddContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
+            => ExternalAgent.AddContactPerson(id, name, telephone, notes);
 
-        public void Activate()
-        {
-            IsActive = IsActive.Create(true);
-        }
+        public void Activate() => IsActive = IsActive.Create(true);
 
-        public void Deactivate()
-        {
-            IsActive = IsActive.Create(false);
-        }
+        public void Deactivate() => IsActive = IsActive.Create(false);
 
         public virtual ExternalAgent ExternalAgent { get; private set; }
     }

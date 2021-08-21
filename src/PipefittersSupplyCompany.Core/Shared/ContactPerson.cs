@@ -11,7 +11,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         protected ContactPerson() { }
 
-        public ContactPerson(ExternalAgent agent, PersonName name, PhoneNumber telephone, string notes)
+        public ContactPerson(int id, ExternalAgent agent, PersonName name, PhoneNumber telephone, string notes)
             : this()
         {
             if (agent == null)
@@ -19,6 +19,7 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentNullException("External agent is required.");
             }
 
+            Id = id;
             Agent = agent;
             ContactName = name;
             Telephone = telephone;
