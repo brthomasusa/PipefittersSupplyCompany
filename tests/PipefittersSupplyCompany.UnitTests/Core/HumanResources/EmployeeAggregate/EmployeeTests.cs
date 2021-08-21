@@ -251,7 +251,24 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Assert.Contains("Employee tax exemptions can not be updated with null.", caughtException.Message);
         }
 
-        // Helper methods
+        [Fact]
+        public void ShouldUpdate_EmployeeAddress()
+        {
+            var employee = GetEmployeeWithAddresses();
+            var address = employee.Addresses()[0];
+
+            Assert.Equal("123 Main Terrace", address.AddressDetails.AddressLine1);
+            Assert.Equal("Somewhere", address.AddressDetails.City);
+
+            employee.UpdateAddress(address.Id, AddressVO.Create("123 Main Blvd", "#4", "Anywhere", "TX", "78885"));
+
+            address = employee.Addresses()[0];
+
+            Assert.Equal("123 Main Blvd", address.AddressDetails.AddressLine1);
+            Assert.Equal("Anywhere", address.AddressDetails.City);
+        }
+
+        /**     Helper methods     **/
         private Employee GetEmployee()
         {
             var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
@@ -268,6 +285,52 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
                 StartDate.Create(new DateTime(1998, 12, 2)),
                 IsActive.Create(true)
            );
+        }
+
+        private Employee GetEmployeeWithAddresses()
+        {
+            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
+            var employee = new Employee
+           (
+                employeeAgent,
+                SupervisorId.Create(Guid.NewGuid()),
+                PersonName.Create("George", "Orwell", "Z"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
+           );
+
+            employee.AddAddress(1, AddressVO.Create("123 Main Terrace", "#4", "Somewhere", "TX", "78885"));
+            employee.AddAddress(2, AddressVO.Create("123 Main Plaza", "Apt 13", "nowhere", "TX", "78981"));
+
+            return employee;
+        }
+
+        private Employee GetEmployeeWithContactPeople()
+        {
+            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
+            var employee = new Employee
+           (
+                employeeAgent,
+                SupervisorId.Create(Guid.NewGuid()),
+                PersonName.Create("George", "Orwell", "Z"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
+           );
+
+            employee.AddContactPerson(1, PersonName.Create("Fidel", "Castro", "C"), PhoneNumber.Create("555-555-1234"), "You are being tested.");
+            employee.AddContactPerson(2, PersonName.Create("Fidel", "Raul", "Z"), PhoneNumber.Create("555-555-5678"), "You are not being tested.");
+
+            return employee;
         }
     }
 }

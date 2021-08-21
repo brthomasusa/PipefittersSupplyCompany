@@ -140,6 +140,8 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public void AddAddress(int id, AddressVO address) => ExternalAgent.AddAddress(id, address);
 
+        public void UpdateAddress(int id, AddressVO address) => ExternalAgent.UpdateAddress(id, address);
+
         public IReadOnlyList<ContactPerson> ContactPersons() => ExternalAgent.ContactPersons;
 
         public void AddContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)

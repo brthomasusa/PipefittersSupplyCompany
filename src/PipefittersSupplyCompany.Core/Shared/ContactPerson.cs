@@ -24,11 +24,35 @@ namespace PipefittersSupplyCompany.Core.Shared
             ContactName = name;
             Telephone = telephone;
             Notes = notes;
+
+            CheckValidity();
         }
 
         public virtual PersonName ContactName { get; private set; }
 
+        public void UpdateContactName(PersonName value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Contact person name can not be updated with null.");
+            }
+
+            ContactName = value;
+            CheckValidity();
+        }
+
         public virtual PhoneNumber Telephone { get; private set; }
+
+        public void UpdateTelephone(PhoneNumber value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Contact person telephone can not be updated with null.");
+            }
+
+            Telephone = value;
+            CheckValidity();
+        }
 
         public string Notes
         {
@@ -39,6 +63,11 @@ namespace PipefittersSupplyCompany.Core.Shared
             {
                 _notes = value;
             }
+        }
+
+        public void UpdateNotes(string value)
+        {
+            Notes = value;
         }
 
         public virtual ExternalAgent Agent { get; private set; }

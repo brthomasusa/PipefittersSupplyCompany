@@ -24,6 +24,17 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         public virtual AddressVO AddressDetails { get; private set; }
 
+        public void UpdateAddressDetails(AddressVO value)
+        {
+            if (value == null)
+            {
+                throw new ArgumentNullException("Address details can not be updated with null.");
+            }
+
+            AddressDetails = value;
+            CheckValidity();
+        }
+
         public virtual ExternalAgent Agent { get; private set; }
 
     }

@@ -71,6 +71,33 @@ namespace PipefittersSupplyCompany.Core.Shared
             _addresses.Add(new Address(id, this, address));
         }
 
+        internal void UpdateAddress(int id, AddressVO address)
+        {
+            var found = _addresses.Find(x => x.Id.Equals(id));
+
+            if (found == null)
+            {
+                throw new ArgumentException("Unable to update address; address not found.");
+            }
+
+            if (found.AddressDetails != address)
+            {
+                found.UpdateAddressDetails(address);
+            }
+        }
+
+        internal void DeleteAddress(int id)
+        {
+            var found = _addresses.Find(x => x.Id.Equals(id));
+
+            if (found == null)
+            {
+                throw new ArgumentException("Unable to delete address; address not found.");
+            }
+
+            _addresses.Remove(found);
+        }
+
         public virtual IReadOnlyList<ContactPerson> ContactPersons => _contactPersons.ToList();
 
         internal void AddContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
@@ -99,6 +126,30 @@ namespace PipefittersSupplyCompany.Core.Shared
             }
 
             _contactPersons.Add(new ContactPerson(id, this, name, telephone, notes));
+        }
+
+        internal void UpdateContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
+        {
+            var found = _contactPersons.Find(x => x.Id.Equals(id));
+
+            if (found == null)
+            {
+                throw new ArgumentException("Unable to update contact person; contact paerson not found.");
+            }
+
+
+        }
+
+        internal void DeleteContactPerson(int id)
+        {
+            var found = _contactPersons.Find(x => x.Id.Equals(id));
+
+            if (found == null)
+            {
+                throw new ArgumentException("Unable to delete contact person; contact paerson not found.");
+            }
+
+            _contactPersons.Remove(found);
         }
     }
 
