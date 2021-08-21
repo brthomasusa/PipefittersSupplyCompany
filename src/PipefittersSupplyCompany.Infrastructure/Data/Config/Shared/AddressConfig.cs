@@ -20,7 +20,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.Shared
                 p.Property(pp => pp.StateCode).HasColumnType("NCHAR(2)").HasColumnName("StateCode").IsRequired();
                 p.Property(pp => pp.Zipcode).HasColumnType("NVARCHAR(10)").HasColumnName("Zipcode").IsRequired();
             });
-            entity.HasOne(e => e.Agent).WithMany(e => e.Addresses);
+            entity.HasOne(e => e.Agent).WithMany(e => e.Addresses).OnDelete(DeleteBehavior.Cascade);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

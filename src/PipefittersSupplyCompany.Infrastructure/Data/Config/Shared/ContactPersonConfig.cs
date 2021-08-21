@@ -24,7 +24,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Data.Config.Shared
                 .HasColumnName("Telephone")
                 .IsRequired();
             entity.Property(p => p.Notes).HasColumnType("NVARCHAR(1024)").HasColumnName("Notes").IsRequired(false);
-            entity.HasOne(e => e.Agent).WithMany(e => e.ContactPersons);
+            entity.HasOne(e => e.Agent).WithMany(e => e.ContactPersons).OnDelete(DeleteBehavior.Cascade);
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

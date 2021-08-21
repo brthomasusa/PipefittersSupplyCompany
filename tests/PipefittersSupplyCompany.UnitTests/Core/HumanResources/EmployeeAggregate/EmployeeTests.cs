@@ -268,6 +268,67 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
             Assert.Equal("Anywhere", address.AddressDetails.City);
         }
 
+        [Fact]
+        public void ShouldUpdate_EmployeeContactPerson()
+        {
+            var employee = GetEmployeeWithContactPeople();
+            var contact = employee.ContactPersons()[0];
+
+            Assert.Equal("Fidel", contact.ContactName.FirstName);
+            Assert.Equal("555-555-1234", contact.Telephone);
+            Assert.Equal("You are being tested.", contact.Notes);
+
+            employee.UpdateContactPerson
+            (
+                contact.Id,
+                PersonName.Create("Bubba", "Smith", "C"),
+                PhoneNumber.Create("987-965-1234"),
+                "You have been updated"
+            );
+
+            Assert.Equal("Bubba", contact.ContactName.FirstName);
+            Assert.Equal("987-965-1234", contact.Telephone);
+            Assert.Equal("You have been updated", contact.Notes);
+        }
+
+        [Fact]
+        public void ShouldDelete_EmployeeAddress()
+        {
+            var employee = GetEmployeeWithAddresses();
+            var addressCount = employee.Addresses().Count;
+
+            Assert.Equal(2, addressCount);
+
+            var address = employee.Addresses()[0];
+            Assert.Equal(1, address.Id);
+
+            employee.DeleteAddress(address.Id);
+            addressCount = employee.Addresses().Count;
+            address = employee.Addresses()[0];
+
+            Assert.Equal(1, addressCount);
+            Assert.Equal(2, address.Id);
+        }
+
+        [Fact]
+        public void ShouldDelete_EmployeeContactPerson()
+        {
+            var employee = GetEmployeeWithContactPeople();
+            var count = employee.ContactPersons().Count;
+            Assert.Equal(2, count);
+
+            var contact = employee.ContactPersons()[0];
+            Assert.Equal(1, contact.Id);
+
+            employee.DeleteContactPerson(contact.Id);
+            count = employee.ContactPersons().Count;
+            contact = employee.ContactPersons()[0];
+
+            Assert.Equal(1, count);
+            Assert.Equal(2, contact.Id);
+        }
+
+
         /**     Helper methods     **/
         private Employee GetEmployee()
         {

@@ -137,7 +137,20 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentException("Unable to update contact person; contact paerson not found.");
             }
 
+            if (found.ContactName != name)
+            {
+                found.UpdateContactName(name);
+            }
 
+            if (found.Telephone != telephone)
+            {
+                found.UpdateTelephone(telephone);
+            }
+
+            if (found.Notes != notes)
+            {
+                found.UpdateNotes(notes);
+            }
         }
 
         internal void DeleteContactPerson(int id)
@@ -151,16 +164,6 @@ namespace PipefittersSupplyCompany.Core.Shared
 
             _contactPersons.Remove(found);
         }
-    }
-
-
-    public enum AgentType : int
-    {
-        Customer = 1,
-        Creditor = 2,
-        Stockholder = 3,
-        Vendor = 4,
-        Employee = 5
     }
 }
 

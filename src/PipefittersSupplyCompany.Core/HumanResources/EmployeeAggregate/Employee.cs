@@ -142,10 +142,17 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 
         public void UpdateAddress(int id, AddressVO address) => ExternalAgent.UpdateAddress(id, address);
 
+        public void DeleteAddress(int id) => ExternalAgent.DeleteAddress(id);
+
         public IReadOnlyList<ContactPerson> ContactPersons() => ExternalAgent.ContactPersons;
 
         public void AddContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
             => ExternalAgent.AddContactPerson(id, name, telephone, notes);
+
+        public void UpdateContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
+            => ExternalAgent.UpdateContactPerson(id, name, telephone, notes);
+
+        public void DeleteContactPerson(int id) => ExternalAgent.DeleteContactPerson(id);
 
         public void Activate() => IsActive = IsActive.Create(true);
 

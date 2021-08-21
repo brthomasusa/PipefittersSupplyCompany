@@ -88,5 +88,111 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 
             Assert.True(addressCount > originalAddressCount);
         }
+
+        [Fact]
+        public void ShouldUpdate_EmployeeAddress()
+        {
+            var employee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var address = (from item in employee.Addresses()
+                           where item.Id.Equals(1)
+                           select item).SingleOrDefault();
+
+            Assert.Equal("321 Tarrant Pl", address.AddressDetails.AddressLine1);
+
+            employee.UpdateAddress(address.Id, AddressVO.Create("123 Main Blvd", "#4", "Anywhere", "TX", "78885"));
+            _dbContext.SaveChanges();
+
+            var result = (from item in employee.Addresses()
+                          where item.Id.Equals(1)
+                          select item).SingleOrDefault();
+
+            Assert.Equal("123 Main Blvd", result.AddressDetails.AddressLine1);
+            Assert.Equal("Anywhere", result.AddressDetails.City);
+        }
+
+        [Fact]
+        public void ShouldDelete_EmployeeAddress()
+        {
+            var employee = _dbContext.Employees.Find(new Guid("9f7b902d-566c-4db6-b07b-716dd4e04340"));
+
+            var address = (from item in employee.Addresses()
+                           where item.Id.Equals(5)
+                           select item).SingleOrDefault();
+
+            employee.DeleteAddress(address.Id);
+            _dbContext.SaveChanges();
+
+            var result = (from item in employee.Addresses()
+                          where item.Id.Equals(5)
+                          select item).SingleOrDefault();
+
+            Assert.Null(result);
+        }
+
+        [Fact]
+        public void ShouldAdd_ContactPersonToEmployee()
+        {
+            var employee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var originalContactCount = employee.ContactPersons().Count;
+
+            var name = PersonName.Create("Fidel", "Castro", null);
+            var phone = PhoneNumber.Create("555-555-5555");
+            var notes = "You are being tested.";
+
+            employee.AddContactPerson(0, name, phone, notes);
+            _dbContext.SaveChanges();
+
+            var count = employee.ContactPersons().Count;
+
+            Assert.Equal(originalContactCount + 1, count);
+        }
+
+        [Fact]
+        public void ShouldUpdate_EmployeeContactPerson()
+        {
+            var employee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var contact = (from item in employee.ContactPersons()
+                           where item.Id.Equals(2)
+                           select item).SingleOrDefault();
+
+            Assert.Equal("Steve", contact.ContactName.FirstName);
+            Assert.Equal("Harvey", contact.ContactName.LastName);
+            Assert.Equal("972-854-5688", contact.Telephone);
+
+            employee.UpdateContactPerson
+            (
+                contact.Id,
+                PersonName.Create("Bubba", "Smith", "C"),
+                PhoneNumber.Create("987-965-1234"),
+                "You have been updated"
+            );
+            _dbContext.SaveChanges();
+
+            var result = (from item in employee.ContactPersons()
+                          where item.Id.Equals(2)
+                          select item).SingleOrDefault();
+
+            Assert.Equal("Bubba", result.ContactName.FirstName);
+            Assert.Equal("987-965-1234", result.Telephone);
+            Assert.Equal("You have been updated", result.Notes);
+        }
+
+        [Fact]
+        public void ShouldDelete_EmployeeContactPerson()
+        {
+            var employee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var contact = (from item in employee.ContactPersons()
+                           where item.Id.Equals(2)
+                           select item).SingleOrDefault();
+
+            employee.DeleteContactPerson(contact.Id);
+            _dbContext.SaveChanges();
+
+            var result = (from item in employee.ContactPersons()
+                          where item.Id.Equals(2)
+                          select item).SingleOrDefault();
+
+            Assert.Null(result);
+        }
     }
 }
