@@ -1,6 +1,6 @@
 ﻿using System;
 using Autofac.Extensions.DependencyInjection;
-using PipefittersSupplyCompany.Infrastructure.Data;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
@@ -21,7 +21,7 @@ namespace PipefittersSupplyCompany.Web
                 try
                 {
                     var context = services.GetRequiredService<AppDbContext>();
-//                    context.Database.Migrate();
+                    //                    context.Database.Migrate();
                     context.Database.EnsureCreated();
                     SeedData.Initialize(services);
                 }

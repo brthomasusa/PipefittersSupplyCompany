@@ -1,6 +1,6 @@
 using System;
 using Microsoft.EntityFrameworkCore;
-using PipefittersSupplyCompany.Infrastructure.Data;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Base
 {

@@ -1,11 +1,7 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text.RegularExpressions;
-using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate.Events;
-using PipefittersSupplyCompany.Core.Exceptions;
-using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.Core.Shared;
+using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
@@ -18,22 +14,17 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
                         MaritalStatus maritalStatus, TaxExemption exemption, PayRate payRate, StartDate startDate, IsActive isActive)
            : this()
         {
-            if (agent == null)
-            {
-                throw new ArgumentNullException("The external agent is required.");
-            }
-
+            ExternalAgent = agent ?? throw new ArgumentNullException("The external agent is required.");
             Id = agent.Id;
-            ExternalAgent = agent;
-            SupervisorId = supervisorId;
-            EmployeeName = name;
-            SSN = ssn;
-            Telephone = telephone;
-            MaritalStatus = maritalStatus;
-            TaxExemption = exemption;
-            PayRate = payRate;
-            StartDate = startDate;
-            IsActive = isActive;
+            SupervisorId = supervisorId ?? throw new ArgumentNullException("The supervisor id paramater is required.");
+            EmployeeName = name ?? throw new ArgumentNullException("The employee name parameter is required.");
+            SSN = ssn ?? throw new ArgumentNullException("The SSN parameter is required.");
+            Telephone = telephone ?? throw new ArgumentNullException("The telephone parameter is required.");
+            MaritalStatus = maritalStatus ?? throw new ArgumentNullException("The marital status parameter is required.");
+            TaxExemption = exemption ?? throw new ArgumentNullException("The tax exemption parameter is required.");
+            PayRate = payRate ?? throw new ArgumentNullException("The pay rate parameter is required.");
+            StartDate = startDate ?? throw new ArgumentNullException("The start date parameter is required.");
+            IsActive = isActive ?? throw new ArgumentNullException("The is active parameter is required.");
 
             CheckValidity();
         }

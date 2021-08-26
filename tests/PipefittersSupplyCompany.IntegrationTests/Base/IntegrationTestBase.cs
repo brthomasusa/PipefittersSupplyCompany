@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Moq;
 using TestSupport.Helpers;
-using PipefittersSupplyCompany.Infrastructure.Data;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Base
 {
@@ -31,11 +31,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             var mockMediator = new Mock<IMediator>();
             _dbContext = new AppDbContext(optionsBuilder.Options, mockMediator.Object);
             TestDataInitialization.InitializeData(_dbContext);
-
-            // using (var context = new AppDbContext(optionsBuilder.Options, mockMediator.Object))
-            // {
-            //     TestDataInitialization.InitializeData(context);
-            // }
         }
 
         public void Dispose()

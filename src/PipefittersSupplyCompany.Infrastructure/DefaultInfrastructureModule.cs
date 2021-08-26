@@ -3,7 +3,7 @@ using System.Reflection;
 using Autofac;
 using PipefittersSupplyCompany.Core.Interfaces;
 using PipefittersSupplyCompany.Core.ProjectAggregate;
-using PipefittersSupplyCompany.Infrastructure.Data;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
 using MediatR;
 using MediatR.Pipeline;
@@ -16,7 +16,7 @@ namespace PipefittersSupplyCompany.Infrastructure
         private readonly bool _isDevelopment = false;
         private readonly List<Assembly> _assemblies = new List<Assembly>();
 
-        public DefaultInfrastructureModule(bool isDevelopment, Assembly callingAssembly =  null)
+        public DefaultInfrastructureModule(bool isDevelopment, Assembly callingAssembly = null)
         {
             _isDevelopment = isDevelopment;
             var coreAssembly = Assembly.GetAssembly(typeof(Project)); // TODO: Replace "Project" with any type from your Core project

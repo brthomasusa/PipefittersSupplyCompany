@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Linq;
 using PipefittersSupplyCompany.Core.ProjectAggregate;
-using PipefittersSupplyCompany.Infrastructure.Data;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 

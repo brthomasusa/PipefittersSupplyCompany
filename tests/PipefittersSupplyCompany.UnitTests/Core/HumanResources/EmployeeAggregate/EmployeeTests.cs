@@ -59,6 +59,52 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
         }
 
         [Fact]
+        public void ShouldRaiseError_CreateEmployeeWithNullExternalAgent()
+        {
+            Action action = () => new Employee
+           (
+                null,
+                SupervisorId.Create(Guid.NewGuid()),
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
+           );
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The external agent is required.", caughtException.Message);
+        }
+
+        [Fact]
+        public void ShouldRaiseError_SupervisorIdParamIsNull()
+        {
+            var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
+
+            Action action = () => new Employee
+           (
+                employeeAgent,
+                null,
+                PersonName.Create("Ken", "Sanchez", "J"),
+                SSN.Create("123789999"),
+                PhoneNumber.Create("817-987-1234"),
+                MaritalStatus.Create("M"),
+                TaxExemption.Create(5),
+                PayRate.Create(40.00M),
+                StartDate.Create(new DateTime(1998, 12, 2)),
+                IsActive.Create(true)
+           );
+
+            var caughtException = Assert.Throws<ArgumentNullException>(action);
+
+            Assert.Contains("The supervisor id paramater is required.", caughtException.Message);
+        }
+
+        [Fact]
         public void ShouldRaiseError_SupervisorIdEqualDefaultGuid()
         {
             var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
