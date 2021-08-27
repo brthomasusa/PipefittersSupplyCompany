@@ -8,6 +8,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
+using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.WebApi
 {
@@ -39,14 +41,10 @@ namespace PipefittersSupplyCompany.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PipefittersSupply", Version = "v1" });
             });
 
+            services.AddScoped<IUnitOfWork, AppUnitOfWork>();
+            services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
 
-            // services.AddSingleton<IStateProvinceLookup, StateProvinceCodeLookup>();
-            // services.AddSingleton<IEmployeeLookup, EmployeeLookup>();
-            // services.AddScoped<IEmployeeRepository, EmployeeRepository>();
-            // services.AddScoped<ITimeCardRepository, TimeCardRepository>();
-            // services.AddScoped<IUnitOfWork, EfCoreUnitOfWork>();
             // services.AddScoped<EmployeeAppicationService>();
-            // services.AddScoped<TimeCardApplicationService>();
             // services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
         }
 

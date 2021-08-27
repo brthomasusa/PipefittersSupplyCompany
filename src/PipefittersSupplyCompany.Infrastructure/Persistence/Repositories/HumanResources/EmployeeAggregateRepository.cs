@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
+using PipefittersSupplyCompany.Core.Shared;
 
 namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources
 {
@@ -11,7 +12,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Human
 
         public EmployeeAggregateRepository(AppDbContext ctx) => _dbContext = ctx;
 
-        public async Task Add(Employee entity) => await _dbContext.Employees.AddAsync(entity);
+        public async Task Add(Employee entity)
+        {
+            await _dbContext.ExternalAgents.AddAsync(entity.ExternalAgent);
+            await _dbContext.Employees.AddAsync(entity);
+        }
 
         public void Update(Employee entity) => _dbContext.Employees.Update(entity);
 
