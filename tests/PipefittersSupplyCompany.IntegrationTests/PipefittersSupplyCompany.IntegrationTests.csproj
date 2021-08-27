@@ -41,6 +41,9 @@
 
   <ItemGroup>
     <ProjectReference Include="..\PipefittersSupplyCompany.UnitTests\PipefittersSupplyCompany.UnitTests.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.WebApi\PipefittersSupplyCompany.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.Core\PipefittersSupplyCompany.Core.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.Infrastructure\PipefittersSupplyCompany.Infrastructure.csproj" />    
   </ItemGroup>
 
   <ItemGroup>

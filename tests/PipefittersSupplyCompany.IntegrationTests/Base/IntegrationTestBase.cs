@@ -1,7 +1,6 @@
 using System;
 using Microsoft.Extensions.Configuration;
 using Microsoft.EntityFrameworkCore;
-using MediatR;
 using Moq;
 using TestSupport.Helpers;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
@@ -26,10 +25,11 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 mySqlOptions => mySqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
             )
             .EnableSensitiveDataLogging()
-            .EnableDetailedErrors();
+            .EnableDetailedErrors()
+            .UseLazyLoadingProxies();
 
-            var mockMediator = new Mock<IMediator>();
-            _dbContext = new AppDbContext(optionsBuilder.Options, mockMediator.Object);
+
+            _dbContext = new AppDbContext(optionsBuilder.Options);
             TestDataInitialization.InitializeData(_dbContext);
         }
 

@@ -1,16 +1,13 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Data;
+using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
 
 namespace PipefittersSupplyCompany.WebApi
 {
@@ -23,15 +20,34 @@ namespace PipefittersSupplyCompany.WebApi
 
         public IConfiguration Configuration { get; }
 
-        // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<AppDbContext>(options =>
+                options.UseSqlServer(
+                    Configuration.GetConnectionString("DefaultConnection"),
+                    msSqlOptions => msSqlOptions.MigrationsAssembly(typeof(AppDbContext).Assembly.FullName)
+                )
+                .EnableSensitiveDataLogging()
+                .EnableDetailedErrors()
+                .UseLazyLoadingProxies()
+            );
+            services.AddScoped<IDbConnection>((sp) => new SqlConnection(Configuration.GetConnectionString("DefaultConnection")));
 
             services.AddControllers();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PipefittersSupplyCompany.WebApi", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "PipefittersSupply", Version = "v1" });
             });
+
+
+            // services.AddSingleton<IStateProvinceLookup, StateProvinceCodeLookup>();
+            // services.AddSingleton<IEmployeeLookup, EmployeeLookup>();
+            // services.AddScoped<IEmployeeRepository, EmployeeRepository>();
+            // services.AddScoped<ITimeCardRepository, TimeCardRepository>();
+            // services.AddScoped<IUnitOfWork, EfCoreUnitOfWork>();
+            // services.AddScoped<EmployeeAppicationService>();
+            // services.AddScoped<TimeCardApplicationService>();
+            // services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -41,7 +57,7 @@ namespace PipefittersSupplyCompany.WebApi
             {
                 app.UseDeveloperExceptionPage();
                 app.UseSwagger();
-                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PipefittersSupplyCompany.WebApi v1"));
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PipefittersSupply v1"));
             }
 
             app.UseHttpsRedirection();

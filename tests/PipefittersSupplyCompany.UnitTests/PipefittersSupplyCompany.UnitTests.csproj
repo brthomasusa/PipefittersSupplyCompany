@@ -27,7 +27,10 @@
   </ItemGroup>
   
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.Web\PipefittersSupplyCompany.Web.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.WebApi\PipefittersSupplyCompany.WebApi.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.Core\PipefittersSupplyCompany.Core.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.Infrastructure\PipefittersSupplyCompany.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\src\PipefittersSupplyCompany.SharedKernel\PipefittersSupplyCompany.SharedKernel.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -15,7 +15,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\PipefittersSupplyCompany.SharedKernel\PipefittersSupplyCompany.SharedKernel.csproj" />
+    <ProjectReference Include="..\PipefittersSupplyCompany.SharedKernel\PipefittersSupplyCompany.SharedKernel.csproj" />    
   </ItemGroup>
 
 </Project>
