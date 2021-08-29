@@ -1,9 +1,6 @@
 using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Persistence;
-using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
@@ -33,32 +30,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
                     HandleActivate(cmd),
                 _ => Task.CompletedTask
             };
-
-        private async Task HandleActivate(V1.ActivateEmployee cmd)
-        {
-            var employee = await _employeeRepo.Load(cmd.Id);
-
-            if (employee == null)
-            {
-                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
-            }
-
-            employee.Activate();
-            await _unitOfWork.Commit();
-        }
-
-        private async Task HandleDeactivate(V1.DeactivateEmployee cmd)
-        {
-            var employee = await _employeeRepo.Load(cmd.Id);
-
-            if (employee == null)
-            {
-                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
-            }
-
-            employee.Deactivate();
-            await _unitOfWork.Commit();
-        }
 
         private async Task HandleCreate(V1.CreateEmployee cmd)
         {
@@ -94,27 +65,49 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
                 throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
             }
 
-            // employee.UpdateEmployee
-            // (
-            //     EmployeeTypeIdentifier.FromInterger(cmd.EmployeeTypeId),
-            //     new EmployeeId(cmd.SupervisorId),
-            //     EmployeeLastName.FromString(cmd.LastName),
-            //     EmployeeFirstName.FromString(cmd.FirstName),
-            //     EmployeeMiddleInitial.FromString(cmd.MiddleInitial),
-            //     EmployeeSSN.FromString(cmd.SSN),
-            //     AddressLine1.FromString(cmd.AddressLine1),
-            //     AddressLine2.FromString(cmd.AddressLine2),
-            //     City.FromString(cmd.City),
-            //     StateProvinceCode.FromString(cmd.StateProvinceCode, _stateCodeLkup),
-            //     Zipcode.FromString(cmd.Zipcode),
-            //     Telephone.FromString(cmd.Telephone),
-            //     MaritalStatus.FromString(cmd.MaritalStatus),
-            //     TaxExemption.FromInterger(cmd.Exemptions),
-            //     EmployeePayRate.FromDecimal(cmd.PayRate),
-            //     EmployeeStartDate.FromDateTime(cmd.StartDate),
-            //     IsActive.FromBoolean(cmd.IsActive)
-            // );
+            employee.UpdateSupervisorId(SupervisorId.Create(cmd.SupervisorId));
+            employee.UpdateEmployeeName(PersonName.Create(cmd.FirstName, cmd.LastName, cmd.MiddleInitial));
+            employee.UpdateSSN(SSN.Create(cmd.SSN));
+            employee.UpdateTelephone(PhoneNumber.Create(cmd.Telephone));
+            employee.UpdateMaritalStatus(MaritalStatus.Create(cmd.MaritalStatus));
+            employee.UpdateTaxExemptions(TaxExemption.Create(cmd.Exemptions));
+            employee.UpdatePayRate(PayRate.Create(cmd.PayRate));
 
+            if (cmd.IsActive)
+            {
+                employee.Activate();
+            }
+            else if (!cmd.IsActive)
+            {
+                employee.Deactivate();
+            }
+
+            await _unitOfWork.Commit();
+        }
+
+        private async Task HandleActivate(V1.ActivateEmployee cmd)
+        {
+            var employee = await _employeeRepo.Load(cmd.Id);
+
+            if (employee == null)
+            {
+                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
+            }
+
+            employee.Activate();
+            await _unitOfWork.Commit();
+        }
+
+        private async Task HandleDeactivate(V1.DeactivateEmployee cmd)
+        {
+            var employee = await _employeeRepo.Load(cmd.Id);
+
+            if (employee == null)
+            {
+                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
+            }
+
+            employee.Deactivate();
             await _unitOfWork.Commit();
         }
     }

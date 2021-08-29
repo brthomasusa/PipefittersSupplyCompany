@@ -324,3 +324,51 @@ VALUES
     ('604536a1-e734-49c4-96b3-9dfef7417f9a', 'Harvey', 'Steve', 'T', '903-854-5688')   
 GO
 
+CREATE TRIGGER HumanResources.SetEmployeeModifiedDate
+   ON  HumanResources.Employees
+   AFTER UPDATE
+AS 
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE HumanResources.Employees SET LastModifiedDate = sysdatetime()
+    FROM HumanResources.Employees AS t
+    WHERE EXISTS (SELECT 1 FROM inserted WHERE EmployeeId = t.EmployeeId);
+END
+GO
+
+CREATE TRIGGER Shared.SetAddressModifiedDate
+   ON  Shared.Addresses
+   AFTER UPDATE
+AS 
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Shared.Addresses SET LastModifiedDate = sysdatetime()
+    FROM Shared.Addresses AS t
+    WHERE EXISTS (SELECT 1 FROM inserted WHERE AddressId = t.AddressId);    
+END
+GO
+
+CREATE TRIGGER Shared.SetContactPersonModifiedDate
+   ON  Shared.ContactPersons
+   AFTER UPDATE
+AS 
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Shared.ContactPersons SET LastModifiedDate = sysdatetime()
+    FROM Shared.ContactPersons AS t
+    WHERE EXISTS (SELECT 1 FROM inserted WHERE PersonId = t.PersonId);    
+END
+GO
+
+CREATE TRIGGER Shared.SetExternalModifiedDate
+   ON  Shared.ExternalAgents
+   AFTER UPDATE
+AS 
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Shared.ExternalAgents SET LastModifiedDate = sysdatetime()
+    FROM Shared.ExternalAgents AS t
+    WHERE EXISTS (SELECT 1 FROM inserted WHERE AgentId = t.AgentId);    
+END
+GO
+
