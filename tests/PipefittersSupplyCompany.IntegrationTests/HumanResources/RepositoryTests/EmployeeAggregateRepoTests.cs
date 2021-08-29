@@ -60,7 +60,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         }
 
         [Fact]
-        public async Task ShouldUpdate_Employee()
+        public async Task ShouldUpdate_Employee_UsingRepository()
         {
             var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
 
