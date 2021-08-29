@@ -1,4 +1,5 @@
 using System.Threading.Tasks;
+using PipefittersSupplyCompany.SharedKernel.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Interfaces
 {

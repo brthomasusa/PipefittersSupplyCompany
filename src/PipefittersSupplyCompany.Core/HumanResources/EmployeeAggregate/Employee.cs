@@ -2,11 +2,12 @@ using System;
 using System.Collections.Generic;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel;
+using PipefittersSupplyCompany.SharedKernel.Interfaces;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
 {
-    public class Employee : AggregateRoot<Guid>
+    public class Employee : AggregateRoot<Guid>, IAggregateRoot
     {
         protected Employee() { }
 

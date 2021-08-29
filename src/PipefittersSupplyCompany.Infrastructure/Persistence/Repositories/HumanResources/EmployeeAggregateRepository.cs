@@ -7,11 +7,18 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Human
 {
     public class EmployeeAggregateRepository : IEmployeeAggregateRepository, IDisposable
     {
+        private bool isDisposed;
         private readonly AppDbContext _dbContext;
 
         public EmployeeAggregateRepository(AppDbContext ctx) => _dbContext = ctx;
 
-        public async Task Add(Employee entity)
+        ~EmployeeAggregateRepository() => Dispose(false);
+
+        public async Task<Employee> GetByIdAsync(Guid id) => await _dbContext.Employees.FindAsync(id);
+
+        public async Task<bool> Exists(Guid id) => await _dbContext.Employees.FindAsync(id) != null;
+
+        public async Task AddAsync(Employee entity)
         {
             await _dbContext.ExternalAgents.AddAsync(entity.ExternalAgent);
             await _dbContext.Employees.AddAsync(entity);
@@ -19,10 +26,26 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Human
 
         public void Update(Employee entity) => _dbContext.Employees.Update(entity);
 
-        public async Task<bool> Exists(Guid id) => await _dbContext.Employees.FindAsync(id) != null;
+        public void Delete(Employee entity) => _dbContext.Employees.Remove(entity);
 
-        public async Task<Employee> Load(Guid id) => await _dbContext.Employees.FindAsync(id);
+        public void Dispose()
+        {
+            Dispose(true);
+            GC.SuppressFinalize(this);
+        }
 
-        public void Dispose() => _dbContext.Dispose();
+        protected virtual void Dispose(bool disposing)
+        {
+            if (isDisposed) return;
+
+            if (disposing)
+            {
+                // free managed resources
+                _dbContext.Dispose();
+            }
+
+            isDisposed = true;
+        }
+
     }
 }

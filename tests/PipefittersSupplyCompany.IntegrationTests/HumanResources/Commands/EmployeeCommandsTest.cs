@@ -44,6 +44,23 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         }
 
         [Fact]
+        public void ShouldUpdate_EmployeeUsingDbContext()
+        {
+            var employee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+
+            Assert.Equal("Ken", employee.EmployeeName.FirstName);
+            Assert.Equal("Sanchez", employee.EmployeeName.LastName);
+
+            employee.UpdateEmployeeName(PersonName.Create("Lil", "Wayne", null));
+
+            _dbContext.Employees.Update(employee);
+            var updatedEmployee = _dbContext.Employees.Find(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+
+            Assert.Equal("Lil", updatedEmployee.EmployeeName.FirstName);
+            Assert.Equal("Wayne", updatedEmployee.EmployeeName.LastName);
+        }
+
+        [Fact]
         public void ShouldRetrieve_ExternalAgentAndIncludeEmployee()
         {
             var employeeAgent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);

@@ -52,13 +52,13 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
                 IsActive.Create(cmd.IsActive)
             );
 
-            await _employeeRepo.Add(employee);
+            await _employeeRepo.AddAsync(employee);
             await _unitOfWork.Commit();
         }
 
         private async Task HandleUpdate(V1.UpdateEmployee cmd)
         {
-            var employee = await _employeeRepo.Load(cmd.Id);
+            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
 
             if (employee == null)
             {
@@ -87,7 +87,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
         private async Task HandleActivate(V1.ActivateEmployee cmd)
         {
-            var employee = await _employeeRepo.Load(cmd.Id);
+            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
 
             if (employee == null)
             {
@@ -100,7 +100,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
         private async Task HandleDeactivate(V1.DeactivateEmployee cmd)
         {
-            var employee = await _employeeRepo.Load(cmd.Id);
+            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
 
             if (employee == null)
             {

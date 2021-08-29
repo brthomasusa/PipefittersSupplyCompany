@@ -1,20 +1,14 @@
-﻿using Ardalis.Specification;
+﻿using System;
+using System.Threading.Tasks;
 
 namespace PipefittersSupplyCompany.SharedKernel.Interfaces
 {
-    // from Ardalis.Specification
-    public interface IRepository<T> : IRepositoryBase<T> where T : class, IAggregateRoot
+    public interface IRepository<T> where T : IAggregateRoot
     {
+        Task<T> GetByIdAsync(Guid id);
+        Task<bool> Exists(Guid id);
+        Task AddAsync(T entity);
+        void Update(T entity);
+        void Delete(T entity);
     }
-
-    // generic methods approach option
-    //public interface IRepository
-    //{
-    //    Task<T> GetByIdAsync<T>(int id) where T : BaseEntity, IAggregateRoot;
-    //    Task<List<T>> ListAsync<T>() where T : BaseEntity, IAggregateRoot;
-    //    Task<List<T>> ListAsync<T>(ISpecification<T> spec) where T : BaseEntity, IAggregateRoot;
-    //    Task<T> AddAsync<T>(T entity) where T : BaseEntity, IAggregateRoot;
-    //    Task UpdateAsync<T>(T entity) where T : BaseEntity, IAggregateRoot;
-    //    Task DeleteAsync<T>(T entity) where T : BaseEntity, IAggregateRoot;
-    //}
 }

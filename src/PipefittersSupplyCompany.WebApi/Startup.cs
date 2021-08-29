@@ -10,6 +10,7 @@ using Microsoft.OpenApi.Models;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Application.Services;
 
 namespace PipefittersSupplyCompany.WebApi
 {
@@ -43,8 +44,8 @@ namespace PipefittersSupplyCompany.WebApi
 
             services.AddScoped<IUnitOfWork, AppUnitOfWork>();
             services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
+            services.AddScoped<EmployeeAppicationService>();
 
-            // services.AddScoped<EmployeeAppicationService>();
             // services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
         }
 

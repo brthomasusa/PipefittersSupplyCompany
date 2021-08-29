@@ -42,7 +42,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
                 IsActive.Create(true)
             );
 
-            await _employeeRepo.Add(employee);
+            await _employeeRepo.AddAsync(employee);
             await _unitOfWork.Commit();
 
             var employeeResult = await _employeeRepo.Exists(employee.Id);
@@ -53,7 +53,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldRetrieve_Employee()
         {
-            var employee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
 
             Assert.Equal("Ken", employee.EmployeeName.FirstName);
             Assert.Equal("Sanchez", employee.EmployeeName.LastName);
@@ -62,7 +62,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldUpdate_Employee()
         {
-            var employee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
 
             Assert.Equal("Ken", employee.EmployeeName.FirstName);
             Assert.Equal("Sanchez", employee.EmployeeName.LastName);
@@ -72,7 +72,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
             _employeeRepo.Update(employee);
             await _unitOfWork.Commit();
 
-            var updatedEmployee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var updatedEmployee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
 
             Assert.Equal("Lil", updatedEmployee.EmployeeName.FirstName);
             Assert.Equal("Wayne", updatedEmployee.EmployeeName.LastName);
@@ -91,7 +91,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldAdd_AddressToEmployee_UsingRepo()
         {
-            var employee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
             var originalAddressCount = employee.Addresses().Count;
 
             employee.AddAddress(0, AddressVO.Create("123 Main", "#4", "Somewhere", "TX", "78885"));
@@ -106,7 +106,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldUpdate_EmployeeAddress_UsingRepo()
         {
-            var employee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
             var address = (from item in employee.Addresses()
                            where item.Id.Equals(1)
                            select item).SingleOrDefault();
@@ -129,7 +129,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldDelete_EmployeeAddress_UsingRepo()
         {
-            var employee = await _employeeRepo.Load(new Guid("9f7b902d-566c-4db6-b07b-716dd4e04340"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("9f7b902d-566c-4db6-b07b-716dd4e04340"));
             var address = (from item in employee.Addresses()
                            where item.Id.Equals(5)
                            select item).SingleOrDefault();
@@ -148,7 +148,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldAdd_ContactPersonToEmployee_UsingRepo()
         {
-            var employee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
             var originalContactCount = employee.ContactPersons().Count;
 
             var name = PersonName.Create("Fidel", "Castro", null);
@@ -167,7 +167,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldUpdate_EmployeeContactPerson_UsingRepo()
         {
-            var employee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
             var contact = (from item in employee.ContactPersons()
                            where item.Id.Equals(2)
                            select item).SingleOrDefault();
@@ -198,7 +198,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         [Fact]
         public async Task ShouldDelete_EmployeeContactPerson_UsingRepo()
         {
-            var employee = await _employeeRepo.Load(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
             var contact = (from item in employee.ContactPersons()
                            where item.Id.Equals(2)
                            select item).SingleOrDefault();
