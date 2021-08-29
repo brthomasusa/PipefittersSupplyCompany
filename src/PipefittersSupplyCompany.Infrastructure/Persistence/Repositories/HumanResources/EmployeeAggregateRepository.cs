@@ -2,7 +2,6 @@ using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
-using PipefittersSupplyCompany.Core.Shared;
 
 namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources
 {

@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
+using PipefittersSupplyCompany.SharedKernel;
 
 namespace PipefittersSupplyCompany.Infrastructure.Interfaces
 {
