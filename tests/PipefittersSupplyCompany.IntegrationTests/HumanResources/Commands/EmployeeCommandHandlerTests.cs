@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Core.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
@@ -30,7 +31,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         public async Task ShouldInsert_Employee_UsingCreateEmployeeCommand()
         {
             Guid id = Guid.NewGuid();
-            var command = new V1.CreateEmployee
+            var command = new V1.CreateEmployeeInfo
             {
                 Id = id,
                 SupervisorId = id,

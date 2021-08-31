@@ -1,5 +1,5 @@
 using System;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Core.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources
 {
@@ -7,7 +7,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
     {
         public static class V1
         {
-            public class CreateEmployee : ICommand
+            public class CreateEmployeeInfo : ICommand
             {
                 public Guid Id { get; set; }
                 public Guid SupervisorId { get; set; }
@@ -28,7 +28,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
                 public bool IsActive { get; set; }
             }
 
-            public class UpdateEmployee : ICommand
+            public class EditEmployeeInfo : ICommand
             {
                 public Guid Id { get; set; }
                 public Guid SupervisorId { get; set; }

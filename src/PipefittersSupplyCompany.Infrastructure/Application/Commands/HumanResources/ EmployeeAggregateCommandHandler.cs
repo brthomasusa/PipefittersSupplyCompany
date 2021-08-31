@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Core.Interfaces;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
@@ -22,16 +23,16 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public Task Handle(ICommand command) =>
             command switch
             {
-                V1.CreateEmployee cmd =>
+                V1.CreateEmployeeInfo cmd =>
                     HandleCreate(cmd),
-                V1.UpdateEmployee cmd =>
+                V1.EditEmployeeInfo cmd =>
                     HandleUpdate(cmd),
                 V1.ActivateEmployee cmd =>
                     HandleActivate(cmd),
                 _ => Task.CompletedTask
             };
 
-        private async Task HandleCreate(V1.CreateEmployee cmd)
+        private async Task HandleCreate(V1.CreateEmployeeInfo cmd)
         {
             if (await _employeeRepo.Exists(cmd.Id))
             {
@@ -56,7 +57,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleUpdate(V1.UpdateEmployee cmd)
+        private async Task HandleUpdate(V1.EditEmployeeInfo cmd)
         {
             var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
 

@@ -4,6 +4,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces
 {
     public interface IApplicationService
     {
-        Task Handle(ICommand command);
+
     }
 }

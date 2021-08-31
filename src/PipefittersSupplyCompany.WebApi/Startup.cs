@@ -11,6 +11,7 @@ using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Services;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 
 namespace PipefittersSupplyCompany.WebApi
 {
@@ -44,7 +45,7 @@ namespace PipefittersSupplyCompany.WebApi
 
             services.AddScoped<IUnitOfWork, AppUnitOfWork>();
             services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
-            services.AddScoped<EmployeeAppicationService>();
+            services.AddScoped<EmployeeAggregateCommandHandler>();
 
             // services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
         }
