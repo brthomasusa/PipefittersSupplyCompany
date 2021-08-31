@@ -5,7 +5,7 @@ using Xunit;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Application.Services;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
@@ -14,16 +14,16 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanR
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
-    public class EmployeeApplicationServiceTests : IntegrationTestBase
+    public class EmployeeCommandHandlerTests : IntegrationTestBase
     {
-        private readonly IApplicationService _employeeAppSvc;
+        private readonly ICommandHandler _employeeCmdHdlr;
 
-        public EmployeeApplicationServiceTests()
+        public EmployeeCommandHandlerTests()
         {
             IUnitOfWork unitOfWork = new AppUnitOfWork(_dbContext);
             IEmployeeAggregateRepository employeeRepo = new EmployeeAggregateRepository(_dbContext);
 
-            _employeeAppSvc = new EmployeeAppicationService(employeeRepo, unitOfWork);
+            _employeeCmdHdlr = new EmployeeAggregateCommandHandler(employeeRepo, unitOfWork);
         }
 
         [Fact]
@@ -51,7 +51,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                 IsActive = true
             };
 
-            await _employeeAppSvc.Handle(command);
+            await _employeeCmdHdlr.Handle(command);
 
             Employee result = await _dbContext.Employees.FindAsync(id);
 

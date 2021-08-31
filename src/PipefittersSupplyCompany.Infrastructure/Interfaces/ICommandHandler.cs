@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 
 namespace PipefittersSupplyCompany.Infrastructure.Interfaces
 {
-    public interface IApplicationService
+    public interface ICommandHandler
     {
         Task Handle(ICommand command);
     }
