@@ -12,6 +12,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
         private const string _defaultConnectionString = "DefaultConnection";
         private readonly string _connectionString;
         protected readonly AppDbContext _dbContext;
+        protected readonly string serviceAddress = "https://localhost:5001/";
 
         public IntegrationTestBase()
         {

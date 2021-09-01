@@ -46,8 +46,7 @@ namespace PipefittersSupplyCompany.WebApi
             services.AddScoped<IUnitOfWork, AppUnitOfWork>();
             services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
             services.AddScoped<EmployeeAggregateCommandHandler>();
-
-            // services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
+            services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
