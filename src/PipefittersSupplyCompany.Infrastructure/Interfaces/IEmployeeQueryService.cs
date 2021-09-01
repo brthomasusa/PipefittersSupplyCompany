@@ -9,7 +9,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces
     {
         Task<IEnumerable<EmployeeListItems>> Query(GetEmployees queryParameters);
         Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesSupervisedBy queryParameters);
-        Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesOfEmployeeType queryParameters);
+        Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesOfRole queryParameters);
         Task<EmployeeDetails> Query(GetEmployee queryParameters);
     }
 }

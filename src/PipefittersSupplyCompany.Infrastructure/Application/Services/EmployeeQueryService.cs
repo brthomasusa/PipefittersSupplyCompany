@@ -78,7 +78,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
-        public async Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesOfEmployeeType queryParameters)
+        public async Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesOfRole queryParameters)
         {
             var sql =
             @"SELECT 
@@ -100,7 +100,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
             // 
             var parameters = new DynamicParameters();
-            parameters.Add("ID", queryParameters.EmployeeTypeID, DbType.Guid);
+            parameters.Add("ID", queryParameters.RoleID, DbType.Guid);
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 

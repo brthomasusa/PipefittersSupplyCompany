@@ -8,7 +8,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
         {
             public Guid EmployeeId { get; set; }
             public string Role { get; set; }
-            public Guid Supervisor { get; set; }
+            public Guid SupervisorId { get; set; }
             public string ManagerLastName { get; set; }
             public string ManagerFirstName { get; set; }
             public string ManagerMiddleInitial { get; set; }

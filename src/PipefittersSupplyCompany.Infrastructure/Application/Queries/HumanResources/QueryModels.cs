@@ -2,7 +2,7 @@ using System;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources
 {
-    public static class QueryParameters
+    public static class QueryModels
     {
         public class GetEmployees
         {
@@ -12,7 +12,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
 
         public class GetEmployeesSupervisedBy
         {
-            public Guid SupervisorID { get; set; }
+            public Guid SupervisorId { get; set; }
             public int Page { get; set; }
             public int PageSize { get; set; }
         }
@@ -26,6 +26,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
 
         public class GetEmployee
         {
+
             public Guid EmployeeID { get; set; }
         }
     }
