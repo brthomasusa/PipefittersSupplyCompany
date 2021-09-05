@@ -1,11 +1,10 @@
-using System;
 using System.Net;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using PipefittersSupplyCompany.WebApi.Models;
+using PipefittersSupplyCompany.WebApi.Exceptions.CustomExceptionMiddleware;
 
 namespace PipefittersSupplyCompany.WebApi.Extensions
 {
@@ -34,5 +33,8 @@ namespace PipefittersSupplyCompany.WebApi.Extensions
                 });
             });
         }
+
+        public static void ConfigureCustomerExceptionMiddleware(this IApplicationBuilder app) =>
+            app.UseMiddleware<ExceptionMiddleware>();
     }
 }

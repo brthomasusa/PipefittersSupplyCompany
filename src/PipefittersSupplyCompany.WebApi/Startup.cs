@@ -69,7 +69,8 @@ namespace PipefittersSupplyCompany.WebApi
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PipefittersSupply v1"));
             }
 
-            app.ConfigureExceptionHandler(logger);
+            // app.ConfigureExceptionHandler(logger);
+            app.ConfigureCustomerExceptionMiddleware();
             app.UseHttpsRedirection();
 
             app.UseRouting();
