@@ -45,5 +45,26 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public string ManagerFirstName { get; set; }
             public string ManagerMiddleInitial { get; set; }
         }
+
+        public class EmployeeAddressDetails
+        {
+            public Guid EmployeeId { get; set; }
+            public int AddressId { get; set; }
+        }
+
+        public class EmployeeAddressListItems
+        {
+            public Guid EmployeeId { get; set; }
+        }
+
+        public class EmployeeContactPersonDetails
+        {
+            public Guid EmployeeId { get; set; }
+        }
+
+        public class EmployeeContactPersonListItems
+        {
+            public Guid EmployeeId { get; set; }
+        }
     }
 }

@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
@@ -9,7 +10,8 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanRe
 namespace PipefittersSupplyCompany.WebApi.Controllers
 {
     [ApiController]
-    [Route("api/[controller]")]
+    [Route("api/{v:apiVersion}/[controller]")]
+    [ApiVersion("1.0")]
     public class EmployeesController : ControllerBase
     {
         private readonly ILogger<EmployeesController> _logger;
@@ -28,47 +30,53 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             _logger = logger;
         }
 
+
+
         [HttpGet]
         [Route("list")]
-        public async Task<IActionResult> Get([FromQuery] GetEmployees request) =>
-            await RequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(request),
-                _logger
-            );
+        public async Task<IActionResult> Get([FromQuery] PagingParameters pagingParams)
+        {
+            GetEmployees queryParams = new GetEmployees { Page = pagingParams.Page ?? 1, PageSize = pagingParams.PageSize ?? 4 };
+
+            return await RequestHandler.HandleQuery
+                        (
+                            () => _employeeQrySvc.Query(queryParams),
+                            _logger
+                        );
+        }
 
         [HttpGet]
         [Route("supervisedby")]
-        public async Task<IActionResult> Get([FromQuery] GetEmployeesSupervisedBy request) =>
+        public async Task<IActionResult> Get([FromQuery] GetEmployeesSupervisedBy queryParams) =>
             await RequestHandler.HandleQuery
             (
-                () => _employeeQrySvc.Query(request),
+                () => _employeeQrySvc.Query(queryParams),
                 _logger
             );
 
         [HttpGet]
         [Route("employeesofrole")]
-        public async Task<IActionResult> Get([FromQuery] GetEmployeesOfRole request) =>
+        public async Task<IActionResult> Get([FromQuery] GetEmployeesOfRole queryParams) =>
             await RequestHandler.HandleQuery
             (
-                () => _employeeQrySvc.Query(request),
+                () => _employeeQrySvc.Query(queryParams),
                 _logger
             );
 
         [HttpGet]
         [Route("details")]
-        public async Task<IActionResult> Get([FromQuery] GetEmployee request) =>
+        public async Task<IActionResult> Get([FromQuery] GetEmployee queryParams) =>
             await RequestHandler.HandleQuery
             (
-                () => _employeeQrySvc.Query(request),
+                () => _employeeQrySvc.Query(queryParams),
                 _logger
             );
 
         [HttpPost]
-        public async Task<IActionResult> Post(V1.CreateEmployeeInfo request) =>
+        public async Task<IActionResult> Post([FromBody] V1.CreateEmployeeInfo command) =>
             await RequestHandler.HandleCommand<V1.CreateEmployeeInfo>
             (
-                request,
+                command,
                 _employeeCmdHdlr.Handle,
                 _logger
             );

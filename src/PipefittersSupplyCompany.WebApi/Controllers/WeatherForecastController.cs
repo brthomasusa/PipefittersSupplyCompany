@@ -9,6 +9,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [Route("{v:apiVersion}/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

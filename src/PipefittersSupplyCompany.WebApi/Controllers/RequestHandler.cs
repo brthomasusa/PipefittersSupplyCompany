@@ -40,11 +40,12 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             catch (Exception ex)
             {
                 logger.LogError(ex, "Error handling the query.");
-                return new BadRequestObjectResult(new
-                {
-                    error = ex.Message,
-                    stackTrace = ex.StackTrace
-                });
+                throw;
+                // return new BadRequestObjectResult(new
+                // {
+                //     error = ex.Message,
+                //     stackTrace = ex.StackTrace
+                // });
             }
         }
     }

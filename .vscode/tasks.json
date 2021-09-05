@@ -7,7 +7,7 @@
             "type": "process",
             "args": [
                 "build",
-                "${workspaceFolder}/src/PipefittersSupplyCompany.Web/PipefittersSupplyCompany.Web.csproj",
+                "${workspaceFolder}/src/PipefittersSupplyCompany.WebApi/PipefittersSupplyCompany.WebApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
@@ -19,7 +19,7 @@
             "type": "process",
             "args": [
                 "publish",
-                "${workspaceFolder}/src/PipefittersSupplyCompany.Web/PipefittersSupplyCompany.Web.csproj",
+                "${workspaceFolder}/src/PipefittersSupplyCompany.WebApi/PipefittersSupplyCompany.WebApi.csproj",
                 "/property:GenerateFullPaths=true",
                 "/consoleloggerparameters:NoSummary"
             ],
