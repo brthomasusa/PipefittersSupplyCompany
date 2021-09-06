@@ -1,6 +1,4 @@
-using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
@@ -14,7 +12,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
     [ApiVersion("1.0")]
     public class EmployeesController : ControllerBase
     {
-        private readonly ILogger<EmployeesController> _logger;
+        private readonly ILoggerManager _logger;
         private readonly EmployeeAggregateCommandHandler _employeeCmdHdlr;
         private readonly IEmployeeQueryService _employeeQrySvc;
 
@@ -22,7 +20,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         (
             EmployeeAggregateCommandHandler cmdHdlr,
             IEmployeeQueryService _qrySvc,
-            ILogger<EmployeesController> logger
+            ILoggerManager logger
         )
         {
             _employeeCmdHdlr = cmdHdlr;

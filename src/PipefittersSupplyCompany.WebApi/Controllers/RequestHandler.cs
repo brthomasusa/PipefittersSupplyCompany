@@ -1,7 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using System.Threading.Tasks;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers
 {
@@ -11,7 +11,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         (
             TCommand request,
             Func<TCommand, Task> handler,
-            ILogger logger
+            ILoggerManager logger
         )
         {
             try
@@ -22,15 +22,19 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error handling the command.");
-                return new BadRequestObjectResult(new { error = ex.Message, stackTrace = ex.StackTrace });
+                logger.LogError("Error handling the command.");
+                return new BadRequestObjectResult(new
+                {
+                    error = ex.Message,
+                    stackTrace = ex.StackTrace
+                });
             }
         }
 
         public static async Task<IActionResult> HandleQuery<TQueryParam>
         (
             Func<Task<TQueryParam>> query,
-            ILogger logger
+            ILoggerManager logger
         )
         {
             try
@@ -39,13 +43,12 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             }
             catch (Exception ex)
             {
-                logger.LogError(ex, "Error handling the query.");
-                throw;
-                // return new BadRequestObjectResult(new
-                // {
-                //     error = ex.Message,
-                //     stackTrace = ex.StackTrace
-                // });
+                logger.LogError($"Error handling the query: {ex}");
+                return new BadRequestObjectResult(new
+                {
+                    error = ex.Message,
+                    stackTrace = ex.StackTrace
+                });
             }
         }
     }

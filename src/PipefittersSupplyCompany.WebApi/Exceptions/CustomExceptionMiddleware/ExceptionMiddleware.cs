@@ -3,23 +3,21 @@ using System.Net;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
-using Microsoft.Extensions.Logging;
 using PipefittersSupplyCompany.WebApi.Models;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.WebApi.Exceptions.CustomExceptionMiddleware
 {
     public class ExceptionMiddleware
     {
         private readonly RequestDelegate _next;
-        private readonly ILogger<ExceptionMiddleware> _logger;
 
-        public ExceptionMiddleware(RequestDelegate next, ILogger<ExceptionMiddleware> logger)
+        public ExceptionMiddleware(RequestDelegate next)
         {
             _next = next;
-            _logger = logger;
         }
 
-        public async Task InvokeAsync(HttpContext httpContext)
+        public async Task InvokeAsync(HttpContext httpContext, ILoggerManager logger)
         {
             try
             {
@@ -29,12 +27,12 @@ namespace PipefittersSupplyCompany.WebApi.Exceptions.CustomExceptionMiddleware
             }
             catch (SqlException sqlEx)
             {
-                _logger.LogError($"An ADO exception has been thrown: {sqlEx}");
+                logger.LogError($"An ADO exception has been thrown: {sqlEx}");
                 await HandleExceptionAsync(httpContext, sqlEx);
             }
             catch (Exception ex)
             {
-                _logger.LogError($"An exception has been thrown: {ex}");
+                logger.LogError($"An exception has been thrown: {ex}");
                 await HandleExceptionAsync(httpContext, ex);
             }
         }
