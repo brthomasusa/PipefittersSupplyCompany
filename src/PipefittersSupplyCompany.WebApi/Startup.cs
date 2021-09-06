@@ -1,7 +1,9 @@
 using System.Data;
+using System.IO;
 using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.HttpOverrides;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
@@ -9,10 +11,11 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using NLog;
 using PipefittersSupplyCompany.WebApi.Extensions;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Services;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 
@@ -22,6 +25,7 @@ namespace PipefittersSupplyCompany.WebApi
     {
         public Startup(IConfiguration configuration)
         {
+            LogManager.LoadConfiguration(string.Concat(Directory.GetCurrentDirectory(), "/nlog.config"));
             Configuration = configuration;
         }
 
@@ -40,6 +44,8 @@ namespace PipefittersSupplyCompany.WebApi
             );
             services.AddScoped<IDbConnection>((sp) => new SqlConnection(Configuration.GetConnectionString("DefaultConnection")));
 
+            services.ConfigureCors();
+            services.ConfigureLoggingService();
             services.AddControllers();
             services.AddApiVersioning(config =>
             {
@@ -68,10 +74,23 @@ namespace PipefittersSupplyCompany.WebApi
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "PipefittersSupply v1"));
             }
+            else
+            {
+                app.UseHsts();
+            }
 
             // app.ConfigureExceptionHandler(logger);
             app.ConfigureCustomerExceptionMiddleware();
             app.UseHttpsRedirection();
+
+            app.UseStaticFiles();
+
+            app.UseForwardedHeaders(new ForwardedHeadersOptions
+            {
+                ForwardedHeaders = ForwardedHeaders.All
+            });
+
+            app.UseCors("CorsPolicy");
 
             app.UseRouting();
 
