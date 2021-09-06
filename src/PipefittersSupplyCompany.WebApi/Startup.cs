@@ -1,6 +1,4 @@
-using System.Data;
 using System.IO;
-using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -13,7 +11,6 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog;
 using PipefittersSupplyCompany.WebApi.Extensions;
-using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
@@ -43,7 +40,9 @@ namespace PipefittersSupplyCompany.WebApi
                 .EnableDetailedErrors()
                 .UseLazyLoadingProxies()
             );
-            services.AddScoped<IDbConnection>((sp) => new SqlConnection(Configuration.GetConnectionString("DefaultConnection")));
+
+            // services.AddScoped<IDbConnection>((sp) => new SqlConnection(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddSingleton<DapperContext>();
 
             services.ConfigureCors();
             services.ConfigureLoggingService();

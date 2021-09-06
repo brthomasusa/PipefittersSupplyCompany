@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data;
 using Dapper;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
@@ -10,9 +11,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 {
     public class EmployeeQueryService : IEmployeeQueryService
     {
-        private readonly IDbConnection _connection;
+        private readonly DapperContext _dapperCtx;
 
-        public EmployeeQueryService(IDbConnection connection) => _connection = connection;
+        public EmployeeQueryService(DapperContext ctx) => _dapperCtx = ctx;
 
         private static int Offset(int page, int pageSize) => (page - 1) * pageSize;
 
@@ -40,9 +41,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 
-            using (_connection)
+            using (var connection = _dapperCtx.CreateConnection())
             {
-                return await _connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                return await connection.QueryAsync<EmployeeListItems>(sql, parameters);
             }
         }
 
@@ -72,9 +73,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 
-            using (_connection)
+            using (var connection = _dapperCtx.CreateConnection())
             {
-                return await _connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                return await connection.QueryAsync<EmployeeListItems>(sql, parameters);
             }
         }
 
@@ -104,9 +105,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 
-            using (_connection)
+            using (var connection = _dapperCtx.CreateConnection())
             {
-                return await _connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                return await connection.QueryAsync<EmployeeListItems>(sql, parameters);
             }
         }
 
@@ -131,12 +132,10 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             var parameters = new DynamicParameters();
             parameters.Add("ID", queryParameters.EmployeeID, DbType.Guid);
 
-            using (_connection)
+            using (var connection = _dapperCtx.CreateConnection())
             {
-                return await _connection.QueryFirstOrDefaultAsync<EmployeeDetails>(sql, parameters);
+                return await connection.QueryFirstOrDefaultAsync<EmployeeDetails>(sql, parameters);
             }
-
-
         }
     }
 }
