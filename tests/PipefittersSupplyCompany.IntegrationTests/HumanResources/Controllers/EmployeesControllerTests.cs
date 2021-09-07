@@ -16,15 +16,16 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanR
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
 {
-    public class EmployeesControllerTests : IClassFixture<WebApplicationFactory<PipefittersSupplyCompany.WebApi.Startup>>
+    public class EmployeesControllerTests : IntegrationTestBase, IClassFixture<WebApplicationFactory<PipefittersSupplyCompany.WebApi.Startup>>
     {
         private HttpClient _client;
         private readonly string _serviceAddress = "https://localhost:5001/";
-        private readonly string _rootAddress = "api/employees";
+        private readonly string _rootAddress = "api/1.0/employees";
 
         public EmployeesControllerTests(WebApplicationFactory<PipefittersSupplyCompany.WebApi.Startup> factory)
         {
             _client = factory.CreateClient();
+            TestDataInitialization.InitializeData(_dbContext);
         }
 
         [Fact]
@@ -51,11 +52,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
                 FirstName = "World",
                 MiddleInitial = "Z",
                 SSN = "523789999",
-                AddressLine1 = "555 Fifth Street",
-                AddressLine2 = "Apt 555",
-                City = "Richardson",
-                StateCode = "TX",
-                Zipcode = "75213",
                 Telephone = "214-654-9874",
                 MaritalStatus = "S",
                 Exemptions = 2,

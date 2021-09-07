@@ -13,6 +13,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
     public class UserCommandsTests : IntegrationTestBase
     {
+        public UserCommandsTests() => TestDataInitialization.InitializeData(_dbContext);
+
         [Fact]
         public void ShouldInsert_User()
         {

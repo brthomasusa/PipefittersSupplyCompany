@@ -31,7 +31,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
 
 
             _dbContext = new AppDbContext(optionsBuilder.Options);
-            TestDataInitialization.InitializeData(_dbContext);
         }
 
         public void Dispose()

@@ -1,10 +1,12 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.JsonPatch;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
+using PipefittersSupplyCompany.WebApi.Controllers.ActionFilters;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers
 {
@@ -112,5 +114,26 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                 _employeeCmdHdlr.Handle,
                 _logger
             );
+
+        [HttpPatch]
+        [Route("patchemployeeinfo/{employeeId:Guid}")]
+        [ServiceFilter(typeof(EmployeePatchActionAttribute))]
+        public async Task<IActionResult> PatchEmployeeInfo(Guid employeeId, [FromBody] JsonPatchDocument<V1.EditEmployeeInfo> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                _logger.LogError("patchDoc object sent from client is null.");
+                return BadRequest("patchDoc object is null.");
+            }
+
+            var command = HttpContext.Items["EditEmployeeInfo"] as V1.EditEmployeeInfo;
+
+            return await RequestHandler.HandleCommand<V1.EditEmployeeInfo>
+            (
+                command,
+                _employeeCmdHdlr.Handle,
+                _logger
+            );
+        }
     }
 }

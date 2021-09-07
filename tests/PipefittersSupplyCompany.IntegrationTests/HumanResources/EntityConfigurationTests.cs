@@ -12,6 +12,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources
 {
     public class EntityConfigurationTests : IntegrationTestBase
     {
+        public EntityConfigurationTests() => TestDataInitialization.InitializeData(_dbContext);
+
         [Fact]
         public void ShouldReturnAtLeast_7_Roles()
         {

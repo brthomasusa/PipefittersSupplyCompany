@@ -21,6 +21,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 
         public EmployeeCommandHandlerTests()
         {
+            TestDataInitialization.InitializeData(_dbContext);
             IUnitOfWork unitOfWork = new AppUnitOfWork(_dbContext);
             IEmployeeAggregateRepository employeeRepo = new EmployeeAggregateRepository(_dbContext);
 
@@ -39,11 +40,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                 FirstName = "World",
                 MiddleInitial = "Z",
                 SSN = "523789999",
-                AddressLine1 = "555 Fifth Street",
-                AddressLine2 = "Apt 555",
-                City = "Richardson",
-                StateCode = "TX",
-                Zipcode = "75213",
                 Telephone = "214-654-9874",
                 MaritalStatus = "S",
                 Exemptions = 2,

@@ -19,6 +19,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
 
         public EmployeeAggregateRepoTests()
         {
+            TestDataInitialization.InitializeData(_dbContext);
             _unitOfWork = new AppUnitOfWork(_dbContext);
             _employeeRepo = new EmployeeAggregateRepository(_dbContext);
         }

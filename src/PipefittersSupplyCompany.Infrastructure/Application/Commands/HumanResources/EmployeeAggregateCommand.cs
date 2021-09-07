@@ -15,11 +15,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
                 public string FirstName { get; set; }
                 public string MiddleInitial { get; set; }
                 public string SSN { get; set; }
-                public string AddressLine1 { get; set; }
-                public string AddressLine2 { get; set; }
-                public string City { get; set; }
-                public string StateCode { get; set; }
-                public string Zipcode { get; set; }
                 public string Telephone { get; set; }
                 public string MaritalStatus { get; set; }
                 public int Exemptions { get; set; }
@@ -36,11 +31,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
                 public string FirstName { get; set; }
                 public string MiddleInitial { get; set; }
                 public string SSN { get; set; }
-                public string AddressLine1 { get; set; }
-                public string AddressLine2 { get; set; }
-                public string City { get; set; }
-                public string StateProvinceCode { get; set; }
-                public string Zipcode { get; set; }
                 public string Telephone { get; set; }
                 public string MaritalStatus { get; set; }
                 public int Exemptions { get; set; }
@@ -59,6 +49,16 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             {
                 public Guid Id { get; set; }
                 public bool IsActive { get; } = false;
+            }
+
+            public class CreateEmployeeAddressInfo : ICommand
+            {
+                public Guid EmployeeId { get; set; }
+                public string AddressLine1 { get; set; }
+                public string AddressLine2 { get; set; }
+                public string City { get; set; }
+                public string StateCode { get; set; }
+                public string Zipcode { get; set; }
             }
         }
     }

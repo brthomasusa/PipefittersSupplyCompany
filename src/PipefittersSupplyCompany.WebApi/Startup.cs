@@ -11,6 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog;
 using PipefittersSupplyCompany.WebApi.Extensions;
+using PipefittersSupplyCompany.WebApi.Controllers.ActionFilters;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
@@ -46,7 +47,7 @@ namespace PipefittersSupplyCompany.WebApi
 
             services.ConfigureCors();
             services.ConfigureLoggingService();
-            services.AddControllers();
+            services.AddControllers().AddNewtonsoftJson();
             services.AddApiVersioning(config =>
             {
                 config.DefaultApiVersion = new ApiVersion(1, 0);
@@ -63,6 +64,7 @@ namespace PipefittersSupplyCompany.WebApi
             services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
             services.AddScoped<EmployeeAggregateCommandHandler>();
             services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
+            services.AddScoped<EmployeePatchActionAttribute>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

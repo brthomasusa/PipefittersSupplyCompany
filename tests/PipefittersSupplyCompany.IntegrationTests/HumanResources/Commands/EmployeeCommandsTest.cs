@@ -11,6 +11,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
     public class EmployeeCommandsTest : IntegrationTestBase
     {
+        public EmployeeCommandsTest() => TestDataInitialization.InitializeData(_dbContext);
+
         [Fact]
         public void ShouldInsert_ExternalAgentAndEmployee()
         {
