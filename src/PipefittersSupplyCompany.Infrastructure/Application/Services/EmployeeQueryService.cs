@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using System.Data;
@@ -45,6 +46,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
         public async Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesSupervisedBy queryParameters)
         {
+            if (await IsValidSupervisorID(queryParameters.SupervisorID) == false)
+            {
+                throw new ArgumentException($"{queryParameters.SupervisorID} is not a valid supervisor Id.");
+            }
+
             var sql =
             @"SELECT 
                 ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive, ee.SupervisorId,
@@ -74,6 +80,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
         public async Task<IEnumerable<EmployeeListItemsWithRoles>> Query(GetEmployeesOfRole queryParameters)
         {
+            if (await IsValidRoleID(queryParameters.RoleID) == false)
+            {
+                throw new ArgumentException($"{queryParameters.RoleID} is not a valid role Id.");
+            }
+
             var sql =
             @"SELECT 
                 ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive,
@@ -106,6 +117,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
         public async Task<EmployeeDetails> Query(GetEmployee queryParameters)
         {
+            if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
+            {
+                throw new ArgumentException($"No employee record found where EmployeeId equals {queryParameters.EmployeeID}.");
+            }
+
             var sql =
             @"SELECT 
                 ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive,
@@ -128,6 +144,46 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             using (var connection = _dapperCtx.CreateConnection())
             {
                 return await connection.QueryFirstOrDefaultAsync<EmployeeDetails>(sql, parameters);
+            }
+        }
+
+        private async Task<bool> IsValidEmployeeID(Guid employeeId)
+        {
+            string sql = $"SELECT EmployeeID FROM HumanResources.Employees WHERE EmployeeId = @ID";
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", employeeId, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+                //var orderDetails = connection.QueryFirstOrDefault(sql);
+                return result != null;
+            }
+        }
+
+        private async Task<bool> IsValidSupervisorID(Guid supervisorId)
+        {
+            string sql = $"SELECT EmployeeID FROM HumanResources.Employees WHERE SupervisorId = @ID";
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", supervisorId, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+                return result != null;
+            }
+        }
+
+        private async Task<bool> IsValidRoleID(Guid roleId)
+        {
+            string sql = $"SELECT RoleID FROM HumanResources.Roles WHERE RoleId = @ID";
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", roleId, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+                return result != null;
             }
         }
     }
