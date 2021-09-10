@@ -27,6 +27,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
                     HandleCreate(cmd),
                 V1.EditEmployeeInfo cmd =>
                     HandleUpdate(cmd),
+                V1.DeleteEmployeeInfo cmd =>
+                    HandleDelete(cmd),
                 V1.ActivateEmployee cmd =>
                     HandleActivate(cmd),
                 _ => Task.CompletedTask
@@ -83,6 +85,19 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
                 employee.Deactivate();
             }
 
+            await _unitOfWork.Commit();
+        }
+
+        private async Task HandleDelete(V1.DeleteEmployeeInfo cmd)
+        {
+            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
+
+            if (employee == null)
+            {
+                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
+            }
+
+            _employeeRepo.Delete(employee);
             await _unitOfWork.Commit();
         }
 

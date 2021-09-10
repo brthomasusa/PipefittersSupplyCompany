@@ -1,0 +1,24 @@
+#%RAML 1.0
+---
+title: Pipefitters Supply Company API
+baseUri: https://localhost:5001/api/{version}
+version: v1.0
+
+/employees:             
+    get:            
+    /list:            
+    /supervisedby/{supervisorId:Guid}:            
+    /employeesofrole/{roleId:Guid}:           
+    /details/{employeeId:Guid}:      
+    /address/list/{employeeId:Guid}:      
+    /address/details/{addressId:int}:    
+    /contactperson/list/{employeeId:Guid}:      
+    /contactperson/details/{addressId:int}:                  
+    post:          
+    /createemployeeinfo:         
+    /createemployeeaddressinfo/{employeeId:Guid}:       
+    /createemployeecontactinfo/{employeeId:Guid}:   
+    put:             
+    patch:         
+    /patchemployeeinfo/{employeeId:Guid}:             
+    delete:             

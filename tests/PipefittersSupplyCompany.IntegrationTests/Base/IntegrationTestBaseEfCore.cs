@@ -7,14 +7,14 @@ using PipefittersSupplyCompany.Infrastructure.Persistence;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Base
 {
-    public abstract class IntegrationTestBase : IDisposable
+    public abstract class IntegrationTestBaseEfCore : IDisposable
     {
         private const string _defaultConnectionString = "DefaultConnection";
         private readonly string _connectionString;
         protected readonly AppDbContext _dbContext;
         protected readonly string serviceAddress = "https://localhost:5001/";
 
-        public IntegrationTestBase()
+        public IntegrationTestBaseEfCore()
         {
             var config = AppSettings.GetConfiguration();
             _connectionString = config.GetConnectionString(_defaultConnectionString);

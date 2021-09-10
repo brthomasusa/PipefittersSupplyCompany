@@ -13,10 +13,12 @@ using PipefittersSupplyCompany.WebApi.Controllers;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
 {
-    public class EmployeesControllerTests : IntegrationTestBase, IClassFixture<WebApplicationFactory<PipefittersSupplyCompany.WebApi.Startup>>
+    public class EmployeesControllerTests : IntegrationTestBaseEfCore, IClassFixture<WebApplicationFactory<PipefittersSupplyCompany.WebApi.Startup>>
     {
         private HttpClient _client;
         private readonly string _serviceAddress = "https://localhost:5001/";
@@ -41,7 +43,66 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
         }
 
         [Fact]
-        public async Task ShouldInsert_Employee_UsingEmployeeController()
+        public async Task GET_PagedList_All_EmployeeListItems()
+        {
+            var pagingParams = new PagingParameters { Page = 1, PageSize = 10 };
+
+            var response = await _client.GetAsync($"{_serviceAddress}{_rootAddress}/list?Page={pagingParams.Page}&PageSize={pagingParams.PageSize}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItems>>(jsonResponse);
+            Assert.True(employeeListItems.Count >= 8);
+        }
+
+        [Fact]
+        public async Task GET_PagedList_Of_EmployeeListItems_SupervisedBy()
+        {
+            var pagingParams = new PagingParameters { Page = 1, PageSize = 10 };
+            Guid supervisorId = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e");
+            var response = await _client.GetAsync($"{_serviceAddress}{_rootAddress}/supervisedby/{supervisorId}?Page={pagingParams.Page}&PageSize={pagingParams.PageSize}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItems>>(jsonResponse);
+            Assert.True(employeeListItems.Count >= 2);
+        }
+
+        [Fact]
+        public async Task GET_PagedList_Of_EmployeeListItems_InRole()
+        {
+            var pagingParams = new PagingParameters { Page = 1, PageSize = 10 };
+            Guid roleId = new Guid("cad456c3-a6c8-4e7a-8be5-9aa0aedb8ec1");
+            var response = await _client.GetAsync($"{_serviceAddress}{_rootAddress}/employeesofrole/{roleId}?Page={pagingParams.Page}&PageSize={pagingParams.PageSize}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItems>>(jsonResponse);
+            Assert.True(employeeListItems.Count >= 2);
+        }
+
+        [Fact]
+        public async Task GET_EmployeeDetails_ForOneEmployee()
+        {
+            Guid employeeId = new Guid("0cf9de54-c2ca-417e-827c-a5b87be2d788");
+            var response = await _client.GetAsync($"{_serviceAddress}{_rootAddress}/details/{employeeId}");
+
+            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
+
+            var jsonResponse = await response.Content.ReadAsStringAsync();
+            var employeeDetails = JsonConvert.DeserializeObject<EmployeeDetails>(jsonResponse);
+
+            Assert.Equal("Jamie", employeeDetails.FirstName);
+            Assert.Equal("Brown", employeeDetails.LastName);
+        }
+
+
+
+        [Fact]
+        public async Task ShouldCreate_EmployeeInfo_UsingEmployeeController()
         {
             Guid id = Guid.NewGuid();
             var command = new V1.CreateEmployeeInfo
@@ -62,7 +123,45 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
 
             string jsonEmployee = JsonConvert.SerializeObject(command);
             HttpContent content = new StringContent(jsonEmployee, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync($"{_serviceAddress}{_rootAddress}/", content);
+            var response = await _client.PostAsync($"{_serviceAddress}{_rootAddress}/createemployeeinfo", content);
+
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async Task ShouldUpdate_EmployeeInfo_UsingEmployeeController()
+        {
+            var command = new V1.EditEmployeeInfo
+            {
+                Id = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
+                SupervisorId = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
+                LastName = "Hello",
+                FirstName = "World",
+                MiddleInitial = "Z",
+                SSN = "523019999",
+                Telephone = "214-654-9874",
+                MaritalStatus = "S",
+                Exemptions = 2,
+                PayRate = 25.00M,
+                StartDate = new DateTime(2021, 8, 29),
+                IsActive = true
+            };
+
+            string jsonEmployee = JsonConvert.SerializeObject(command);
+            HttpContent content = new StringContent(jsonEmployee, Encoding.UTF8, "application/json");
+            var response = await _client.PutAsync($"{_serviceAddress}{_rootAddress}/editemployeeinfo", content);
+
+            Assert.True(response.IsSuccessStatusCode);
+        }
+
+        [Fact]
+        public async Task ShouldDelete_EmployeeInfo_UsingEmployeeController()
+        {
+            var employeeId = new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5");
+            var response = await _client.GetAsync($"{serviceAddress}{_rootAddress}/details/{employeeId}");
+            Assert.True(response.IsSuccessStatusCode);
+
+            response = await _client.DeleteAsync($"{serviceAddress}{_rootAddress}/deleteemployeeinfo/{employeeId}");
 
             Assert.True(response.IsSuccessStatusCode);
         }

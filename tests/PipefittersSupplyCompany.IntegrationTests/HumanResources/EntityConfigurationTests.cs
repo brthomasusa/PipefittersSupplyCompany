@@ -10,7 +10,7 @@ using PipefittersSupplyCompany.IntegrationTests.Base;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources
 {
-    public class EntityConfigurationTests : IntegrationTestBase
+    public class EntityConfigurationTests : IntegrationTestBaseEfCore
     {
         public EntityConfigurationTests() => TestDataInitialization.InitializeData(_dbContext);
 

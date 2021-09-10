@@ -6,7 +6,6 @@ using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
-
 namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 {
     public class EmployeeQueryService : IEmployeeQueryService
@@ -21,9 +20,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
         {
             var sql =
             @"SELECT 
-                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive,
-                rnames.RoleName AS [Role], ee.SupervisorId, supv.LastName AS ManagerLastName,
-                supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial 
+                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive, ee.SupervisorId,
+                supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial 
             FROM HumanResources.Employees ee
             INNER JOIN
             (
@@ -31,9 +29,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
                     EmployeeId, LastName, FirstName, MiddleInitial 
                 FROM HumanResources.Employees emp
                 WHERE EmployeeId IN (SELECT DISTINCT SupervisorId FROM HumanResources.Employees)
-            ) supv ON ee.SupervisorId = supv.EmployeeId
-            INNER JOIN HumanResources.UserRoles uroles ON ee.EmployeeId = uroles.UserId
-            INNER JOIN HumanResources.Roles rnames ON uroles.RoleId = rnames.RoleId           
+            ) supv ON ee.SupervisorId = supv.EmployeeId          
             ORDER BY ee.LastName, ee.FirstName, ee.MiddleInitial
             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
@@ -51,9 +47,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
         {
             var sql =
             @"SELECT 
-                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive,
-                rnames.RoleName AS [Role], ee.SupervisorId, supv.LastName AS ManagerLastName,
-                supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial 
+                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive, ee.SupervisorId,
+                supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial 
             FROM HumanResources.Employees ee
             INNER JOIN
             (
@@ -62,8 +57,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
                 FROM HumanResources.Employees emp
                 WHERE EmployeeId IN (SELECT DISTINCT SupervisorId FROM HumanResources.Employees)
             ) supv ON ee.SupervisorId = supv.EmployeeId
-            INNER JOIN HumanResources.UserRoles uroles ON ee.EmployeeId = uroles.UserId
-            INNER JOIN HumanResources.Roles rnames ON uroles.RoleId = rnames.RoleId
             WHERE ee.SupervisorId = @ID           
             ORDER BY ee.LastName, ee.FirstName, ee.MiddleInitial
             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
@@ -79,12 +72,12 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
-        public async Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesOfRole queryParameters)
+        public async Task<IEnumerable<EmployeeListItemsWithRoles>> Query(GetEmployeesOfRole queryParameters)
         {
             var sql =
             @"SELECT 
                 ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive,
-                rnames.RoleName AS [Role], ee.SupervisorId, supv.LastName AS ManagerLastName,
+                rnames.RoleId, rnames.RoleName AS [Role], ee.SupervisorId, supv.LastName AS ManagerLastName,
                 supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial 
             FROM HumanResources.Employees ee
             INNER JOIN
@@ -107,7 +100,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
             using (var connection = _dapperCtx.CreateConnection())
             {
-                return await connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                return await connection.QueryAsync<EmployeeListItemsWithRoles>(sql, parameters);
             }
         }
 

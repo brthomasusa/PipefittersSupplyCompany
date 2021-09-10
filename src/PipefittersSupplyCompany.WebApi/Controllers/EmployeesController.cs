@@ -10,9 +10,9 @@ using PipefittersSupplyCompany.WebApi.Controllers.ActionFilters;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers
 {
-    [ApiController]
-    [Route("api/{v:apiVersion}/[controller]")]
     [ApiVersion("1.0")]
+    [Route("api/{v:apiVersion}/[controller]")]
+    [ApiController]
     public class EmployeesController : ControllerBase
     {
         private readonly ILoggerManager _logger;
@@ -35,6 +35,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
 
         [HttpGet]
         [Route("list")]
+        // [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetEmployees([FromQuery] PagingParameters pagingParams)
         {
             GetEmployees queryParams =
@@ -107,13 +108,39 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Post([FromBody] V1.CreateEmployeeInfo command) =>
+        [Route("createemployeeinfo")]
+        public async Task<IActionResult> CreateEmployeeInfo([FromBody] V1.CreateEmployeeInfo command) =>
             await RequestHandler.HandleCommand<V1.CreateEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
                 _logger
             );
+
+        [HttpPut]
+        [Route("editemployeeinfo")]
+        public async Task<IActionResult> UpdateEmployeeInfo([FromBody] V1.EditEmployeeInfo command) =>
+            await RequestHandler.HandleCommand<V1.EditEmployeeInfo>
+            (
+                command,
+                _employeeCmdHdlr.Handle,
+                _logger
+            );
+
+        [HttpDelete]
+        [Route("deleteemployeeinfo/{employeeId}")]
+        public async Task<IActionResult> DeleteEmployeeInfo(Guid employeeId)
+        {
+            var command = new V1.DeleteEmployeeInfo { Id = employeeId };
+
+            return await RequestHandler.HandleCommand<V1.DeleteEmployeeInfo>
+            (
+                command,
+                _employeeCmdHdlr.Handle,
+                _logger
+            );
+        }
+
 
         [HttpPatch]
         [Route("patchemployeeinfo/{employeeId:Guid}")]
@@ -127,6 +154,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             }
 
             var command = HttpContext.Items["EditEmployeeInfo"] as V1.EditEmployeeInfo;
+            patchDoc.ApplyTo(command);
 
             return await RequestHandler.HandleCommand<V1.EditEmployeeInfo>
             (

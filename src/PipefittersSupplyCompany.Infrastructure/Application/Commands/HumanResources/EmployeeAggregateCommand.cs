@@ -39,6 +39,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
                 public bool IsActive { get; set; }
             }
 
+            public class DeleteEmployeeInfo : ICommand
+            {
+                public Guid Id { get; set; }
+            }
+
             public class ActivateEmployee : ICommand
             {
                 public Guid Id { get; set; }

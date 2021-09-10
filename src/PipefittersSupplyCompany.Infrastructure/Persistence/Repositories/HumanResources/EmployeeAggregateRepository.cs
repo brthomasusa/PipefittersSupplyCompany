@@ -26,7 +26,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Human
 
         public void Update(Employee entity) => _dbContext.Employees.Update(entity);
 
-        public void Delete(Employee entity) => _dbContext.Employees.Remove(entity);
+        public void Delete(Employee entity)
+        {
+            _dbContext.Employees.Remove(entity);
+            _dbContext.ExternalAgents.Remove(entity.ExternalAgent);
+        }
 
         public void Dispose()
         {

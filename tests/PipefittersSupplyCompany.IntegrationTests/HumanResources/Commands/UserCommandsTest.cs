@@ -11,7 +11,7 @@ using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
-    public class UserCommandsTests : IntegrationTestBase
+    public class UserCommandsTests : IntegrationTestBaseEfCore
     {
         public UserCommandsTests() => TestDataInitialization.InitializeData(_dbContext);
 

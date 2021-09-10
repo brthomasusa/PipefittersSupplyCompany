@@ -12,7 +12,7 @@ using PipefittersSupplyCompany.IntegrationTests.Base;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTests
 {
-    public class EmployeeAggregateRepoTests : IntegrationTestBase
+    public class EmployeeAggregateRepoTests : IntegrationTestBaseEfCore
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly IEmployeeAggregateRepository _employeeRepo;
@@ -80,13 +80,17 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.RepositoryTes
         }
 
         [Fact]
-        public async Task ShouldDelete_Employee()
+        public async Task ShouldDelete_Employee_UsingRepository()
         {
-            var employeeResult = await _employeeRepo.Exists(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"));
+            var employee = await _employeeRepo.GetByIdAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
 
-            Assert.True(employeeResult);
+            Assert.NotNull(employee);
 
-            // Can an aggregate root be deleted??
+            _employeeRepo.Delete(employee);
+            await _unitOfWork.Commit();
+
+            var result = await _employeeRepo.GetByIdAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
+            Assert.Null(result);
         }
 
         [Fact]

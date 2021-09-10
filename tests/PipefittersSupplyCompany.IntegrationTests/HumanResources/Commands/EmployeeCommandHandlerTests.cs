@@ -15,7 +15,7 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanR
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
-    public class EmployeeCommandHandlerTests : IntegrationTestBase
+    public class EmployeeCommandHandlerTests : IntegrationTestBaseEfCore
     {
         private readonly ICommandHandler _employeeCmdHdlr;
 
@@ -29,7 +29,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         }
 
         [Fact]
-        public async Task ShouldInsert_Employee_UsingCreateEmployeeCommand()
+        public async Task ShouldInsert_Employee_UsingCreateEmployeeInfoCommand()
         {
             Guid id = Guid.NewGuid();
             var command = new V1.CreateEmployeeInfo
@@ -53,6 +53,50 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
             Employee result = await _dbContext.Employees.FindAsync(id);
 
             Assert.NotNull(result);
+        }
+
+        [Fact]
+        public async Task ShouldUpdate_Employee_UsingEditEmployeeInfoCommand()
+        {
+            var command = new V1.EditEmployeeInfo
+            {
+                Id = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
+                SupervisorId = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
+                LastName = "Hello",
+                FirstName = "World",
+                MiddleInitial = "Z",
+                SSN = "523019999",
+                Telephone = "214-654-9874",
+                MaritalStatus = "S",
+                Exemptions = 2,
+                PayRate = 25.00M,
+                StartDate = new DateTime(2021, 8, 29),
+                IsActive = true
+            };
+
+            await _employeeCmdHdlr.Handle(command);
+
+            Employee result = await _dbContext.Employees.FindAsync(command.Id);
+            Assert.Equal(command.LastName, result.EmployeeName.LastName);
+            Assert.Equal(command.FirstName, result.EmployeeName.FirstName);
+            Assert.Equal(command.SSN, result.SSN);
+        }
+
+        [Fact]
+        public async Task ShouldDelete_Employee_UsingDeleteEmployeeInfoCommand()
+        {
+            Employee employee = await _dbContext.Employees.FindAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
+            Assert.NotNull(employee);
+
+            var command = new V1.DeleteEmployeeInfo
+            {
+                Id = employee.Id,
+            };
+
+            await _employeeCmdHdlr.Handle(command);
+
+            Employee result = await _dbContext.Employees.FindAsync(command.Id);
+            Assert.Null(result);
         }
     }
 }

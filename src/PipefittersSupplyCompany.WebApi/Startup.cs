@@ -43,7 +43,7 @@ namespace PipefittersSupplyCompany.WebApi
             );
 
             // services.AddScoped<IDbConnection>((sp) => new SqlConnection(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddSingleton<DapperContext>();
+            services.AddSingleton<DapperContext>(s => new DapperContext(Configuration.GetConnectionString("DefaultConnection")));
 
             services.ConfigureCors();
             services.ConfigureLoggingService();
@@ -65,6 +65,9 @@ namespace PipefittersSupplyCompany.WebApi
             services.AddScoped<EmployeeAggregateCommandHandler>();
             services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
             services.AddScoped<EmployeePatchActionAttribute>();
+            services.AddScoped<ValidateMediaTypeAttribute>();
+
+            services.AddCustomMediaTypes();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

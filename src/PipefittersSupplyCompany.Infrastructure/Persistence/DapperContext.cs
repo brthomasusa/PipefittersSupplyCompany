@@ -6,14 +6,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence
 {
     public class DapperContext
     {
-        private readonly IConfiguration _configuration;
         private readonly string _connectionStr;
 
-        public DapperContext(IConfiguration configuration)
-        {
-            _configuration = configuration;
-            _connectionStr = configuration.GetConnectionString("DefaultConnection");
-        }
+        public DapperContext(string connStr) => _connectionStr = connStr;
 
         public IDbConnection CreateConnection() => new SqlConnection(_connectionStr);
     }

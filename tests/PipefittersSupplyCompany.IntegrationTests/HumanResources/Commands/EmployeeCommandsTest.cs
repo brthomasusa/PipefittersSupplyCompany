@@ -9,7 +9,7 @@ using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
-    public class EmployeeCommandsTest : IntegrationTestBase
+    public class EmployeeCommandsTest : IntegrationTestBaseEfCore
     {
         public EmployeeCommandsTest() => TestDataInitialization.InitializeData(_dbContext);
 
