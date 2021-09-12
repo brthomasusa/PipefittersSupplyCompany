@@ -22,16 +22,14 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         public EmployeesController
         (
             EmployeeAggregateCommandHandler cmdHdlr,
-            IEmployeeQueryService _qrySvc,
+            IEmployeeQueryService qrySvc,
             ILoggerManager logger
         )
         {
             _employeeCmdHdlr = cmdHdlr;
-            _employeeQrySvc = _qrySvc;
+            _employeeQrySvc = qrySvc;
             _logger = logger;
         }
-
-
 
         [HttpGet]
         [Route("list")]

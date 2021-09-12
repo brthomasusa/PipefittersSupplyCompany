@@ -41,6 +41,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             {
                 return new OkObjectResult(await query());
             }
+            catch (ArgumentException ex)
+            {
+                logger.LogError($"Query parameter not found in database: {ex}");
+                return new NotFoundObjectResult(new
+                {
+                    error = ex.Message,
+                    stackTrace = ex.StackTrace
+                });
+            }
             catch (Exception ex)
             {
                 logger.LogError($"Error handling the query: {ex}");
