@@ -1,20 +1,20 @@
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.Net.Http.Headers;
+using System.Linq;
+
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.ActionFilters
 {
-    public class ValidateMediaTypeAttribute
+    public class ValidateMediaTypeAttribute : IActionFilter
     {
-        public async Task OnActionExecutionAsync(ActionExecutingContext context, ActionExecutionDelegate next)
+        public void OnActionExecuting(ActionExecutingContext context)
         {
             var acceptHeaderPresent = context.HttpContext.Request.Headers.ContainsKey("Accept");
 
             if (!acceptHeaderPresent)
             {
-                context.Result = new BadRequestObjectResult("Accept header is missing.");
+                context.Result = new BadRequestObjectResult($"Accept header is missing.");
                 return;
             }
 
@@ -22,12 +22,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.ActionFilters
 
             if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue outMediaType))
             {
-                context.Result = new BadRequestObjectResult("Media type not present. Please add accept header with required media type.");
+                context.Result = new BadRequestObjectResult($"Media type not present. Please add Accept header with the required media type.");
                 return;
             }
 
-            context.HttpContext.Items.Add("AcceptHeaderMediaType", mediaType);
-            await next();
+            context.HttpContext.Items.Add("AcceptHeaderMediaType", outMediaType);
+        }
+
+        public void OnActionExecuted(ActionExecutedContext context)
+        {
         }
     }
 }

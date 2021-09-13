@@ -33,14 +33,14 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
 
         [HttpGet]
         [Route("list")]
-        // [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         public async Task<IActionResult> GetEmployees([FromQuery] PagingParameters pagingParams)
         {
             GetEmployees queryParams =
                 new GetEmployees
                 {
-                    Page = pagingParams.Page ?? 1,
-                    PageSize = pagingParams.PageSize ?? 4
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
                 };
 
             return await RequestHandler.HandleQuery
@@ -58,8 +58,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                 new GetEmployeesSupervisedBy
                 {
                     SupervisorID = supervisorId,
-                    Page = pagingParams.Page ?? 1,
-                    PageSize = pagingParams.PageSize ?? 4
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
                 };
 
             return await RequestHandler.HandleQuery
@@ -77,8 +77,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                 new GetEmployeesOfRole
                 {
                     RoleID = roleId,
-                    Page = pagingParams.Page ?? 1,
-                    PageSize = pagingParams.PageSize ?? 4
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
                 };
 
             return await RequestHandler.HandleQuery
