@@ -1,8 +1,10 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
 using Dapper;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
@@ -17,7 +19,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
         private static int Offset(int page, int pageSize) => (page - 1) * pageSize;
 
-        public async Task<IEnumerable<EmployeeListItems>> Query(GetEmployees queryParameters)
+        public async Task<PagedList<EmployeeListItems>> Query(GetEmployees queryParameters)
         {
             var sql =
             @"SELECT 
@@ -40,7 +42,12 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
             using (var connection = _dapperCtx.CreateConnection())
             {
-                return await connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                var totalRecordsSql = $"SELECT COUNT(EmployeeId) FROM HumanResources.Employees";
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql);
+
+                var items = await connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                var pagedList = PagedList<EmployeeListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList; //await connection.QueryAsync<EmployeeListItems>(sql, parameters);
             }
         }
 

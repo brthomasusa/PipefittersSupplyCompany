@@ -1,8 +1,10 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
+
 using Microsoft.AspNetCore.JsonPatch;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
@@ -43,11 +45,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                     PageSize = pagingParams.PageSize
                 };
 
-            return await RequestHandler.HandleQuery
+
+            var retValue = await RequestHandler.HandleQuery
                         (
                             () => _employeeQrySvc.Query(queryParams),
-                            _logger
+                            _logger,
+                            HttpContext
                         );
+
+            return retValue;
         }
 
         [HttpGet]
@@ -65,7 +71,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             return await RequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
-                _logger
+                _logger,
+                HttpContext
             );
         }
 
@@ -84,7 +91,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             return await RequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
-                _logger
+                _logger,
+                HttpContext
             );
         }
 
@@ -101,7 +109,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             return await RequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
-                _logger
+                _logger,
+                HttpContext
             );
         }
 
@@ -116,8 +125,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             );
 
         [HttpPut]
-        [Route("editemployeeinfo")]
-        public async Task<IActionResult> UpdateEmployeeInfo([FromBody] V1.EditEmployeeInfo command) =>
+        [Route("editemployeeinfo/{employeeId}")]
+        public async Task<IActionResult> UpdateEmployeeInfo(Guid employeeId, [FromBody] V1.EditEmployeeInfo command) =>
             await RequestHandler.HandleCommand<V1.EditEmployeeInfo>
             (
                 command,

@@ -1,4 +1,4 @@
-namespace PipefittersSupplyCompany.WebApi.Controllers
+namespace PipefittersSupplyCompany.Infrastructure.Application.Queries
 {
     public class PagingParameters
     {

@@ -9,12 +9,10 @@ using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using Xunit;
 using PipefittersSupplyCompany.WebApi;
-using PipefittersSupplyCompany.WebApi.Controllers;
-using PipefittersSupplyCompany.Infrastructure.Persistence;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
 {
@@ -52,6 +50,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
+
             var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItems>>(jsonResponse);
             Assert.True(employeeListItems.Count >= 8);
         }
@@ -149,7 +148,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
 
             string jsonEmployee = JsonConvert.SerializeObject(command);
             HttpContent content = new StringContent(jsonEmployee, Encoding.UTF8, "application/json");
-            var response = await _client.PutAsync($"{_serviceAddress}{_rootAddress}/editemployeeinfo", content);
+            var response = await _client.PutAsync($"{_serviceAddress}{_rootAddress}/editemployeeinfo/{command.Id}", content);
 
             Assert.True(response.IsSuccessStatusCode);
         }

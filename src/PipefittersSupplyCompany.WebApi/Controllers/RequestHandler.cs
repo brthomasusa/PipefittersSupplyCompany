@@ -1,7 +1,13 @@
 using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers
 {
@@ -34,12 +40,19 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         public static async Task<IActionResult> HandleQuery<TQueryParam>
         (
             Func<Task<TQueryParam>> query,
-            ILoggerManager logger
+            ILoggerManager logger,
+            HttpContext httpContext
         )
         {
             try
             {
-                return new OkObjectResult(await query());
+                var returnValue = await query();
+                if (returnValue.GetType().GetInterfaces().Where(s => s.Name == "IEnumerable") != null)
+                {
+                    httpContext.Response.Headers.Add("X-Pagination", JsonSerializer.Serialize((returnValue as PagedList<EmployeeListItems>).MetaData));
+                }
+
+                return new OkObjectResult(returnValue);
             }
             catch (ArgumentException ex)
             {

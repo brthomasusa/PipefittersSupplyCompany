@@ -1,10 +1,12 @@
 using System;
-
+using System.Collections.Generic;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources
 {
     public static class ReadModels
     {
-        public class EmployeeDetails
+        public class EmployeeDetails : ReadModelBase, IReadModel
         {
             public Guid EmployeeId { get; set; }
             public Guid SupervisorId { get; set; }
@@ -25,7 +27,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public DateTime LastModifiedDate { get; set; }
         }
 
-        public class EmployeeListItems
+        public class EmployeeListItems : ReadModelBase
         {
             public Guid EmployeeId { get; set; }
             public string LastName { get; set; }

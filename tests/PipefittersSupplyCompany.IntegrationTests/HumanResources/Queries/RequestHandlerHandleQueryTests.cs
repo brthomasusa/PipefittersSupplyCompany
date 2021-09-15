@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 using Xunit;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.WebApi.Controllers;
@@ -37,7 +38,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
             var actionResult = await RequestHandler.HandleQuery
                         (
                             () => _employeeQrySvc.Query(queryParams),
-                            _logger
+                            _logger,
+                            new DefaultHttpContext()
                         );
 
             var okObjectResult = (OkObjectResult)actionResult;
@@ -61,7 +63,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
             var actionResult = await RequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
-                _logger
+                _logger,
+                new DefaultHttpContext()
             );
 
             Assert.IsType<OkObjectResult>(actionResult);
@@ -85,7 +88,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
             var actionResult = await RequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
-                _logger
+                _logger,
+                new DefaultHttpContext()
             );
 
             Assert.IsType<NotFoundObjectResult>(actionResult);
@@ -107,7 +111,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
             var actionResult = await RequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
-                _logger
+                _logger,
+                new DefaultHttpContext()
             );
 
             Assert.IsType<OkObjectResult>(actionResult);
@@ -131,7 +136,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
             var actionResult = await RequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
-                _logger
+                _logger,
+                new DefaultHttpContext()
             );
 
             Assert.IsType<NotFoundObjectResult>(actionResult);
