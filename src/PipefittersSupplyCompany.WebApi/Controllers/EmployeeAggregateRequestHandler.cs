@@ -11,7 +11,7 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanRe
 
 namespace PipefittersSupplyCompany.WebApi.Controllers
 {
-    public static class RequestHandler
+    public static class EmployeeAggregateRequestHandler
     {
         public static async Task<IActionResult> HandleCommand<TCommand>
         (
@@ -64,6 +64,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                             .Headers
                             .Add("X-Pagination", JsonSerializer.Serialize((returnValue as PagedList<EmployeeListItemsWithRoles>).MetaData));
                     }
+
+                    // Call methods to add HATEoas links
                 }
 
                 return new OkObjectResult(returnValue);

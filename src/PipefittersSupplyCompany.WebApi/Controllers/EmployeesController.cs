@@ -46,7 +46,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                 };
 
 
-            var retValue = await RequestHandler.HandleQuery
+            var retValue = await EmployeeAggregateRequestHandler.HandleQuery
                         (
                             () => _employeeQrySvc.Query(queryParams),
                             _logger,
@@ -68,7 +68,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                     PageSize = pagingParams.PageSize
                 };
 
-            return await RequestHandler.HandleQuery
+            return await EmployeeAggregateRequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
@@ -88,7 +88,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                     PageSize = pagingParams.PageSize
                 };
 
-            return await RequestHandler.HandleQuery
+            return await EmployeeAggregateRequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
@@ -106,7 +106,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                     EmployeeID = employeeId
                 };
 
-            return await RequestHandler.HandleQuery
+            return await EmployeeAggregateRequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
@@ -117,7 +117,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         [HttpPost]
         [Route("createemployeeinfo")]
         public async Task<IActionResult> CreateEmployeeInfo([FromBody] V1.CreateEmployeeInfo command) =>
-            await RequestHandler.HandleCommand<V1.CreateEmployeeInfo>
+            await EmployeeAggregateRequestHandler.HandleCommand<V1.CreateEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
@@ -127,7 +127,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         [HttpPut]
         [Route("editemployeeinfo/{employeeId}")]
         public async Task<IActionResult> UpdateEmployeeInfo(Guid employeeId, [FromBody] V1.EditEmployeeInfo command) =>
-            await RequestHandler.HandleCommand<V1.EditEmployeeInfo>
+            await EmployeeAggregateRequestHandler.HandleCommand<V1.EditEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
@@ -140,7 +140,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         {
             var command = new V1.DeleteEmployeeInfo { Id = employeeId };
 
-            return await RequestHandler.HandleCommand<V1.DeleteEmployeeInfo>
+            return await EmployeeAggregateRequestHandler.HandleCommand<V1.DeleteEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
@@ -163,7 +163,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             var command = HttpContext.Items["EditEmployeeInfo"] as V1.EditEmployeeInfo;
             patchDoc.ApplyTo(command);
 
-            return await RequestHandler.HandleCommand<V1.EditEmployeeInfo>
+            return await EmployeeAggregateRequestHandler.HandleCommand<V1.EditEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,

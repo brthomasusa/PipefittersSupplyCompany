@@ -35,7 +35,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
                     PageSize = 4
                 };
 
-            var actionResult = await RequestHandler.HandleQuery
+            var actionResult = await EmployeeAggregateRequestHandler.HandleQuery
                         (
                             () => _employeeQrySvc.Query(queryParams),
                             _logger,
@@ -60,7 +60,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
                     PageSize = 4
                 };
 
-            var actionResult = await RequestHandler.HandleQuery
+            var actionResult = await EmployeeAggregateRequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
@@ -85,7 +85,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
                     PageSize = 4
                 };
 
-            var actionResult = await RequestHandler.HandleQuery
+            var actionResult = await EmployeeAggregateRequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
@@ -108,7 +108,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
                     PageSize = 4
                 };
 
-            var actionResult = await RequestHandler.HandleQuery
+            var actionResult = await EmployeeAggregateRequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
@@ -133,7 +133,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
                     PageSize = 4
                 };
 
-            var actionResult = await RequestHandler.HandleQuery
+            var actionResult = await EmployeeAggregateRequestHandler.HandleQuery
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
