@@ -47,9 +47,23 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             try
             {
                 var returnValue = await query();
+
                 if (returnValue.GetType().GetInterfaces().Where(s => s.Name == "IEnumerable") != null)
                 {
-                    httpContext.Response.Headers.Add("X-Pagination", JsonSerializer.Serialize((returnValue as PagedList<EmployeeListItems>).MetaData));
+                    if (returnValue is PagedList<EmployeeListItems>)
+                    {
+                        httpContext
+                            .Response
+                            .Headers
+                            .Add("X-Pagination", JsonSerializer.Serialize((returnValue as PagedList<EmployeeListItems>).MetaData));
+                    }
+                    else if (returnValue is PagedList<EmployeeListItemsWithRoles>)
+                    {
+                        httpContext
+                            .Response
+                            .Headers
+                            .Add("X-Pagination", JsonSerializer.Serialize((returnValue as PagedList<EmployeeListItemsWithRoles>).MetaData));
+                    }
                 }
 
                 return new OkObjectResult(returnValue);

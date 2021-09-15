@@ -40,18 +40,18 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 
+            var totalRecordsSql = $"SELECT COUNT(EmployeeId) FROM HumanResources.Employees";
+
             using (var connection = _dapperCtx.CreateConnection())
             {
-                var totalRecordsSql = $"SELECT COUNT(EmployeeId) FROM HumanResources.Employees";
                 int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql);
-
                 var items = await connection.QueryAsync<EmployeeListItems>(sql, parameters);
                 var pagedList = PagedList<EmployeeListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
-                return pagedList; //await connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                return pagedList;
             }
         }
 
-        public async Task<IEnumerable<EmployeeListItems>> Query(GetEmployeesSupervisedBy queryParameters)
+        public async Task<PagedList<EmployeeListItems>> Query(GetEmployeesSupervisedBy queryParameters)
         {
             if (await IsValidSupervisorID(queryParameters.SupervisorID) == false)
             {
@@ -74,18 +74,24 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             ORDER BY ee.LastName, ee.FirstName, ee.MiddleInitial
             OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
+            var totalRecordsSql = @"SELECT COUNT(EmployeeId) FROM HumanResources.Employees WHERE SupervisorId = @ID";
+
             var parameters = new DynamicParameters();
             parameters.Add("ID", queryParameters.SupervisorID, DbType.Guid);
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 
+
             using (var connection = _dapperCtx.CreateConnection())
             {
-                return await connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
+                var items = await connection.QueryAsync<EmployeeListItems>(sql, parameters);
+                var pagedList = PagedList<EmployeeListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList;
             }
         }
 
-        public async Task<IEnumerable<EmployeeListItemsWithRoles>> Query(GetEmployeesOfRole queryParameters)
+        public async Task<PagedList<EmployeeListItemsWithRoles>> Query(GetEmployeesOfRole queryParameters)
         {
             if (await IsValidRoleID(queryParameters.RoleID) == false)
             {
@@ -116,9 +122,19 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 
+            var totalRecordsSql =
+            @"SELECT 
+                COUNT(ee.EmployeeId)
+            FROM HumanResources.Employees ee
+            INNER JOIN HumanResources.UserRoles uroles ON ee.EmployeeId = uroles.UserId
+            WHERE uroles.RoleId = @ID";
+
             using (var connection = _dapperCtx.CreateConnection())
             {
-                return await connection.QueryAsync<EmployeeListItemsWithRoles>(sql, parameters);
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
+                var items = await connection.QueryAsync<EmployeeListItemsWithRoles>(sql, parameters);
+                var pagedList = PagedList<EmployeeListItemsWithRoles>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList;
             }
         }
 
