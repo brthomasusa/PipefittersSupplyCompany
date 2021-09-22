@@ -8,6 +8,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
+using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 using PipefittersSupplyCompany.WebApi.Controllers.ActionFilters;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers
@@ -20,17 +21,20 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         private readonly ILoggerManager _logger;
         private readonly EmployeeAggregateCommandHandler _employeeCmdHdlr;
         private readonly IEmployeeQueryService _employeeQrySvc;
+        private readonly EmployeeLinks _employeeLinks;
 
         public EmployeesController
         (
             EmployeeAggregateCommandHandler cmdHdlr,
             IEmployeeQueryService qrySvc,
-            ILoggerManager logger
+            ILoggerManager logger,
+            EmployeeLinks employeeLinks
         )
         {
             _employeeCmdHdlr = cmdHdlr;
             _employeeQrySvc = qrySvc;
             _logger = logger;
+            _employeeLinks = employeeLinks;
         }
 
         [HttpGet]
@@ -50,13 +54,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                         (
                             () => _employeeQrySvc.Query(queryParams),
                             _logger,
-                            HttpContext
+                            HttpContext,
+                            _employeeLinks
                         );
 
             return retValue;
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [Route("supervisedby/{supervisorId:Guid}")]
         public async Task<IActionResult> GetSupervisedBy(Guid supervisorId, [FromQuery] PagingParameters pagingParams)
         {
@@ -72,11 +78,13 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
-                HttpContext
+                HttpContext,
+                _employeeLinks
             );
         }
 
         [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [Route("employeesofrole/{roleId:Guid}")]
         public async Task<IActionResult> GetRoleMembers(Guid roleId, [FromQuery] PagingParameters pagingParams)
         {
@@ -92,13 +100,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
-                HttpContext
+                HttpContext,
+                _employeeLinks
             );
         }
 
         [HttpGet]
-        [Route("details/{employeeId:Guid}")]
-        public async Task<IActionResult> GetEmployee(Guid employeeId)
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("details/{employeeId}")]
+        public async Task<IActionResult> Details(Guid employeeId)
         {
             GetEmployee queryParams =
                 new GetEmployee
@@ -110,7 +120,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             (
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
-                HttpContext
+                HttpContext,
+                _employeeLinks
             );
         }
 
@@ -126,7 +137,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
 
         [HttpPut]
         [Route("editemployeeinfo/{employeeId}")]
-        public async Task<IActionResult> UpdateEmployeeInfo(Guid employeeId, [FromBody] V1.EditEmployeeInfo command) =>
+        public async Task<IActionResult> EditEmployeeInfo(Guid employeeId, [FromBody] V1.EditEmployeeInfo command) =>
             await EmployeeAggregateRequestHandler.HandleCommand<V1.EditEmployeeInfo>
             (
                 command,

@@ -4,10 +4,14 @@ using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.Net.Http.Headers;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
+using PipefittersSupplyCompany.Infrastructure.Application.LinkModels;
+using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers
 {
@@ -41,34 +45,55 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         (
             Func<Task<TQueryParam>> query,
             ILoggerManager logger,
-            HttpContext httpContext
+            HttpContext httpContext,
+            EmployeeLinks employeeLinksGenerator
         )
         {
             try
             {
-                var returnValue = await query();
+                var queryResult = await query();
+                var shouldAddLinkInfo = ShouldGenerateLinks(httpContext);
 
-                if (returnValue.GetType().GetInterfaces().Where(s => s.Name == "IEnumerable") != null)
+                // Add pagination info to response.header
+                if (queryResult is PagedList<EmployeeListItems>)
                 {
-                    if (returnValue is PagedList<EmployeeListItems>)
-                    {
-                        httpContext
-                            .Response
-                            .Headers
-                            .Add("X-Pagination", JsonSerializer.Serialize((returnValue as PagedList<EmployeeListItems>).MetaData));
-                    }
-                    else if (returnValue is PagedList<EmployeeListItemsWithRoles>)
-                    {
-                        httpContext
-                            .Response
-                            .Headers
-                            .Add("X-Pagination", JsonSerializer.Serialize((returnValue as PagedList<EmployeeListItemsWithRoles>).MetaData));
-                    }
-
-                    // Call methods to add HATEoas links
+                    httpContext
+                        .Response
+                        .Headers
+                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeListItems>).MetaData));
+                }
+                else if (queryResult is PagedList<EmployeeListItemsWithRoles>)
+                {
+                    httpContext
+                        .Response
+                        .Headers
+                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeListItemsWithRoles>).MetaData));
                 }
 
-                return new OkObjectResult(returnValue);
+                // Add HATEoas links
+                if (shouldAddLinkInfo)
+                {
+                    if (queryResult is EmployeeDetails)
+                    {
+                        var linkWrapper = employeeLinksGenerator.GenerateLinks(queryResult as EmployeeDetails, httpContext);
+                        return new OkObjectResult(linkWrapper);
+                    }
+
+                    if (queryResult is PagedList<EmployeeListItems>)
+                    {
+                        var linkWrappers = employeeLinksGenerator.GenerateLinks(queryResult as IEnumerable<EmployeeListItems>, httpContext);
+                        return new OkObjectResult(linkWrappers);
+                    }
+
+                    if (queryResult is PagedList<EmployeeListItemsWithRoles>)
+                    {
+                        var linkWrappers = employeeLinksGenerator.GenerateLinks(queryResult as IEnumerable<EmployeeListItemsWithRoles>, httpContext);
+                        return new OkObjectResult(linkWrappers);
+                    }
+                }
+
+                return new OkObjectResult(queryResult);
+
             }
             catch (ArgumentException ex)
             {
@@ -88,6 +113,13 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                     stackTrace = ex.StackTrace
                 });
             }
+        }
+
+        private static bool ShouldGenerateLinks(HttpContext httpContext)
+        {
+            var mediaType = httpContext.Items["AcceptHeaderMediaType"] as MediaTypeHeaderValue;
+
+            return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
         }
     }
 }

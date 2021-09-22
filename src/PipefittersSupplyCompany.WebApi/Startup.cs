@@ -17,6 +17,7 @@ using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Services;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 
 namespace PipefittersSupplyCompany.WebApi
 {
@@ -42,7 +43,6 @@ namespace PipefittersSupplyCompany.WebApi
                 .UseLazyLoadingProxies()
             );
 
-            // services.AddScoped<IDbConnection>((sp) => new SqlConnection(Configuration.GetConnectionString("DefaultConnection")));
             services.AddSingleton<DapperContext>(s => new DapperContext(Configuration.GetConnectionString("DefaultConnection")));
 
             services.ConfigureCors();
@@ -63,6 +63,7 @@ namespace PipefittersSupplyCompany.WebApi
             services.AddScoped<IUnitOfWork, AppUnitOfWork>();
             services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
             services.AddScoped<EmployeeAggregateCommandHandler>();
+            services.AddScoped<EmployeeLinks>();
             services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
             services.AddScoped<EmployeePatchActionAttribute>();
             services.AddScoped<ValidateMediaTypeAttribute>();
