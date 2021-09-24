@@ -1,8 +1,7 @@
 using System;
-using Microsoft.AspNetCore.Mvc;
-
-using Microsoft.AspNetCore.JsonPatch;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.JsonPatch;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
@@ -114,6 +113,90 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                 new GetEmployee
                 {
                     EmployeeID = employeeId
+                };
+
+            return await EmployeeAggregateRequestHandler.HandleQuery
+            (
+                () => _employeeQrySvc.Query(queryParams),
+                _logger,
+                HttpContext,
+                _employeeLinks
+            );
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("{employeeId:Guid}/addresses")]
+        public async Task<IActionResult> GetEmployeeAddresses(Guid employeeId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetEmployeeAddresses queryParams =
+                new GetEmployeeAddresses
+                {
+                    EmployeeID = employeeId,
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
+                };
+
+            return await EmployeeAggregateRequestHandler.HandleQuery
+            (
+                () => _employeeQrySvc.Query(queryParams),
+                _logger,
+                HttpContext,
+                _employeeLinks
+            );
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("address/{addressId:int}")]
+        public async Task<IActionResult> GetEmployeeAddress(int addressId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetEmployeeAddress queryParams =
+                new GetEmployeeAddress
+                {
+                    AddressID = addressId,
+                };
+
+            return await EmployeeAggregateRequestHandler.HandleQuery
+            (
+                () => _employeeQrySvc.Query(queryParams),
+                _logger,
+                HttpContext,
+                _employeeLinks
+            );
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("{employeeId:Guid}/contacts")]
+        public async Task<IActionResult> GetEmployeeContacts(Guid employeeId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetEmployeeContacts queryParams =
+                new GetEmployeeContacts
+                {
+                    EmployeeID = employeeId,
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
+                };
+
+            return await EmployeeAggregateRequestHandler.HandleQuery
+            (
+                () => _employeeQrySvc.Query(queryParams),
+                _logger,
+                HttpContext,
+                _employeeLinks
+            );
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("contact/{personId:int}")]
+        public async Task<IActionResult> GetEmployeeContact(int personId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetEmployeeContact queryParams =
+                new GetEmployeeContact
+                {
+                    PersonID = personId,
                 };
 
             return await EmployeeAggregateRequestHandler.HandleQuery

@@ -4,6 +4,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
 {
     public static class QueryParameters
     {
+        public class GetEmployee
+        {
+            public Guid EmployeeID { get; set; }
+        }
+
         public class GetEmployees
         {
             public int Page { get; set; }
@@ -24,9 +29,28 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public int PageSize { get; set; }
         }
 
-        public class GetEmployee
+        public class GetEmployeeAddress
+        {
+            public int AddressID { get; set; }
+        }
+
+        public class GetEmployeeAddresses
         {
             public Guid EmployeeID { get; set; }
+            public int Page { get; set; }
+            public int PageSize { get; set; }
+        }
+
+        public class GetEmployeeContact
+        {
+            public int PersonID { get; set; }
+        }
+
+        public class GetEmployeeContacts
+        {
+            public Guid EmployeeID { get; set; }
+            public int Page { get; set; }
+            public int PageSize { get; set; }
         }
     }
 }

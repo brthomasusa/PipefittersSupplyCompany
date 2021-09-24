@@ -69,6 +69,20 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                         .Headers
                         .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeListItemsWithRoles>).MetaData));
                 }
+                else if (queryResult is PagedList<EmployeeAddressListItems>)
+                {
+                    httpContext
+                        .Response
+                        .Headers
+                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeAddressListItems>).MetaData));
+                }
+                else if (queryResult is PagedList<EmployeeContactListItems>)
+                {
+                    httpContext
+                        .Response
+                        .Headers
+                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeContactListItems>).MetaData));
+                }
 
                 // Add HATEoas links
                 if (shouldAddLinkInfo)

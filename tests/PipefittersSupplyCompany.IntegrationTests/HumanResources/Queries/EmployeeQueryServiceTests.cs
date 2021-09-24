@@ -130,5 +130,26 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 
             await Assert.ThrowsAsync<ArgumentException>(async () => await _employeeQrySvc.Query(getEmployeesDetails));
         }
+
+        [Fact]
+        public async Task ShouldGet_EmployeeAddressListItems_Using_GetEmployeeAddresses_Parameters()
+        {
+            var getEmployeeAddresses = new GetEmployeeAddresses
+            {
+                EmployeeID = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
+                Page = 1,
+                PageSize = 4
+            };
+
+            var result = await _employeeQrySvc.Query(getEmployeeAddresses);
+
+            int resultCount = result.ToList().Count;
+
+            Assert.True(resultCount > 0);
+        }
+
+
+
+
     }
 }

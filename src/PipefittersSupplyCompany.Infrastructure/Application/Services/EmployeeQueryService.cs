@@ -170,6 +170,112 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
+        public async Task<PagedList<EmployeeAddressListItems>> Query(GetEmployeeAddresses queryParameters)
+        {
+            if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
+            {
+                throw new ArgumentException($"No employee record found where EmployeeId equals {queryParameters.EmployeeID}.");
+            }
+
+            var sql =
+            @"SELECT 
+                aa.AddressId, ee.EmployeeId, aa.AddressLine1 + ' ' + ISNULL(aa.AddressLine2, '') + ' ' + aa.City + ', ' + aa.StateCode + ' ' + aa.Zipcode AS FullAddress  
+            FROM HumanResources.Employees ee
+            INNER JOIN Shared.Addresses aa ON ee.EmployeeId = aa.AgentId
+            WHERE ee.EmployeeId = @ID           
+            ORDER BY aa.AddressId
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.EmployeeID, DbType.Guid);
+            parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
+            parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
+
+            var totalRecordsSql =
+            @"SELECT 
+                COUNT(ee.EmployeeId)
+            FROM HumanResources.Employees ee
+            INNER JOIN Shared.Addresses aa ON ee.EmployeeId = aa.AgentId
+            WHERE ee.EmployeeId = @ID";
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
+                var items = await connection.QueryAsync<EmployeeAddressListItems>(sql, parameters);
+                var pagedList = PagedList<EmployeeAddressListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList;
+            }
+        }
+
+        public async Task<EmployeeAddressDetails> Query(GetEmployeeAddress queryParameters)
+        {
+            var sql =
+            @"SELECT 
+                AddressId, AgentId AS 'EmployeeId',  AddressLine1, AddressLine2, City, StateCode, Zipcode
+            FROM Shared.Addresses       
+            WHERE AddressId = @ID";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.AddressID, DbType.Int32);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<EmployeeAddressDetails>(sql, parameters);
+            }
+        }
+
+        public async Task<PagedList<EmployeeContactListItems>> Query(GetEmployeeContacts queryParameters)
+        {
+            if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
+            {
+                throw new ArgumentException($"No employee record found where EmployeeId equals {queryParameters.EmployeeID}.");
+            }
+
+            var sql =
+            @"SELECT 
+                PersonId, AgentId AS 'EmployeeId', FirstName + ' ' + ISNULL(MiddleInitial, '') + ' ' + LastName AS 'FullName'  
+            FROM Shared.ContactPersons
+            WHERE AgentId = @ID           
+            ORDER BY LastName, FirstName
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.EmployeeID, DbType.Guid);
+            parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
+            parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
+
+            var totalRecordsSql =
+            @"SELECT 
+                COUNT(AgentId)
+            FROM Shared.ContactPersons
+            WHERE AgentId = @ID";
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
+                var items = await connection.QueryAsync<EmployeeContactListItems>(sql, parameters);
+                var pagedList = PagedList<EmployeeContactListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList;
+            }
+        }
+
+        public async Task<EmployeeContactDetails> Query(GetEmployeeContact queryParameters)
+        {
+            var sql =
+            @"SELECT 
+                PersonId, AgentId AS 'EmployeeId', LastName, FirstName, MiddleInitial, Telephone, Notes
+            FROM Shared.ContactPersons       
+            WHERE PersonId = @ID";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.PersonID, DbType.Int32);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<EmployeeContactDetails>(sql, parameters);
+            }
+        }
+
         private async Task<bool> IsValidEmployeeID(Guid employeeId)
         {
             string sql = $"SELECT EmployeeID FROM HumanResources.Employees WHERE EmployeeId = @ID";
@@ -179,7 +285,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             using (var connection = _dapperCtx.CreateConnection())
             {
                 var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
-                //var orderDetails = connection.QueryFirstOrDefault(sql);
                 return result != null;
             }
         }
