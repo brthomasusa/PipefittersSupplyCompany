@@ -38,9 +38,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.ActionFilters
             }
         }
 
-        private V1.EditEmployeeInfo MapToEmployeeCommand(Employee employee)
+        private EditEmployeeInfo MapToEmployeeCommand(Employee employee)
         {
-            return new V1.EditEmployeeInfo
+            return new EditEmployeeInfo
             {
                 Id = employee.Id,
                 SupervisorId = employee.SupervisorId,

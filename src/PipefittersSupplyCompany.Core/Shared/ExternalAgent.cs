@@ -46,7 +46,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         public virtual IReadOnlyList<Address> Addresses => _addresses.ToList();
 
-        internal void AddAddress(int id, AddressVO address)
+        internal void AddAddress(int addressId, AddressVO address)
         {
             if (address == null)
             {
@@ -68,12 +68,12 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new InvalidOperationException("We already have this address.");
             }
 
-            _addresses.Add(new Address(id, this, address));
+            _addresses.Add(new Address(addressId, this, address));
         }
 
-        internal void UpdateAddress(int id, AddressVO address)
+        internal void UpdateAddress(int addressId, AddressVO address)
         {
-            var found = _addresses.Find(x => x.Id.Equals(id));
+            var found = _addresses.Find(x => x.Id.Equals(addressId));
 
             if (found == null)
             {
@@ -86,9 +86,9 @@ namespace PipefittersSupplyCompany.Core.Shared
             }
         }
 
-        internal void DeleteAddress(int id)
+        internal void DeleteAddress(int addressId)
         {
-            var found = _addresses.Find(x => x.Id.Equals(id));
+            var found = _addresses.Find(x => x.Id.Equals(addressId));
 
             if (found == null)
             {
@@ -100,7 +100,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         public virtual IReadOnlyList<ContactPerson> ContactPersons => _contactPersons.ToList();
 
-        internal void AddContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
+        internal void AddContactPerson(int personId, PersonName name, PhoneNumber telephone, string notes)
         {
             if (name == null)
             {
@@ -125,12 +125,12 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new InvalidOperationException("We already have this contact person.");
             }
 
-            _contactPersons.Add(new ContactPerson(id, this, name, telephone, notes));
+            _contactPersons.Add(new ContactPerson(personId, this, name, telephone, notes));
         }
 
-        internal void UpdateContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
+        internal void UpdateContactPerson(int personId, PersonName name, PhoneNumber telephone, string notes)
         {
-            var found = _contactPersons.Find(x => x.Id.Equals(id));
+            var found = _contactPersons.Find(x => x.Id.Equals(personId));
 
             if (found == null)
             {
@@ -153,9 +153,9 @@ namespace PipefittersSupplyCompany.Core.Shared
             }
         }
 
-        internal void DeleteContactPerson(int id)
+        internal void DeleteContactPerson(int personId)
         {
-            var found = _contactPersons.Find(x => x.Id.Equals(id));
+            var found = _contactPersons.Find(x => x.Id.Equals(personId));
 
             if (found == null)
             {

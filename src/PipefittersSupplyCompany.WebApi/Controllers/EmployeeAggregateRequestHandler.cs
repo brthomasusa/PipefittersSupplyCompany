@@ -1,16 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Routing;
 using Microsoft.Net.Http.Headers;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
-using PipefittersSupplyCompany.Infrastructure.Application.LinkModels;
 using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers

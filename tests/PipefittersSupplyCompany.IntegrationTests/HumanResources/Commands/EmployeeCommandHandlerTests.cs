@@ -3,13 +3,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Core.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
-using PipefittersSupplyCompany.Core.Shared;
-using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
 
@@ -32,7 +29,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         public async Task ShouldInsert_Employee_UsingCreateEmployeeInfoCommand()
         {
             Guid id = Guid.NewGuid();
-            var command = new V1.CreateEmployeeInfo
+            var command = new CreateEmployeeInfo
             {
                 Id = id,
                 SupervisorId = id,
@@ -58,7 +55,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         [Fact]
         public async Task ShouldUpdate_Employee_UsingEditEmployeeInfoCommand()
         {
-            var command = new V1.EditEmployeeInfo
+            var command = new EditEmployeeInfo
             {
                 Id = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
                 SupervisorId = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
@@ -88,7 +85,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
             Employee employee = await _dbContext.Employees.FindAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
             Assert.NotNull(employee);
 
-            var command = new V1.DeleteEmployeeInfo
+            var command = new DeleteEmployeeInfo
             {
                 Id = employee.Id,
             };
@@ -97,6 +94,54 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 
             Employee result = await _dbContext.Employees.FindAsync(command.Id);
             Assert.Null(result);
+        }
+
+        [Fact]
+        public async Task ShouldCreate_EmployeeAddress_Using_CreateEmployeeAddressInfoCommand()
+        {
+            Employee employee = await _dbContext.Employees.FindAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
+            Assert.NotNull(employee);
+
+            var command = new CreateEmployeeAddressInfo
+            {
+                EmployeeId = employee.Id,
+                AddressLine1 = "32145 Main Stree",
+                AddressLine2 = "3rd Floor",
+                City = "Dallas",
+                StateCode = "TX",
+                Zipcode = "75021"
+            };
+
+            await _employeeCmdHdlr.Handle(command);
+
+            var address = (from item in employee.Addresses()
+                           where item.AddressDetails.AddressLine1.Equals(command.AddressLine1) &&
+                                item.AddressDetails.AddressLine2.Equals(command.AddressLine2) &&
+                                item.AddressDetails.City.Equals(command.City) &&
+                                item.AddressDetails.StateCode.Equals(command.StateCode) &&
+                                item.AddressDetails.Zipcode.Equals(command.Zipcode)
+                           select item).SingleOrDefault();
+
+            Employee result = await _dbContext.Employees.FindAsync(command.EmployeeId);
+            Assert.NotNull(address);
+        }
+
+        [Fact]
+        public async Task ShouldRaiseError_CreateEmployeeAddressInfo_With_Invalid_EmployeeId()
+        {
+            Employee employee = await _dbContext.Employees.FindAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
+
+            var command = new CreateEmployeeAddressInfo
+            {
+                EmployeeId = new Guid("12345a74-e2d9-4837-b9a4-9e828752716e"),
+                AddressLine1 = "32145 Main Stree",
+                AddressLine2 = "3rd Floor",
+                City = "Dallas",
+                StateCode = "TX",
+                Zipcode = "75021"
+            };
+
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _employeeCmdHdlr.Handle(command));
         }
     }
 }

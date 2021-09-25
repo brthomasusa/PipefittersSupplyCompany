@@ -210,8 +210,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
 
         [HttpPost]
         [Route("createemployeeinfo")]
-        public async Task<IActionResult> CreateEmployeeInfo([FromBody] V1.CreateEmployeeInfo command) =>
-            await EmployeeAggregateRequestHandler.HandleCommand<V1.CreateEmployeeInfo>
+        public async Task<IActionResult> CreateEmployeeInfo([FromBody] CreateEmployeeInfo command) =>
+            await EmployeeAggregateRequestHandler.HandleCommand<CreateEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
@@ -220,8 +220,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
 
         [HttpPut]
         [Route("editemployeeinfo/{employeeId}")]
-        public async Task<IActionResult> EditEmployeeInfo(Guid employeeId, [FromBody] V1.EditEmployeeInfo command) =>
-            await EmployeeAggregateRequestHandler.HandleCommand<V1.EditEmployeeInfo>
+        public async Task<IActionResult> EditEmployeeInfo(Guid employeeId, [FromBody] EditEmployeeInfo command) =>
+            await EmployeeAggregateRequestHandler.HandleCommand<EditEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
@@ -232,9 +232,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
         [Route("deleteemployeeinfo/{employeeId}")]
         public async Task<IActionResult> DeleteEmployeeInfo(Guid employeeId)
         {
-            var command = new V1.DeleteEmployeeInfo { Id = employeeId };
+            var command = new DeleteEmployeeInfo { Id = employeeId };
 
-            return await EmployeeAggregateRequestHandler.HandleCommand<V1.DeleteEmployeeInfo>
+            return await EmployeeAggregateRequestHandler.HandleCommand<DeleteEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
@@ -242,11 +242,10 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
             );
         }
 
-
         [HttpPatch]
         [Route("patchemployeeinfo/{employeeId:Guid}")]
         [ServiceFilter(typeof(EmployeePatchActionAttribute))]
-        public async Task<IActionResult> PatchEmployeeInfo(Guid employeeId, [FromBody] JsonPatchDocument<V1.EditEmployeeInfo> patchDoc)
+        public async Task<IActionResult> PatchEmployeeInfo(Guid employeeId, [FromBody] JsonPatchDocument<EditEmployeeInfo> patchDoc)
         {
             if (patchDoc == null)
             {
@@ -254,15 +253,46 @@ namespace PipefittersSupplyCompany.WebApi.Controllers
                 return BadRequest("patchDoc object is null.");
             }
 
-            var command = HttpContext.Items["EditEmployeeInfo"] as V1.EditEmployeeInfo;
+            var command = HttpContext.Items["EditEmployeeInfo"] as EditEmployeeInfo;
             patchDoc.ApplyTo(command);
 
-            return await EmployeeAggregateRequestHandler.HandleCommand<V1.EditEmployeeInfo>
+            return await EmployeeAggregateRequestHandler.HandleCommand<EditEmployeeInfo>
             (
                 command,
                 _employeeCmdHdlr.Handle,
                 _logger
             );
         }
+
+        [HttpPost]
+        [Route("{employeeId:Guid}/createemployeeaddressinfo")]
+        public async Task<IActionResult> CreateEmployeeAddressInfo([FromBody] CreateEmployeeAddressInfo command) =>
+            await EmployeeAggregateRequestHandler.HandleCommand<CreateEmployeeAddressInfo>
+            (
+                command,
+                _employeeCmdHdlr.Handle,
+                _logger
+            );
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
     }
 }

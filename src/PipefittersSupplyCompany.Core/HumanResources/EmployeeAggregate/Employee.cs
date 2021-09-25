@@ -128,29 +128,28 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             CheckValidity();
         }
 
-        public IReadOnlyList<Address> Addresses() => ExternalAgent.Addresses;
-
-        public void AddAddress(int id, AddressVO address) => ExternalAgent.AddAddress(id, address);
-
-        public void UpdateAddress(int id, AddressVO address) => ExternalAgent.UpdateAddress(id, address);
-
-        public void DeleteAddress(int id) => ExternalAgent.DeleteAddress(id);
-
-        public IReadOnlyList<ContactPerson> ContactPersons() => ExternalAgent.ContactPersons;
-
-        public void AddContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
-            => ExternalAgent.AddContactPerson(id, name, telephone, notes);
-
-        public void UpdateContactPerson(int id, PersonName name, PhoneNumber telephone, string notes)
-            => ExternalAgent.UpdateContactPerson(id, name, telephone, notes);
-
-        public void DeleteContactPerson(int id) => ExternalAgent.DeleteContactPerson(id);
-
         public void Activate() => IsActive = IsActive.Create(true);
 
         public void Deactivate() => IsActive = IsActive.Create(false);
 
+        public IReadOnlyList<Address> Addresses() => ExternalAgent.Addresses;
+
+        public void AddAddress(int addressId, AddressVO address) => ExternalAgent.AddAddress(addressId, address);
+
+        public void UpdateAddress(int addressId, AddressVO address) => ExternalAgent.UpdateAddress(addressId, address);
+
+        public void DeleteAddress(int addressId) => ExternalAgent.DeleteAddress(addressId);
+
+        public IReadOnlyList<ContactPerson> ContactPersons() => ExternalAgent.ContactPersons;
+
+        public void AddContactPerson(int personId, PersonName name, PhoneNumber telephone, string notes)
+            => ExternalAgent.AddContactPerson(personId, name, telephone, notes);
+
+        public void UpdateContactPerson(int personId, PersonName name, PhoneNumber telephone, string notes)
+            => ExternalAgent.UpdateContactPerson(personId, name, telephone, notes);
+
+        public void DeleteContactPerson(int personId) => ExternalAgent.DeleteContactPerson(personId);
+
         public virtual ExternalAgent ExternalAgent { get; private set; }
     }
 }
-

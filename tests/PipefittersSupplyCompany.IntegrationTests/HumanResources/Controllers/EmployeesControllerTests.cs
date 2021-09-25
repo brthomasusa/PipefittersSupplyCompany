@@ -104,7 +104,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
         public async Task ShouldCreate_EmployeeInfo_UsingEmployeeController()
         {
             Guid id = Guid.NewGuid();
-            var command = new V1.CreateEmployeeInfo
+            var command = new CreateEmployeeInfo
             {
                 Id = id,
                 SupervisorId = id,
@@ -130,7 +130,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
         [Fact]
         public async Task ShouldUpdate_EmployeeInfo_UsingEmployeeController()
         {
-            var command = new V1.EditEmployeeInfo
+            var command = new EditEmployeeInfo
             {
                 Id = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
                 SupervisorId = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
