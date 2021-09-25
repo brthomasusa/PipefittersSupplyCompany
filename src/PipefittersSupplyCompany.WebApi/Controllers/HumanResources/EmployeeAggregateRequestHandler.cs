@@ -10,7 +10,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers
+namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
     public static class EmployeeAggregateRequestHandler
     {

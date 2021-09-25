@@ -10,7 +10,7 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanRe
 using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 using PipefittersSupplyCompany.WebApi.Controllers.ActionFilters;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers
+namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
     [ApiVersion("1.0")]
     [Route("api/{v:apiVersion}/[controller]")]
