@@ -54,7 +54,7 @@ namespace PipefittersSupplyCompany.Core.Shared
             }
 
             var duplicate =
-                (from items in _addresses
+                (from items in Addresses
                  where
                      items.AddressDetails.AddressLine1 == address.AddressLine1 &&
                      items.AddressDetails.AddressLine2 == address.AddressLine2 &&
@@ -73,7 +73,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         internal void UpdateAddress(int addressId, AddressVO address)
         {
-            var found = _addresses.Find(x => x.Id.Equals(addressId));
+            Address found = ((List<Address>)Addresses).Find(x => x.Id.Equals(addressId));
 
             if (found == null)
             {
@@ -88,7 +88,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         internal void DeleteAddress(int addressId)
         {
-            var found = _addresses.Find(x => x.Id.Equals(addressId));
+            Address found = ((List<Address>)Addresses).Find(x => x.Id.Equals(addressId));
 
             if (found == null)
             {
@@ -112,7 +112,7 @@ namespace PipefittersSupplyCompany.Core.Shared
                 throw new ArgumentNullException("The contact person telephone number is required.");
             }
 
-            var duplicate = _contactPersons.Exists
+            var duplicate = ((List<ContactPerson>)ContactPersons).Exists
             (x =>
                 x.ContactName.FirstName == name.FirstName &&
                 x.ContactName.LastName == name.LastName &&
@@ -130,7 +130,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         internal void UpdateContactPerson(int personId, PersonName name, PhoneNumber telephone, string notes)
         {
-            var found = _contactPersons.Find(x => x.Id.Equals(personId));
+            var found = ((List<ContactPerson>)ContactPersons).Find(x => x.Id.Equals(personId));
 
             if (found == null)
             {
@@ -155,7 +155,7 @@ namespace PipefittersSupplyCompany.Core.Shared
 
         internal void DeleteContactPerson(int personId)
         {
-            var found = _contactPersons.Find(x => x.Id.Equals(personId));
+            var found = ((List<ContactPerson>)ContactPersons).Find(x => x.Id.Equals(personId));
 
             if (found == null)
             {
@@ -166,13 +166,3 @@ namespace PipefittersSupplyCompany.Core.Shared
         }
     }
 }
-
-// AgentTypeName = agentType switch
-// {
-//     AgentType.Customer => "Customer",
-//     AgentType.Creditor => "Creditor",
-//     AgentType.Stockholder => "Stockholder",
-//     AgentType.Vendor => "Vendor",
-//     AgentType.Employee => "Employee",
-//     _ => throw new ArgumentException("Invalid agent type, should be 'Customer', 'Creditor', 'Stockholder', 'Vendor', or 'Employee'.", nameof(agentType)),
-// };

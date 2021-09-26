@@ -100,7 +100,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         public async Task ShouldCreate_EmployeeAddress_Using_CreateEmployeeAddressInfoCommand()
         {
             Employee employee = await _dbContext.Employees.FindAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
-            Assert.NotNull(employee);
 
             var command = new CreateEmployeeAddressInfo
             {
@@ -122,7 +121,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                                 item.AddressDetails.Zipcode.Equals(command.Zipcode)
                            select item).SingleOrDefault();
 
-            Employee result = await _dbContext.Employees.FindAsync(command.EmployeeId);
             Assert.NotNull(address);
         }
 
@@ -142,6 +140,53 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
             };
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _employeeCmdHdlr.Handle(command));
+        }
+
+        [Fact]
+        public async Task ShouldRaiseError_Creating_Duplicate_EmployeeAddressInfo()
+        {
+            Employee employee = await _dbContext.Employees.FindAsync(new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5"));
+
+            var command = new CreateEmployeeAddressInfo
+            {
+                EmployeeId = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"),
+                AddressLine1 = "321 Tarrant Pl",
+                AddressLine2 = null,
+                City = "Fort Worth",
+                StateCode = "TX",
+                Zipcode = "78965"
+            };
+
+            await Assert.ThrowsAsync<InvalidOperationException>(async () => await _employeeCmdHdlr.Handle(command));
+        }
+
+        [Fact]
+        public async Task ShouldUpdate_EmployeeAddress_Using_UpdateEmployeeAddressInfoCommand()
+        {
+            Employee employee = await _dbContext.Employees.FindAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+
+            var command = new EditEmployeeAddressInfo
+            {
+                AddressId = 2,
+                EmployeeId = employee.Id,
+                AddressLine1 = "32145 Main Stree",
+                AddressLine2 = "3rd Floor",
+                City = "Dallas",
+                StateCode = "TX",
+                Zipcode = "75021"
+            };
+
+            await _employeeCmdHdlr.Handle(command);
+
+            var address = (from item in employee.Addresses()
+                           where item.AddressDetails.AddressLine1.Equals(command.AddressLine1) &&
+                                item.AddressDetails.AddressLine2.Equals(command.AddressLine2) &&
+                                item.AddressDetails.City.Equals(command.City) &&
+                                item.AddressDetails.StateCode.Equals(command.StateCode) &&
+                                item.AddressDetails.Zipcode.Equals(command.Zipcode)
+                           select item).SingleOrDefault();
+
+            Assert.NotNull(address);
         }
     }
 }

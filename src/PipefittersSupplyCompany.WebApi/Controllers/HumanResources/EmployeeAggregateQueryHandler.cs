@@ -12,7 +12,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResour
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
-    public static class EmployeeAggregateRequestHandler
+    public static class EmployeeAggregateQueryHandler
     {
         public static async Task<IActionResult> HandleCommand<TCommand>
         (
