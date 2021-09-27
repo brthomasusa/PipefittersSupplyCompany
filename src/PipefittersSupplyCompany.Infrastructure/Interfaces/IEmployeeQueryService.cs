@@ -11,10 +11,10 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces
         Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters);
         Task<PagedList<EmployeeListItem>> Query(GetEmployeesSupervisedBy queryParameters);
         Task<PagedList<EmployeeListItemWithRoles>> Query(GetEmployeesOfRole queryParameters);
-        Task<EmployeeDetails> Query(GetEmployee queryParameters);
+        Task<EmployeeDetail> Query(GetEmployee queryParameters);
         Task<PagedList<EmployeeAddressListItem>> Query(GetEmployeeAddresses queryParameters);
-        Task<EmployeeAddressDetails> Query(GetEmployeeAddress queryParameters);
+        Task<EmployeeAddressDetail> Query(GetEmployeeAddress queryParameters);
         Task<PagedList<EmployeeContactListItem>> Query(GetEmployeeContacts queryParameters);
-        Task<EmployeeContactDetails> Query(GetEmployeeContact queryParameters);
+        Task<EmployeeContactDetail> Query(GetEmployeeContact queryParameters);
     }
 }

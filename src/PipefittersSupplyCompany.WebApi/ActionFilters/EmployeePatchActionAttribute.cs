@@ -7,7 +7,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.ActionFilters
+namespace PipefittersSupplyCompany.WebApi.ActionFilters
 {
     public class EmployeePatchActionAttribute : IAsyncActionFilter
     {

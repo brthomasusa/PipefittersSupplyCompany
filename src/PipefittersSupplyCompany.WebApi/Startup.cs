@@ -11,7 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog;
 using PipefittersSupplyCompany.WebApi.Extensions;
-using PipefittersSupplyCompany.WebApi.Controllers.ActionFilters;
+using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;

@@ -6,7 +6,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries
 {
-    public class PagedList<T> : List<T>, IQueryResult
+    public class PagedList<T> : List<T>
     {
         public MetaData MetaData { get; set; }
 

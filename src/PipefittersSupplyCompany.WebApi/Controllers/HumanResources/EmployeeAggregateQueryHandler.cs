@@ -84,9 +84,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 // Add HATEoas links
                 if (shouldAddLinkInfo)
                 {
-                    if (queryResult is EmployeeDetails)
+                    if (queryResult is EmployeeDetail)
                     {
-                        var linkWrapper = employeeLinksGenerator.GenerateLinks(queryResult as EmployeeDetails, httpContext);
+                        var linkWrapper = employeeLinksGenerator.GenerateLinks(queryResult as EmployeeDetail, httpContext);
                         return new OkObjectResult(linkWrapper);
                     }
 

@@ -92,7 +92,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var employeeDetails = JsonConvert.DeserializeObject<EmployeeDetails>(jsonResponse);
+            var employeeDetails = JsonConvert.DeserializeObject<EmployeeDetail>(jsonResponse);
 
             Assert.Equal("Jamie", employeeDetails.FirstName);
             Assert.Equal("Brown", employeeDetails.LastName);

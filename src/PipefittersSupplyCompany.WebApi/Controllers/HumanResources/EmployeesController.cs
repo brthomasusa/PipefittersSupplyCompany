@@ -8,7 +8,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResource
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
 using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
-using PipefittersSupplyCompany.WebApi.Controllers.ActionFilters;
+using PipefittersSupplyCompany.WebApi.ActionFilters;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {

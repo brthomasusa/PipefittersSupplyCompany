@@ -4,7 +4,7 @@ using Microsoft.Net.Http.Headers;
 using System.Linq;
 
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.ActionFilters
+namespace PipefittersSupplyCompany.WebApi.ActionFilters
 {
     public class ValidateMediaTypeAttribute : IActionFilter
     {

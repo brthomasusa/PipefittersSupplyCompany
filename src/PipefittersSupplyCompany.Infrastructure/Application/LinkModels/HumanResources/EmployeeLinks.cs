@@ -15,9 +15,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanRe
 
         public EmployeeLinks(LinkGenerator generator) => _linkGenerator = generator;
 
-        public LinksWrapper<EmployeeDetails> GenerateLinks(EmployeeDetails employee, HttpContext httpContext)
+        public LinksWrapper<EmployeeDetail> GenerateLinks(EmployeeDetail employee, HttpContext httpContext)
         {
-            var LinksWrapper = new LinksWrapper<EmployeeDetails>
+            var LinksWrapper = new LinksWrapper<EmployeeDetail>
             {
                 Value = employee,
                 Links = CreateLinkForEmployeeListItem(httpContext, employee.EmployeeId)

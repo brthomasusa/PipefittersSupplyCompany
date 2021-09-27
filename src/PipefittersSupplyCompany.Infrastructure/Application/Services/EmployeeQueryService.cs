@@ -138,7 +138,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
-        public async Task<EmployeeDetails> Query(GetEmployee queryParameters)
+        public async Task<EmployeeDetail> Query(GetEmployee queryParameters)
         {
             if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
             {
@@ -166,7 +166,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
             using (var connection = _dapperCtx.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<EmployeeDetails>(sql, parameters);
+                return await connection.QueryFirstOrDefaultAsync<EmployeeDetail>(sql, parameters);
             }
         }
 
@@ -207,7 +207,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
-        public async Task<EmployeeAddressDetails> Query(GetEmployeeAddress queryParameters)
+        public async Task<EmployeeAddressDetail> Query(GetEmployeeAddress queryParameters)
         {
             var sql =
             @"SELECT 
@@ -220,7 +220,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
             using (var connection = _dapperCtx.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<EmployeeAddressDetails>(sql, parameters);
+                return await connection.QueryFirstOrDefaultAsync<EmployeeAddressDetail>(sql, parameters);
             }
         }
 
@@ -259,7 +259,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
-        public async Task<EmployeeContactDetails> Query(GetEmployeeContact queryParameters)
+        public async Task<EmployeeContactDetail> Query(GetEmployeeContact queryParameters)
         {
             var sql =
             @"SELECT 
@@ -272,7 +272,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
             using (var connection = _dapperCtx.CreateConnection())
             {
-                return await connection.QueryFirstOrDefaultAsync<EmployeeContactDetails>(sql, parameters);
+                return await connection.QueryFirstOrDefaultAsync<EmployeeContactDetail>(sql, parameters);
             }
         }
 

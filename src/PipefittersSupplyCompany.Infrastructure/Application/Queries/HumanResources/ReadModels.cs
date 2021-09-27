@@ -4,7 +4,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
 {
     public static class ReadModels
     {
-        public class EmployeeDetails : IQueryResult
+        public class EmployeeDetail
         {
             public Guid EmployeeId { get; set; }
             public Guid SupervisorId { get; set; }
@@ -62,7 +62,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public string FullAddress { get; set; }
         }
 
-        public class EmployeeAddressDetails : IQueryResult
+        public class EmployeeAddressDetail
         {
             public Guid EmployeeId { get; set; }
             public int AddressId { get; set; }
@@ -73,7 +73,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public string Zipcode { get; set; }
         }
 
-        public class EmployeeContactDetails : IQueryResult
+        public class EmployeeContactDetail
         {
             public int PersonId { get; set; }
             public Guid EmployeeId { get; set; }
