@@ -1,12 +1,10 @@
 using System;
-using System.Collections.Generic;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources
 {
     public static class ReadModels
     {
-        public class EmployeeDetails : ReadModelBase, IReadModel
+        public class EmployeeDetails : IQueryResult
         {
             public Guid EmployeeId { get; set; }
             public Guid SupervisorId { get; set; }
@@ -27,7 +25,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public DateTime LastModifiedDate { get; set; }
         }
 
-        public class EmployeeListItem : ReadModelBase
+        public class EmployeeListItem
         {
             public Guid EmployeeId { get; set; }
             public string LastName { get; set; }
@@ -41,7 +39,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public string ManagerMiddleInitial { get; set; }
         }
 
-        public class EmployeeListItemsWithRoles
+        public class EmployeeListItemWithRoles
         {
             public Guid EmployeeId { get; set; }
             public string LastName { get; set; }
@@ -57,14 +55,14 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public string ManagerMiddleInitial { get; set; }
         }
 
-        public class EmployeeAddressListItems
+        public class EmployeeAddressListItem
         {
             public Guid EmployeeId { get; set; }
             public int AddressId { get; set; }
             public string FullAddress { get; set; }
         }
 
-        public class EmployeeAddressDetails
+        public class EmployeeAddressDetails : IQueryResult
         {
             public Guid EmployeeId { get; set; }
             public int AddressId { get; set; }
@@ -75,7 +73,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public string Zipcode { get; set; }
         }
 
-        public class EmployeeContactDetails
+        public class EmployeeContactDetails : IQueryResult
         {
             public int PersonId { get; set; }
             public Guid EmployeeId { get; set; }
@@ -86,7 +84,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public string Notes { get; set; }
         }
 
-        public class EmployeeContactListItems
+        public class EmployeeContactListItem
         {
             public int PersonId { get; set; }
             public Guid EmployeeId { get; set; }

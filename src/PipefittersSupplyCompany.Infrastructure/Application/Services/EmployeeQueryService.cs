@@ -19,7 +19,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
 
         private static int Offset(int page, int pageSize) => (page - 1) * pageSize;
 
-        public async Task<PagedList<EmployeeListItems>> Query(GetEmployees queryParameters)
+        public async Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters)
         {
             var sql =
             @"SELECT 
@@ -45,13 +45,13 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             using (var connection = _dapperCtx.CreateConnection())
             {
                 int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql);
-                var items = await connection.QueryAsync<EmployeeListItems>(sql, parameters);
-                var pagedList = PagedList<EmployeeListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                var items = await connection.QueryAsync<EmployeeListItem>(sql, parameters);
+                var pagedList = PagedList<EmployeeListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
             }
         }
 
-        public async Task<PagedList<EmployeeListItems>> Query(GetEmployeesSupervisedBy queryParameters)
+        public async Task<PagedList<EmployeeListItem>> Query(GetEmployeesSupervisedBy queryParameters)
         {
             if (await IsValidSupervisorID(queryParameters.SupervisorID) == false)
             {
@@ -85,13 +85,13 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             using (var connection = _dapperCtx.CreateConnection())
             {
                 int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
-                var items = await connection.QueryAsync<EmployeeListItems>(sql, parameters);
-                var pagedList = PagedList<EmployeeListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                var items = await connection.QueryAsync<EmployeeListItem>(sql, parameters);
+                var pagedList = PagedList<EmployeeListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
             }
         }
 
-        public async Task<PagedList<EmployeeListItemsWithRoles>> Query(GetEmployeesOfRole queryParameters)
+        public async Task<PagedList<EmployeeListItemWithRoles>> Query(GetEmployeesOfRole queryParameters)
         {
             if (await IsValidRoleID(queryParameters.RoleID) == false)
             {
@@ -132,8 +132,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             using (var connection = _dapperCtx.CreateConnection())
             {
                 int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
-                var items = await connection.QueryAsync<EmployeeListItemsWithRoles>(sql, parameters);
-                var pagedList = PagedList<EmployeeListItemsWithRoles>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                var items = await connection.QueryAsync<EmployeeListItemWithRoles>(sql, parameters);
+                var pagedList = PagedList<EmployeeListItemWithRoles>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
             }
         }
@@ -170,7 +170,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
-        public async Task<PagedList<EmployeeAddressListItems>> Query(GetEmployeeAddresses queryParameters)
+        public async Task<PagedList<EmployeeAddressListItem>> Query(GetEmployeeAddresses queryParameters)
         {
             if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
             {
@@ -201,8 +201,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             using (var connection = _dapperCtx.CreateConnection())
             {
                 int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
-                var items = await connection.QueryAsync<EmployeeAddressListItems>(sql, parameters);
-                var pagedList = PagedList<EmployeeAddressListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                var items = await connection.QueryAsync<EmployeeAddressListItem>(sql, parameters);
+                var pagedList = PagedList<EmployeeAddressListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
             }
         }
@@ -224,7 +224,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             }
         }
 
-        public async Task<PagedList<EmployeeContactListItems>> Query(GetEmployeeContacts queryParameters)
+        public async Task<PagedList<EmployeeContactListItem>> Query(GetEmployeeContacts queryParameters)
         {
             if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
             {
@@ -253,8 +253,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services
             using (var connection = _dapperCtx.CreateConnection())
             {
                 int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
-                var items = await connection.QueryAsync<EmployeeContactListItems>(sql, parameters);
-                var pagedList = PagedList<EmployeeContactListItems>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                var items = await connection.QueryAsync<EmployeeContactListItem>(sql, parameters);
+                var pagedList = PagedList<EmployeeContactListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
             }
         }

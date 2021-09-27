@@ -8,13 +8,13 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces
 {
     public interface IEmployeeQueryService
     {
-        Task<PagedList<EmployeeListItems>> Query(GetEmployees queryParameters);
-        Task<PagedList<EmployeeListItems>> Query(GetEmployeesSupervisedBy queryParameters);
-        Task<PagedList<EmployeeListItemsWithRoles>> Query(GetEmployeesOfRole queryParameters);
+        Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters);
+        Task<PagedList<EmployeeListItem>> Query(GetEmployeesSupervisedBy queryParameters);
+        Task<PagedList<EmployeeListItemWithRoles>> Query(GetEmployeesOfRole queryParameters);
         Task<EmployeeDetails> Query(GetEmployee queryParameters);
-        Task<PagedList<EmployeeAddressListItems>> Query(GetEmployeeAddresses queryParameters);
+        Task<PagedList<EmployeeAddressListItem>> Query(GetEmployeeAddresses queryParameters);
         Task<EmployeeAddressDetails> Query(GetEmployeeAddress queryParameters);
-        Task<PagedList<EmployeeContactListItems>> Query(GetEmployeeContacts queryParameters);
+        Task<PagedList<EmployeeContactListItem>> Query(GetEmployeeContacts queryParameters);
         Task<EmployeeContactDetails> Query(GetEmployeeContact queryParameters);
     }
 }

@@ -2,11 +2,11 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries
 {
-    public class PagedList<T> : List<T>
+    public class PagedList<T> : List<T>, IQueryResult
     {
         public MetaData MetaData { get; set; }
 

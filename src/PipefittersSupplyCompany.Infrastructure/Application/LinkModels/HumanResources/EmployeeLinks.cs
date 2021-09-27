@@ -26,9 +26,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanRe
             return LinksWrapper;
         }
 
-        public LinksWrapperList<EmployeeListItems> GenerateLinks(IEnumerable<EmployeeListItems> employees, HttpContext httpContext)
+        public LinksWrapperList<EmployeeListItem> GenerateLinks(IEnumerable<EmployeeListItem> employees, HttpContext httpContext)
         {
-            LinksWrapperList<EmployeeListItems> linksWrappers = new LinksWrapperList<EmployeeListItems>();
+            LinksWrapperList<EmployeeListItem> linksWrappers = new LinksWrapperList<EmployeeListItem>();
 
             foreach (var listItem in employees)
             {
@@ -36,7 +36,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanRe
 
                 linksWrappers.Values.Add
                 (
-                    new LinksWrapper<EmployeeListItems>
+                    new LinksWrapper<EmployeeListItem>
                     {
                         Value = listItem,
                         Links = links
@@ -47,15 +47,15 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanRe
             return linksWrappers;
         }
 
-        public LinksWrapperList<EmployeeListItemsWithRoles> GenerateLinks(IEnumerable<EmployeeListItemsWithRoles> employees, HttpContext httpContext)
+        public LinksWrapperList<EmployeeListItemWithRoles> GenerateLinks(IEnumerable<EmployeeListItemWithRoles> employees, HttpContext httpContext)
         {
-            LinksWrapperList<EmployeeListItemsWithRoles> linksWrappers = new LinksWrapperList<EmployeeListItemsWithRoles>();
+            LinksWrapperList<EmployeeListItemWithRoles> linksWrappers = new LinksWrapperList<EmployeeListItemWithRoles>();
 
             foreach (var listItem in employees)
             {
                 linksWrappers.Values.Add
                 (
-                    new LinksWrapper<EmployeeListItemsWithRoles>
+                    new LinksWrapper<EmployeeListItemWithRoles>
                     {
                         Value = listItem,
                         Links = CreateLinkForEmployeeListItem(httpContext, listItem.EmployeeId)

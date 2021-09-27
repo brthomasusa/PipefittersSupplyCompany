@@ -51,7 +51,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
 
-            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItems>>(jsonResponse);
+            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItem>>(jsonResponse);
             Assert.True(employeeListItems.Count >= 8);
         }
 
@@ -65,7 +65,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItems>>(jsonResponse);
+            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItem>>(jsonResponse);
             Assert.True(employeeListItems.Count >= 2);
         }
 
@@ -79,7 +79,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
             Assert.Equal(HttpStatusCode.OK, response.StatusCode);
 
             var jsonResponse = await response.Content.ReadAsStringAsync();
-            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItems>>(jsonResponse);
+            var employeeListItems = JsonConvert.DeserializeObject<List<EmployeeListItem>>(jsonResponse);
             Assert.True(employeeListItems.Count >= 2);
         }
 
