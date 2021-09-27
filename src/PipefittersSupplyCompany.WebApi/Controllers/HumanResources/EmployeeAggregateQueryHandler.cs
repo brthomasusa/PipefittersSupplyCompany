@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
-using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {

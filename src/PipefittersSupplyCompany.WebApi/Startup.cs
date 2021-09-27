@@ -12,12 +12,12 @@ using Microsoft.OpenApi.Models;
 using NLog;
 using PipefittersSupplyCompany.WebApi.Extensions;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
+using PipefittersSupplyCompany.WebApi.Controllers.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Services;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Application.LinkModels.HumanResources;
 
 namespace PipefittersSupplyCompany.WebApi
 {

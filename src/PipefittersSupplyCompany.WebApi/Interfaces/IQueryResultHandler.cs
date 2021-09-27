@@ -1,6 +1,6 @@
 using System.Threading.Tasks;
 
-namespace PipefittersSupplyCompany.Infrastructure.Interfaces
+namespace PipefittersSupplyCompany.WebApi.Interfaces
 {
     public interface IQueryResultHandler
     {
