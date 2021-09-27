@@ -27,7 +27,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
             public DateTime LastModifiedDate { get; set; }
         }
 
-        public class EmployeeListItems : ReadModelBase
+        public class EmployeeListItem : ReadModelBase
         {
             public Guid EmployeeId { get; set; }
             public string LastName { get; set; }
