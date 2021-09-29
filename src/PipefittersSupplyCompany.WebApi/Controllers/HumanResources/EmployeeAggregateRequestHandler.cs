@@ -11,7 +11,7 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanRe
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
-    public static class EmployeeAggregateQueryHandler
+    public static class EmployeeAggregateRequestHandler
     {
         public static async Task<IActionResult> HandleCommand<TCommand>
         (
