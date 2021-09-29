@@ -1,15 +1,14 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.Net.Http.Headers;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
+using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
-    public class EmployeeLinks
+    public class EmployeeLinks : ILinkGenerator
     {
         private readonly LinkGenerator _linkGenerator;
 

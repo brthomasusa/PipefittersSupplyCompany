@@ -52,7 +52,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 IQueryResult queryResult = new QueryResult();
                 queryResult.ReadModel = result as IReadModel;
                 queryResult.CurrentHttpContext = httpContext;
-                queryResult.EmployeeLinksGenerator = employeeLinksGenerator;
+                queryResult.HateOasLinksGenerator = employeeLinksGenerator;
 
                 IQueryResultHandler responseHeaderHandler = new ResponseHeaderHandler();
                 IQueryResultHandler linkGenerationHandler = new LinkGenerationHandler();

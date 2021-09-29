@@ -14,26 +14,26 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 
         public void Process(ref IQueryResult queryResult)
         {
-            var shouldAddLinkInfo = ShouldGenerateLinks(queryResult.CurrentHttpContext);
+            EmployeeLinks linkGenerator = queryResult.HateOasLinksGenerator as EmployeeLinks;
 
-            if (shouldAddLinkInfo)
+            if (ShouldGenerateLinks(queryResult.CurrentHttpContext))
             {
                 if (queryResult.ReadModel is EmployeeDetail)
                 {
-                    queryResult.Links = queryResult.EmployeeLinksGenerator.GenerateLinks(queryResult.ReadModel as EmployeeDetail,
-                                                                                         queryResult.CurrentHttpContext);
+                    queryResult.Links = linkGenerator.GenerateLinks(queryResult.ReadModel as EmployeeDetail,
+                                                                    queryResult.CurrentHttpContext);
                 }
 
                 if (queryResult.ReadModel is PagedList<EmployeeListItem>)
                 {
-                    queryResult.Links = queryResult.EmployeeLinksGenerator.GenerateLinks(queryResult.ReadModel as IEnumerable<EmployeeListItem>,
-                                                                                         queryResult.CurrentHttpContext);
+                    queryResult.Links = linkGenerator.GenerateLinks(queryResult.ReadModel as IEnumerable<EmployeeListItem>,
+                                                                    queryResult.CurrentHttpContext);
                 }
 
                 if (queryResult.ReadModel is PagedList<EmployeeListItemWithRoles>)
                 {
-                    queryResult.Links = queryResult.EmployeeLinksGenerator.GenerateLinks(queryResult.ReadModel as IEnumerable<EmployeeListItemWithRoles>,
-                                                                                         queryResult.CurrentHttpContext);
+                    queryResult.Links = linkGenerator.GenerateLinks(queryResult.ReadModel as IEnumerable<EmployeeListItemWithRoles>,
+                                                                    queryResult.CurrentHttpContext);
                 }
             }
 

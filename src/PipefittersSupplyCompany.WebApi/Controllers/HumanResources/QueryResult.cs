@@ -10,7 +10,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
     {
         public IReadModel ReadModel { get; set; }
         public HttpContext CurrentHttpContext { get; set; }
-        public EmployeeLinks EmployeeLinksGenerator { get; set; }
+        public ILinkGenerator HateOasLinksGenerator { get; set; }
         public ILinksWrapper Links { get; set; }
     }
 }
