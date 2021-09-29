@@ -6,6 +6,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces
     public interface ICommandHandler
     {
         // ICommandHandler NextHandler { get; set; }
-        Task Handle(ICommand command);
+        Task Handle(IWriteModel writeModel);
     }
 }

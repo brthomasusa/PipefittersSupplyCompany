@@ -20,79 +20,79 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             _unitOfWork = unitOfWork;
         }
 
-        public Task Handle(ICommand command) =>
-            command switch
+        public Task Handle(IWriteModel writeModel) =>
+            writeModel switch
             {
-                CreateEmployeeInfo cmd =>
-                    HandleCreate(cmd),
-                EditEmployeeInfo cmd =>
-                    HandleUpdate(cmd),
-                DeleteEmployeeInfo cmd =>
-                    HandleDelete(cmd),
-                ActivateEmployee cmd =>
-                    HandleActivate(cmd),
-                CreateEmployeeAddressInfo cmd =>
-                    HandleCreateAddress(cmd),
-                EditEmployeeAddressInfo cmd =>
-                    HandleUpdateAddress(cmd),
-                DeleteEmployeeAddressInfo cmd =>
-                    HandleDeleteAddress(cmd),
-                CreateEmployeeContactInfo cmd =>
-                    HandleCreateContact(cmd),
-                EditEmployeeContactInfo cmd =>
-                    HandleUpdateContact(cmd),
-                DeleteEmployeeContactInfo cmd =>
-                    HandleDeleteContact(cmd),
+                CreateEmployeeInfo model =>
+                    HandleCreate(model),
+                EditEmployeeInfo model =>
+                    HandleUpdate(model),
+                DeleteEmployeeInfo model =>
+                    HandleDelete(model),
+                ActivateEmployee model =>
+                    HandleActivate(model),
+                CreateEmployeeAddressInfo model =>
+                    HandleCreateAddress(model),
+                EditEmployeeAddressInfo model =>
+                    HandleUpdateAddress(model),
+                DeleteEmployeeAddressInfo model =>
+                    HandleDeleteAddress(model),
+                CreateEmployeeContactInfo model =>
+                    HandleCreateContact(model),
+                EditEmployeeContactInfo model =>
+                    HandleUpdateContact(model),
+                DeleteEmployeeContactInfo model =>
+                    HandleDeleteContact(model),
                 _ => Task.CompletedTask
             };
 
-        private async Task HandleCreate(CreateEmployeeInfo cmd)
+        private async Task HandleCreate(CreateEmployeeInfo model)
         {
-            if (await _employeeRepo.Exists(cmd.Id))
+            if (await _employeeRepo.Exists(model.Id))
             {
                 throw new InvalidOperationException($"This employee already exists!");
             }
 
             Employee employee = new Employee
             (
-                new ExternalAgent(cmd.Id, AgentType.Employee),
-                SupervisorId.Create(cmd.SupervisorId),
-                PersonName.Create(cmd.FirstName, cmd.LastName, cmd.MiddleInitial),
-                SSN.Create(cmd.SSN),
-                PhoneNumber.Create(cmd.Telephone),
-                MaritalStatus.Create(cmd.MaritalStatus),
-                TaxExemption.Create(cmd.Exemptions),
-                PayRate.Create(cmd.PayRate),
-                StartDate.Create(cmd.StartDate),
-                IsActive.Create(cmd.IsActive)
+                new ExternalAgent(model.Id, AgentType.Employee),
+                SupervisorId.Create(model.SupervisorId),
+                PersonName.Create(model.FirstName, model.LastName, model.MiddleInitial),
+                SSN.Create(model.SSN),
+                PhoneNumber.Create(model.Telephone),
+                MaritalStatus.Create(model.MaritalStatus),
+                TaxExemption.Create(model.Exemptions),
+                PayRate.Create(model.PayRate),
+                StartDate.Create(model.StartDate),
+                IsActive.Create(model.IsActive)
             );
 
             await _employeeRepo.AddAsync(employee);
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleUpdate(EditEmployeeInfo cmd)
+        private async Task HandleUpdate(EditEmployeeInfo model)
         {
-            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
+            var employee = await _employeeRepo.GetByIdAsync(model.Id);
 
             if (employee == null)
             {
-                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
+                throw new InvalidOperationException($"An employee with id {model.Id} could not be found!");
             }
 
-            employee.UpdateSupervisorId(SupervisorId.Create(cmd.SupervisorId));
-            employee.UpdateEmployeeName(PersonName.Create(cmd.FirstName, cmd.LastName, cmd.MiddleInitial));
-            employee.UpdateSSN(SSN.Create(cmd.SSN));
-            employee.UpdateTelephone(PhoneNumber.Create(cmd.Telephone));
-            employee.UpdateMaritalStatus(MaritalStatus.Create(cmd.MaritalStatus));
-            employee.UpdateTaxExemptions(TaxExemption.Create(cmd.Exemptions));
-            employee.UpdatePayRate(PayRate.Create(cmd.PayRate));
+            employee.UpdateSupervisorId(SupervisorId.Create(model.SupervisorId));
+            employee.UpdateEmployeeName(PersonName.Create(model.FirstName, model.LastName, model.MiddleInitial));
+            employee.UpdateSSN(SSN.Create(model.SSN));
+            employee.UpdateTelephone(PhoneNumber.Create(model.Telephone));
+            employee.UpdateMaritalStatus(MaritalStatus.Create(model.MaritalStatus));
+            employee.UpdateTaxExemptions(TaxExemption.Create(model.Exemptions));
+            employee.UpdatePayRate(PayRate.Create(model.PayRate));
 
-            if (cmd.IsActive)
+            if (model.IsActive)
             {
                 employee.Activate();
             }
-            else if (!cmd.IsActive)
+            else if (!model.IsActive)
             {
                 employee.Deactivate();
             }
@@ -100,130 +100,130 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleDelete(DeleteEmployeeInfo cmd)
+        private async Task HandleDelete(DeleteEmployeeInfo model)
         {
-            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
+            var employee = await _employeeRepo.GetByIdAsync(model.Id);
 
             if (employee == null)
             {
-                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
+                throw new InvalidOperationException($"An employee with id {model.Id} could not be found!");
             }
 
             _employeeRepo.Delete(employee);
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleActivate(ActivateEmployee cmd)
+        private async Task HandleActivate(ActivateEmployee model)
         {
-            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
+            var employee = await _employeeRepo.GetByIdAsync(model.Id);
 
             if (employee == null)
             {
-                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
+                throw new InvalidOperationException($"An employee with id {model.Id} could not be found!");
             }
 
             employee.Activate();
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleDeactivate(DeactivateEmployee cmd)
+        private async Task HandleDeactivate(DeactivateEmployee model)
         {
-            var employee = await _employeeRepo.GetByIdAsync(cmd.Id);
+            var employee = await _employeeRepo.GetByIdAsync(model.Id);
 
             if (employee == null)
             {
-                throw new InvalidOperationException($"An employee with id {cmd.Id} could not be found!");
+                throw new InvalidOperationException($"An employee with id {model.Id} could not be found!");
             }
 
             employee.Deactivate();
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleCreateAddress(CreateEmployeeAddressInfo cmd)
+        private async Task HandleCreateAddress(CreateEmployeeAddressInfo model)
         {
-            Employee employee = await _employeeRepo.GetByIdAsync(cmd.EmployeeId);
+            Employee employee = await _employeeRepo.GetByIdAsync(model.EmployeeId);
 
             if (employee is null)
             {
-                throw new InvalidOperationException($"Update address failed, no employee with id '{cmd.EmployeeId}' found!");
+                throw new InvalidOperationException($"Update address failed, no employee with id '{model.EmployeeId}' found!");
             }
 
-            employee.AddAddress(0, AddressVO.Create(cmd.AddressLine1, cmd.AddressLine2, cmd.City, cmd.StateCode, cmd.Zipcode));
+            employee.AddAddress(0, AddressVO.Create(model.AddressLine1, model.AddressLine2, model.City, model.StateCode, model.Zipcode));
 
             _employeeRepo.Update(employee);
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleUpdateAddress(EditEmployeeAddressInfo cmd)
+        private async Task HandleUpdateAddress(EditEmployeeAddressInfo model)
         {
-            Employee employee = await _employeeRepo.GetByIdAsync(cmd.EmployeeId);
+            Employee employee = await _employeeRepo.GetByIdAsync(model.EmployeeId);
 
             if (employee is null)
             {
-                throw new InvalidOperationException($"Update address failed, no employee with id '{cmd.EmployeeId}' found!");
+                throw new InvalidOperationException($"Update address failed, no employee with id '{model.EmployeeId}' found!");
             }
 
-            employee.UpdateAddress(cmd.AddressId, AddressVO.Create(cmd.AddressLine1, cmd.AddressLine2, cmd.City, cmd.StateCode, cmd.Zipcode));
+            employee.UpdateAddress(model.AddressId, AddressVO.Create(model.AddressLine1, model.AddressLine2, model.City, model.StateCode, model.Zipcode));
 
             _employeeRepo.Update(employee);
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleDeleteAddress(DeleteEmployeeAddressInfo cmd)
+        private async Task HandleDeleteAddress(DeleteEmployeeAddressInfo model)
         {
-            Employee employee = await _employeeRepo.GetByIdAsync(cmd.EmployeeId);
+            Employee employee = await _employeeRepo.GetByIdAsync(model.EmployeeId);
 
             if (employee is null)
             {
-                throw new InvalidOperationException($"Delete contact person failed, no employee with id '{cmd.EmployeeId}' found!");
+                throw new InvalidOperationException($"Delete contact person failed, no employee with id '{model.EmployeeId}' found!");
             }
 
-            employee.DeleteAddress(cmd.AddressId);
+            employee.DeleteAddress(model.AddressId);
 
             _employeeRepo.Update(employee);
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleCreateContact(CreateEmployeeContactInfo cmd)
+        private async Task HandleCreateContact(CreateEmployeeContactInfo model)
         {
-            Employee employee = await _employeeRepo.GetByIdAsync(cmd.EmployeeId);
+            Employee employee = await _employeeRepo.GetByIdAsync(model.EmployeeId);
 
             if (employee is null)
             {
-                throw new InvalidOperationException($"Create contact person failed, no employee with id '{cmd.EmployeeId}' found!");
+                throw new InvalidOperationException($"Create contact person failed, no employee with id '{model.EmployeeId}' found!");
             }
 
-            employee.AddContactPerson(0, PersonName.Create(cmd.FirstName, cmd.LastName, cmd.MiddleInitial), PhoneNumber.Create(cmd.Telephone), cmd.Notes);
+            employee.AddContactPerson(0, PersonName.Create(model.FirstName, model.LastName, model.MiddleInitial), PhoneNumber.Create(model.Telephone), model.Notes);
 
             _employeeRepo.Update(employee);
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleUpdateContact(EditEmployeeContactInfo cmd)
+        private async Task HandleUpdateContact(EditEmployeeContactInfo model)
         {
-            Employee employee = await _employeeRepo.GetByIdAsync(cmd.EmployeeId);
+            Employee employee = await _employeeRepo.GetByIdAsync(model.EmployeeId);
 
             if (employee is null)
             {
-                throw new InvalidOperationException($"Update contact person failed, no employee with id '{cmd.EmployeeId}' found!");
+                throw new InvalidOperationException($"Update contact person failed, no employee with id '{model.EmployeeId}' found!");
             }
 
-            employee.UpdateContactPerson(cmd.PersonId, PersonName.Create(cmd.FirstName, cmd.LastName, cmd.MiddleInitial), PhoneNumber.Create(cmd.Telephone), cmd.Notes);
+            employee.UpdateContactPerson(model.PersonId, PersonName.Create(model.FirstName, model.LastName, model.MiddleInitial), PhoneNumber.Create(model.Telephone), model.Notes);
 
             _employeeRepo.Update(employee);
             await _unitOfWork.Commit();
         }
 
-        private async Task HandleDeleteContact(DeleteEmployeeContactInfo cmd)
+        private async Task HandleDeleteContact(DeleteEmployeeContactInfo model)
         {
-            Employee employee = await _employeeRepo.GetByIdAsync(cmd.EmployeeId);
+            Employee employee = await _employeeRepo.GetByIdAsync(model.EmployeeId);
 
             if (employee is null)
             {
-                throw new InvalidOperationException($"Delete contact person failed, no employee with id '{cmd.EmployeeId}' found!");
+                throw new InvalidOperationException($"Delete contact person failed, no employee with id '{model.EmployeeId}' found!");
             }
 
-            employee.DeleteContactPerson(cmd.PersonId);
+            employee.DeleteContactPerson(model.PersonId);
 
             _employeeRepo.Update(employee);
             await _unitOfWork.Commit();

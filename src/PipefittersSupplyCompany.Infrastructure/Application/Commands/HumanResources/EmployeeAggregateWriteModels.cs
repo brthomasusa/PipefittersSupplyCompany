@@ -5,7 +5,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
 {
     public static class EmployeeAggregateCommand
     {
-        public class CreateEmployeeInfo : ICommand
+        public class CreateEmployeeInfo : IWriteModel
         {
             public Guid Id { get; set; }
             public Guid SupervisorId { get; set; }
@@ -21,7 +21,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             public bool IsActive { get; set; }
         }
 
-        public class EditEmployeeInfo : ICommand
+        public class EditEmployeeInfo : IWriteModel
         {
             public Guid Id { get; set; }
             public Guid SupervisorId { get; set; }
@@ -37,24 +37,24 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             public bool IsActive { get; set; }
         }
 
-        public class DeleteEmployeeInfo : ICommand
+        public class DeleteEmployeeInfo : IWriteModel
         {
             public Guid Id { get; set; }
         }
 
-        public class ActivateEmployee : ICommand
+        public class ActivateEmployee : IWriteModel
         {
             public Guid Id { get; set; }
             public bool IsActive { get; } = true;
         }
 
-        public class DeactivateEmployee : ICommand
+        public class DeactivateEmployee : IWriteModel
         {
             public Guid Id { get; set; }
             public bool IsActive { get; } = false;
         }
 
-        public class CreateEmployeeAddressInfo : ICommand
+        public class CreateEmployeeAddressInfo : IWriteModel
         {
             public Guid EmployeeId { get; set; }
             public string AddressLine1 { get; set; }
@@ -64,7 +64,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             public string Zipcode { get; set; }
         }
 
-        public class EditEmployeeAddressInfo : ICommand
+        public class EditEmployeeAddressInfo : IWriteModel
         {
             public int AddressId { get; set; }
             public Guid EmployeeId { get; set; }
@@ -75,13 +75,13 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             public string Zipcode { get; set; }
         }
 
-        public class DeleteEmployeeAddressInfo : ICommand
+        public class DeleteEmployeeAddressInfo : IWriteModel
         {
             public int AddressId { get; set; }
             public Guid EmployeeId { get; set; }
         }
 
-        public class CreateEmployeeContactInfo : ICommand
+        public class CreateEmployeeContactInfo : IWriteModel
         {
             public Guid EmployeeId { get; set; }
             public string FirstName { get; set; }
@@ -91,7 +91,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             public string Notes { get; set; }
         }
 
-        public class EditEmployeeContactInfo : ICommand
+        public class EditEmployeeContactInfo : IWriteModel
         {
             public int PersonId { get; set; }
             public Guid EmployeeId { get; set; }
@@ -102,7 +102,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             public string Notes { get; set; }
         }
 
-        public class DeleteEmployeeContactInfo : ICommand
+        public class DeleteEmployeeContactInfo : IWriteModel
         {
             public int PersonId { get; set; }
             public Guid EmployeeId { get; set; }

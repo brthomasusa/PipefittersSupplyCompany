@@ -1,7 +1,7 @@
 namespace PipefittersSupplyCompany.Core.Interfaces
 {
-    public interface ICommand
+    public interface IWriteModel
     {
-         
+
     }
 }
