@@ -1,12 +1,12 @@
 using System;
-using System.Collections.Generic;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
+using PipefittersSupplyCompany.WebApi.Interfaces;
+using PipefittersSupplyCompany.WebApi.Utilities;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
@@ -47,62 +47,37 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
         {
             try
             {
-                var queryResult = await query();
-                var shouldAddLinkInfo = ShouldGenerateLinks(httpContext);
+                var result = await query();
 
-                // Add pagination info to response.header
-                if (queryResult is PagedList<EmployeeListItem>)
-                {
-                    httpContext
-                        .Response
-                        .Headers
-                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeListItem>).MetaData));
-                }
-                else if (queryResult is PagedList<EmployeeListItemWithRoles>)
-                {
-                    httpContext
-                        .Response
-                        .Headers
-                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeListItemWithRoles>).MetaData));
-                }
-                else if (queryResult is PagedList<EmployeeAddressListItem>)
-                {
-                    httpContext
-                        .Response
-                        .Headers
-                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeAddressListItem>).MetaData));
-                }
-                else if (queryResult is PagedList<EmployeeContactListItem>)
-                {
-                    httpContext
-                        .Response
-                        .Headers
-                        .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<EmployeeContactListItem>).MetaData));
-                }
+                IQueryResult queryResult = new QueryResult();
+                queryResult.ReadModel = result as IReadModel;
+                queryResult.CurrentHttpContext = httpContext;
+                queryResult.EmployeeLinksGenerator = employeeLinksGenerator;
 
-                // Add HATEoas links
-                if (shouldAddLinkInfo)
+                IQueryResultHandler responseHeaderHandler = new ResponseHeaderHandler();
+                IQueryResultHandler linkGenerationHandler = new LinkGenerationHandler();
+                responseHeaderHandler.NextHandler = linkGenerationHandler;
+                linkGenerationHandler.NextHandler = null;
+
+                responseHeaderHandler.Process(ref queryResult);
+
+                if (ShouldGenerateLinks(httpContext))
                 {
-                    if (queryResult is EmployeeDetail)
+                    if (result is EmployeeDetail)
                     {
-                        var linkWrapper = employeeLinksGenerator.GenerateLinks(queryResult as EmployeeDetail, httpContext);
-                        return new OkObjectResult(linkWrapper);
+                        return new OkObjectResult(queryResult.Links as LinksWrapper<EmployeeDetail>);
                     }
-
-                    if (queryResult is PagedList<EmployeeListItem>)
+                    else if (result is PagedList<EmployeeListItem>)
                     {
-                        var linkWrappers = employeeLinksGenerator.GenerateLinks(queryResult as IEnumerable<EmployeeListItem>, httpContext);
-                        return new OkObjectResult(linkWrappers);
+                        return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItem>);
                     }
-
-                    if (queryResult is PagedList<EmployeeListItemWithRoles>)
+                    else if (result is PagedList<EmployeeListItemWithRoles>)
                     {
-                        var linkWrappers = employeeLinksGenerator.GenerateLinks(queryResult as IEnumerable<EmployeeListItemWithRoles>, httpContext);
-                        return new OkObjectResult(linkWrappers);
+                        return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItemWithRoles>);
                     }
                 }
 
-                return new OkObjectResult(queryResult);
+                return new OkObjectResult(result);
 
             }
             catch (ArgumentException ex)

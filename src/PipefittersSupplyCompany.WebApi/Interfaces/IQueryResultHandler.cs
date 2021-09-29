@@ -5,6 +5,6 @@ namespace PipefittersSupplyCompany.WebApi.Interfaces
     public interface IQueryResultHandler
     {
         IQueryResultHandler NextHandler { get; set; }
-        Task Process(IQueryResult queryResult);
+        void Process(ref IQueryResult queryResult);
     }
 }
