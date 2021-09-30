@@ -13,17 +13,17 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
     public static class EmployeeAggregateRequestHandler
     {
-        public static async Task<IActionResult> HandleCommand<TCommand>
+        public static async Task<IActionResult> HandleCommand<TWriteModel>
         (
-            TCommand request,
-            Func<TCommand, Task> handler,
+            TWriteModel writeModel,
+            Func<TWriteModel, Task> handler,
             ILoggerManager logger
         )
         {
             try
             {
-                logger.LogDebug($"Handling HTTP request of type {typeof(TCommand).Name}");
-                await handler(request);
+                logger.LogDebug($"Handling HTTP request of type {typeof(TWriteModel).Name}");
+                await handler(writeModel);
                 return new OkResult();
             }
             catch (Exception ex)

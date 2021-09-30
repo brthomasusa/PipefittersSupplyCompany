@@ -5,7 +5,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
+using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
@@ -210,20 +210,20 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 
         [HttpPost]
         [Route("createemployeeinfo")]
-        public async Task<IActionResult> CreateEmployeeInfo([FromBody] CreateEmployeeInfo command) =>
+        public async Task<IActionResult> CreateEmployeeInfo([FromBody] CreateEmployeeInfo writeModel) =>
             await EmployeeAggregateRequestHandler.HandleCommand<CreateEmployeeInfo>
             (
-                command,
+                writeModel,
                 _employeeCmdHdlr.Handle,
                 _logger
             );
 
         [HttpPut]
         [Route("editemployeeinfo/{employeeId}")]
-        public async Task<IActionResult> EditEmployeeInfo(Guid employeeId, [FromBody] EditEmployeeInfo command) =>
+        public async Task<IActionResult> EditEmployeeInfo(Guid employeeId, [FromBody] EditEmployeeInfo writeModel) =>
             await EmployeeAggregateRequestHandler.HandleCommand<EditEmployeeInfo>
             (
-                command,
+                writeModel,
                 _employeeCmdHdlr.Handle,
                 _logger
             );
@@ -232,11 +232,11 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
         [Route("deleteemployeeinfo/{employeeId}")]
         public async Task<IActionResult> DeleteEmployeeInfo(Guid employeeId)
         {
-            var command = new DeleteEmployeeInfo { Id = employeeId };
+            var writeModel = new DeleteEmployeeInfo { Id = employeeId };
 
             return await EmployeeAggregateRequestHandler.HandleCommand<DeleteEmployeeInfo>
             (
-                command,
+                writeModel,
                 _employeeCmdHdlr.Handle,
                 _logger
             );
@@ -253,12 +253,12 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 return BadRequest("patchDoc object is null.");
             }
 
-            var command = HttpContext.Items["EditEmployeeInfo"] as EditEmployeeInfo;
-            patchDoc.ApplyTo(command);
+            var writeModel = HttpContext.Items["EditEmployeeInfo"] as EditEmployeeInfo;
+            patchDoc.ApplyTo(writeModel);
 
             return await EmployeeAggregateRequestHandler.HandleCommand<EditEmployeeInfo>
             (
-                command,
+                writeModel,
                 _employeeCmdHdlr.Handle,
                 _logger
             );
@@ -266,10 +266,10 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 
         [HttpPost]
         [Route("{employeeId:Guid}/createemployeeaddressinfo")]
-        public async Task<IActionResult> CreateEmployeeAddressInfo([FromBody] CreateEmployeeAddressInfo command) =>
+        public async Task<IActionResult> CreateEmployeeAddressInfo([FromBody] CreateEmployeeAddressInfo writeModel) =>
             await EmployeeAggregateRequestHandler.HandleCommand<CreateEmployeeAddressInfo>
             (
-                command,
+                writeModel,
                 _employeeCmdHdlr.Handle,
                 _logger
             );

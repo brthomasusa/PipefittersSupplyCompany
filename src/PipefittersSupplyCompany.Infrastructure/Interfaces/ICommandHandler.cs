@@ -1,11 +1,10 @@
 using System.Threading.Tasks;
-using PipefittersSupplyCompany.Core.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Interfaces
 {
     public interface ICommandHandler
     {
-        // ICommandHandler NextHandler { get; set; }
         Task Handle(IWriteModel writeModel);
     }
 }

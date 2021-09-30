@@ -1,11 +1,10 @@
 using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Core.Interfaces;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
+using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources
 {

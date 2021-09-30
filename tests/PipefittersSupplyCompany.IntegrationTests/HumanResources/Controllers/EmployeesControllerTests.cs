@@ -11,7 +11,7 @@ using Xunit;
 using PipefittersSupplyCompany.WebApi;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.IntegrationTests.Base;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateCommand;
+using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 using PipefittersSupplyCompany.WebApi.Utilities;
 

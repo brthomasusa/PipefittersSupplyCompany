@@ -1,9 +1,9 @@
 using System;
-using PipefittersSupplyCompany.Core.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources
 {
-    public static class EmployeeAggregateCommand
+    public static class EmployeeAggregateWriteModels
     {
         public class CreateEmployeeInfo : IWriteModel
         {
