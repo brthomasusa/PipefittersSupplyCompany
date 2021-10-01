@@ -58,8 +58,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 
                 if (ShouldGenerateLinks(httpContext))
                 {
-                    IQueryResultHandler linkGenerationHandler = new LinkGenerationHandler(generator);
-                    responseHeaderHandler.NextHandler = linkGenerationHandler;
+                    responseHeaderHandler.NextHandler = new LinkGenerationHandler(generator);
                 }
 
                 responseHeaderHandler.Process(ref queryResult);
