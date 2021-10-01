@@ -1,9 +1,9 @@
 using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.AspNetCore.JsonPatch;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
@@ -20,20 +20,20 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
         private readonly ILoggerManager _logger;
         private readonly EmployeeAggregateCommandHandler _employeeCmdHdlr;
         private readonly IEmployeeQueryService _employeeQrySvc;
-        private readonly EmployeeLinks _employeeLinks;
+        private readonly LinkGenerator _linkGenerator;
 
         public EmployeesController
         (
             EmployeeAggregateCommandHandler cmdHdlr,
             IEmployeeQueryService qrySvc,
             ILoggerManager logger,
-            EmployeeLinks employeeLinks
+            LinkGenerator generator
         )
         {
             _employeeCmdHdlr = cmdHdlr;
             _employeeQrySvc = qrySvc;
             _logger = logger;
-            _employeeLinks = employeeLinks;
+            _linkGenerator = generator;
         }
 
         [HttpGet]
@@ -54,7 +54,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                             () => _employeeQrySvc.Query(queryParams),
                             _logger,
                             HttpContext,
-                            _employeeLinks
+                            _linkGenerator
                         );
 
             return retValue;
@@ -78,7 +78,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
                 HttpContext,
-                _employeeLinks
+                _linkGenerator
             );
         }
 
@@ -100,7 +100,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
                 HttpContext,
-                _employeeLinks
+                _linkGenerator
             );
         }
 
@@ -120,7 +120,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
                 HttpContext,
-                _employeeLinks
+                _linkGenerator
             );
         }
 
@@ -142,7 +142,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
                 HttpContext,
-                _employeeLinks
+                _linkGenerator
             );
         }
 
@@ -162,7 +162,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
                 HttpContext,
-                _employeeLinks
+                _linkGenerator
             );
         }
 
@@ -184,7 +184,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
                 HttpContext,
-                _employeeLinks
+                _linkGenerator
             );
         }
 
@@ -204,7 +204,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 () => _employeeQrySvc.Query(queryParams),
                 _logger,
                 HttpContext,
-                _employeeLinks
+                _linkGenerator
             );
         }
 

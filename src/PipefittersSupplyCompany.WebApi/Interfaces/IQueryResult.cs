@@ -9,7 +9,6 @@ namespace PipefittersSupplyCompany.WebApi.Interfaces
     {
         IReadModel ReadModel { get; set; }
         HttpContext CurrentHttpContext { get; set; }
-        ILinkGenerator HateOasLinksGenerator { get; set; }
         ILinksWrapper Links { get; set; }
     }
 }

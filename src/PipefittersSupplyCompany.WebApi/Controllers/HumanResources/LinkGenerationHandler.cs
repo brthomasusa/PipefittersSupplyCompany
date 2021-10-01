@@ -1,40 +1,73 @@
 using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 using PipefittersSupplyCompany.WebApi.Interfaces;
+using PipefittersSupplyCompany.WebApi.Utilities;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
     public class LinkGenerationHandler : IQueryResultHandler
     {
+        private readonly LinkGenerator _linkGenerator;
+
+        public LinkGenerationHandler(LinkGenerator generator) => _linkGenerator = generator;
+
         public IQueryResultHandler NextHandler { get; set; }
 
         public void Process(ref IQueryResult queryResult)
         {
-            EmployeeLinks linkGenerator = queryResult.HateOasLinksGenerator as EmployeeLinks;
-
-            if (ShouldGenerateLinks(queryResult.CurrentHttpContext))
+            if (queryResult.ReadModel is EmployeeDetail)
             {
-                if (queryResult.ReadModel is EmployeeDetail)
+                queryResult.Links = new LinksWrapper<EmployeeDetail>
                 {
-                    queryResult.Links = linkGenerator.GenerateLinks(queryResult.ReadModel as EmployeeDetail,
-                                                                    queryResult.CurrentHttpContext);
+                    Value = queryResult.ReadModel as EmployeeDetail,
+                    Links = CreateLinks(queryResult.CurrentHttpContext, (queryResult.ReadModel as EmployeeDetail).EmployeeId)
+                };
+            }
+            else if (queryResult.ReadModel is PagedList<EmployeeListItem>)
+            {
+                LinksWrapperList<EmployeeListItem> linksWrappers = new LinksWrapperList<EmployeeListItem>();
+                var employees = queryResult.ReadModel as IEnumerable<EmployeeListItem>;
+
+                foreach (var listItem in employees)
+                {
+                    var links = CreateLinks(queryResult.CurrentHttpContext, listItem.EmployeeId);
+
+                    linksWrappers.Values.Add
+                    (
+                        new LinksWrapper<EmployeeListItem>
+                        {
+                            Value = listItem,
+                            Links = links
+                        }
+                    );
                 }
 
-                if (queryResult.ReadModel is PagedList<EmployeeListItem>)
+                queryResult.Links = linksWrappers;
+            }
+            else if (queryResult.ReadModel is PagedList<EmployeeListItemWithRoles>)
+            {
+                LinksWrapperList<EmployeeListItemWithRoles> linksWrappers = new LinksWrapperList<EmployeeListItemWithRoles>();
+                var employees = queryResult.ReadModel as IEnumerable<EmployeeListItemWithRoles>;
+
+                foreach (var listItem in employees)
                 {
-                    queryResult.Links = linkGenerator.GenerateLinks(queryResult.ReadModel as IEnumerable<EmployeeListItem>,
-                                                                    queryResult.CurrentHttpContext);
+                    var links = CreateLinks(queryResult.CurrentHttpContext, listItem.EmployeeId);
+
+                    linksWrappers.Values.Add
+                    (
+                        new LinksWrapper<EmployeeListItemWithRoles>
+                        {
+                            Value = listItem,
+                            Links = links
+                        }
+                    );
                 }
 
-                if (queryResult.ReadModel is PagedList<EmployeeListItemWithRoles>)
-                {
-                    queryResult.Links = linkGenerator.GenerateLinks(queryResult.ReadModel as IEnumerable<EmployeeListItemWithRoles>,
-                                                                    queryResult.CurrentHttpContext);
-                }
+                queryResult.Links = linksWrappers;
             }
 
             if (NextHandler != null)
@@ -43,11 +76,17 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
             }
         }
 
-        private static bool ShouldGenerateLinks(HttpContext httpContext)
+        private HashSet<Link> CreateLinks(HttpContext httpContext, Guid id)
         {
-            var mediaType = httpContext.Items["AcceptHeaderMediaType"] as MediaTypeHeaderValue;
+            var links = new HashSet<Link>
+                {
+                    new Link(_linkGenerator.GetUriByAction(httpContext, "details", values: new { employeeId = id }), "self", "GET"),
+                    new Link(_linkGenerator.GetUriByAction(httpContext, "deleteemployeeinfo", values: new { employeeId = id }), "delete_employee", "DELETE"),
+                    new Link(_linkGenerator.GetUriByAction(httpContext, "editemployeeinfo", values: new { employeeId = id }), "update_employee", "PUT"),
+                    new Link(_linkGenerator.GetUriByAction(httpContext, "patchemployeeinfo", values: new { employeeId = id }), "patch_employee", "PATCH")
+                };
 
-            return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
+            return links;
         }
     }
 }

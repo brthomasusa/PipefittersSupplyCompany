@@ -1,6 +1,7 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Routing;
 using Microsoft.Net.Http.Headers;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
@@ -42,7 +43,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
             Func<Task<TQueryParam>> query,
             ILoggerManager logger,
             HttpContext httpContext,
-            EmployeeLinks employeeLinksGenerator
+            LinkGenerator generator
         )
         {
             try
@@ -52,12 +53,14 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
                 IQueryResult queryResult = new QueryResult();
                 queryResult.ReadModel = result as IReadModel;
                 queryResult.CurrentHttpContext = httpContext;
-                queryResult.HateOasLinksGenerator = employeeLinksGenerator;
 
                 IQueryResultHandler responseHeaderHandler = new ResponseHeaderHandler();
-                IQueryResultHandler linkGenerationHandler = new LinkGenerationHandler();
-                responseHeaderHandler.NextHandler = linkGenerationHandler;
-                linkGenerationHandler.NextHandler = null;
+
+                if (ShouldGenerateLinks(httpContext))
+                {
+                    IQueryResultHandler linkGenerationHandler = new LinkGenerationHandler(generator);
+                    responseHeaderHandler.NextHandler = linkGenerationHandler;
+                }
 
                 responseHeaderHandler.Process(ref queryResult);
 
