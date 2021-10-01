@@ -30,18 +30,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
         }
 
         [Fact]
-        public async Task GET_retrieves_weather_forecast()
-        {
-            var response = await _client.GetAsync("/weatherforecast");
-
-            Assert.Equal(HttpStatusCode.OK, response.StatusCode);
-
-            var forecast = JsonConvert.DeserializeObject<WeatherForecast[]>(await response.Content.ReadAsStringAsync());
-
-            Assert.Equal(5, forecast.Count());
-        }
-
-        [Fact]
         public async Task GET_PagedList_All_EmployeeListItems()
         {
             var pagingParams = new PagingParameters { Page = 1, PageSize = 10 };
