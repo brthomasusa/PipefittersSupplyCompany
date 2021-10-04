@@ -4,6 +4,7 @@ using System.Linq;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
+using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 
 namespace PipefittersSupplyCompany.Core.Shared
 {
@@ -43,6 +44,8 @@ namespace PipefittersSupplyCompany.Core.Shared
         }
 
         public virtual Employee Employee { get; private set; }
+
+        public virtual Financier Financier { get; private set; }
 
         public virtual IReadOnlyList<Address> Addresses => _addresses.ToList();
 

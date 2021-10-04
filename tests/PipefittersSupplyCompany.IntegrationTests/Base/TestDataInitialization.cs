@@ -32,6 +32,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.ContactPersons");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.Addresses");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Employees");
+            ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.Financiers");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Roles");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.ExternalAgents");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.EconomicEvents");
@@ -73,7 +74,12 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('0cf9de54-c2ca-417e-827c-a5b87be2d788', 5),
                 ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', 5),
                 ('604536a1-e734-49c4-96b3-9dfef7417f9a', 5),
-                ('e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5', 5)         
+                ('e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5', 5),
+                ('12998229-7ede-4834-825a-0c55bde75695', 6),
+                ('94b1d516-a1c3-4df8-ae85-be1f34966601', 6),
+                ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 6),
+                ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 6),
+                ('01da50f9-021b-4d03-853a-3fd2c95e207d', 6)                         
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -100,6 +106,23 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             ctx.Database.ExecuteSqlRaw(sql);
         }
 
+        private static void InsertFinanciers(AppDbContext ctx)
+        {
+            string sql =
+            @"
+            INSERT INTO Finance.Financiers
+                (FinancierID, FinancierName, Telephone, IsActive)
+            VALUES
+                ('12998229-7ede-4834-825a-0c55bde75695', 'Arturo Sandoval', '888-719-8128', 1),
+                ('94b1d516-a1c3-4df8-ae85-be1f34966601', 'Paul Van Horn Enterprises', '415-328-9870', 1),
+                ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 'New World Tatoo Parlor', '630-321-9875', 1),
+                ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'Bertha Mae Jones Innovative Financing', '886-587-0001', 1),
+                ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Pimps-R-US Financial Management, Inc.', '415-912-5570', 1)        
+            ";
+
+            ctx.Database.ExecuteSqlRaw(sql);
+        }
+
         private static void InsertAddresses(AppDbContext ctx)
         {
             string sql =
@@ -115,7 +138,13 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', '6667 Melody Lane', 'Apt 2', 'Dallas', 'TX', '75231'),
                 ('0cf9de54-c2ca-417e-827c-a5b87be2d788', '98777 Nigeria Town Rd', null, 'Arlington', 'TX', '78658'),
                 ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', '777 Ervay Street', null, 'Dallas', 'TX', '75208'),
-                ('604536a1-e734-49c4-96b3-9dfef7417f9a', '1233 Back Alley Rd', null, 'Corsicana', 'TX', '75110')        
+                ('604536a1-e734-49c4-96b3-9dfef7417f9a', '1233 Back Alley Rd', null, 'Corsicana', 'TX', '75110'),
+                ('12998229-7ede-4834-825a-0c55bde75695', '5232 Outriggers Way', 'Ste 401', 'Oxnard', 'CA', '93035'),
+                ('12998229-7ede-4834-825a-0c55bde75695', '985211 Highway 78 East', null, 'Oxnard', 'CA', '93035'),
+                ('94b1d516-a1c3-4df8-ae85-be1f34966601', '825 Mandalay Beach Rd', 'Level 2', 'Oxnard', 'CA', '94402'),
+                ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', '1690 S. El Camino Real', 'Room 2C', 'San Mateo', 'CA', '75224'),
+                ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '12333 Menard Heights Blvd', 'Ste 1001', 'Palo Alto', 'CA', '94901'),
+                ('01da50f9-021b-4d03-853a-3fd2c95e207d', '96541 Sunset Rise Plaza', 'Ste 2', 'Oxnard', 'CA', '93035')                        
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -136,7 +165,13 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('AEDC617C-D035-4213-B55A-DAE5CDFCA366', 'Jones', 'Jim', 'A', '972-854-5688'),
                 ('0cf9de54-c2ca-417e-827c-a5b87be2d788', 'Wienstein', 'Harvey', 'T', '817-854-5688'),
                 ('e716ac28-e354-4d8d-94e4-ec51f08b1af8', 'Harvey', 'Steve', 'T', '972-854-5688'),
-                ('604536a1-e734-49c4-96b3-9dfef7417f9a', 'Harvey', 'Steve', 'T', '903-854-5688')       
+                ('604536a1-e734-49c4-96b3-9dfef7417f9a', 'Harvey', 'Steve', 'T', '903-854-5688'),
+                ('12998229-7ede-4834-825a-0c55bde75695', 'Sandoval', 'Arturo', 'T', '888-719-8128'),
+                ('12998229-7ede-4834-825a-0c55bde75695', 'Daniels', 'Javier', 'A', '888-719-8100'),
+                ('94b1d516-a1c3-4df8-ae85-be1f34966601', 'Crocker', 'Patrick', 'T', '415-328-9870'),
+                ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 'Jozef Jr.', 'JoJo', 'D', '630-321-9875'),
+                ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'Sinosky', 'Betty', 'L', '886-587-0001'),
+                ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Gutierrez', 'Monica', 'T', '415-912-5570')                       
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -197,6 +232,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             {
                 InsertExternalAgents(ctx);      // For employees, creditors, stockholders, vendors, and customers
                 InsertEmployees(ctx);
+                InsertFinanciers(ctx);
                 InsertAddresses(ctx);           // add additional ones for creditors, stockholders, vendors, and customers
                 InsertContactPersons(ctx);      // add additional ones for creditors, stockholders, vendors, and customers                
                 InsertRoles(ctx);

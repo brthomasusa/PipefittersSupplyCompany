@@ -71,7 +71,8 @@ VALUES
     ('Creditor'),
     ('Stockholder'),
     ('Vendor'),
-    ('Employee')
+    ('Employee'),
+    ('Financier')
 GO
 
 CREATE TABLE Shared.ExternalAgents
@@ -324,6 +325,68 @@ VALUES
     ('604536a1-e734-49c4-96b3-9dfef7417f9a', 'Harvey', 'Steve', 'T', '903-854-5688')   
 GO
 
+CREATE TABLE Finance.Financiers
+(
+  FinancierID UNIQUEIDENTIFIER PRIMARY KEY default NEWID(),
+  FinancierName nvarchar(50) NOT NULL,
+  Telephone nvarchar(14) NOT NULL,
+  IsActive BIT DEFAULT 0 NOT NULL,
+  CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+  LastModifiedDate datetime2(7) NULL,
+  CONSTRAINT idx_FinancierName UNIQUE(FinancierName)
+)
+GO
+
+ALTER TABLE Finance.Financiers WITH CHECK ADD CONSTRAINT [FK_Financiers$FinancierId_ExternalAgents$AgentId] 
+    FOREIGN KEY(FinancierId)
+    REFERENCES Shared.ExternalAgents (AgentId)
+    ON DELETE NO ACTION
+GO
+
+INSERT INTO Shared.ExternalAgents
+    (AgentId, AgentTypeId)
+VALUES
+    ('12998229-7ede-4834-825a-0c55bde75695', 6),
+    ('94b1d516-a1c3-4df8-ae85-be1f34966601', 6),
+    ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 6),
+    ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 6),
+    ('01da50f9-021b-4d03-853a-3fd2c95e207d', 6)
+GO
+
+INSERT INTO Finance.Financiers
+    (FinancierID, FinancierName, Telephone, IsActive)
+VALUES
+    ('12998229-7ede-4834-825a-0c55bde75695', 'Arturo Sandoval', '888-719-8128', 1),
+    ('94b1d516-a1c3-4df8-ae85-be1f34966601', 'Paul Van Horn Enterprises', '415-328-9870', 1),
+    ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 'New World Tatoo Parlor', '630-321-9875', 1),
+    ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'Bertha Mae Jones Innovative Financing', '886-587-0001', 1),
+    ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Pimps-R-US Financial Management, Inc.', '415-912-5570', 1)
+GO
+
+INSERT INTO Shared.Addresses
+    (AgentId, AddressLine1, AddressLine2, City, StateCode, ZipCode)
+VALUES
+    ('12998229-7ede-4834-825a-0c55bde75695', '5232 Outriggers Way', 'Ste 401', 'Oxnard', 'CA', '93035'),
+    ('12998229-7ede-4834-825a-0c55bde75695', '985211 Highway 78 East', null, 'Oxnard', 'CA', '93035'),
+    ('94b1d516-a1c3-4df8-ae85-be1f34966601', '825 Mandalay Beach Rd', 'Level 2', 'Oxnard', 'CA', '94402'),
+    ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', '1690 S. El Camino Real', 'Room 2C', 'San Mateo', 'CA', '75224'),
+    ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '12333 Menard Heights Blvd', 'Ste 1001', 'Palo Alto', 'CA', '94901'),
+    ('01da50f9-021b-4d03-853a-3fd2c95e207d', '96541 Sunset Rise Plaza', 'Ste 2', 'Oxnard', 'CA', '93035')
+GO
+
+INSERT INTO Shared.ContactPersons
+    (AgentId, LastName, FirstName, MiddleInitial, Telephone)
+VALUES
+    ('12998229-7ede-4834-825a-0c55bde75695', 'Sandoval', 'Arturo', 'T', '888-719-8128'),
+    ('12998229-7ede-4834-825a-0c55bde75695', 'Daniels', 'Javier', 'A', '888-719-8100'),
+    ('94b1d516-a1c3-4df8-ae85-be1f34966601', 'Crocker', 'Patrick', 'T', '415-328-9870'),
+    ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 'Jozef Jr.', 'JoJo', 'D', '630-321-9875'),
+    ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'Sinosky', 'Betty', 'L', '886-587-0001'),
+    ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Gutierrez', 'Monica', 'T', '415-912-5570')
+  
+GO
+   
+-- Triggers
 CREATE TRIGGER HumanResources.SetEmployeeModifiedDate
    ON  HumanResources.Employees
    AFTER UPDATE
@@ -369,6 +432,18 @@ BEGIN
     UPDATE Shared.ExternalAgents SET LastModifiedDate = sysdatetime()
     FROM Shared.ExternalAgents AS t
     WHERE EXISTS (SELECT 1 FROM inserted WHERE AgentId = t.AgentId);    
+END
+GO
+
+CREATE TRIGGER Finance.SetFinanciersModifiedDate
+   ON  Finance.Financiers
+   AFTER UPDATE
+AS 
+BEGIN
+    SET NOCOUNT ON;
+    UPDATE Finance.Financiers SET LastModifiedDate = sysdatetime()
+    FROM Finance.Financiers AS t
+    WHERE EXISTS (SELECT 1 FROM inserted WHERE FinancierID = t.FinancierID);
 END
 GO
 

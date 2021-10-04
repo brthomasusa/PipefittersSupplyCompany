@@ -6,6 +6,7 @@ namespace PipefittersSupplyCompany.Core.Shared
         Creditor = 2,
         Stockholder = 3,
         Vendor = 4,
-        Employee = 5
+        Employee = 5,
+        Financier = 6
     }
 }

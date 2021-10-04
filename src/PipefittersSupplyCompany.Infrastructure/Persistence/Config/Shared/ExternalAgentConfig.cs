@@ -1,4 +1,5 @@
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
+using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -14,6 +15,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Shared
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("AgentId");
             entity.Property(p => p.AgentType).HasColumnType("int").HasColumnName("AgentTypeId").IsRequired();
             entity.HasOne(e => e.Employee).WithOne(e => e.ExternalAgent).HasForeignKey<Employee>(e => e.Id);
+            entity.HasOne(e => e.Financier).WithOne(e => e.ExternalAgent).HasForeignKey<Financier>(e => e.Id);
             entity.HasMany(e => e.Addresses).WithOne(a => a.Agent);
             entity.HasMany(e => e.ContactPersons).WithOne(a => a.Agent);
             entity.Property(e => e.CreatedDate)

@@ -39,6 +39,15 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
         public virtual PayRate PayRate { get; private set; }
         public virtual StartDate StartDate { get; private set; }
         public virtual IsActive IsActive { get; private set; }
+        public virtual ExternalAgent ExternalAgent { get; private set; }
+
+        protected override void CheckValidity()
+        {
+            if (ExternalAgent.AgentType != AgentType.Employee)
+            {
+                throw new InvalidOperationException("Invalid external agent type, it should be 'AgentType.Employee'.");
+            }
+        }
 
         public void UpdateSupervisorId(SupervisorId value)
         {
@@ -149,7 +158,5 @@ namespace PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate
             => ExternalAgent.UpdateContactPerson(personId, name, telephone, notes);
 
         public void DeleteContactPerson(int personId) => ExternalAgent.DeleteContactPerson(personId);
-
-        public virtual ExternalAgent ExternalAgent { get; private set; }
     }
 }
