@@ -18,6 +18,9 @@ using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanReso
 using PipefittersSupplyCompany.Infrastructure.Application.Services;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 
+using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
+
 namespace PipefittersSupplyCompany.WebApi
 {
     public class Startup
@@ -64,6 +67,9 @@ namespace PipefittersSupplyCompany.WebApi
             services.AddScoped<EmployeeAggregateCommandHandler>();
             services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
             services.AddScoped<EmployeePatchActionAttribute>();
+            services.AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>();
+            services.AddScoped<FinancierAggregateCommandHandler>();
+
             services.AddScoped<ValidateMediaTypeAttribute>();
 
             services.AddCustomMediaTypes();

@@ -9,10 +9,12 @@ namespace PipefittersSupplyCompany.SharedKernel.CommonValueObjects
         private OrganizationName(string orgName)
             : this()
         {
-            OrgName = orgName;
+            Value = orgName;
         }
 
-        public string OrgName { get; }
+        public static implicit operator string(OrganizationName self) => self.Value;
+
+        public string Value { get; }
 
         public static OrganizationName Create(string orgName)
         {
@@ -27,7 +29,7 @@ namespace PipefittersSupplyCompany.SharedKernel.CommonValueObjects
                 throw new ArgumentNullException("An organization name is required.", nameof(orgName));
             }
 
-            if (orgName.Trim().Length > 25)
+            if (orgName.Trim().Length > 50)
             {
                 throw new ArgumentOutOfRangeException("Maximum length of the organization name is 50 characters.", nameof(orgName));
             }

@@ -27,15 +27,15 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
 
         private static void ClearData(AppDbContext ctx)
         {
+            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.ContactPersons");
+            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.Addresses");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.Financiers");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.UserRoles");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Users");
-            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.ContactPersons");
-            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.Addresses");
             ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Employees");
-            ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Roles");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.ExternalAgents");
-            ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.EconomicEvents");
+            // ctx.Database.ExecuteSqlRaw("DELETE FROM Shared.EconomicEvents");
+            ctx.Database.ExecuteSqlRaw("DELETE FROM HumanResources.Roles");
 
             ResetIdentity(ctx);
         }
@@ -230,14 +230,14 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
         {
             try
             {
-                InsertExternalAgents(ctx);      // For employees, creditors, stockholders, vendors, and customers
-                InsertEmployees(ctx);
-                InsertFinanciers(ctx);
-                InsertAddresses(ctx);           // add additional ones for creditors, stockholders, vendors, and customers
-                InsertContactPersons(ctx);      // add additional ones for creditors, stockholders, vendors, and customers                
                 InsertRoles(ctx);
+                InsertExternalAgents(ctx);      // For vendors, and customers
+                InsertEmployees(ctx);
                 InsertUsers(ctx);
                 InsertUserRoles(ctx);
+                InsertFinanciers(ctx);
+                InsertAddresses(ctx);           // add additional ones for vendors, and customers
+                InsertContactPersons(ctx);      // add additional ones for vendors, and customers                
             }
             catch (Exception ex)
             {

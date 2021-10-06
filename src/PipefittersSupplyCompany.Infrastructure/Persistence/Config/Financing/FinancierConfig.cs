@@ -12,10 +12,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
             entity.ToTable("Financiers", schema: "Finance");
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("FinancierId");
-            entity.OwnsOne(p => p.FinancierName, p =>
-            {
-                p.Property(pp => pp.OrgName).HasColumnType("NVARCHAR(50)").HasColumnName("FinancierName").IsRequired();
-            });
+            entity.Property(p => p.FinancierName)
+                .HasConversion(p => p.Value, p => OrganizationName.Create(p))
+                .HasColumnType("NVARCHAR(50)")
+                .HasColumnName("FinancierName")
+                .IsRequired();
             entity.Property(p => p.Telephone)
                 .HasConversion(p => p.Value, p => PhoneNumber.Create(p))
                 .HasColumnType("NVARCHAR(14)")
@@ -26,7 +27,10 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
                 .HasColumnType("BIT")
                 .HasColumnName("IsActive")
                 .IsRequired();
-            entity.Property(p => p.UserId).HasColumnName("UserId").IsRequired();
+            entity.Property(p => p.UserId)
+                .HasColumnType("UNIQUEIDENTIFIER")
+                .HasColumnName("UserId")
+                .IsRequired();
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()
