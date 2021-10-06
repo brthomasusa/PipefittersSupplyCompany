@@ -26,6 +26,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
                 .HasColumnType("BIT")
                 .HasColumnName("IsActive")
                 .IsRequired();
+            entity.Property(p => p.UserId).HasColumnName("UserId").IsRequired();
             entity.Property(e => e.CreatedDate)
                 .HasColumnType("datetime2(7)")
                 .ValueGeneratedOnAdd()

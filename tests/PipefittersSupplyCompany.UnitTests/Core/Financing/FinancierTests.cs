@@ -38,7 +38,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 OrganizationName.Create("First Bank and Trust"),
                 PhoneNumber.Create("555-555-5555"),
                 IsActive.Create(true),
-                GetUser()
+                new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
             );
 
             Assert.IsType<Financier>(financier);
@@ -55,7 +55,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                     OrganizationName.Create("First Bank and Trust"),
                     PhoneNumber.Create("555-555-5555"),
                     IsActive.Create(true),
-                    GetUser()
+                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
                 );
             });
         }
@@ -73,7 +73,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                     OrganizationName.Create("First Bank and Trust"),
                     PhoneNumber.Create("555-555-5555"),
                     IsActive.Create(true),
-                    GetUser()
+                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
                 );
             });
         }

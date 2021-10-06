@@ -3,6 +3,7 @@
 -- DROP TABLE Shared.Addresses
 -- DROP TABLE Shared.Persons
 -- DROP TABLE HumanResources.Employees
+-- DROP TABLE Finance.Financiers
 -- DROP TABLE Shared.ExternalAgents
 -- DROP TABLE HumanResources.Roles
 -- DROP TABLE Shared.EconomicEvents
@@ -331,6 +332,7 @@ CREATE TABLE Finance.Financiers
   FinancierName nvarchar(50) NOT NULL,
   Telephone nvarchar(14) NOT NULL,
   IsActive BIT DEFAULT 0 NOT NULL,
+  UserId UNIQUEIDENTIFIER not null REFERENCES HumanResources.Users (UserId),
   CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
   LastModifiedDate datetime2(7) NULL,
   CONSTRAINT idx_FinancierName UNIQUE(FinancierName)
@@ -341,6 +343,10 @@ ALTER TABLE Finance.Financiers WITH CHECK ADD CONSTRAINT [FK_Financiers$Financie
     FOREIGN KEY(FinancierId)
     REFERENCES Shared.ExternalAgents (AgentId)
     ON DELETE NO ACTION
+GO
+
+CREATE INDEX idx_Financier$UserId   
+   ON Finance.Financiers (UserId)   
 GO
 
 INSERT INTO Shared.ExternalAgents
@@ -354,13 +360,13 @@ VALUES
 GO
 
 INSERT INTO Finance.Financiers
-    (FinancierID, FinancierName, Telephone, IsActive)
+    (FinancierID, FinancierName, Telephone, IsActive, UserId)
 VALUES
-    ('12998229-7ede-4834-825a-0c55bde75695', 'Arturo Sandoval', '888-719-8128', 1),
-    ('94b1d516-a1c3-4df8-ae85-be1f34966601', 'Paul Van Horn Enterprises', '415-328-9870', 1),
-    ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 'New World Tatoo Parlor', '630-321-9875', 1),
-    ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'Bertha Mae Jones Innovative Financing', '886-587-0001', 1),
-    ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Pimps-R-US Financial Management, Inc.', '415-912-5570', 1)
+    ('12998229-7ede-4834-825a-0c55bde75695', 'Arturo Sandoval', '888-719-8128', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('94b1d516-a1c3-4df8-ae85-be1f34966601', 'Paul Van Horn Enterprises', '415-328-9870', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 'New World Tatoo Parlor', '630-321-9875', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'Bertha Mae Jones Innovative Financing', '886-587-0001', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Pimps-R-US Financial Management, Inc.', '415-912-5570', 1, '660bb318-649e-470d-9d2b-693bfb0b2744')
 GO
 
 INSERT INTO Shared.Addresses

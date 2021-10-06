@@ -174,7 +174,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
 
             if (employee is null)
             {
-                throw new InvalidOperationException($"Delete contact person failed, no employee with id '{model.EmployeeId}' found!");
+                throw new InvalidOperationException($"Delete address failed, no employee with id '{model.EmployeeId}' found!");
             }
 
             employee.DeleteAddress(model.AddressId);
