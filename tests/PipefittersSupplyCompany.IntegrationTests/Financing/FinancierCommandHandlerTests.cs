@@ -159,5 +159,80 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             Assert.Null(address);
         }
 
+        [Fact]
+        public async Task ShouldCreate_FinancierContact_Using_CreateFinancierContactInfoWriteModel()
+        {
+            Financier financier = await _dbContext.Financiers.FindAsync(new Guid("94b1d516-a1c3-4df8-ae85-be1f34966601"));
+
+            var model = new CreateFinancierContactInfo
+            {
+                FinancierId = financier.Id,
+                FirstName = "Jane",
+                LastName = "DoeZoe",
+                MiddleInitial = "Z",
+                Telephone = "555-555-5555",
+                Notes = "Hello world"
+            };
+
+            await _financierCmdHdlr.Handle(model);
+
+            var contact = (from item in financier.ContactPersons()
+                           where item.ContactName.FirstName == model.FirstName &&
+                               item.ContactName.LastName == model.LastName &&
+                               item.ContactName.MiddleInitial == model.MiddleInitial &&
+                               item.Telephone == model.Telephone
+                           select item).SingleOrDefault();
+
+            Assert.NotNull(contact);
+        }
+
+        [Fact]
+        public async Task ShouldUpdate_FinancierContact_Using_EditFinancierContactInfoWriteModel()
+        {
+            Financier financier = await _dbContext.Financiers.FindAsync(new Guid("94b1d516-a1c3-4df8-ae85-be1f34966601"));
+
+            var model = new EditFinancierContactInfo
+            {
+                PersonId = 12,
+                FinancierId = financier.Id,
+                FirstName = "Jane",
+                LastName = "DoeZoe",
+                MiddleInitial = "Z",
+                Telephone = "555-555-5555",
+                Notes = "Hello world"
+            };
+
+            await _financierCmdHdlr.Handle(model);
+
+            var contact = (from item in financier.ContactPersons()
+                           where item.ContactName.FirstName == model.FirstName &&
+                               item.ContactName.LastName == model.LastName &&
+                               item.ContactName.MiddleInitial == model.MiddleInitial &&
+                               item.Telephone == model.Telephone
+                           select item).SingleOrDefault();
+
+            Assert.NotNull(contact);
+        }
+
+        [Fact]
+        public async Task ShouldDelete_FinancierContact_Using_DeleteFinancierContactInfoWriteModel()
+        {
+            Financier financier = await _dbContext.Financiers.FindAsync(new Guid("94b1d516-a1c3-4df8-ae85-be1f34966601"));
+
+            var model = new DeleteFinancierContactInfo
+            {
+                PersonId = 12,
+                FinancierId = financier.Id
+            };
+
+            await _financierCmdHdlr.Handle(model);
+
+            var contact = (from item in financier.ContactPersons()
+                           where item.Id.Equals(model.PersonId)
+                           select item).SingleOrDefault();
+
+            Assert.Null(contact);
+        }
+
     }
 }

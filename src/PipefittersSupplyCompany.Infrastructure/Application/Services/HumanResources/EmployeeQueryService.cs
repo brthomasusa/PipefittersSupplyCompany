@@ -9,7 +9,8 @@ using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
-namespace PipefittersSupplyCompany.Infrastructure.Application.Services
+
+namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources
 {
     public class EmployeeQueryService : IEmployeeQueryService
     {

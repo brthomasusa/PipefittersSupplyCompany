@@ -3,7 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using PipefittersSupplyCompany.IntegrationTests.Base;
-using PipefittersSupplyCompany.Infrastructure.Application.Services;
+using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries

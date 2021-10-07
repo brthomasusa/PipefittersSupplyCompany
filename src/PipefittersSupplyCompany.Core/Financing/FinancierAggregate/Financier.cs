@@ -4,7 +4,6 @@ using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
-using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 
 namespace PipefittersSupplyCompany.Core.Financing.FinancierAggregate
 {

@@ -15,7 +15,7 @@ using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Application.Services;
+using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
