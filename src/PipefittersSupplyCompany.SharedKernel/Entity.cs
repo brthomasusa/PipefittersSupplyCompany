@@ -7,9 +7,14 @@ namespace PipefittersSupplyCompany.SharedKernel
     {
         public T Id { get; protected set; }
 
-        public DateTime CreatedDate { get; protected set; }
+        public DateTime CreatedDate { get; }
 
-        public DateTime? LastModifiedDate { get; protected set; }
+        public DateTime? LastModifiedDate { get; private set; }
+
+        public void UpdateLastModifiedDate()
+        {
+            LastModifiedDate = DateTime.UtcNow;
+        }
 
         protected virtual void CheckValidity()
         {

@@ -10,16 +10,15 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog;
-using PipefittersSupplyCompany.WebApi.Extensions;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
-
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
 
 namespace PipefittersSupplyCompany.WebApi
 {
@@ -62,17 +61,18 @@ namespace PipefittersSupplyCompany.WebApi
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "PipefittersSupply", Version = "v1" });
             });
 
-            services.AddScoped<IUnitOfWork, AppUnitOfWork>();
-            services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
-            services.AddScoped<EmployeeAggregateCommandHandler>();
-            services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();
+            services.AddInfrastructureServices();
             services.AddScoped<EmployeePatchActionAttribute>();
-            services.AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>();
-            services.AddScoped<FinancierAggregateCommandHandler>();
-
             services.AddScoped<ValidateMediaTypeAttribute>();
-
             services.AddCustomMediaTypes();
+
+            // services.AddScoped<IUnitOfWork, AppUnitOfWork>();
+            // services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
+            // services.AddScoped<EmployeeAggregateCommandHandler>();
+            // services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();            
+            // services.AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>();
+            // services.AddScoped<FinancierAggregateCommandHandler>();
+            // services.AddScoped<IFinancierQueryService, FinancierQueryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

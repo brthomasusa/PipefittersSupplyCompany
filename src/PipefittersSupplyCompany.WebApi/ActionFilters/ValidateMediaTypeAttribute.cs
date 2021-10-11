@@ -22,7 +22,13 @@ namespace PipefittersSupplyCompany.WebApi.ActionFilters
 
             if (!MediaTypeHeaderValue.TryParse(mediaType, out MediaTypeHeaderValue outMediaType))
             {
-                context.Result = new BadRequestObjectResult($"Media type not present. Please add Accept header with the required media type.");
+                var msg = @"
+                Media type not present. 
+                Please add Accept header with the required media type (at least '*/*') to the request. 
+                If you want HATEOAS links in the response then add: 
+                'application/vnd.btechnical-consulting.hateoas+json'";
+
+                context.Result = new BadRequestObjectResult(msg);
                 return;
             }
 

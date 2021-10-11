@@ -14,34 +14,190 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.Financing
 {
     public class FinancierQueryService : IFinancierQueryService
     {
-        public Task<PagedList<FinancierListItem>> Query(GetFinanciers queryParameters)
+        private readonly DapperContext _dapperCtx;
+
+        public FinancierQueryService(DapperContext ctx) => _dapperCtx = ctx;
+
+        private static int Offset(int page, int pageSize) => (page - 1) * pageSize;
+
+        public async Task<PagedList<FinancierListItem>> Query(GetFinanciers queryParameters)
         {
-            throw new NotImplementedException();
+            var sql =
+            @"SELECT 
+                fin.FinancierID, fin.FinancierName, fin.Telephone, fin.IsActive, fin.CreatedDate, fin.LastModifiedDate, users.UserName
+            FROM Finance.Financiers fin
+            INNER JOIN HumanResources.Users users ON fin.UserId = users.UserId
+            ORDER BY fin.FinancierName
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
+            parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
+
+            var totalRecordsSql = $"SELECT COUNT(FinancierId) FROM Finance.Financiers";
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql);
+                var items = await connection.QueryAsync<FinancierListItem>(sql, parameters);
+                var pagedList = PagedList<FinancierListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList;
+            }
         }
 
-        public Task<FinancierDetail> Query(GetFinancier queryParameters)
+        public async Task<FinancierDetail> Query(GetFinancier queryParameters)
         {
-            throw new NotImplementedException();
+            if (await IsValidFinancierID(queryParameters.FinancierID) == false)
+            {
+                throw new ArgumentException($"No financier record found where FinancierId equals {queryParameters.FinancierID}.");
+            }
+
+            var sql =
+            @"SELECT 
+                fin.FinancierID, fin.FinancierName, fin.Telephone, fin.IsActive, fin.CreatedDate, fin.LastModifiedDate, users.UserName
+            FROM Finance.Financiers fin
+            INNER JOIN HumanResources.Users users ON fin.UserId = users.UserId        
+            WHERE fin.FinancierId = @ID";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.FinancierID, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<FinancierDetail>(sql, parameters);
+            }
         }
 
-        public Task<PagedList<FinancierAddressListItem>> Query(GetFinancierAddresses queryParameters)
+        public async Task<PagedList<FinancierAddressListItem>> Query(GetFinancierAddresses queryParameters)
         {
-            throw new NotImplementedException();
+            if (await IsValidFinancierID(queryParameters.FinancierID) == false)
+            {
+                throw new ArgumentException($"No financier record found where FinancierId equals {queryParameters.FinancierID}.");
+            }
+
+            var sql =
+            @"SELECT 
+                aa.AddressId, fin.FinancierId, aa.AddressLine1 + ' ' + ISNULL(aa.AddressLine2, '') + ' ' + aa.City + ', ' + aa.StateCode + ' ' + aa.Zipcode AS FullAddress  
+            FROM Finance.Financiers fin
+            INNER JOIN Shared.Addresses aa ON fin.FinancierId = aa.AgentId
+            WHERE fin.FinancierId = @ID           
+            ORDER BY aa.AddressId
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.FinancierID, DbType.Guid);
+            parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
+            parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
+
+            var totalRecordsSql =
+            @"SELECT 
+                COUNT(fin.FinancierId)
+            FROM Finance.Financiers fin
+            INNER JOIN Shared.Addresses aa ON fin.FinancierId = aa.AgentId
+            WHERE fin.FinancierId = @ID";
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
+                var items = await connection.QueryAsync<FinancierAddressListItem>(sql, parameters);
+                var pagedList = PagedList<FinancierAddressListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList;
+            }
         }
 
-        public Task<FinancierAddressDetail> Query(GetFinancierAddress queryParameters)
+        public async Task<FinancierAddressDetail> Query(GetFinancierAddress queryParameters)
         {
-            throw new NotImplementedException();
+            var sql =
+            @"SELECT 
+                AddressId, AgentId AS 'FinancierId',  AddressLine1, AddressLine2, City, StateCode, Zipcode
+            FROM Shared.Addresses       
+            WHERE AddressId = @ID";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.AddressID, DbType.Int32);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<FinancierAddressDetail>(sql, parameters);
+            }
         }
 
-        public Task<PagedList<FinancierContactListItem>> Query(GetFinancierContacts queryParameters)
+        public async Task<PagedList<FinancierContactListItem>> Query(GetFinancierContacts queryParameters)
         {
-            throw new NotImplementedException();
+            if (await IsValidFinancierID(queryParameters.FinancierID) == false)
+            {
+                throw new ArgumentException($"No Financier record found where FinancierId equals {queryParameters.FinancierID}.");
+            }
+
+            var sql =
+            @"SELECT 
+                PersonId, AgentId AS 'FinancierId', FirstName + ' ' + ISNULL(MiddleInitial, '') + ' ' + LastName AS 'FullName'  
+            FROM Shared.ContactPersons
+            WHERE AgentId = @ID           
+            ORDER BY LastName, FirstName
+            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.FinancierID, DbType.Guid);
+            parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
+            parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
+
+            var totalRecordsSql =
+            @"SELECT 
+                COUNT(AgentId)
+            FROM Shared.ContactPersons
+            WHERE AgentId = @ID";
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql, parameters);
+                var items = await connection.QueryAsync<FinancierContactListItem>(sql, parameters);
+                var pagedList = PagedList<FinancierContactListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                return pagedList;
+            }
         }
 
-        public Task<FinancierContactDetail> Query(GetFinancierContact queryParameters)
+        public async Task<FinancierContactDetail> Query(GetFinancierContact queryParameters)
         {
-            throw new NotImplementedException();
+            var sql =
+            @"SELECT 
+                PersonId, AgentId AS 'FinancierId', LastName, FirstName, MiddleInitial, Telephone, Notes
+            FROM Shared.ContactPersons       
+            WHERE PersonId = @ID";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.PersonID, DbType.Int32);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<FinancierContactDetail>(sql, parameters);
+            }
+        }
+
+        private async Task<bool> IsValidEmployeeID(Guid employeeId)
+        {
+            string sql = $"SELECT EmployeeID FROM HumanResources.Employees WHERE EmployeeId = @ID";
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", employeeId, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+                return result != null;
+            }
+        }
+
+        private async Task<bool> IsValidFinancierID(Guid financierId)
+        {
+            string sql = $"SELECT FinancierID FROM Finance.Financiers WHERE FinancierId = @ID";
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", financierId, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                var result = await connection.QueryFirstOrDefaultAsync(sql, parameters);
+                return result != null;
+            }
         }
     }
 }

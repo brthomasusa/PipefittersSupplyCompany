@@ -30,10 +30,11 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
             LinkGenerator generator
         )
         {
-            _employeeCmdHdlr = cmdHdlr;
-            _employeeQrySvc = qrySvc;
-            _logger = logger;
-            _linkGenerator = generator;
+            // Guard clauses are for when manually instantiating the controller (unit testing ...)
+            _employeeCmdHdlr = cmdHdlr ?? throw new ArgumentNullException(nameof(cmdHdlr));
+            _employeeQrySvc = qrySvc ?? throw new ArgumentNullException(nameof(qrySvc));
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+            _linkGenerator = generator ?? throw new ArgumentNullException(nameof(generator));
         }
 
         [HttpGet]

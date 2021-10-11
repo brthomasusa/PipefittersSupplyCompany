@@ -86,6 +86,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             employee.UpdateMaritalStatus(MaritalStatus.Create(model.MaritalStatus));
             employee.UpdateTaxExemptions(TaxExemption.Create(model.Exemptions));
             employee.UpdatePayRate(PayRate.Create(model.PayRate));
+            employee.UpdateLastModifiedDate();
 
             if (model.IsActive)
             {

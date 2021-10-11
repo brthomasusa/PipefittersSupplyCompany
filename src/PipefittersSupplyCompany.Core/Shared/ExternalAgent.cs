@@ -86,6 +86,7 @@ namespace PipefittersSupplyCompany.Core.Shared
             if (found.AddressDetails != address)
             {
                 found.UpdateAddressDetails(address);
+                found.UpdateLastModifiedDate();
             }
         }
 
@@ -154,6 +155,8 @@ namespace PipefittersSupplyCompany.Core.Shared
             {
                 found.UpdateNotes(notes);
             }
+
+            found.UpdateLastModifiedDate();
         }
 
         internal void DeleteContactPerson(int personId)

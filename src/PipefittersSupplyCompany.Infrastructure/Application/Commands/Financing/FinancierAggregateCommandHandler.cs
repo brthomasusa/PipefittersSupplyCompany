@@ -74,6 +74,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
 
             financier.UpdateFinancierName(OrganizationName.Create(model.FinancierName));
             financier.UpdateTelephone(PhoneNumber.Create(model.Telephone));
+            financier.UpdateLastModifiedDate();
 
             if (model.IsActive)
             {

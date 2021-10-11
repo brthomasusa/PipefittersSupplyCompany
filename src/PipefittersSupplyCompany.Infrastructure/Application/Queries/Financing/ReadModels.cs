@@ -8,8 +8,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
         public class FinancierDetail : IReadModel
         {
             public Guid FinancierId { get; set; }
-
-
+            public string FinancierName { get; set; }
+            public string Telephone { get; set; }
+            public bool IsActive { get; set; }
             public DateTime CreatedDate { get; set; }
             public DateTime LastModifiedDate { get; set; }
         }

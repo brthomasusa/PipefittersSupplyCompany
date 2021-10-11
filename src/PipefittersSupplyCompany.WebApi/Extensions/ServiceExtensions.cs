@@ -1,15 +1,22 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using Microsoft.Extensions.DependencyInjection;
 using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
-namespace PipefittersSupplyCompany.WebApi.Extensions
+using PipefittersSupplyCompany.Infrastructure.Persistence;
+using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
+
+namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.WebApi.Extensions
 {
     public static class ServiceExtensions
     {
-        public static void ConfigureCors(this IServiceCollection services) =>
+        public static IServiceCollection ConfigureCors(this IServiceCollection services) =>
             services.AddCors(options =>
             {
                 options.AddPolicy("CorsPolicy", builder =>
@@ -18,12 +25,12 @@ namespace PipefittersSupplyCompany.WebApi.Extensions
                            .AllowAnyHeader());
             });
 
-        public static void ConfigureLoggingService(this IServiceCollection services) =>
+        public static IServiceCollection ConfigureLoggingService(this IServiceCollection services) =>
             services.AddScoped<ILoggerManager, LoggerManager>();
 
-        public static void AddCustomMediaTypes(this IServiceCollection services)
+        public static IServiceCollection AddCustomMediaTypes(this IServiceCollection services)
         {
-            services.Configure<MvcOptions>(config =>
+            return services.Configure<MvcOptions>(config =>
             {
                 var newtonsoftJsonOutputFormatter = config.OutputFormatters
                       .OfType<NewtonsoftJsonOutputFormatter>()?.FirstOrDefault();
@@ -34,6 +41,18 @@ namespace PipefittersSupplyCompany.WebApi.Extensions
                 }
 
             });
+        }
+
+        public static IServiceCollection AddInfrastructureServices(this IServiceCollection services)
+        {
+            return services
+                    .AddScoped<IUnitOfWork, AppUnitOfWork>()
+                    .AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>()
+                    .AddScoped<EmployeeAggregateCommandHandler>()
+                    .AddScoped<IEmployeeQueryService, EmployeeQueryService>()
+                    .AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>()
+                    .AddScoped<FinancierAggregateCommandHandler>()
+                    .AddScoped<IFinancierQueryService, FinancierQueryService>();
         }
 
     }
