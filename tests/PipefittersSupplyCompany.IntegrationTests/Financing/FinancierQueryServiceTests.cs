@@ -1,10 +1,15 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Threading.Tasks;
 using Xunit;
 using PipefittersSupplyCompany.IntegrationTests.Base;
+using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.QueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.ReadModels;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Financing
 {
@@ -100,6 +105,22 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             var contactDetails = await _financierQrySvc.Query(getFinancierContact);
 
             Assert.Equal(new Guid("bf19cf34-f6ba-4fb2-b70e-ab19d3371886"), contactDetails.FinancierId);
+        }
+
+        [Fact]
+        public async Task Reflection_Playground()
+        {
+            var getFinanciers = new GetFinanciers { Page = 1, PageSize = 20 };
+
+            var result = await _financierQrySvc.Query(getFinanciers);
+            var readModelString = result.GetType().FullName + ", PipefittersSupplyCompany.Infrastructure";
+            Type readModel = Type.GetType(readModelString, true, true);
+
+            var genericBase = typeof(ResponseHeaderHandler<>);
+            var combinedType = genericBase.MakeGenericType(readModel);
+            var responseHeaderHandler = Activator.CreateInstance(combinedType);
+
+            Assert.IsType<PagedList<FinancierListItem>>(result);
         }
 
     }

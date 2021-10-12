@@ -4,6 +4,7 @@ using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.ReadModels;
 
 namespace PipefittersSupplyCompany.UnitTests.Core.Financing
 {
@@ -78,7 +79,23 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             });
         }
 
+        [Fact]
+        public void Should_GiveMeTheRightAnswer()
+        {
+            FinancierListItem financierListItem = new FinancierListItem
+            {
+                FinancierId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"),
+                FinancierName = "Hello",
+                Telephone = "123-456-7890",
+                IsActive = true
 
+            };
+
+            Type readModelType = financierListItem.GetType();
+
+            // Assert.IsType<Financier>(financier);
+            Assert.NotNull(readModelType);
+        }
 
 
 

@@ -1,10 +1,8 @@
-using System;
 using Microsoft.AspNetCore.Http;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.WebApi.Controllers.HumanResources;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
+namespace PipefittersSupplyCompany.WebApi.Utilities
 {
     public class QueryResult : IQueryResult
     {
