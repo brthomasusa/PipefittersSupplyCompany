@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
 

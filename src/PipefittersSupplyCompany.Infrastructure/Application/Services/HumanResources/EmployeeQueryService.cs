@@ -7,8 +7,8 @@ using Dapper;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources
 {

@@ -10,15 +10,18 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financi
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
 
-
-using Microsoft.AspNetCore.Mvc;
-
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 {
+    [ApiVersion("1.0")]
+    [Route("api/{v:apiVersion}/[controller]")]
     [ApiController]
-    [Route("api/[controller]")]
     public class FinanciersController : ControllerBase
     {
+        private readonly ILoggerManager _logger;
+
+        public FinanciersController(ILoggerManager logger) =>
+            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
+
 
     }
 }

@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Routing;
 using Microsoft.Net.Http.Headers;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
@@ -13,46 +14,43 @@ using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financi
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 {
-    public static class FinancierAggregateRequestHandler
+    public class FinancierAggregateRequestHandler
     {
-        public static async Task<IActionResult> HandleCommand<TWriteModel>
-        (
-            TWriteModel writeModel,
-            Func<TWriteModel, Task> handler,
-            ILoggerManager logger
-        )
+        private readonly FinancierAggregateCommandHandler _cmdHdlr;
+        private readonly IFinancierQueryService _qrySvc;
+
+        public FinancierAggregateRequestHandler(FinancierAggregateCommandHandler cmdHdlr, IFinancierQueryService qrySvc)
         {
-            try
-            {
-                logger.LogDebug($"Handling HTTP request of type {typeof(TWriteModel).Name}");
-                await handler(writeModel);
-                return new OkResult();
-            }
-            catch (Exception ex)
-            {
-                logger.LogError("Error handling the command.");
-                return new BadRequestObjectResult(new
-                {
-                    error = ex.Message,
-                    stackTrace = ex.StackTrace
-                });
-            }
+            _cmdHdlr = cmdHdlr;
+            _qrySvc = qrySvc;
         }
 
-        public static async Task<IActionResult> HandleQuery<TQueryParam>
+        public async Task<IActionResult> HandleQuery<TQueryParam>
         (
-            Func<Task<TQueryParam>> query,
+            TQueryParam queryParam,
             ILoggerManager logger,
-            HttpContext httpContext,
-            LinkGenerator generator
+            HttpContext httpContext
         )
         {
-            var result = await query();
+            switch (queryParam)
+            {
+                case FinancierListItem qry:
+                    // Run the query
+                    // Add paging info to response header
+                    // Add hateoas links
+                    // Create IActionResult return value
+                    break;
+                case FinancierDetail qry:
+                    break;
+                default:
+                    // TODO Return a BadRequestResult with specific error message
+                    throw new ArgumentException("Unknown FinancierQueryParameter!", nameof(queryParam));
+            };
 
-            return new OkObjectResult(result);
+            return new OkObjectResult(null);
         }
 
-        private async static Task HandleGetFinanciers
+        private async Task HandleGetFinanciers
         (
             Func<Task<FinancierListItem>> query,
             ILoggerManager logger,
@@ -63,7 +61,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
             throw new NotImplementedException();
         }
 
-        private static bool ShouldGenerateLinks(HttpContext httpContext)
+        private bool ShouldGenerateLinks(HttpContext httpContext)
         {
             var mediaType = httpContext.Items["AcceptHeaderMediaType"] as MediaTypeHeaderValue;
 

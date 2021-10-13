@@ -8,7 +8,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {

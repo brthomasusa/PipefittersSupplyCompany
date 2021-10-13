@@ -9,8 +9,8 @@ using PipefittersSupplyCompany.WebApi.Controllers;
 using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 {

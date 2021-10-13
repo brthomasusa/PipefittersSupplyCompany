@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using Xunit;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.QueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 {

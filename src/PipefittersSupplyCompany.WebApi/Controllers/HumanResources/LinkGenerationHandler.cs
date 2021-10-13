@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 

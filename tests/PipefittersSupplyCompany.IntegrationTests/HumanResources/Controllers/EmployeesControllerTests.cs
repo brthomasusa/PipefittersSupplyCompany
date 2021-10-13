@@ -13,7 +13,7 @@ using PipefittersSupplyCompany.WebApi;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers

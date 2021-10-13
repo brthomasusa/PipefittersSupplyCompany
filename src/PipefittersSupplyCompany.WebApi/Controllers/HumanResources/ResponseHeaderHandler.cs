@@ -1,7 +1,7 @@
 using System.Text.Json;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
     public class ResponseHeaderHandler : IQueryResultHandler

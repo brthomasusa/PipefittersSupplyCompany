@@ -2,7 +2,7 @@ using System;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources
 {
-    public static class ReadModels
+    public static class EmployeeReadModels
     {
         public class EmployeeDetail : IReadModel
         {
