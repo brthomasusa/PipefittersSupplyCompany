@@ -2,7 +2,7 @@ using System;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
 {
-    public static class QueryParameters
+    public static class FinancierQueryParameters
     {
         public class GetFinancier
         {

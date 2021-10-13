@@ -3,7 +3,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
 {
-    public static class ReadModels
+    public static class FinancierReadModels
     {
         public class FinancierDetail : IReadModel
         {

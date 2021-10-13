@@ -4,7 +4,7 @@ using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
 
 namespace PipefittersSupplyCompany.UnitTests.Core.Financing
 {

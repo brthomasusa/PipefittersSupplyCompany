@@ -7,8 +7,8 @@ using Dapper;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.ReadModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.QueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierQueryParameters;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Services.Financing
 {

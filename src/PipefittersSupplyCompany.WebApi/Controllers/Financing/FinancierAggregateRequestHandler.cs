@@ -8,7 +8,8 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierQueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 {
@@ -46,72 +47,20 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
             LinkGenerator generator
         )
         {
-            try
-            {
-                var result = await query();
-                var readModelString = result.GetType().FullName + ", PipefittersSupplyCompany.Infrastructure";
-                Type readModel = Type.GetType(readModelString, true, true);
+            var result = await query();
 
-                IQueryResult queryResult = new QueryResult();
-                queryResult.ReadModel = result as IReadModel;
-                queryResult.CurrentHttpContext = httpContext;
+            return new OkObjectResult(result);
+        }
 
-                var genericBase = typeof(ResponseHeaderHandler<>);
-                var combinedType = genericBase.MakeGenericType(readModel);
-                var responseHeaderHandler = Activator.CreateInstance(combinedType);
-
-                // Type readModelType = (queryResult.ReadModel).GetType();
-                // ResponseHeaderHandler<PagedList<FinancierListItem>> responseHeaderHandler =
-                //     new ResponseHeaderHandler<PagedList<FinancierListItem>>();
-
-                // ResponseHeaderHandler<PagedList<FinancierListItem>> responseHeaderHandler = new ResponseHeaderHandler<PagedList<FinancierListItem>>();
-
-                // IQueryResultHandler responseHeaderHandler = new ResponseHeaderHandler();
-
-                // if (ShouldGenerateLinks(httpContext))
-                // {
-                //     responseHeaderHandler.NextHandler = new LinkGenerationHandler(generator);
-                // }
-
-                // responseHeaderHandler.Process(ref queryResult);
-
-                // if (ShouldGenerateLinks(httpContext))
-                // {
-                //     if (result is EmployeeDetail)
-                //     {
-                //         return new OkObjectResult(queryResult.Links as LinksWrapper<EmployeeDetail>);
-                //     }
-                //     else if (result is PagedList<EmployeeListItem>)
-                //     {
-                //         return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItem>);
-                //     }
-                //     else if (result is PagedList<EmployeeListItemWithRoles>)
-                //     {
-                //         return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItemWithRoles>);
-                //     }
-                // }
-
-                return new OkObjectResult(result);
-
-            }
-            catch (ArgumentException ex)
-            {
-                logger.LogError($"Query parameter not found in database: {ex}");
-                return new NotFoundObjectResult(new
-                {
-                    error = ex.Message,
-                    stackTrace = ex.StackTrace
-                });
-            }
-            catch (Exception ex)
-            {
-                logger.LogError($"Error handling the query: {ex}");
-                return new BadRequestObjectResult(new
-                {
-                    error = ex.Message,
-                    stackTrace = ex.StackTrace
-                });
-            }
+        private async static Task HandleGetFinanciers
+        (
+            Func<Task<FinancierListItem>> query,
+            ILoggerManager logger,
+            HttpContext httpContext,
+            LinkGenerator generator
+        )
+        {
+            throw new NotImplementedException();
         }
 
         private static bool ShouldGenerateLinks(HttpContext httpContext)

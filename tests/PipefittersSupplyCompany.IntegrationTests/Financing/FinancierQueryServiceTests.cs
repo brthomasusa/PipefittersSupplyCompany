@@ -8,8 +8,8 @@ using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.QueryParameters;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.ReadModels;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierQueryParameters;
+using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Financing
 {
@@ -120,6 +120,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             var combinedType = genericBase.MakeGenericType(readModel);
             var responseHeaderHandler = Activator.CreateInstance(combinedType);
 
+            // Assert.True(readModelString.Contains("FinancierListItem"));
             Assert.IsType<PagedList<FinancierListItem>>(result);
         }
 
