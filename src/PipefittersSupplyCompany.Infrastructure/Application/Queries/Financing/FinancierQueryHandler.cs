@@ -1,14 +1,11 @@
-using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierQueryParameters;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
 {
-    public class FinancierQueryHandler<TQueryParam, TReadModel> : IQueryHandler<TQueryParam, TReadModel>
+    public class FinancierQueryHandler : IFinancierQueryHandler
     {
         private readonly IFinancierQueryService _qrySvc;
 
@@ -17,9 +14,22 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
             _qrySvc = qrySvc;
         }
 
-        public Task<TReadModel> Handle(TQueryParam queryParam)
-        {
-            throw new NotImplementedException();
-        }
+        public async Task<PagedList<FinancierListItem>> GetFinancierListItems(GetFinanciers queryParameters)
+            => await _qrySvc.Query(queryParameters);
+
+        public async Task<FinancierDetail> GetFinancierDetail(GetFinancier queryParameters)
+            => await _qrySvc.Query(queryParameters);
+
+        public async Task<PagedList<FinancierAddressListItem>> GetFinancierAddressListItems(GetFinancierAddresses queryParameters)
+            => await _qrySvc.Query(queryParameters);
+
+        public async Task<FinancierAddressDetail> GetFinancierAddressDetail(GetFinancierAddress queryParameters)
+            => await _qrySvc.Query(queryParameters);
+
+        public async Task<PagedList<FinancierContactListItem>> GetFinancierContactListItems(GetFinancierContacts queryParameters)
+            => await _qrySvc.Query(queryParameters);
+
+        public async Task<FinancierContactDetail> GetFinancierContactDetail(GetFinancierContact queryParameters)
+            => await _qrySvc.Query(queryParameters);
     }
 }

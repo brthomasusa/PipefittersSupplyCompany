@@ -11,6 +11,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResource
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.WebApi.Extensions
 {
@@ -52,7 +53,8 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                     .AddScoped<IEmployeeQueryService, EmployeeQueryService>()
                     .AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>()
                     .AddScoped<FinancierAggregateCommandHandler>()
-                    .AddScoped<IFinancierQueryService, FinancierQueryService>();
+                    .AddScoped<IFinancierQueryService, FinancierQueryService>()
+                    .AddScoped<IFinancierQueryHandler, FinancierQueryHandler>();
         }
 
     }

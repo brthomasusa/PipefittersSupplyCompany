@@ -16,13 +16,17 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 {
     public class FinancierAggregateRequestHandler
     {
-        private readonly FinancierAggregateCommandHandler _cmdHdlr;
-        private readonly IFinancierQueryService _qrySvc;
+        // private readonly FinancierAggregateCommandHandler _cmdHdlr;
+        private readonly IFinancierQueryHandler _qryHdlr;
 
-        public FinancierAggregateRequestHandler(FinancierAggregateCommandHandler cmdHdlr, IFinancierQueryService qrySvc)
+        public FinancierAggregateRequestHandler
+        (
+            // FinancierAggregateCommandHandler cmdHdlr,
+            IFinancierQueryHandler qryHdlr
+        )
         {
-            _cmdHdlr = cmdHdlr;
-            _qrySvc = qrySvc;
+            // _cmdHdlr = cmdHdlr;
+            _qryHdlr = qryHdlr;
         }
 
         public async Task<IActionResult> HandleQuery<TQueryParam>
@@ -34,8 +38,10 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
         {
             switch (queryParam)
             {
-                case FinancierListItem qry:
+                case GetFinanciers qry:
                     // Run the query
+                    var result = await HandleGetFinanciers(qry, logger, httpContext);
+                    var actionResult = new OkObjectResult(result);
                     // Add paging info to response header
                     // Add hateoas links
                     // Create IActionResult return value
@@ -50,15 +56,14 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
             return new OkObjectResult(null);
         }
 
-        private async Task HandleGetFinanciers
+        private async Task<PagedList<FinancierListItem>> HandleGetFinanciers
         (
-            Func<Task<FinancierListItem>> query,
+            GetFinanciers queryParam,
             ILoggerManager logger,
-            HttpContext httpContext,
-            LinkGenerator generator
+            HttpContext httpContext
         )
         {
-            throw new NotImplementedException();
+            return await _qryHdlr.GetFinancierListItems(queryParam);
         }
 
         private bool ShouldGenerateLinks(HttpContext httpContext)
