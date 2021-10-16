@@ -9,8 +9,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierQueryParameters;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 {
@@ -32,38 +31,37 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
         public async Task<IActionResult> HandleQuery<TQueryParam>
         (
             TQueryParam queryParam,
-            ILoggerManager logger,
             HttpContext httpContext
-        )
-        {
-            switch (queryParam)
+        ) =>
+            queryParam switch
             {
-                case GetFinanciers qry:
-                    // Run the query
-                    var result = await HandleGetFinanciers(qry, logger, httpContext);
-                    var actionResult = new OkObjectResult(result);
-                    // Add paging info to response header
-                    // Add hateoas links
-                    // Create IActionResult return value
-                    break;
-                case FinancierDetail qry:
-                    break;
-                default:
-                    // TODO Return a BadRequestResult with specific error message
-                    throw new ArgumentException("Unknown FinancierQueryParameter!", nameof(queryParam));
+                GetFinanciers param => await HandleGetFinanciers(param, httpContext),
+                GetFinancier param => await HandleGetFinancier(param, httpContext),
+                _ => throw new ArgumentException("Unknown FinancierQueryParameter!", nameof(queryParam))
             };
 
-            return new OkObjectResult(null);
+        private async Task<IActionResult> HandleGetFinanciers(GetFinanciers queryParam, HttpContext httpContext)
+        {
+            // Run the query
+            var queryResult = await _qryHdlr.GetFinancierListItems(queryParam);
+
+            // Add paging info to response header
+
+            // Add hateoas links
+
+            // Create IActionResult return value            
+            return new OkObjectResult(queryResult);
         }
 
-        private async Task<PagedList<FinancierListItem>> HandleGetFinanciers
-        (
-            GetFinanciers queryParam,
-            ILoggerManager logger,
-            HttpContext httpContext
-        )
+        private async Task<IActionResult> HandleGetFinancier(GetFinancier queryParam, HttpContext httpContext)
         {
-            return await _qryHdlr.GetFinancierListItems(queryParam);
+            // Run the query
+            var queryResult = await _qryHdlr.GetFinancierDetail(queryParam);
+
+            // Add hateoas links
+
+            // Create IActionResult return value            
+            return new OkObjectResult(queryResult);
         }
 
         private bool ShouldGenerateLinks(HttpContext httpContext)

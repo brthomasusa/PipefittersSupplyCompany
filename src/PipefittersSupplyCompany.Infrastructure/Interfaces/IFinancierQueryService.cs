@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierQueryParameters;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.Infrastructure.Interfaces
 {

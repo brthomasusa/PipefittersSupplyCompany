@@ -6,8 +6,7 @@ using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierQueryParameters;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing.FinancierReadModels;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Financing
 {
