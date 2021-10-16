@@ -8,7 +8,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries
     {
         public MetaData MetaData { get; set; }
 
-        public PagedList(List<T> items, int count, int pageNumber, int pageSize)
+        protected PagedList(List<T> items, int count, int pageNumber, int pageSize)
         {
             MetaData = new MetaData
             {

@@ -55,8 +55,7 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                     .AddScoped<IEmployeeQueryService, EmployeeQueryService>()
                     .AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>()
                     .AddScoped<FinancierAggregateCommandHandler>()
-                    .AddScoped<IFinancierQueryService, FinancierQueryService>()
-                    .AddScoped<IFinancierQueryHandler, FinancierQueryHandler>();
+                    .AddScoped<IFinancierQueryService, FinancierQueryService>();
 
 
             // Singleton example. DO NOT DELETE!!!

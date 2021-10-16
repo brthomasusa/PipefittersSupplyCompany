@@ -20,24 +20,20 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
 {
     public class FinancierQueryRequestHandlerTests : IntegrationTestBaseDapper
     {
-        private readonly FinancierAggregateRequestHandler _requestHandler;
         private readonly FinancierQueryRequestHander _queryRequestHandler;
 
         public FinancierQueryRequestHandlerTests()
         {
             FinancierQueryService financierQrySvc = new FinancierQueryService(_dapperCtx);
-            IFinancierQueryHandler qryHdlr = new FinancierQueryHandler(financierQrySvc);
-            _requestHandler = new FinancierAggregateRequestHandler(qryHdlr);
-
             _queryRequestHandler = new FinancierQueryRequestHander(financierQrySvc);
         }
 
         [Fact]
-        public async Task ShouldGet_FinancierListItems_FinancierAggregateRequestHandler()
+        public async Task ShouldGet_FinancierListItems_FinancierQueryRequestHander()
         {
             var getFinanciers = new GetFinanciers { Page = 1, PageSize = 20 };
 
-            var actionResult = await _requestHandler.HandleQuery
+            var actionResult = await _queryRequestHandler.Handle<GetFinanciers>
                         (
                             getFinanciers,
                             new DefaultHttpContext()
@@ -50,44 +46,26 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             Assert.True(financierListItems.Count >= 5);
         }
 
-        // [Fact]
-        // public async Task ShouldGet_FinancierListItems_FinancierQueryRequestHander()
-        // {
-        //     var getFinanciers = new GetFinanciers { Page = 1, PageSize = 20 };
+        [Fact]
+        public async Task ShouldGet_FinancierDetail_FinancierQueryRequestHander()
+        {
+            var getFinancierDetails =
+                new GetFinancier
+                {
+                    FinancierID = new Guid("94b1d516-a1c3-4df8-ae85-be1f34966601")
+                };
 
-        //     var actionResult = await _queryRequestHandler.Handle<GetFinanciers>
-        //                 (
-        //                     getFinanciers,
-        //                     new DefaultHttpContext()
-        //                 );
+            var actionResult = await _queryRequestHandler.Handle<GetFinancier>
+                        (
+                            getFinancierDetails,
+                            new DefaultHttpContext()
+                        );
 
-        //     var okObjectResult = actionResult as OkObjectResult;
-        //     Assert.NotNull(okObjectResult);
+            var okObjectResult = actionResult as OkObjectResult;
+            Assert.NotNull(okObjectResult);
 
-        //     var financierListItems = okObjectResult.Value as List<FinancierListItem>;
-        //     Assert.True(financierListItems.Count >= 5);
-        // }
-
-        // [Fact]
-        // public async Task ShouldGet_FinancierDetail_FinancierQueryRequestHander()
-        // {
-        //     var getFinancierDetails =
-        //         new GetFinancier
-        //         {
-        //             FinancierID = new Guid("94b1d516-a1c3-4df8-ae85-be1f34966601")
-        //         };
-
-        //     var actionResult = await _queryRequestHandler.Handle<GetFinancier>
-        //                 (
-        //                     getFinancierDetails,
-        //                     new DefaultHttpContext()
-        //                 );
-
-        //     var okObjectResult = actionResult as OkObjectResult;
-        //     Assert.NotNull(okObjectResult);
-
-        //     var financierDetails = okObjectResult.Value as List<FinancierDetail>;
-        //     Assert.NotNull(financierDetails);
-        // }
+            var financierDetails = okObjectResult.Value as FinancierDetail;
+            Assert.Equal("Paul Van Horn Enterprises", financierDetails.FinancierName);
+        }
     }
 }
