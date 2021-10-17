@@ -50,34 +50,34 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
             {
                 var result = await query();
 
-                IQueryResult queryResult = new QueryResult();
-                queryResult.ReadModel = result as IReadModel;
-                queryResult.CurrentHttpContext = httpContext;
+                // IQueryResult queryResult = new QueryResult();
+                // queryResult.ReadModel = result as IReadModel;
+                // queryResult.CurrentHttpContext = httpContext;
 
-                IQueryResultHandler responseHeaderHandler = new ResponseHeaderHandler();
+                // IQueryResultHandler responseHeaderHandler = new ResponseHeaderHandler();
 
-                if (ShouldGenerateLinks(httpContext))
-                {
-                    responseHeaderHandler.NextHandler = new LinkGenerationHandler(generator);
-                }
+                // if (ShouldGenerateLinks(httpContext))
+                // {
+                //     responseHeaderHandler.NextHandler = new LinkGenerationHandler(generator);
+                // }
 
-                responseHeaderHandler.Process(ref queryResult);
+                // responseHeaderHandler.Process(ref queryResult);
 
-                if (ShouldGenerateLinks(httpContext))
-                {
-                    if (result is EmployeeDetail)
-                    {
-                        return new OkObjectResult(queryResult.Links as LinksWrapper<EmployeeDetail>);
-                    }
-                    else if (result is PagedList<EmployeeListItem>)
-                    {
-                        return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItem>);
-                    }
-                    else if (result is PagedList<EmployeeListItemWithRoles>)
-                    {
-                        return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItemWithRoles>);
-                    }
-                }
+                // if (ShouldGenerateLinks(httpContext))
+                // {
+                //     if (result is EmployeeDetail)
+                //     {
+                //         return new OkObjectResult(queryResult.Links as LinksWrapper<EmployeeDetail>);
+                //     }
+                //     else if (result is PagedList<EmployeeListItem>)
+                //     {
+                //         return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItem>);
+                //     }
+                //     else if (result is PagedList<EmployeeListItemWithRoles>)
+                //     {
+                //         return new OkObjectResult(queryResult.Links as LinksWrapperList<EmployeeListItemWithRoles>);
+                //     }
+                // }
 
                 return new OkObjectResult(result);
 

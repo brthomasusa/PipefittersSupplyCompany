@@ -38,7 +38,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.Financing
             {
                 int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql);
                 var items = await connection.QueryAsync<FinancierListItem>(sql, parameters);
-                var pagedList = PagedList<FinancierListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
+                PagedList<FinancierListItem> pagedList = PagedList<FinancierListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
             }
         }

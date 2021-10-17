@@ -4,11 +4,11 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
-    public class ResponseHeaderHandler : IQueryResultHandler
+    public class ResponseHeaderHandler<TReadModel> : IQueryResultHandler<TReadModel>
     {
-        public IQueryResultHandler NextHandler { get; set; }
+        public IQueryResultHandler<TReadModel> NextHandler { get; set; }
 
-        public void Process(ref IQueryResult queryResult)
+        public void Process(ref IQueryResult<TReadModel> queryResult)
         {
             // Add pagination info to response.header
             if (queryResult.ReadModel is PagedList<EmployeeListItem>)

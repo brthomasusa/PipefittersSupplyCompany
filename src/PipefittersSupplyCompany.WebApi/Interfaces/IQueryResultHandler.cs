@@ -2,9 +2,9 @@ using System.Threading.Tasks;
 
 namespace PipefittersSupplyCompany.WebApi.Interfaces
 {
-    public interface IQueryResultHandler
+    public interface IQueryResultHandler<TReadModel>
     {
-        IQueryResultHandler NextHandler { get; set; }
-        void Process(ref IQueryResult queryResult);
+        IQueryResultHandler<TReadModel> NextHandler { get; set; }
+        void Process(ref IQueryResult<TReadModel> queryResult);
     }
 }

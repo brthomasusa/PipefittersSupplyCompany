@@ -9,15 +9,15 @@ using PipefittersSupplyCompany.WebApi.Utilities;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
 {
-    public class LinkGenerationHandler : IQueryResultHandler
+    public class LinkGenerationHandler<TReadModel> : IQueryResultHandler<TReadModel>
     {
         private readonly LinkGenerator _linkGenerator;
 
         public LinkGenerationHandler(LinkGenerator generator) => _linkGenerator = generator;
 
-        public IQueryResultHandler NextHandler { get; set; }
+        public IQueryResultHandler<TReadModel> NextHandler { get; set; }
 
-        public void Process(ref IQueryResult queryResult)
+        public void Process(ref IQueryResult<TReadModel> queryResult)
         {
             if (queryResult.ReadModel is EmployeeDetail)
             {

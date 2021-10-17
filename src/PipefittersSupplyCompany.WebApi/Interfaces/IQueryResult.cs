@@ -1,12 +1,13 @@
+using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.WebApi.Interfaces;
-using PipefittersSupplyCompany.WebApi.Controllers.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 
 namespace PipefittersSupplyCompany.WebApi.Interfaces
 {
-    public interface IQueryResult
+    public interface IQueryResult<TReadModel>
     {
+        PagedList<TReadModel> ReadModels { get; set; }
         IReadModel ReadModel { get; set; }
         HttpContext CurrentHttpContext { get; set; }
         ILinksWrapper Links { get; set; }

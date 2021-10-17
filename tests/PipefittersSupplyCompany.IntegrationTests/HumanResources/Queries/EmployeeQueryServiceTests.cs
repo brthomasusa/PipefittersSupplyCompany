@@ -21,7 +21,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 
             var result = await _employeeQrySvc.Query(getEmployees);
 
-            int resultCount = result.ToList().Count;
+            int resultCount = result.ReadModels.ToList().Count;
 
             Assert.True(resultCount > 0);
         }
@@ -39,7 +39,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 
             var result = await _employeeQrySvc.Query(getEmployeesSupervisedBy);
 
-            int resultCount = result.ToList().Count;
+            int resultCount = result.ReadModels.ToList().Count;
 
             Assert.True(resultCount >= 2);
         }
@@ -71,7 +71,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 
             var result = await _employeeQrySvc.Query(getEmployeesOfRole);
 
-            int resultCount = result.ToList().Count;
+            int resultCount = result.ReadModels.ToList().Count;
 
             Assert.True(resultCount >= 2);
         }
@@ -141,7 +141,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 
             var result = await _employeeQrySvc.Query(getEmployeeAddresses);
 
-            int resultCount = result.ToList().Count;
+            int resultCount = result.ReadModels.ToList().Count;
 
             Assert.True(resultCount > 0);
         }

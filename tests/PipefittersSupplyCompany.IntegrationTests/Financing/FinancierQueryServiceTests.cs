@@ -23,7 +23,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
 
             var result = await _financierQrySvc.Query(getFinanciers);
 
-            int resultCount = result.ToList().Count;
+            int resultCount = result.ReadModels.ToList().Count;
 
             Assert.True(resultCount >= 5);
         }
@@ -55,7 +55,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
 
             var result = await _financierQrySvc.Query(getFinancierAddresses);
 
-            int resultCount = result.ToList().Count;
+            int resultCount = result.ReadModels.ToList().Count;
 
             Assert.True(resultCount >= 2);
         }
@@ -85,7 +85,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
 
             var result = await _financierQrySvc.Query(getFinancierContacts);
 
-            int resultCount = result.ToList().Count;
+            int resultCount = result.ReadModels.ToList().Count;
 
             Assert.True(resultCount >= 2);
         }

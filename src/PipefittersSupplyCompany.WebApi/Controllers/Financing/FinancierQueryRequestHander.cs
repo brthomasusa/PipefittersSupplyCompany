@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using PipefittersSupplyCompany.WebApi.Interfaces;
+using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
@@ -32,11 +33,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
         private IActionResult HandleGetFinanciers(PagedList<FinancierListItem> queryResult, HttpContext httpContext)
         {
             // Add paging info to response header
+            IQueryResult<FinancierListItem> model = new QueryResult<FinancierListItem>();
+            model.ReadModels = queryResult;
+            model.CurrentHttpContext = httpContext;
+            ResponseHeaderHandler<FinancierListItem> headerHandler = new ResponseHeaderHandler<FinancierListItem>();
+            headerHandler.Process(ref model);
 
             // Add hateoas links
 
             // Create IActionResult return value            
-            return new OkObjectResult(queryResult);
+            return new OkObjectResult(queryResult.ReadModels);
         }
 
         private IActionResult HandleGetFinancier(FinancierDetail queryResult, HttpContext httpContext)

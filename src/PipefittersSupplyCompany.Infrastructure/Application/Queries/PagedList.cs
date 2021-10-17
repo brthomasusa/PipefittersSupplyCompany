@@ -1,11 +1,14 @@
 using System;
 using System.Collections.Generic;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries
 {
-    public class PagedList<T> : List<T>, IReadModel
+    public class PagedList<T>
     {
+        private List<T> _readModels = new List<T>();
+
+        public List<T> ReadModels { get => _readModels; }
+
         public MetaData MetaData { get; set; }
 
         protected PagedList(List<T> items, int count, int pageNumber, int pageSize)
@@ -18,7 +21,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries
                 TotalPages = (int)Math.Ceiling(count / (double)pageSize)
             };
 
-            AddRange(items);
+            _readModels.AddRange(items);
         }
 
         public static PagedList<T> CreatePagedList(List<T> source, int totalRecords, int pageNumber, int pageSize)
