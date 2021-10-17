@@ -16,33 +16,30 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
     public class FinanciersController : ControllerBase
     {
         private readonly ILoggerManager _logger;
-        private readonly IFinancierQueryService _queryService;
+        private readonly IQueryRequestHandler _queryRequestHandler;
 
-        public FinanciersController(ILoggerManager logger, IFinancierQueryService queryService)
+        public FinanciersController(ILoggerManager logger, IQueryRequestHandler queryRequestHandler)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _queryService = queryService ?? throw new ArgumentNullException(nameof(queryService));
+            _queryRequestHandler = queryRequestHandler ?? throw new ArgumentNullException(nameof(queryRequestHandler));
         }
 
-        // [HttpGet]
-        // [Route("list")]
-        // [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        // public async Task<IActionResult> GetFinanciers([FromQuery] PagingParameters pagingParams)
-        // {
-        //     GetFinanciers queryParams =
-        //         new GetFinanciers
-        //         {
-        //             Page = pagingParams.Page,
-        //             PageSize = pagingParams.PageSize
-        //         };
+        [HttpGet]
+        [Route("list")]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        public async Task<IActionResult> GetFinanciers([FromQuery] PagingParameters pagingParams)
+        {
+            GetFinanciers queryParams =
+                new GetFinanciers
+                {
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
+                };
 
-        //     FinancierQueryRequestHander requestHander =
-        //         new FinancierQueryRequestHander(_queryService);
+            var retValue = await _queryRequestHandler.Handle<GetFinanciers>(queryParams, HttpContext);
 
-        //     var retValue = await requestHander.Handle<GetFinanciers>(queryParams, HttpContext);
-
-        //     return new OkObjectResult(retValue);
-        // }
+            return new OkObjectResult(retValue);
+        }
 
     }
 }

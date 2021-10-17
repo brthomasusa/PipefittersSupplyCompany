@@ -55,10 +55,11 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                     .AddScoped<IEmployeeQueryService, EmployeeQueryService>()
                     .AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>()
                     .AddScoped<FinancierAggregateCommandHandler>()
-                    .AddScoped<IFinancierQueryService, FinancierQueryService>();
+                    .AddScoped<IFinancierQueryService, FinancierQueryService>()
+                    .AddScoped<IQueryRequestHandler, FinancierQueryRequestHander>();
 
 
-            // Singleton example. DO NOT DELETE!!!
+            // Singleton and scoped example of injecting generic class. DO NOT DELETE!!!
             // .AddSingleton(typeof(IQueryRequestHandler<>), typeof(FinancierAggregateQueryRequestHander<>));
             // .AddScoped(typeof(IQueryRequestHandler<>), typeof(FinancierQueryRequestHander<>))
         }
