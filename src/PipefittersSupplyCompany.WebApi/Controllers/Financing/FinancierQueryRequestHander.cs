@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
+using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
@@ -11,12 +12,16 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 {
-    public class FinancierQueryRequestHander : IQueryRequestHandler
+    public class FinancierQueryRequestHander : IFinancierQueryRequestHandler
     {
         private readonly IFinancierQueryService _queryService;
+        private readonly LinkGenerator _linkGenerator;
 
-        public FinancierQueryRequestHander(IFinancierQueryService queryService)
-            => _queryService = queryService;
+        public FinancierQueryRequestHander(IFinancierQueryService queryService, LinkGenerator generator)
+        {
+            _queryService = queryService;
+            _linkGenerator = generator;
+        }
 
         public async Task<IActionResult> Handle<TQueryParam>
         (
@@ -33,23 +38,48 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
         private IActionResult HandleGetFinanciers(PagedList<FinancierListItem> queryResult, HttpContext httpContext)
         {
             // Add paging info to response header
-            IQueryResult<FinancierListItem> model = new QueryResult<FinancierListItem>();
-            model.ReadModels = queryResult;
-            model.CurrentHttpContext = httpContext;
+            IQueryResult<FinancierListItem> container = new QueryResult<FinancierListItem>();
+            container.ReadModels = queryResult;
+            container.CurrentHttpContext = httpContext;
+
             ResponseHeaderHandler<FinancierListItem> headerHandler = new ResponseHeaderHandler<FinancierListItem>();
-            headerHandler.Process(ref model);
 
             // Add hateoas links
+            bool shouldGenerateLinks = ShouldGenerateLinks(httpContext);
 
-            // Create IActionResult return value            
+            if (shouldGenerateLinks)
+            {
+                headerHandler.NextHandler = new LinkGenerationHandler<FinancierListItem>(_linkGenerator);
+            }
+
+            headerHandler.Process(ref container);
+
+            // Create IActionResult return value 
+            if (shouldGenerateLinks)
+            {
+                return new OkObjectResult(container.Links);
+            }
+
             return new OkObjectResult(queryResult.ReadModels);
         }
 
         private IActionResult HandleGetFinancier(FinancierDetail queryResult, HttpContext httpContext)
         {
-            // Add hateoas links
+            IQueryResult<FinancierDetail> container = new QueryResult<FinancierDetail>();
+            container.ReadModel = queryResult;
+            container.CurrentHttpContext = httpContext;
 
-            // Create IActionResult return value            
+            // Add hateoas links
+            bool shouldGenerateLinks = ShouldGenerateLinks(httpContext);
+
+            if (shouldGenerateLinks)
+            {
+                LinkGenerationHandler<FinancierDetail> linkGenerationHandler =
+                    new LinkGenerationHandler<FinancierDetail>(_linkGenerator);
+                linkGenerationHandler.Process(ref container);
+                return new OkObjectResult(container.Links);
+            }
+
             return new OkObjectResult(queryResult);
         }
 

@@ -16,9 +16,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
     public class FinanciersController : ControllerBase
     {
         private readonly ILoggerManager _logger;
-        private readonly IQueryRequestHandler _queryRequestHandler;
+        private readonly IFinancierQueryRequestHandler _queryRequestHandler;
 
-        public FinanciersController(ILoggerManager logger, IQueryRequestHandler queryRequestHandler)
+        public FinanciersController(ILoggerManager logger, IFinancierQueryRequestHandler queryRequestHandler)
         {
             _logger = logger ?? throw new ArgumentNullException(nameof(logger));
             _queryRequestHandler = queryRequestHandler ?? throw new ArgumentNullException(nameof(queryRequestHandler));
@@ -38,7 +38,23 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 
             var retValue = await _queryRequestHandler.Handle<GetFinanciers>(queryParams, HttpContext);
 
-            return new OkObjectResult(retValue);
+            return retValue;
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("details/{financierId}")]
+        public async Task<IActionResult> Details(Guid financierId)
+        {
+            GetFinancier queryParams =
+                new GetFinancier
+                {
+                    FinancierID = financierId
+                };
+
+            var retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
+
+            return retValue;
         }
 
     }

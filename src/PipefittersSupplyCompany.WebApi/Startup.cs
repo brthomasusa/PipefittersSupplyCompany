@@ -65,14 +65,6 @@ namespace PipefittersSupplyCompany.WebApi
             services.AddScoped<EmployeePatchActionAttribute>();
             services.AddScoped<ValidateMediaTypeAttribute>();
             services.AddCustomMediaTypes();
-
-            // services.AddScoped<IUnitOfWork, AppUnitOfWork>();
-            // services.AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>();
-            // services.AddScoped<EmployeeAggregateCommandHandler>();
-            // services.AddScoped<IEmployeeQueryService, EmployeeQueryService>();            
-            // services.AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>();
-            // services.AddScoped<FinancierAggregateCommandHandler>();
-            // services.AddScoped<IFinancierQueryService, FinancierQueryService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
