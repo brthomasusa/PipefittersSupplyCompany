@@ -20,7 +20,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
 {
     public class FinancierQueryRequestHandlerTests : IntegrationTestBaseDapper
     {
-        private readonly FinancierQueryRequestHander _queryRequestHandler;
+        // private readonly FinancierQueryRequestHander _queryRequestHandler;
 
         public FinancierQueryRequestHandlerTests()
         {
