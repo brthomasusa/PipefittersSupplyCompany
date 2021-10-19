@@ -8,7 +8,7 @@ using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 {
     [ApiVersion("1.0")]
     [Route("api/{v:apiVersion}/[controller]")]

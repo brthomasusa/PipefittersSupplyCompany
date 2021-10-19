@@ -7,7 +7,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.WebApi.Interfaces;
-using PipefittersSupplyCompany.WebApi.Controllers.Financing;
+using PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;

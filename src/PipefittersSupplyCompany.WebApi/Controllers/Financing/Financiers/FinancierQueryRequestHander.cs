@@ -7,7 +7,7 @@ using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 {
     public class FinancierQueryRequestHander : IFinancierQueryRequestHandler
     {
@@ -28,9 +28,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
             queryParam switch
             {
                 GetFinanciers param =>
-                    ActionResultPagedListCommand.CreateActionResult<FinancierListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
+                    FinancierPagedListCommand.CreateActionResult<FinancierListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
                 GetFinancier param
-                    => ActionResultReadModelCommand.CreateActionResult(await _queryService.Query(param), httpContext, _linkGenerator),
+                    => FinancierReadModelCommand.CreateActionResult<FinancierDetail>(await _queryService.Query(param), httpContext, _linkGenerator),
                 _ => throw new ArgumentOutOfRangeException("Unknown Financier query parameter!", nameof(queryParam))
             };
     }

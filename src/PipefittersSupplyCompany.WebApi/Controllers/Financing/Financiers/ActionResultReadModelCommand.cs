@@ -5,36 +5,36 @@ using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 {
-    public static class ActionResultPagedListCommand
+    public static class FinancierReadModelCommand
     {
-        public static IActionResult CreateActionResult<T>(PagedList<T> queryResult, HttpContext httpContext, LinkGenerator generator)
+        public static IActionResult CreateActionResult<T>
+        (
+            T queryResult,
+            HttpContext httpContext,
+            LinkGenerator generator
+        )
         {
             IQueryResult<T> container = new QueryResult<T>();
-            container.ReadModels = queryResult;
+            container.ReadModel = queryResult as IReadModel;
             container.CurrentHttpContext = httpContext;
-
-            ResponseHeaderHandler<T> headerHandler = new ResponseHeaderHandler<T>();
 
             bool shouldGenerateLinks = ShouldGenerateLinks(httpContext);
 
             if (shouldGenerateLinks)
             {
-                headerHandler.NextHandler = new LinkGenerationHandler<T>(generator);
-            }
+                LinkGenerationHandler<T> linkGenerationHandler =
+                    new LinkGenerationHandler<T>(generator);
 
-            headerHandler.Process(ref container);
+                linkGenerationHandler.Process(ref container);
 
-            // Create IActionResult return value 
-            if (shouldGenerateLinks)
-            {
                 return new OkObjectResult(container.Links);
             }
 
-            return new OkObjectResult(queryResult.ReadModels);
+            return new OkObjectResult(queryResult);
         }
 
         private static bool ShouldGenerateLinks(HttpContext httpContext)

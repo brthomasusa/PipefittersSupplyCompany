@@ -7,7 +7,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 {
     public class LinkGenerationHandler<TReadModel> : IQueryResultHandler<TReadModel>
     {
