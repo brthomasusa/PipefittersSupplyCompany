@@ -31,9 +31,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
             queryParam switch
             {
                 GetFinanciers param => ActionResultPagedListCommand.CreateActionResult<FinancierListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
-                GetFinancier param => HandleGetFinancier(await _queryService.Query(param), httpContext),
+                GetFinancier param => ActionResultReadModelCommand.CreateActionResult(await _queryService.Query(param), httpContext, _linkGenerator),
                 _ => throw new ArgumentOutOfRangeException("Unknown Financier query parameter!", nameof(queryParam))
-            };   // HandleGetFinanciers(await _queryService.Query(param), httpContext),
+            };
 
         private IActionResult HandleGetFinanciers(PagedList<FinancierListItem> queryResult, HttpContext httpContext)
         {

@@ -1,15 +1,11 @@
 using System;
-using System.Threading.Tasks;
-using System.Text.Json;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing
 {
