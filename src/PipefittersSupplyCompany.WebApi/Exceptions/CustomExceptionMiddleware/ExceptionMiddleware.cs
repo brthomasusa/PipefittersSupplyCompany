@@ -45,6 +45,7 @@ namespace PipefittersSupplyCompany.WebApi.Exceptions.CustomExceptionMiddleware
             var message = exception switch
             {
                 SqlException => "An exception in the Dapper ORM has occured.",
+                ArgumentException or ArgumentNullException or ArgumentOutOfRangeException => exception.Message,
                 _ => "Internal server error (from custom middleware)."
             };
 

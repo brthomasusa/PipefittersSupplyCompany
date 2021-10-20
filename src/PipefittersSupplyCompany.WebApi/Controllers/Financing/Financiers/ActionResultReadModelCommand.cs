@@ -18,14 +18,12 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             LinkGenerator generator
         )
         {
-            IQueryResult<T> container = new QueryResult<T>();
-            container.ReadModel = queryResult as IReadModel;
-            container.CurrentHttpContext = httpContext;
-
-            bool shouldGenerateLinks = ShouldGenerateLinks(httpContext);
-
-            if (shouldGenerateLinks)
+            if (ShouldGenerateLinks(httpContext))
             {
+                IQueryResult<T> container = new QueryResult<T>();
+                container.ReadModel = queryResult as IReadModel;
+                container.CurrentHttpContext = httpContext;
+
                 LinkGenerationHandler<T> linkGenerationHandler =
                     new LinkGenerationHandler<T>(generator);
 

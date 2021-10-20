@@ -44,7 +44,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [Route("details/{financierId}")]
-        public async Task<IActionResult> Details(Guid financierId)
+        public async Task<IActionResult> GetFinancierDetails(Guid financierId)
         {
             GetFinancier queryParams =
                 new GetFinancier
@@ -57,5 +57,72 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             return retValue;
         }
 
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("{financierId:Guid}/addresses")]
+        public async Task<IActionResult> GetFinancierAddresses(Guid financierId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetFinancierAddresses queryParams =
+                new GetFinancierAddresses
+                {
+                    FinancierID = financierId,
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
+                };
+
+            var retValue = await _queryRequestHandler.Handle<GetFinancierAddresses>(queryParams, HttpContext);
+
+            return retValue;
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("addressdetails/{addressId:int}")]
+        public async Task<IActionResult> GetFinancierAddressDetails(int addressId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetFinancierAddress queryParams =
+                new GetFinancierAddress
+                {
+                    AddressID = addressId,
+                };
+
+            var retValue = await _queryRequestHandler.Handle<GetFinancierAddress>(queryParams, HttpContext);
+
+            return retValue;
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("{financierId:Guid}/contacts")]
+        public async Task<IActionResult> GetFinancierContacts(Guid financierId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetFinancierContacts queryParams =
+                new GetFinancierContacts
+                {
+                    FinancierID = financierId,
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
+                };
+
+            var retValue = await _queryRequestHandler.Handle<GetFinancierContacts>(queryParams, HttpContext);
+
+            return retValue;
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("contactdetails/{personId:int}")]
+        public async Task<IActionResult> GetFinancierContactDetails(int personId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetFinancierContact queryParams =
+                new GetFinancierContact
+                {
+                    PersonID = personId,
+                };
+
+            var retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext);
+
+            return retValue;
+        }
     }
 }

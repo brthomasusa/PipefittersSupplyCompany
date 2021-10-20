@@ -30,8 +30,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
 
     public class FinancierAddressDetail : IReadModel
     {
-        public Guid FinancierId { get; set; }
         public int AddressId { get; set; }
+        public Guid FinancierId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
         public string City { get; set; }
