@@ -4,9 +4,8 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.FinancierAggregateWriteModels;
 
-namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
+namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers
 {
     public class FinancierAggregateCommandHandler : ICommandHandler
     {
@@ -22,24 +21,15 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
         public Task Handle(IWriteModel writeModel) =>
             writeModel switch
             {
-                CreateFinancierInfo model =>
-                    HandleCreate(model),
-                EditFinancierInfo model =>
-                    HandleUpdate(model),
-                DeleteFinancierInfo model =>
-                    HandleDelete(model),
-                CreateFinancierAddressInfo model =>
-                    HandleCreateAddress(model),
-                EditFinancierAddressInfo model =>
-                    HandleUpdateAddress(model),
-                DeleteFinancierAddressInfo model =>
-                    HandleDeleteAddress(model),
-                CreateFinancierContactInfo model =>
-                    HandleCreateContact(model),
-                EditFinancierContactInfo model =>
-                    HandleUpdateContact(model),
-                DeleteFinancierContactInfo model =>
-                    HandleDeleteContact(model),
+                CreateFinancierInfo model => HandleCreate(model),
+                EditFinancierInfo model => HandleUpdate(model),
+                DeleteFinancierInfo model => HandleDelete(model),
+                CreateFinancierAddressInfo model => HandleCreateAddress(model),
+                EditFinancierAddressInfo model => HandleUpdateAddress(model),
+                DeleteFinancierAddressInfo model => HandleDeleteAddress(model),
+                CreateFinancierContactInfo model => HandleCreateContact(model),
+                EditFinancierContactInfo model => HandleUpdateContact(model),
+                DeleteFinancierContactInfo model => HandleDeleteContact(model),
                 _ => Task.CompletedTask
             };
 

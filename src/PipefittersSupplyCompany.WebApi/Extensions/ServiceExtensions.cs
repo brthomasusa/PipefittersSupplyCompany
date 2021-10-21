@@ -11,7 +11,7 @@ using PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
-using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 

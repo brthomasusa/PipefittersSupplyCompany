@@ -5,10 +5,9 @@ using Xunit;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
-using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers;
 using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.FinancierAggregateWriteModels;
 
 
 namespace PipefittersSupplyCompany.IntegrationTests.Financing

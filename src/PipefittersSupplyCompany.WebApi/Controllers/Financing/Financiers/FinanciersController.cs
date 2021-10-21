@@ -2,11 +2,12 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 {
