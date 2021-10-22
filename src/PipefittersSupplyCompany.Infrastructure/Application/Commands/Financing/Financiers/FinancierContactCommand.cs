@@ -33,8 +33,14 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
             repo.Update(financier);
             await unitOfWork.Commit();
 
-            var lastCreated = financier.ContactPersons().OrderByDescending(a => a.CreatedDate).FirstOrDefault();
-            model.PersonId = lastCreated.Id;
+            var mostRecent = financier.ContactPersons().Where(c => c.ContactName.FirstName == model.FirstName &&
+                                                                   c.ContactName.LastName == model.LastName &&
+                                                                   c.ContactName.MiddleInitial == model.MiddleInitial &&
+                                                                   c.Telephone == model.Telephone &&
+                                                                   c.Agent.Id == model.FinancierId)
+                                                        .FirstOrDefault();
+
+            model.PersonId = mostRecent.Id;
         }
 
         private static async Task HandleUpdate(EditFinancierContactInfo model, IFinancierAggregateRepository repo, IUnitOfWork unitOfWork)

@@ -11,16 +11,16 @@ using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Fin
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 {
-    [ApiVersion("1.0")]
-    [Route("api/{v:apiVersion}/Financiers")]
     [ApiController]
-    public class FinanciersController : ControllerBase
+    [ApiVersion("1.0")]
+    [Route("api/{v:apiVersion}/Financiers/")]
+    public class FinancierContactsController : ControllerBase
     {
         private readonly ILoggerManager _logger;
         private readonly IFinancierQueryRequestHandler _queryRequestHandler;
         private readonly FinancierAggregateCommandHandler _commandHandler;
 
-        public FinanciersController
+        public FinancierContactsController
         (
             ILoggerManager logger,
             IFinancierQueryRequestHandler queryRequestHandler,
@@ -33,52 +33,51 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
         }
 
         [HttpGet]
-        [Route("list")]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        public async Task<IActionResult> GetFinanciers([FromQuery] PagingParameters pagingParams)
+        [Route("{financierId:Guid}/contacts")]
+        public async Task<IActionResult> GetFinancierContacts(Guid financierId, [FromQuery] PagingParameters pagingParams)
         {
-            GetFinanciers queryParams =
-                new GetFinanciers
+            GetFinancierContacts queryParams =
+                new GetFinancierContacts
                 {
+                    FinancierID = financierId,
                     Page = pagingParams.Page,
                     PageSize = pagingParams.PageSize
                 };
 
-            var retValue = await _queryRequestHandler.Handle<GetFinanciers>(queryParams, HttpContext);
+            var retValue = await _queryRequestHandler.Handle<GetFinancierContacts>(queryParams, HttpContext);
 
             return retValue;
         }
 
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("details/{financierId}")]
-        public async Task<IActionResult> GetFinancierDetails(Guid financierId)
+        [Route("contactdetails/{personId:int}")]
+        public async Task<IActionResult> GetFinancierContactDetails(int personId, [FromQuery] PagingParameters pagingParams)
         {
-            GetFinancier queryParams =
-                new GetFinancier
+            GetFinancierContact queryParams =
+                new GetFinancierContact
                 {
-                    FinancierID = financierId
+                    PersonID = personId,
                 };
 
-            var retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
+            var retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext);
 
             return retValue;
         }
 
         [HttpPost]
-        [Route("createfinancierinfo")]
-        public async Task<IActionResult> CreateFinancierInfo([FromBody] CreateFinancierInfo writeModel)
+        [Route("createfinanciercontactinfo")]
+        public async Task<IActionResult> CreateFinancierContactInfo([FromBody] CreateFinancierContactInfo writeModel)
         {
             try
             {
                 await _commandHandler.Handle(writeModel);
+                GetFinancierContact queryParams = new GetFinancierContact { PersonID = writeModel.PersonId };
 
-                GetFinancier queryParams = new GetFinancier { FinancierID = writeModel.Id };
+                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext);
 
-                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
-
-                return CreatedAtAction(nameof(GetFinancierDetails), new { financierId = writeModel.Id }, (retValue as OkObjectResult).Value);
-
+                return CreatedAtAction(nameof(GetFinancierContactDetails), new { personId = writeModel.PersonId }, (retValue as OkObjectResult).Value);
             }
             catch (Exception ex)
             {
@@ -86,8 +85,5 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                 return new BadRequestObjectResult(ex.Message);
             }
         }
-
-
-
     }
 }

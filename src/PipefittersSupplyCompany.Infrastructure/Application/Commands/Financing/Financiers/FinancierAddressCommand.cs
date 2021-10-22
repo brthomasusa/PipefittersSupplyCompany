@@ -32,8 +32,14 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
             repo.Update(financier);
             await unitOfWork.Commit();
 
-            var lastCreated = financier.Addresses().OrderByDescending(a => a.CreatedDate).FirstOrDefault();
-            model.AddressId = lastCreated.Id;
+            var mostRecent = financier.Addresses().Where(a => a.AddressDetails.AddressLine1 == model.AddressLine1 &&
+                                                              a.AddressDetails.AddressLine2 == model.AddressLine2 &&
+                                                              a.AddressDetails.City == model.City &&
+                                                              a.AddressDetails.StateCode == model.StateCode &&
+                                                              a.AddressDetails.Zipcode == model.Zipcode)
+                                                    .FirstOrDefault();
+
+            model.AddressId = mostRecent.Id;
         }
 
         private static async Task HandleUpdate(EditFinancierAddressInfo model, IFinancierAggregateRepository repo, IUnitOfWork unitOfWork)
