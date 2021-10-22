@@ -147,7 +147,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             var model = new DeleteFinancierAddressInfo
             {
                 AddressId = 10,
-                FinancierId = financier.Id
+                FinancierId = new Guid("12998229-7ede-4834-825a-0c55bde75695"),
+                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
             };
 
             await _financierCmdHdlr.Handle(model);

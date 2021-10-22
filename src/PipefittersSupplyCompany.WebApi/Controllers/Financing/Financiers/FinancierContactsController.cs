@@ -85,5 +85,37 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                 return new BadRequestObjectResult(ex.Message);
             }
         }
+
+        [HttpPut]
+        [Route("editfinanciercontactinfo")]
+        public async Task<IActionResult> EditFinancierContactInfo([FromBody] EditFinancierContactInfo writeModel)
+        {
+            try
+            {
+                await _commandHandler.Handle(writeModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("deletefinanciercontactinfo")]
+        public async Task<IActionResult> DeleteFinancierContactInfo([FromBody] DeleteFinancierContactInfo writeModel)
+        {
+            try
+            {
+                await _commandHandler.Handle(writeModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
     }
 }

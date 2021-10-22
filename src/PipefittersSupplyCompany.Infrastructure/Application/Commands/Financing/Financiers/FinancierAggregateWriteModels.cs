@@ -54,6 +54,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
     {
         public int AddressId { get; set; }
         public Guid FinancierId { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class CreateFinancierContactInfo : IWriteModel
