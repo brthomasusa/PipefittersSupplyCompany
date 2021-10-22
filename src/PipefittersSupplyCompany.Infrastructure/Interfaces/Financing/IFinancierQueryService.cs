@@ -2,7 +2,7 @@ using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
-namespace PipefittersSupplyCompany.Infrastructure.Interfaces
+namespace PipefittersSupplyCompany.Infrastructure.Interfaces.Financing
 {
     public interface IFinancierQueryService
     {

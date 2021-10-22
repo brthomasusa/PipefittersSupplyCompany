@@ -1,6 +1,6 @@
 using System;
 using System.Threading.Tasks;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 
 namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing

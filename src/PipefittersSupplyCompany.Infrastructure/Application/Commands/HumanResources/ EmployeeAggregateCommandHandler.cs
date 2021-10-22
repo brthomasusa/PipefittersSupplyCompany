@@ -1,6 +1,7 @@
 using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;

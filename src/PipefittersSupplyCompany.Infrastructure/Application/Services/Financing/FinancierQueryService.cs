@@ -5,7 +5,7 @@ using System.Data;
 using Dapper;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Services.Financing

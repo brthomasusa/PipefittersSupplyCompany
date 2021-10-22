@@ -30,6 +30,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
 
     public class CreateFinancierAddressInfo : IWriteModel
     {
+        public int AddressId { get; set; }
         public Guid FinancierId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
@@ -57,6 +58,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
 
     public class CreateFinancierContactInfo : IWriteModel
     {
+        public int PersonId { get; set; }
         public Guid FinancierId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }

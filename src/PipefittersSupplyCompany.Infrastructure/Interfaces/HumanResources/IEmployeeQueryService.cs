@@ -3,7 +3,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;
 
-namespace PipefittersSupplyCompany.Infrastructure.Interfaces
+namespace PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources
 {
     public interface IEmployeeQueryService
     {

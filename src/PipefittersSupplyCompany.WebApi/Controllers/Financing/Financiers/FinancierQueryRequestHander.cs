@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers

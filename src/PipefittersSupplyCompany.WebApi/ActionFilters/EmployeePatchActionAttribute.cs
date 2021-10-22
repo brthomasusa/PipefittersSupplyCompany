@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Filters;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
 

@@ -18,11 +18,18 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
     {
         private readonly ILoggerManager _logger;
         private readonly IFinancierQueryRequestHandler _queryRequestHandler;
+        private readonly FinancierAggregateCommandHandler _commandHandler;
 
-        public FinanciersController(ILoggerManager logger, IFinancierQueryRequestHandler queryRequestHandler)
+        public FinanciersController
+        (
+            ILoggerManager logger,
+            IFinancierQueryRequestHandler queryRequestHandler,
+            FinancierAggregateCommandHandler commandHandler
+        )
         {
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _queryRequestHandler = queryRequestHandler ?? throw new ArgumentNullException(nameof(queryRequestHandler));
+            _logger = logger;
+            _queryRequestHandler = queryRequestHandler;
+            _commandHandler = commandHandler;
         }
 
         [HttpGet]
@@ -125,5 +132,68 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
             return retValue;
         }
+
+        [HttpPost]
+        [Route("createfinancierinfo")]
+        public async Task<IActionResult> CreateFinancierInfo([FromBody] CreateFinancierInfo writeModel)
+        {
+            try
+            {
+                await _commandHandler.Handle(writeModel);
+
+                GetFinancier queryParams = new GetFinancier { FinancierID = writeModel.Id };
+
+                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
+
+                return CreatedAtAction(nameof(GetFinancierDetails), new { financierId = writeModel.Id }, (retValue as OkObjectResult).Value);
+
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("createfinancieraddressinfo")]
+        public async Task<IActionResult> CreateFinancierAddressInfo([FromBody] CreateFinancierAddressInfo writeModel)
+        {
+            try
+            {
+                await _commandHandler.Handle(writeModel);
+                GetFinancierAddress queryParams = new GetFinancierAddress { AddressID = writeModel.AddressId };
+
+                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancierAddress>(queryParams, HttpContext);
+
+                return CreatedAtAction(nameof(GetFinancierAddressDetails), new { addressId = writeModel.AddressId }, (retValue as OkObjectResult).Value);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
+        [HttpPost]
+        [Route("createfinanciercontactinfo")]
+        public async Task<IActionResult> CreateFinancierContactInfo([FromBody] CreateFinancierContactInfo writeModel)
+        {
+            try
+            {
+                await _commandHandler.Handle(writeModel);
+                GetFinancierContact queryParams = new GetFinancierContact { PersonID = writeModel.PersonId };
+
+                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext);
+
+                return CreatedAtAction(nameof(GetFinancierContactDetails), new { personId = writeModel.PersonId }, (retValue as OkObjectResult).Value);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
     }
 }

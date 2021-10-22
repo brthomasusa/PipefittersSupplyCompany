@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
 using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-
+using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.WebApi.Interfaces;
@@ -54,6 +55,7 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                     .AddScoped<EmployeeAggregateCommandHandler>()
                     .AddScoped<IEmployeeQueryService, EmployeeQueryService>()
                     .AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>()
+                    .AddScoped<FinancierAggregateCommandHandler>()
                     .AddScoped<FinancierAggregateCommandHandler>()
                     .AddScoped<IFinancierQueryService, FinancierQueryService>()
                     .AddScoped<IFinancierQueryRequestHandler, FinancierQueryRequestHander>();

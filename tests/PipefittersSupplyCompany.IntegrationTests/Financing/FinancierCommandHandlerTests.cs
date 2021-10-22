@@ -3,6 +3,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers;

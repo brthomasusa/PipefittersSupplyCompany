@@ -8,6 +8,7 @@ using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.WebApi.Controllers;
 using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
 using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;

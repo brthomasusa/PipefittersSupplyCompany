@@ -1,8 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.Extensions.Primitives;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
@@ -18,7 +18,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             LinkGenerator generator
         )
         {
-            if (ShouldGenerateLinks(httpContext))
+            if (ShouldGenerateLinks(httpContext.Request.Headers))
             {
                 IQueryResult<T> container = new QueryResult<T>();
                 container.ReadModel = queryResult as IReadModel;
@@ -35,11 +35,17 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             return new OkObjectResult(queryResult);
         }
 
-        private static bool ShouldGenerateLinks(HttpContext httpContext)
+        private static bool ShouldGenerateLinks(IHeaderDictionary dict)
         {
-            var mediaType = httpContext.Items["AcceptHeaderMediaType"] as MediaTypeHeaderValue;
+            foreach (StringValues keys in dict.Keys)
+            {
+                if (dict[keys].ToString().Contains("application/vnd.btechnical-consulting.hateoas+json", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
 
-            return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
+            return false;
         }
     }
 }
