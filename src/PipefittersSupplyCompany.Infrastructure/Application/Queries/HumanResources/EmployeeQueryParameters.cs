@@ -2,6 +2,11 @@ using System;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources
 {
+    public class DoEmployeeDependencyCheck
+    {
+        public Guid EmployeeID { get; set; }
+    }
+
     public class GetEmployee
     {
         public Guid EmployeeID { get; set; }

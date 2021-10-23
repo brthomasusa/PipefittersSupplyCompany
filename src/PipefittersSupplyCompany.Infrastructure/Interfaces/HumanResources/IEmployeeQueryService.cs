@@ -6,6 +6,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources
 {
     public interface IEmployeeQueryService
     {
+        Task<EmployeeDependencyCheckResult> Query(DoEmployeeDependencyCheck queryParameters);
         Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters);
         Task<PagedList<EmployeeListItem>> Query(GetEmployeesSupervisedBy queryParameters);
         Task<PagedList<EmployeeListItemWithRoles>> Query(GetEmployeesOfRole queryParameters);

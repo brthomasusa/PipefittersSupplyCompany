@@ -2,6 +2,13 @@ using System;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources
 {
+    public class EmployeeDependencyCheckResult : IReadModel
+    {
+        public Guid EmployeeId { get; set; }
+        public int Addresses { get; set; }
+        public int Contacts { get; set; }
+    }
+
     public class EmployeeDetail : IReadModel
     {
         public Guid EmployeeId { get; set; }

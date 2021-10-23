@@ -7,6 +7,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
     {
         public Guid FinancierID { get; set; }
     }
+
     public class GetFinancier
     {
         public Guid FinancierID { get; set; }

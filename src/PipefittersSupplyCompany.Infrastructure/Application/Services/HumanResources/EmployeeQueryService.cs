@@ -19,6 +19,31 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
 
         private static int Offset(int page, int pageSize) => (page - 1) * pageSize;
 
+        public async Task<EmployeeDependencyCheckResult> Query(DoEmployeeDependencyCheck queryParameters)
+        {
+            if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
+            {
+                throw new ArgumentException($"No employee record found where EmployeeId equals {queryParameters.EmployeeID}.");
+            }
+
+            var sql =
+            @"SELECT 
+                emp.EmployeeId, COUNT(DISTINCT addr.AddressId) AS 'Addresses', COUNT(DISTINCT con.PersonId) AS 'Contacts' 
+            FROM HumanResources.Employees emp
+            INNER JOIN Shared.Addresses addr ON emp.EmployeeId = addr.AgentId
+            INNER JOIN Shared.ContactPersons con ON emp.EmployeeId = con.AgentId
+            WHERE emp.EmployeeId = @ID
+            GROUP BY emp.EmployeeId";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.EmployeeID, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<EmployeeDependencyCheckResult>(sql, parameters);
+            }
+        }
+
         public async Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters)
         {
             var sql =
