@@ -9,8 +9,9 @@ using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResource
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
+using PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpers;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
+namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 {
     [ApiVersion("1.0")]
     [Route("api/{v:apiVersion}/[controller]")]

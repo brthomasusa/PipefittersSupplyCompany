@@ -7,7 +7,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources
+namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpers
 {
     public class LinkGenerationHandler<TReadModel> : IQueryResultHandler<TReadModel>
     {
