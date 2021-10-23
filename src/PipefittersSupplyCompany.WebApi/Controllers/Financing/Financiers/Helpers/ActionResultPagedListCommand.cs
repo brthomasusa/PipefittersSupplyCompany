@@ -7,9 +7,9 @@ using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
-    public static class FinancierPagedListCommand
+    public static class ActionResultPagedListCommand
     {
         public static IActionResult CreateActionResult<T>(PagedList<T> queryResult, HttpContext httpContext, LinkGenerator generator)
         {
@@ -23,7 +23,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
             if (shouldGenerateLinks)
             {
-                headerHandler.NextHandler = new LinkGenerationHandler<T>(generator);
+                headerHandler.NextHandler = new LinkWrapperHandler<T>(generator);
             }
 
             headerHandler.Process(ref container);

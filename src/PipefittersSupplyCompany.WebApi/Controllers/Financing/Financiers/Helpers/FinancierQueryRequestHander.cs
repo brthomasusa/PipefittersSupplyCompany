@@ -7,7 +7,7 @@ using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
     public class FinancierQueryRequestHander : IFinancierQueryRequestHandler
     {
@@ -28,15 +28,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             queryParam switch
             {
                 GetFinanciers param =>
-                    FinancierPagedListCommand.CreateActionResult<FinancierListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
+                    ActionResultPagedListCommand.CreateActionResult<FinancierListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
                 GetFinancier param
                     => FinancierReadModelCommand.CreateActionResult<FinancierDetail>(await _queryService.Query(param), httpContext, _linkGenerator),
                 GetFinancierAddresses param
-                    => FinancierPagedListCommand.CreateActionResult<FinancierAddressListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
+                    => ActionResultPagedListCommand.CreateActionResult<FinancierAddressListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
                 GetFinancierAddress param
                     => FinancierReadModelCommand.CreateActionResult<FinancierAddressDetail>(await _queryService.Query(param), httpContext, _linkGenerator),
                 GetFinancierContacts param
-                    => FinancierPagedListCommand.CreateActionResult<FinancierContactListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
+                    => ActionResultPagedListCommand.CreateActionResult<FinancierContactListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
                 GetFinancierContact param
                     => FinancierReadModelCommand.CreateActionResult<FinancierContactDetail>(await _queryService.Query(param), httpContext, _linkGenerator),
                 DoFinancierDependencyCheck param => ActionResultCheckDependencyCommand.CreateActionResult(await _queryService.Query(param)),

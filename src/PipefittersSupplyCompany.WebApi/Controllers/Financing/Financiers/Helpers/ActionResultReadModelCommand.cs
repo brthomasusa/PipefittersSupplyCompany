@@ -7,7 +7,7 @@ using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
     public static class FinancierReadModelCommand
     {
@@ -27,8 +27,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                     container.ReadModel = queryResult as IReadModel;
                     container.CurrentHttpContext = httpContext;
 
-                    LinkGenerationHandler<T> linkGenerationHandler =
-                        new LinkGenerationHandler<T>(generator);
+                    LinkWrapperHandler<T> linkGenerationHandler =
+                        new LinkWrapperHandler<T>(generator);
 
                     linkGenerationHandler.Process(ref container);
 

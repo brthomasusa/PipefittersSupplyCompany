@@ -158,5 +158,42 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             }
         }
 
+        // Get Address and Contact list
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("{financierId:Guid}/addresses")]
+        public async Task<IActionResult> GetFinancierAddresses(Guid financierId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetFinancierAddresses queryParams =
+                new GetFinancierAddresses
+                {
+                    FinancierID = financierId,
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
+                };
+
+            var retValue = await _queryRequestHandler.Handle<GetFinancierAddresses>(queryParams, HttpContext);
+
+            return retValue;
+        }
+
+        [HttpGet]
+        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
+        [Route("{financierId:Guid}/contacts")]
+        public async Task<IActionResult> GetFinancierContacts(Guid financierId, [FromQuery] PagingParameters pagingParams)
+        {
+            GetFinancierContacts queryParams =
+                new GetFinancierContacts
+                {
+                    FinancierID = financierId,
+                    Page = pagingParams.Page,
+                    PageSize = pagingParams.PageSize
+                };
+
+            var retValue = await _queryRequestHandler.Handle<GetFinancierContacts>(queryParams, HttpContext);
+
+            return retValue;
+        }
     }
 }

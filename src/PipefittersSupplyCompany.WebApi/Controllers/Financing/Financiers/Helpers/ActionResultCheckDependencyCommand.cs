@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
     public static class ActionResultCheckDependencyCommand
     {

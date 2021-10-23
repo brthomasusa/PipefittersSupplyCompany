@@ -1,19 +1,18 @@
 using System;
 using System.Collections.Generic;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
-namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
+namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
-    public class LinkGenerationHandler<TReadModel> : IQueryResultHandler<TReadModel>
+    public class LinkWrapperHandler<TReadModel> : IQueryResultHandler<TReadModel>
     {
         private readonly LinkGenerator _linkGenerator;
 
-        public LinkGenerationHandler(LinkGenerator generator) => _linkGenerator = generator;
+        public LinkWrapperHandler(LinkGenerator generator) => _linkGenerator = generator;
 
         public IQueryResultHandler<TReadModel> NextHandler { get; set; }
 
@@ -27,21 +26,27 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                         queryResult.Links = new LinksWrapper<FinancierDetail>
                         {
                             Value = queryResult.ReadModel as FinancierDetail,
-                            Links = CreateFinancierLinks(queryResult.CurrentHttpContext, (queryResult.ReadModel as FinancierDetail).FinancierId)
+                            Links = FinancierLinkGeneration.CreateLinks(queryResult.CurrentHttpContext,
+                                                                        _linkGenerator,
+                                                                        (queryResult.ReadModel as FinancierDetail).FinancierId)
                         };
                         break;
                     case FinancierAddressDetail:
                         queryResult.Links = new LinksWrapper<FinancierAddressDetail>
                         {
                             Value = queryResult.ReadModel as FinancierAddressDetail,
-                            Links = CreateFinancierAddressLinks(queryResult.CurrentHttpContext, (queryResult.ReadModel as FinancierAddressDetail).AddressId)
+                            Links = FinancierAddressLinkGeneration.CreateLinks(queryResult.CurrentHttpContext,
+                                                                               _linkGenerator,
+                                                                               (queryResult.ReadModel as FinancierAddressDetail).AddressId)
                         };
                         break;
                     case FinancierContactDetail:
                         queryResult.Links = new LinksWrapper<FinancierContactDetail>
                         {
                             Value = queryResult.ReadModel as FinancierContactDetail,
-                            Links = CreateFinancierContactLinks(queryResult.CurrentHttpContext, (queryResult.ReadModel as FinancierContactDetail).PersonId)
+                            Links = FinancierContactLinkGeneration.CreateLinks(queryResult.CurrentHttpContext,
+                                                                               _linkGenerator,
+                                                                               (queryResult.ReadModel as FinancierContactDetail).PersonId)
                         };
                         break;
                     default:
@@ -58,7 +63,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
                         foreach (var listItem in financiers)
                         {
-                            var links = CreateFinancierLinks(queryResult.CurrentHttpContext, listItem.FinancierId);
+                            var links = FinancierLinkGeneration.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.FinancierId);
 
                             linksWrappers.Values.Add
                             (
@@ -78,7 +83,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
                         foreach (var listItem in financierAddresses)
                         {
-                            var links = CreateFinancierLinks(queryResult.CurrentHttpContext, listItem.FinancierId);
+                            var links = FinancierAddressLinkGeneration.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.AddressId);
 
                             addressLinksWrappers.Values.Add
                             (
@@ -98,7 +103,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
                         foreach (var listItem in financierContacts)
                         {
-                            var links = CreateFinancierLinks(queryResult.CurrentHttpContext, listItem.FinancierId);
+                            var links = FinancierContactLinkGeneration.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.PersonId);
 
                             contactLinksWrappers.Values.Add
                             (
@@ -125,47 +130,6 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             {
                 NextHandler.Process(ref queryResult);
             }
-        }
-
-        private HashSet<Link> CreateFinancierLinks(HttpContext httpContext, Guid id)
-        {
-            var links = new HashSet<Link>
-                {
-                    new Link(_linkGenerator.GetUriByAction(httpContext, "GetFinancierDetails", values: new { financierId = id }), "self", "GET"),
-                    new Link(_linkGenerator.GetUriByAction(httpContext, "GetFinancierAddresses", values: new { financierId = id }), "addresses", "GET"),
-                    new Link(_linkGenerator.GetUriByAction(httpContext, "GetFinancierContacts", values: new { financierId = id }), "contacts", "GET"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "deletefinancierinfo", values: new { financierId = id }), "delete_financier", "DELETE"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "editfinancierinfo", values: new { financierId = id }), "update_financier", "PUT"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "patchfinancierinfo", values: new { financierId = id }), "patch_financier", "PATCH")
-                };
-
-            return links;
-        }
-
-        private HashSet<Link> CreateFinancierAddressLinks(HttpContext httpContext, int id)
-        {
-            var links = new HashSet<Link>
-                {
-                    new Link(_linkGenerator.GetUriByAction(httpContext, "GetFinancierAddressDetails", values: new { addressId = id }), "self", "GET"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "deletefinancieraddressinfo", values: new { addressId = id }), "delete_financier", "DELETE"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "editfinancieraddressinfo", values: new { addressId = id }), "update_financier", "PUT"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "patchfinancieraddressinfo", values: new { addressId = id }), "patch_financier", "PATCH")
-                };
-
-            return links;
-        }
-
-        private HashSet<Link> CreateFinancierContactLinks(HttpContext httpContext, int id)
-        {
-            var links = new HashSet<Link>
-                {
-                    new Link(_linkGenerator.GetUriByAction(httpContext, "GetFinancierContactDetails", values: new { personId = id }), "self", "GET"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "deletefinancierContactinfo", values: new { personId = id }), "delete_financiercontact", "DELETE"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "editfinanciercontactinfo", values: new { personId = id }), "update_financiercontact", "PUT"),
-                    // new Link(_linkGenerator.GetUriByAction(httpContext, "patchfinanciercontactinfo", values: new { personId = id }), "patch_financiercontact", "PATCH")
-                };
-
-            return links;
         }
     }
 }

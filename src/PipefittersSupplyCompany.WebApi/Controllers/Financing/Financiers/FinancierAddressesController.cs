@@ -34,24 +34,6 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("{financierId:Guid}/addresses")]
-        public async Task<IActionResult> GetFinancierAddresses(Guid financierId, [FromQuery] PagingParameters pagingParams)
-        {
-            GetFinancierAddresses queryParams =
-                new GetFinancierAddresses
-                {
-                    FinancierID = financierId,
-                    Page = pagingParams.Page,
-                    PageSize = pagingParams.PageSize
-                };
-
-            var retValue = await _queryRequestHandler.Handle<GetFinancierAddresses>(queryParams, HttpContext);
-
-            return retValue;
-        }
-
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [Route("addressdetails/{addressId:int}")]
         public async Task<IActionResult> GetFinancierAddressDetails(int addressId, [FromQuery] PagingParameters pagingParams)
         {

@@ -8,13 +8,12 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.WebApi.Interfaces;
-using PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers;
+using PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.WebApi.Extensions
 {
