@@ -1,7 +1,6 @@
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
 
 namespace PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources
 {

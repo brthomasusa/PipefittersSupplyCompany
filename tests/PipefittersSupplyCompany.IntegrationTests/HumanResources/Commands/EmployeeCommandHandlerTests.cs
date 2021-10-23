@@ -9,7 +9,6 @@ using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanReso
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {

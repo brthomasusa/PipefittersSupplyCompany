@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc.Filters;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 
 namespace PipefittersSupplyCompany.WebApi.ActionFilters
 {

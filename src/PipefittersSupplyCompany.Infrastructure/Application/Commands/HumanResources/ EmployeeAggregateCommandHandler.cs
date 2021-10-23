@@ -5,7 +5,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
-using static PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources.EmployeeAggregateWriteModels;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources
 {

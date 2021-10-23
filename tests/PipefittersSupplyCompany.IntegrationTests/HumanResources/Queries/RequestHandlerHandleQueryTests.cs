@@ -10,8 +10,7 @@ using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeReadModels;
-using static PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources.EmployeeQueryParameters;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
 {
