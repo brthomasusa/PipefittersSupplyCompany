@@ -18,6 +18,31 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.Financing
 
         private static int Offset(int page, int pageSize) => (page - 1) * pageSize;
 
+        public async Task<FinancierDependencyCheckResult> Query(DoFinancierDependencyCheck queryParameters)
+        {
+            if (await IsValidFinancierID(queryParameters.FinancierID) == false)
+            {
+                throw new ArgumentException($"No financier record found where FinancierId equals {queryParameters.FinancierID}.");
+            }
+
+            var sql =
+            @"SELECT 
+                fin.FinancierID, COUNT(DISTINCT addr.AddressId) AS 'Addresses', COUNT(DISTINCT con.PersonId) AS 'Contacts' 
+            FROM Finance.Financiers fin
+            INNER JOIN Shared.Addresses addr ON fin.FinancierID = addr.AgentId
+            INNER JOIN Shared.ContactPersons con ON fin.FinancierID = con.AgentId
+            WHERE fin.FinancierID = @ID
+            GROUP BY fin.FinancierID";
+
+            var parameters = new DynamicParameters();
+            parameters.Add("ID", queryParameters.FinancierID, DbType.Guid);
+
+            using (var connection = _dapperCtx.CreateConnection())
+            {
+                return await connection.QueryFirstOrDefaultAsync<FinancierDependencyCheckResult>(sql, parameters);
+            }
+        }
+
         public async Task<PagedList<FinancierListItem>> Query(GetFinanciers queryParameters)
         {
             var sql =

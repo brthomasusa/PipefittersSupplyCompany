@@ -3,6 +3,10 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
 {
+    public class DoFinancierDependencyCheck
+    {
+        public Guid FinancierID { get; set; }
+    }
     public class GetFinancier
     {
         public Guid FinancierID { get; set; }

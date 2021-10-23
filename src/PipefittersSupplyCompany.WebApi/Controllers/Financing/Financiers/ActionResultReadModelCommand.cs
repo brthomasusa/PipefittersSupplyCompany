@@ -18,21 +18,27 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             LinkGenerator generator
         )
         {
-            if (ShouldGenerateLinks(httpContext.Request.Headers))
+            if (queryResult as IReadModel is not null)
             {
-                IQueryResult<T> container = new QueryResult<T>();
-                container.ReadModel = queryResult as IReadModel;
-                container.CurrentHttpContext = httpContext;
+                if (ShouldGenerateLinks(httpContext.Request.Headers))
+                {
 
-                LinkGenerationHandler<T> linkGenerationHandler =
-                    new LinkGenerationHandler<T>(generator);
+                    IQueryResult<T> container = new QueryResult<T>();
+                    container.ReadModel = queryResult as IReadModel;
+                    container.CurrentHttpContext = httpContext;
 
-                linkGenerationHandler.Process(ref container);
+                    LinkGenerationHandler<T> linkGenerationHandler =
+                        new LinkGenerationHandler<T>(generator);
 
-                return new OkObjectResult(container.Links);
+                    linkGenerationHandler.Process(ref container);
+
+                    return new OkObjectResult(container.Links);
+                }
+
+                return new OkObjectResult(queryResult);
             }
 
-            return new OkObjectResult(queryResult);
+            return new NotFoundObjectResult(new { Message = "Nothing found that matches the search criteria." });
         }
 
         private static bool ShouldGenerateLinks(IHeaderDictionary dict)

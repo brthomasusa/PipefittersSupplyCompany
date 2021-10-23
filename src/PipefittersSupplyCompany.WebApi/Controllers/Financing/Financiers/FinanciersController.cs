@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
+using Microsoft.AspNetCore.JsonPatch;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
@@ -103,12 +104,50 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             }
         }
 
+        [HttpPatch]
+        [Route("patchfinancierinfo/{financierId:Guid}")]
+        [ServiceFilter(typeof(FinancierPatchActionAttribute))]
+        public async Task<IActionResult> PatchFinancierInfo(Guid financierId, [FromBody] JsonPatchDocument<EditFinancierInfo> patchDoc)
+        {
+            try
+            {
+                if (patchDoc is null)
+                {
+                    _logger.LogError("patchDoc object sent from client is null.");
+                    return BadRequest("patchDoc object is null.");
+                }
+
+                var writeModel = HttpContext.Items["EditFinancierInfo"] as EditFinancierInfo;
+                patchDoc.ApplyTo(writeModel);
+
+                await _commandHandler.Handle(writeModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return new BadRequestObjectResult(ex.Message);
+            }
+        }
+
         [HttpDelete]
         [Route("deletefinancierinfo")]
         public async Task<IActionResult> DeleteFinancierInfo([FromBody] DeleteFinancierInfo writeModel)
         {
             try
             {
+                DoFinancierDependencyCheck queryParams =
+                    new DoFinancierDependencyCheck
+                    {
+                        FinancierID = writeModel.Id
+                    };
+
+                IActionResult retValue = await _queryRequestHandler.Handle<DoFinancierDependencyCheck>(queryParams, HttpContext);
+                if (retValue is BadRequestObjectResult)
+                {
+                    return retValue;
+                }
+
                 await _commandHandler.Handle(writeModel);
                 return Ok();
             }

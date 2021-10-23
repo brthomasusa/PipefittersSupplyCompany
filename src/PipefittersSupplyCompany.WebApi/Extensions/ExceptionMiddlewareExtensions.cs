@@ -6,7 +6,7 @@ using Microsoft.Extensions.Logging;
 using PipefittersSupplyCompany.WebApi.Models;
 using PipefittersSupplyCompany.WebApi.Exceptions.CustomExceptionMiddleware;
 
-namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.WebApi.Extensions
+namespace Microsoft.Extensions.DependencyInjection
 {
     public static class ExceptionMiddlewareExtensions
     {

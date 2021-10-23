@@ -6,6 +6,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces.Financing
 {
     public interface IFinancierQueryService
     {
+        Task<FinancierDependencyCheckResult> Query(DoFinancierDependencyCheck queryParameters);
         Task<PagedList<FinancierListItem>> Query(GetFinanciers queryParameters);
         Task<FinancierDetail> Query(GetFinancier queryParameters);
         Task<PagedList<FinancierAddressListItem>> Query(GetFinancierAddresses queryParameters);

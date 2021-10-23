@@ -3,6 +3,15 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
 {
+    public class FinancierDependencyCheckResult : IReadModel
+    {
+        public Guid FinancierId { get; set; }
+        public int Addresses { get; set; }
+        public int Contacts { get; set; }
+        public int LoanAgreements { get; set; }
+        public int StockSubscriptions { get; set; }
+    }
+
     public class FinancierDetail : IReadModel
     {
         public Guid FinancierId { get; set; }
@@ -11,6 +20,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing
         public bool IsActive { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime LastModifiedDate { get; set; }
+        public Guid UserId { get; set; }
     }
 
     public class FinancierListItem : IReadModel

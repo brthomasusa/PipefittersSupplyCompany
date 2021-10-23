@@ -63,6 +63,7 @@ namespace PipefittersSupplyCompany.WebApi
 
             services.AddInfrastructureServices();
             services.AddScoped<EmployeePatchActionAttribute>();
+            services.AddScoped<FinancierPatchActionAttribute>();
             services.AddScoped<ValidateMediaTypeAttribute>();
             services.AddCustomMediaTypes();
         }
