@@ -56,14 +56,6 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(queryParams, HttpContext);
 
-            // var retValue = await EmployeeAggregateRequestHandler.HandleQuery
-            //             (
-            //                 () => _employeeQrySvc.Query(queryParams),
-            //                 _logger,
-            //                 HttpContext,
-            //                 _linkGenerator
-            //             );
-
             return retValue;
         }
 
@@ -122,13 +114,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                     EmployeeID = employeeId
                 };
 
-            return await EmployeeAggregateRequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(queryParams),
-                _logger,
-                HttpContext,
-                _linkGenerator
-            );
+            var retValue = await _employeeQryReqHdler.Handle<GetEmployee>(queryParams, HttpContext);
+
+            return retValue;
         }
 
         [HttpGet]

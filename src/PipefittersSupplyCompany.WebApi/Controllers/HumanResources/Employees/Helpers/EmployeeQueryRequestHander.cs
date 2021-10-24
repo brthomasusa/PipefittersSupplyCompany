@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
-using PipefittersSupplyCompany.WebApi.Utilities;
+using PipefittersSupplyCompany.WebApi.Controllers.Base;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
 
@@ -34,8 +34,11 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                                                                                       httpContext,
                                                                                       _linkGenerator,
                                                                                       PagedListLinkGenerationCommand.Execute<EmployeeListItem>),
-                // GetFinancier param
-                //     => FinancierReadModelCommand.CreateActionResult<FinancierDetail>(await _queryService.Query(param), httpContext, _linkGenerator),
+                GetEmployee param =>
+                    ActionResultReadModelCommand.CreateActionResult<EmployeeDetail>(await _queryService.Query(param),
+                                                                                    httpContext,
+                                                                                    _linkGenerator,
+                                                                                    ReadModelLinkGenerationCommand.Execute<EmployeeDetail>),
                 // GetFinancierAddresses param
                 //     => ActionResultPagedListCommand.CreateActionResult<FinancierAddressListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
                 // GetFinancierAddress param

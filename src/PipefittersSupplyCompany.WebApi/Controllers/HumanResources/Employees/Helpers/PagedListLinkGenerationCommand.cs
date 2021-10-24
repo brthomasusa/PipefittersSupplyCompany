@@ -22,7 +22,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
             {
                 case PagedList<EmployeeListItem>:
                     LinksWrapperList<EmployeeListItem> linksWrappers = new LinksWrapperList<EmployeeListItem>();
-                    var Employees = queryResult as IEnumerable<EmployeeListItem>;
+                    var Employees = queryResult.ReadModels as IEnumerable<EmployeeListItem>;
 
                     foreach (var listItem in Employees)
                     {
@@ -42,7 +42,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
 
                 case PagedList<EmployeeAddressListItem>:
                     LinksWrapperList<EmployeeAddressListItem> addressLinksWrappers = new LinksWrapperList<EmployeeAddressListItem>();
-                    var EmployeeAddresses = queryResult as IEnumerable<EmployeeAddressListItem>;
+                    var EmployeeAddresses = queryResult.ReadModels as IEnumerable<EmployeeAddressListItem>;
 
                     foreach (var listItem in EmployeeAddresses)
                     {
@@ -62,7 +62,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
 
                 case PagedList<EmployeeContactListItem>:
                     LinksWrapperList<EmployeeContactListItem> contactLinksWrappers = new LinksWrapperList<EmployeeContactListItem>();
-                    var EmployeeContacts = queryResult as IEnumerable<EmployeeContactListItem>;
+                    var EmployeeContacts = queryResult.ReadModels as IEnumerable<EmployeeContactListItem>;
 
                     foreach (var listItem in EmployeeContacts)
                     {

@@ -6,9 +6,9 @@ using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 
-namespace PipefittersSupplyCompany.WebApi.Utilities
+namespace PipefittersSupplyCompany.WebApi.Controllers.Base
 {
-    public delegate ILinksWrapper ReadModelLinkGenerationCommandDelegate<TReadModel>
+    public delegate ILinksWrapper PagedListLinkGenerationCommandDelegate<TReadModel>
         (
             PagedList<TReadModel> queryResult,
             HttpContext httpContext,
@@ -22,7 +22,7 @@ namespace PipefittersSupplyCompany.WebApi.Utilities
             PagedList<TReadModel> queryResult,
             HttpContext httpContext,
             LinkGenerator generator,
-            ReadModelLinkGenerationCommandDelegate<TReadModel> funcPointer
+            PagedListLinkGenerationCommandDelegate<TReadModel> funcPointer
         )
         {
             // 1 Add paging info to response header
@@ -37,7 +37,7 @@ namespace PipefittersSupplyCompany.WebApi.Utilities
             }
 
             // 4 Return IActionResult
-            return new OkObjectResult(queryResult);
+            return new OkObjectResult(queryResult.ReadModels);
         }
 
         private static bool ShouldGenerateLinks(HttpContext httpContext)

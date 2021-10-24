@@ -2,7 +2,7 @@ using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 
-namespace PipefittersSupplyCompany.WebApi.Utilities
+namespace PipefittersSupplyCompany.WebApi.Controllers.Base
 {
     public class AddPagingInfoToResponseHeaderCommand<T>
     {
