@@ -2,14 +2,11 @@ using System;
 using System.Collections.Generic;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Routing;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries;
-using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
-using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
-    public class FinancierLinkGeneration
+    public class FinancierLinkGenerator
     {
         public static HashSet<Link> CreateLinks(HttpContext httpContext, LinkGenerator linkGenerator, Guid id)
         {

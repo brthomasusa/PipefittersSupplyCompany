@@ -6,6 +6,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 
+
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
     public class LinkWrapperHandler<TReadModel> : IQueryResultHandler<TReadModel>
@@ -26,7 +27,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
                         queryResult.Links = new LinksWrapper<FinancierDetail>
                         {
                             Value = queryResult.ReadModel as FinancierDetail,
-                            Links = FinancierLinkGeneration.CreateLinks(queryResult.CurrentHttpContext,
+                            Links = FinancierLinkGenerator.CreateLinks(queryResult.CurrentHttpContext,
                                                                         _linkGenerator,
                                                                         (queryResult.ReadModel as FinancierDetail).FinancierId)
                         };
@@ -35,7 +36,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
                         queryResult.Links = new LinksWrapper<FinancierAddressDetail>
                         {
                             Value = queryResult.ReadModel as FinancierAddressDetail,
-                            Links = FinancierAddressLinkGeneration.CreateLinks(queryResult.CurrentHttpContext,
+                            Links = FinancierAddressLinkGenerator.CreateLinks(queryResult.CurrentHttpContext,
                                                                                _linkGenerator,
                                                                                (queryResult.ReadModel as FinancierAddressDetail).AddressId)
                         };
@@ -44,7 +45,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
                         queryResult.Links = new LinksWrapper<FinancierContactDetail>
                         {
                             Value = queryResult.ReadModel as FinancierContactDetail,
-                            Links = FinancierContactLinkGeneration.CreateLinks(queryResult.CurrentHttpContext,
+                            Links = FinancierContactLinkGenerator.CreateLinks(queryResult.CurrentHttpContext,
                                                                                _linkGenerator,
                                                                                (queryResult.ReadModel as FinancierContactDetail).PersonId)
                         };
@@ -63,7 +64,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
 
                         foreach (var listItem in financiers)
                         {
-                            var links = FinancierLinkGeneration.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.FinancierId);
+                            var links = FinancierLinkGenerator.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.FinancierId);
 
                             linksWrappers.Values.Add
                             (
@@ -83,7 +84,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
 
                         foreach (var listItem in financierAddresses)
                         {
-                            var links = FinancierAddressLinkGeneration.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.AddressId);
+                            var links = FinancierAddressLinkGenerator.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.AddressId);
 
                             addressLinksWrappers.Values.Add
                             (
@@ -103,7 +104,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
 
                         foreach (var listItem in financierContacts)
                         {
-                            var links = FinancierContactLinkGeneration.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.PersonId);
+                            var links = FinancierContactLinkGenerator.CreateLinks(queryResult.CurrentHttpContext, _linkGenerator, listItem.PersonId);
 
                             contactLinksWrappers.Values.Add
                             (

@@ -9,6 +9,7 @@ using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers;
+using PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpers;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
@@ -53,11 +54,12 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                     .AddScoped<IEmployeeAggregateRepository, EmployeeAggregateRepository>()
                     .AddScoped<EmployeeAggregateCommandHandler>()
                     .AddScoped<IEmployeeQueryService, EmployeeQueryService>()
+                    .AddScoped<IEmployeeQueryRequestHandler, EmployeeQueryRequestHandler>()
                     .AddScoped<IFinancierAggregateRepository, FinancierAggregateRepository>()
                     .AddScoped<FinancierAggregateCommandHandler>()
                     .AddScoped<FinancierAggregateCommandHandler>()
                     .AddScoped<IFinancierQueryService, FinancierQueryService>()
-                    .AddScoped<IFinancierQueryRequestHandler, FinancierQueryRequestHander>();
+                    .AddScoped<IFinancierQueryRequestHandler, FinancierQueryRequestHandler>();
 
 
 

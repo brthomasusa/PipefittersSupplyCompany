@@ -9,7 +9,7 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
-    public static class ActionResultPagedListCommand
+    public class ActionResultPagedListCommand
     {
         public static IActionResult CreateActionResult<T>(PagedList<T> queryResult, HttpContext httpContext, LinkGenerator generator)
         {

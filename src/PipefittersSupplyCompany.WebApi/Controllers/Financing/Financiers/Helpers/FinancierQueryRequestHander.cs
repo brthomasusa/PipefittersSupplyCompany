@@ -9,12 +9,12 @@ using PipefittersSupplyCompany.Infrastructure.Application.Queries.Financing;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
-    public class FinancierQueryRequestHander : IFinancierQueryRequestHandler
+    public class FinancierQueryRequestHandler : IFinancierQueryRequestHandler
     {
         private readonly IFinancierQueryService _queryService;
         private readonly LinkGenerator _linkGenerator;
 
-        public FinancierQueryRequestHander(IFinancierQueryService queryService, LinkGenerator generator)
+        public FinancierQueryRequestHandler(IFinancierQueryService queryService, LinkGenerator generator)
         {
             _queryService = queryService;
             _linkGenerator = generator;

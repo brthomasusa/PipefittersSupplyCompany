@@ -7,6 +7,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
+using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpers;
@@ -21,21 +22,24 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
         private readonly ILoggerManager _logger;
         private readonly EmployeeAggregateCommandHandler _employeeCmdHdlr;
         private readonly IEmployeeQueryService _employeeQrySvc;
+        private readonly IEmployeeQueryRequestHandler _employeeQryReqHdler;
         private readonly LinkGenerator _linkGenerator;
 
         public EmployeesController
         (
             EmployeeAggregateCommandHandler cmdHdlr,
             IEmployeeQueryService qrySvc,
+            IEmployeeQueryRequestHandler employeeQryReqHdler,
             ILoggerManager logger,
             LinkGenerator generator
         )
         {
             // Guard clauses are for when manually instantiating the controller (unit testing ...)
-            _employeeCmdHdlr = cmdHdlr ?? throw new ArgumentNullException(nameof(cmdHdlr));
-            _employeeQrySvc = qrySvc ?? throw new ArgumentNullException(nameof(qrySvc));
-            _logger = logger ?? throw new ArgumentNullException(nameof(logger));
-            _linkGenerator = generator ?? throw new ArgumentNullException(nameof(generator));
+            _employeeCmdHdlr = cmdHdlr;
+            _employeeQrySvc = qrySvc;
+            _employeeQryReqHdler = employeeQryReqHdler;
+            _logger = logger;
+            _linkGenerator = generator;
         }
 
         [HttpGet]
@@ -50,14 +54,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                     PageSize = pagingParams.PageSize
                 };
 
+            var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(queryParams, HttpContext);
 
-            var retValue = await EmployeeAggregateRequestHandler.HandleQuery
-                        (
-                            () => _employeeQrySvc.Query(queryParams),
-                            _logger,
-                            HttpContext,
-                            _linkGenerator
-                        );
+            // var retValue = await EmployeeAggregateRequestHandler.HandleQuery
+            //             (
+            //                 () => _employeeQrySvc.Query(queryParams),
+            //                 _logger,
+            //                 HttpContext,
+            //                 _linkGenerator
+            //             );
 
             return retValue;
         }

@@ -6,7 +6,7 @@ using PipefittersSupplyCompany.WebApi.Utilities;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers
 {
-    public class FinancierContactLinkGeneration
+    public class FinancierContactLinkGenerator
     {
         public static HashSet<Link> CreateLinks(HttpContext httpContext, LinkGenerator linkGenerator, int id)
         {
