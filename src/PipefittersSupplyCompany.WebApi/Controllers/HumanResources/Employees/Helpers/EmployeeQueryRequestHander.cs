@@ -34,20 +34,44 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                                                                                       httpContext,
                                                                                       _linkGenerator,
                                                                                       PagedListLinkGenerationCommand.Execute<EmployeeListItem>),
+                GetEmployeesSupervisedBy param =>
+                    ActionResultPagedListCommand.CreateActionResult<EmployeeListItem>(await _queryService.Query(param),
+                                                                                      httpContext,
+                                                                                      _linkGenerator,
+                                                                                      PagedListLinkGenerationCommand.Execute<EmployeeListItem>),
+                GetEmployeesOfRole param =>
+                    ActionResultPagedListCommand.CreateActionResult<EmployeeListItemWithRoles>(await _queryService.Query(param),
+                                                                                               httpContext,
+                                                                                               _linkGenerator,
+                                                                                               PagedListLinkGenerationCommand.Execute<EmployeeListItemWithRoles>),
                 GetEmployee param =>
                     ActionResultReadModelCommand.CreateActionResult<EmployeeDetail>(await _queryService.Query(param),
                                                                                     httpContext,
                                                                                     _linkGenerator,
                                                                                     ReadModelLinkGenerationCommand.Execute<EmployeeDetail>),
-                // GetFinancierAddresses param
-                //     => ActionResultPagedListCommand.CreateActionResult<FinancierAddressListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
-                // GetFinancierAddress param
-                //     => FinancierReadModelCommand.CreateActionResult<FinancierAddressDetail>(await _queryService.Query(param), httpContext, _linkGenerator),
-                // GetFinancierContacts param
-                //     => ActionResultPagedListCommand.CreateActionResult<FinancierContactListItem>(await _queryService.Query(param), httpContext, _linkGenerator),
-                // GetFinancierContact param
-                //     => FinancierReadModelCommand.CreateActionResult<FinancierContactDetail>(await _queryService.Query(param), httpContext, _linkGenerator),
-                // DoFinancierDependencyCheck param => ActionResultCheckDependencyCommand.CreateActionResult(await _queryService.Query(param)),
+                GetEmployeeAddresses param =>
+                    ActionResultPagedListCommand.CreateActionResult<EmployeeAddressListItem>(await _queryService.Query(param),
+                                                                                      httpContext,
+                                                                                      _linkGenerator,
+                                                                                      PagedListLinkGenerationCommand.Execute<EmployeeAddressListItem>),
+                GetEmployeeAddress param =>
+                    ActionResultReadModelCommand.CreateActionResult<EmployeeAddressDetail>(await _queryService.Query(param),
+                                                                                    httpContext,
+                                                                                    _linkGenerator,
+                                                                                    ReadModelLinkGenerationCommand.Execute<EmployeeAddressDetail>),
+                GetEmployeeContacts param =>
+                    ActionResultPagedListCommand.CreateActionResult<EmployeeContactListItem>(await _queryService.Query(param),
+                                                                                      httpContext,
+                                                                                      _linkGenerator,
+                                                                                      PagedListLinkGenerationCommand.Execute<EmployeeContactListItem>),
+                GetEmployeeContact param =>
+                    ActionResultReadModelCommand.CreateActionResult<EmployeeContactDetail>(await _queryService.Query(param),
+                                                                                    httpContext,
+                                                                                    _linkGenerator,
+                                                                                    ReadModelLinkGenerationCommand.Execute<EmployeeContactDetail>),
+
+                DoEmployeeDependencyCheck param => ActionResultCheckDependencyCommand.CreateActionResult(await _queryService.Query(param)),
+
                 _ => throw new ArgumentOutOfRangeException("Unknown Financier query parameter!", nameof(queryParam))
             };
     }

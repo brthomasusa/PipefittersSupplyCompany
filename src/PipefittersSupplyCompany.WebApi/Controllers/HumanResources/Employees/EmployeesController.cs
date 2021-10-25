@@ -34,7 +34,6 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
             LinkGenerator generator
         )
         {
-            // Guard clauses are for when manually instantiating the controller (unit testing ...)
             _employeeCmdHdlr = cmdHdlr;
             _employeeQrySvc = qrySvc;
             _employeeQryReqHdler = employeeQryReqHdler;
@@ -54,9 +53,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                     PageSize = pagingParams.PageSize
                 };
 
-            var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(queryParams, HttpContext);
-
-            return retValue;
+            try
+            {
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -72,13 +78,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                     PageSize = pagingParams.PageSize
                 };
 
-            return await EmployeeAggregateRequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(queryParams),
-                _logger,
-                HttpContext,
-                _linkGenerator
-            );
+            try
+            {
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployeesSupervisedBy>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -94,13 +103,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                     PageSize = pagingParams.PageSize
                 };
 
-            return await EmployeeAggregateRequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(queryParams),
-                _logger,
-                HttpContext,
-                _linkGenerator
-            );
+            try
+            {
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployeesOfRole>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -114,93 +126,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                     EmployeeID = employeeId
                 };
 
-            var retValue = await _employeeQryReqHdler.Handle<GetEmployee>(queryParams, HttpContext);
-
-            return retValue;
-        }
-
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("{employeeId:Guid}/addresses")]
-        public async Task<IActionResult> GetEmployeeAddresses(Guid employeeId, [FromQuery] PagingParameters pagingParams)
-        {
-            GetEmployeeAddresses queryParams =
-                new GetEmployeeAddresses
-                {
-                    EmployeeID = employeeId,
-                    Page = pagingParams.Page,
-                    PageSize = pagingParams.PageSize
-                };
-
-            return await EmployeeAggregateRequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(queryParams),
-                _logger,
-                HttpContext,
-                _linkGenerator
-            );
-        }
-
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("address/{addressId:int}")]
-        public async Task<IActionResult> GetEmployeeAddress(int addressId, [FromQuery] PagingParameters pagingParams)
-        {
-            GetEmployeeAddress queryParams =
-                new GetEmployeeAddress
-                {
-                    AddressID = addressId,
-                };
-
-            return await EmployeeAggregateRequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(queryParams),
-                _logger,
-                HttpContext,
-                _linkGenerator
-            );
-        }
-
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("{employeeId:Guid}/contacts")]
-        public async Task<IActionResult> GetEmployeeContacts(Guid employeeId, [FromQuery] PagingParameters pagingParams)
-        {
-            GetEmployeeContacts queryParams =
-                new GetEmployeeContacts
-                {
-                    EmployeeID = employeeId,
-                    Page = pagingParams.Page,
-                    PageSize = pagingParams.PageSize
-                };
-
-            return await EmployeeAggregateRequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(queryParams),
-                _logger,
-                HttpContext,
-                _linkGenerator
-            );
-        }
-
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("contact/{personId:int}")]
-        public async Task<IActionResult> GetEmployeeContact(int personId, [FromQuery] PagingParameters pagingParams)
-        {
-            GetEmployeeContact queryParams =
-                new GetEmployeeContact
-                {
-                    PersonID = personId,
-                };
-
-            return await EmployeeAggregateRequestHandler.HandleQuery
-            (
-                () => _employeeQrySvc.Query(queryParams),
-                _logger,
-                HttpContext,
-                _linkGenerator
-            );
+            try
+            {
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployee>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return new BadRequestObjectResult(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -228,6 +163,18 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
         public async Task<IActionResult> DeleteEmployeeInfo(Guid employeeId)
         {
             var writeModel = new DeleteEmployeeInfo { Id = employeeId };
+
+            DoEmployeeDependencyCheck queryParams =
+                new DoEmployeeDependencyCheck
+                {
+                    EmployeeID = writeModel.Id
+                };
+
+            IActionResult retValue = await _employeeQryReqHdler.Handle<DoEmployeeDependencyCheck>(queryParams, HttpContext);
+            if (retValue is BadRequestObjectResult)
+            {
+                return retValue;
+            }
 
             return await EmployeeAggregateRequestHandler.HandleCommand<DeleteEmployeeInfo>
             (
@@ -258,36 +205,5 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                 _logger
             );
         }
-
-        [HttpPost]
-        [Route("{employeeId:Guid}/createemployeeaddressinfo")]
-        public async Task<IActionResult> CreateEmployeeAddressInfo([FromBody] CreateEmployeeAddressInfo writeModel) =>
-            await EmployeeAggregateRequestHandler.HandleCommand<CreateEmployeeAddressInfo>
-            (
-                writeModel,
-                _employeeCmdHdlr.Handle,
-                _logger
-            );
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

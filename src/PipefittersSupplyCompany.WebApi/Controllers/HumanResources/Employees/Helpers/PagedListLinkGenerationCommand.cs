@@ -40,6 +40,26 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
 
                     return linksWrappers;
 
+                case PagedList<EmployeeListItemWithRoles>:
+                    LinksWrapperList<EmployeeListItemWithRoles> roleMemberLinksWrappers = new LinksWrapperList<EmployeeListItemWithRoles>();
+                    var roleMembers = queryResult.ReadModels as IEnumerable<EmployeeListItemWithRoles>;
+
+                    foreach (var listItem in roleMembers)
+                    {
+                        var links = EmployeeLinkGenerator.CreateLinks(httpContext, generator, listItem.RoleId);
+
+                        roleMemberLinksWrappers.Values.Add
+                        (
+                            new LinksWrapper<EmployeeListItemWithRoles>
+                            {
+                                Value = listItem,
+                                Links = links
+                            }
+                        );
+                    }
+
+                    return roleMemberLinksWrappers;
+
                 case PagedList<EmployeeAddressListItem>:
                     LinksWrapperList<EmployeeAddressListItem> addressLinksWrappers = new LinksWrapperList<EmployeeAddressListItem>();
                     var EmployeeAddresses = queryResult.ReadModels as IEnumerable<EmployeeAddressListItem>;
