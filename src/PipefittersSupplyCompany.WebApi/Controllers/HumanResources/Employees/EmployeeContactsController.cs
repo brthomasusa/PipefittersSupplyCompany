@@ -2,15 +2,12 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.JsonPatch;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
-using PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpers;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 {
@@ -37,31 +34,6 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("{employeeId:Guid}/contacts")]
-        public async Task<IActionResult> GetEmployeeContacts(Guid employeeId, [FromQuery] PagingParameters pagingParams)
-        {
-            GetEmployeeContacts queryParams =
-                new GetEmployeeContacts
-                {
-                    EmployeeID = employeeId,
-                    Page = pagingParams.Page,
-                    PageSize = pagingParams.PageSize
-                };
-
-            try
-            {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeContacts>(queryParams, HttpContext);
-                return retValue;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"An exception has been thrown: {ex}");
-                return new BadRequestObjectResult(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [Route("contact/{personId:int}")]
         public async Task<IActionResult> GetEmployeeContact(int personId, [FromQuery] PagingParameters pagingParams)
         {
@@ -79,10 +51,62 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
             catch (Exception ex)
             {
                 _logger.LogError($"An exception has been thrown: {ex}");
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
+        [HttpPost]
+        [Route("createemployeecontactinfo")]
+        public async Task<IActionResult> CreateEmployeeContactInfo([FromBody] CreateEmployeeContactInfo writeModel)
+        {
+            try
+            {
+                await _employeeCmdHdlr.Handle(writeModel);
+
+                GetEmployeeContact queryParams = new GetEmployeeContact { PersonID = writeModel.PersonId };
+
+                IActionResult retValue = await _employeeQryReqHdler.Handle<GetEmployeeContact>(queryParams, HttpContext);
+
+                return CreatedAtAction(nameof(GetEmployeeContact), new { personId = writeModel.PersonId }, (retValue as OkObjectResult).Value);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("editemployeecontactinfo")]
+        public async Task<IActionResult> EditEmployeeContactInfo([FromBody] EditEmployeeContactInfo writeModel)
+        {
+            try
+            {
+                await _employeeCmdHdlr.Handle(writeModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("deleteemployeecontactinfo")]
+        public async Task<IActionResult> DeleteEmployeeContactInfo([FromBody] DeleteEmployeeContactInfo writeModel)
+        {
+            try
+            {
+                await _employeeCmdHdlr.Handle(writeModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
 
     }
 }

@@ -2,6 +2,7 @@ using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Net.Http.Headers;
+using Microsoft.Extensions.Primitives;
 using Microsoft.AspNetCore.Routing;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 
@@ -26,7 +27,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Base
         {
             // 1 Add hateoas links
             // 2 Add LinkWrapper to IActionResult and return it to caller
-            if (ShouldGenerateLinks(httpContext))
+            if (ShouldGenerateLinks(httpContext.Request.Headers))
             {
                 var linksWrapper = funcPointer(queryResult, httpContext, generator);
                 return new OkObjectResult(linksWrapper);
@@ -36,11 +37,17 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Base
             return new OkObjectResult(queryResult);
         }
 
-        private static bool ShouldGenerateLinks(HttpContext httpContext)
+        private static bool ShouldGenerateLinks(IHeaderDictionary dict)
         {
-            var mediaType = httpContext.Items["AcceptHeaderMediaType"] as MediaTypeHeaderValue;
+            foreach (StringValues keys in dict.Keys)
+            {
+                if (dict[keys].ToString().Contains("application/vnd.btechnical-consulting.hateoas+json", StringComparison.OrdinalIgnoreCase))
+                {
+                    return true;
+                }
+            }
 
-            return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
+            return false;
         }
     }
 }

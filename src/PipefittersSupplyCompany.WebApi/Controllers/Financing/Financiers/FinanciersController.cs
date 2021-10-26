@@ -45,9 +45,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                     PageSize = pagingParams.PageSize
                 };
 
-            var retValue = await _queryRequestHandler.Handle<GetFinanciers>(queryParams, HttpContext);
-
-            return retValue;
+            try
+            {
+                var retValue = await _queryRequestHandler.Handle<GetFinanciers>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -61,9 +68,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                     FinancierID = financierId
                 };
 
-            var retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
-
-            return retValue;
+            try
+            {
+                var retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpPost]
@@ -84,7 +98,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -100,7 +114,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -126,7 +140,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -154,7 +168,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
             catch (Exception ex)
             {
                 _logger.LogError(ex.Message);
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
@@ -173,9 +187,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                     PageSize = pagingParams.PageSize
                 };
 
-            var retValue = await _queryRequestHandler.Handle<GetFinancierAddresses>(queryParams, HttpContext);
-
-            return retValue;
+            try
+            {
+                var retValue = await _queryRequestHandler.Handle<GetFinancierAddresses>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
 
         [HttpGet]
@@ -191,9 +212,16 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                     PageSize = pagingParams.PageSize
                 };
 
-            var retValue = await _queryRequestHandler.Handle<GetFinancierContacts>(queryParams, HttpContext);
-
-            return retValue;
+            try
+            {
+                var retValue = await _queryRequestHandler.Handle<GetFinancierContacts>(queryParams, HttpContext);
+                return retValue;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
         }
     }
 }

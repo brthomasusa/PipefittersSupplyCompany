@@ -2,15 +2,12 @@ using System;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Routing;
-using Microsoft.AspNetCore.JsonPatch;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Utilities;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
-using PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpers;
 
 namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 {
@@ -37,31 +34,6 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
         [HttpGet]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        [Route("{employeeId:Guid}/addresses")]
-        public async Task<IActionResult> GetEmployeeAddresses(Guid employeeId, [FromQuery] PagingParameters pagingParams)
-        {
-            GetEmployeeAddresses queryParams =
-                new GetEmployeeAddresses
-                {
-                    EmployeeID = employeeId,
-                    Page = pagingParams.Page,
-                    PageSize = pagingParams.PageSize
-                };
-
-            try
-            {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeAddresses>(queryParams, HttpContext);
-                return retValue;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogError($"An exception has been thrown: {ex}");
-                return new BadRequestObjectResult(ex.Message);
-            }
-        }
-
-        [HttpGet]
-        [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
         [Route("address/{addressId:int}")]
         public async Task<IActionResult> GetEmployeeAddress(int addressId, [FromQuery] PagingParameters pagingParams)
         {
@@ -79,18 +51,61 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
             catch (Exception ex)
             {
                 _logger.LogError($"An exception has been thrown: {ex}");
-                return new BadRequestObjectResult(ex.Message);
+                return BadRequest(ex.Message);
             }
         }
 
         [HttpPost]
-        [Route("{employeeId:Guid}/createemployeeaddressinfo")]
-        public async Task<IActionResult> CreateEmployeeAddressInfo([FromBody] CreateEmployeeAddressInfo writeModel) =>
-            await EmployeeAggregateRequestHandler.HandleCommand<CreateEmployeeAddressInfo>
-            (
-                writeModel,
-                _employeeCmdHdlr.Handle,
-                _logger
-            );
+        [Route("createemployeeaddressinfo")]
+        public async Task<IActionResult> CreateEmployeeAddressInfo([FromBody] CreateEmployeeAddressInfo writeModel)
+        {
+            try
+            {
+                await _employeeCmdHdlr.Handle(writeModel);
+
+                GetEmployeeAddress queryParams = new GetEmployeeAddress { AddressID = writeModel.AddressId };
+
+                IActionResult retValue = await _employeeQryReqHdler.Handle<GetEmployeeAddress>(queryParams, HttpContext);
+
+                return CreatedAtAction(nameof(GetEmployeeAddress), new { addressId = writeModel.AddressId }, (retValue as OkObjectResult).Value);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError($"An exception has been thrown: {ex}");
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpPut]
+        [Route("editemployeeaddressinfo")]
+        public async Task<IActionResult> EditEmployeeAddressInfo([FromBody] EditEmployeeAddressInfo writeModel)
+        {
+            try
+            {
+                await _employeeCmdHdlr.Handle(writeModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
+
+        [HttpDelete]
+        [Route("deleteemployeeaddressinfo")]
+        public async Task<IActionResult> DeleteEmployeeAddressInfo([FromBody] DeleteEmployeeAddressInfo writeModel)
+        {
+            try
+            {
+                await _employeeCmdHdlr.Handle(writeModel);
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex.Message);
+                return BadRequest(ex.Message);
+            }
+        }
     }
 }

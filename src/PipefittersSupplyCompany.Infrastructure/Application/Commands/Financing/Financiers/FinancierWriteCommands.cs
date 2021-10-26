@@ -8,7 +8,7 @@ using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers
 {
-    public class FinancierCommand
+    public class FinancierWriteCommands
     {
         public static Task Execute(IWriteModel model, IFinancierAggregateRepository repo, IUnitOfWork unitOfWork) =>
             model switch

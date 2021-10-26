@@ -18,16 +18,16 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
         public Task Handle(IWriteModel writeModel) =>
             writeModel switch
             {
-                CreateFinancierInfo model => FinancierCommand.Execute(model, _financierRepo, _unitOfWork),
-                EditFinancierInfo model => FinancierCommand.Execute(model, _financierRepo, _unitOfWork),
-                DeleteFinancierInfo model => FinancierCommand.Execute(model, _financierRepo, _unitOfWork),
-                CreateFinancierAddressInfo model => FinancierAddressCommand.Execute(model, _financierRepo, _unitOfWork),
-                EditFinancierAddressInfo model => FinancierAddressCommand.Execute(model, _financierRepo, _unitOfWork),
-                DeleteFinancierAddressInfo model => FinancierAddressCommand.Execute(model, _financierRepo, _unitOfWork),
-                CreateFinancierContactInfo model => FinancierContactCommand.Execute(model, _financierRepo, _unitOfWork),
-                EditFinancierContactInfo model => FinancierContactCommand.Execute(model, _financierRepo, _unitOfWork),
-                DeleteFinancierContactInfo model => FinancierContactCommand.Execute(model, _financierRepo, _unitOfWork),
-                _ => throw new System.ArgumentOutOfRangeException("Unknown financier write model.", nameof(writeModel))
+                CreateFinancierInfo model => FinancierWriteCommands.Execute(model, _financierRepo, _unitOfWork),
+                EditFinancierInfo model => FinancierWriteCommands.Execute(model, _financierRepo, _unitOfWork),
+                DeleteFinancierInfo model => FinancierWriteCommands.Execute(model, _financierRepo, _unitOfWork),
+                CreateFinancierAddressInfo model => FinancierAddressWriteCommand.Execute(model, _financierRepo, _unitOfWork),
+                EditFinancierAddressInfo model => FinancierAddressWriteCommand.Execute(model, _financierRepo, _unitOfWork),
+                DeleteFinancierAddressInfo model => FinancierAddressWriteCommand.Execute(model, _financierRepo, _unitOfWork),
+                CreateFinancierContactInfo model => FinancierContactWriteCommand.Execute(model, _financierRepo, _unitOfWork),
+                EditFinancierContactInfo model => FinancierContactWriteCommand.Execute(model, _financierRepo, _unitOfWork),
+                DeleteFinancierContactInfo model => FinancierContactWriteCommand.Execute(model, _financierRepo, _unitOfWork),
+                _ => throw new System.ArgumentOutOfRangeException("Unknown financier write command.", nameof(writeModel))
             };
     }
 }

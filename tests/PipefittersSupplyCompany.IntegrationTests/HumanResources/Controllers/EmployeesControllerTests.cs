@@ -112,11 +112,12 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
             };
 
             string jsonEmployee = JsonConvert.SerializeObject(command);
-            HttpContent content = new StringContent(jsonEmployee, Encoding.UTF8, "application/json");
+            HttpContent content = new StringContent(jsonEmployee, Encoding.UTF8, "application/vnd.btechnical-consulting.hateoas+json");
             var response = await _client.PostAsync($"{_serviceAddress}{_rootAddress}/createemployeeinfo", content);
 
             Assert.True(response.IsSuccessStatusCode);
         }
+
 
         [Fact]
         public async Task ShouldUpdate_EmployeeInfo_UsingEmployeeController()

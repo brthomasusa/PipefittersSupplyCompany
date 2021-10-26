@@ -54,6 +54,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
 
     public class CreateEmployeeAddressInfo : IWriteModel
     {
+        public int AddressId { get; set; }
         public Guid EmployeeId { get; set; }
         public string AddressLine1 { get; set; }
         public string AddressLine2 { get; set; }
@@ -81,6 +82,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
 
     public class CreateEmployeeContactInfo : IWriteModel
     {
+        public int PersonId { get; set; }
         public Guid EmployeeId { get; set; }
         public string FirstName { get; set; }
         public string LastName { get; set; }
