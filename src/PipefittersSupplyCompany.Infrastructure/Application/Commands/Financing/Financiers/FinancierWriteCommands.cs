@@ -35,6 +35,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
                 model.UserId
             );
 
+
             await repo.AddAsync(financier);
             await unitOfWork.Commit();
             model.Id = financier.Id;

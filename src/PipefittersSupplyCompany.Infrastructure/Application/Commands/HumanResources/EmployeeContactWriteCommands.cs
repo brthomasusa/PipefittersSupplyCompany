@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
@@ -32,6 +33,15 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
 
             repo.Update(employee);
             await unitOfWork.Commit();
+
+            var mostRecent = employee.ContactPersons().Where(c => c.ContactName.FirstName == model.FirstName &&
+                                                                  c.ContactName.LastName == model.LastName &&
+                                                                  c.ContactName.MiddleInitial == model.MiddleInitial &&
+                                                                  c.Telephone == model.Telephone &&
+                                                                  c.Agent.Id == model.EmployeeId)
+                                                        .FirstOrDefault();
+
+            model.PersonId = mostRecent.Id;
         }
 
         private static async Task HandleUpdate(EditEmployeeContactInfo model, IEmployeeAggregateRepository repo, IUnitOfWork unitOfWork)

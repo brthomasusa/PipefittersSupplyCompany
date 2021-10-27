@@ -42,6 +42,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
 
             await repo.AddAsync(employee);
             await unitOfWork.Commit();
+            model.Id = employee.Id;
         }
 
         private static async Task HandleUpdate(EditEmployeeInfo model, IEmployeeAggregateRepository repo, IUnitOfWork unitOfWork)

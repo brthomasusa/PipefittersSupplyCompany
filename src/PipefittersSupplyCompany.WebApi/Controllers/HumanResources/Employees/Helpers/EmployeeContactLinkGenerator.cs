@@ -11,9 +11,21 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
         {
             var links = new HashSet<Link>
                 {
-                    new Link(linkGenerator.GetUriByAction(httpContext, "GetEmployeeContact", values: new { personId = id }), "self", "GET"),
-                    new Link(linkGenerator.GetUriByAction(httpContext, "DeleteEmployeeContactInfo", values: new {  }), "delete_employeecontact", "DELETE"),
-                    new Link(linkGenerator.GetUriByAction(httpContext, "EditEmployeeContactInfo", values: new {  }), "update_employeecontact", "PUT")
+                    new Link(linkGenerator.GetUriByAction(httpContext,
+                                                          action: "GetEmployeeContact",
+                                                          controller: "EmployeeContacts" ,
+                                                          values: new { personId = id }),
+                                                          "self", "GET"),
+                    new Link(linkGenerator.GetUriByAction(httpContext,
+                                                          action: "DeleteEmployeeContactInfo",
+                                                          controller: "EmployeeContacts",
+                                                          values: new {  }),
+                                                          "delete_employeecontact", "DELETE"),
+                    new Link(linkGenerator.GetUriByAction(httpContext,
+                                                          action: "EditEmployeeContactInfo",
+                                                          controller: "EmployeeContacts" ,
+                                                          values: new {  }),
+                                                          "update_employeecontact", "PUT")
                 };
 
             return links;

@@ -12,9 +12,21 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
         {
             var links = new HashSet<Link>
                 {
-                    new Link(linkGenerator.GetUriByAction(httpContext, "GetFinancierContactDetails", values: new { personId = id }), "self", "GET"),
-                    new Link(linkGenerator.GetUriByAction(httpContext, "DeleteFinancierContactInfo", values: new {  }), "delete_financiercontact", "DELETE"),
-                    new Link(linkGenerator.GetUriByAction(httpContext, "EditFinancierContactInfo", values: new {  }), "update_financiercontact", "PUT")
+                    new Link(linkGenerator.GetUriByAction(httpContext,
+                                                          action: "GetFinancierContactDetails",
+                                                          controller: "FinancierContacts",
+                                                          values: new { personId = id }),
+                                                          "self", "GET"),
+                    new Link(linkGenerator.GetUriByAction(httpContext,
+                                                          "DeleteFinancierContactInfo",
+                                                          controller: "FinancierContacts",
+                                                          values: new {  }),
+                                                          "delete_financiercontact", "DELETE"),
+                    new Link(linkGenerator.GetUriByAction(httpContext,
+                                                          "EditFinancierContactInfo",
+                                                          controller: "FinancierContacts",
+                                                          values: new {  }),
+                                                          "update_financiercontact", "PUT")
                 };
 
             return links;
