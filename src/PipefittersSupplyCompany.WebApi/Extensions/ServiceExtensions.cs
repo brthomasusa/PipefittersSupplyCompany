@@ -1,20 +1,23 @@
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Formatters;
-using PipefittersSupplyCompany.Infrastructure;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
-using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
-using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Persistence;
-using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
+
 using PipefittersSupplyCompany.WebApi.Interfaces;
 using PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpers;
 using PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpers;
-using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
+
+using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers;
+using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
+using PipefittersSupplyCompany.Infrastructure.Interfaces;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
+using PipefittersSupplyCompany.Infrastructure.Persistence;
+using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
+
 
 namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.WebApi.Extensions
 {

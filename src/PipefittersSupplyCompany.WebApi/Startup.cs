@@ -11,14 +11,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
 using NLog;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
-using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
-using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
-using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
-using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing;
-using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
 
 namespace PipefittersSupplyCompany.WebApi
 {
