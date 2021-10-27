@@ -1,3 +1,14 @@
+-- Database creation and seed script for the 'Pipefitters_Test' database.
+-- Create the database and run this script from within. The test in the
+-- PipefittersSupplyCompany.IntegrationTests folder reseed the database
+-- Before each test run. There are two appsettings.json file: one in the
+-- root of WebApi project and the other in root of the Integration test
+-- project. The connection string info in those files need to be updated.
+
+
+
+
+
 -- DROP TABLE HumanResources.UserRoles
 -- DROP TABLE HumanResources.Users
 -- DROP TABLE Shared.Addresses
