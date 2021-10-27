@@ -22,11 +22,11 @@
 -- DROP TABLE Shared.ExternalAgentTypes
 -- GO
 
-CREATE DATABASE Pipefitters_DDD
+CREATE DATABASE Pipefitters_Test
 GO
 
 
-USE Pipefitters_DDD
+USE Pipefitters_Test
 GO
 
 CREATE SCHEMA Sales
