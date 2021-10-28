@@ -1,10 +1,6 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text.RegularExpressions;
-using Ardalis.GuardClauses;
-using PipefittersSupplyCompany.Core.Financing.CashAccountAggregate;
-using PipefittersSupplyCompany.Core.Exceptions;
 using PipefittersSupplyCompany.SharedKernel;
 
 namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
@@ -16,7 +12,7 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
         private string _accountNumber;
         private string _transitABA;
         private DateTime _openedDate;
-        private readonly List<CashTransaction> _cashTransactions = new List<CashTransaction>();
+        private List<CashAccountTransaction> _cashTransactions = new List<CashAccountTransaction>();
 
         protected CashAccount() { }
 
@@ -121,6 +117,6 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
             }
         }
 
-        public virtual IReadOnlyList<CashTransaction> CashTransactions => _cashTransactions.ToList();
+        public virtual IReadOnlyList<CashAccountTransaction> CashTransactions => _cashTransactions.ToList();
     }
 }

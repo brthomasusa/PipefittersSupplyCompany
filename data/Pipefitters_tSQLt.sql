@@ -13,6 +13,31 @@ GO
 CREATE SCHEMA Finance
 GO
 
+CREATE TABLE Shared.EconomicEventTypes
+(
+    EventTypeId int IDENTITY PRIMARY KEY CLUSTERED,
+    EventName NVARCHAR(50) NOT NULL,
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL     
+)
+
+CREATE UNIQUE INDEX idx_EconomicEventTypes$EventName   
+   ON Shared.EconomicEventTypes (EventName)   
+GO
+
+INSERT INTO Shared.EconomicEventTypes
+    (EventName)
+VALUES
+    ('Sales'),
+    ('Debt Issue'),
+    ('Stock Issue'),
+    ('Labor Acquisition'),
+    ('Purchasing'),
+    ('Loan Payment'),
+    ('Dividend Payment'),
+    ('InventoryReceipt')
+GO
+
 CREATE TABLE HumanResources.EmployeeTypes
 (
   EmployeeTypeID int IDENTITY PRIMARY KEY CLUSTERED,
@@ -388,63 +413,64 @@ GO
 
 CREATE TABLE Finance.LoanAgreements
 (
-    LoanID INT NOT NULL PRIMARY KEY CLUSTERED,
-    FinancierID int NOT NULL REFERENCES Finance.StockholderCreditor (FinancierID),
-    EmployeeID int NOT NULL REFERENCES HumanResources.Employees (EmployeeID),
+    LoanId uniqueidentifier NOT NULL PRIMARY KEY default NEWID(),
+    FinancierId  uniqueidentifier NOT NULL REFERENCES Finance.Financiers (FinancierId),    
     LoanAmount DECIMAL(18,2) CHECK(LoanAmount > 0) NOT NULL,
     InterestRate NUMERIC(9,6) CHECK(InterestRate >= 0) NOT NULL,        
     LoanDate DATETIME2(0) NOT NULL,
     MaturityDate DATETIME2(0) NOT NULL,
     PymtsPerYear INT CHECK(PymtsPerYear > 0) NOT NULL,
+    UserId  [uniqueidentifier] NOT NULL REFERENCES HumanResources.Users (UserId),
     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
     LastModifiedDate datetime2(7) NULL,
-    CONSTRAINT CHK_LoanDateMaturityDate CHECK (LoanDate < MaturityDate)
+    CONSTRAINT CHK_LoanDateMaturityDate CHECK (LoanDate <= MaturityDate)
 )
 GO
 
 CREATE INDEX idx_LoanAgreement$FinancierID 
-  ON Finance.LoanAgreements (FinancierID);
+  ON Finance.LoanAgreements (FinancierId);
 GO
 
-CREATE INDEX idx_LoanAgreement$EmployeeID 
-  ON Finance.LoanAgreements (EmployeeID);
+CREATE INDEX idx_LoanAgreement$UserID 
+  ON Finance.LoanAgreements (UserId);
 GO
 
 INSERT INTO Finance.LoanAgreements
-    (LoanID, FinancierID, EmployeeID, LoanAmount, InterestRate, LoanDate, MaturityDate, PymtsPerYear)
+    (LoanId, FinancierId, LoanAmount, InterestRate, LoanDate, MaturityDate, PymtsPerYear, UserId)
 VALUES
-    (1001, 1003, 114, 50000.00, 0.086250, '2021-01-02', '2022-01-02', 12),
-    (1002, 1005, 115, 100000.00, 0.072500, '2021-01-15', '2022-01-15', 12)
+    ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '12998229-7ede-4834-825a-0c55bde75695', 50000.00, 0.086250, '2020-12-02', '2022-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('09b53ffb-9983-4cde-b1d6-8a49e785177f', '94b1d516-a1c3-4df8-ae85-be1f34966601', 50000.00, 0.086250, '2020-12-02', '2022-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('1511c20b-6df0-4313-98a5-7c3561757dc2', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 100000.00, 0.072500, '2020-12-15', '2022-12-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e')
 GO
 
 CREATE TABLE Finance.StockSubscriptions
 (
-    StockID int PRIMARY KEY CLUSTERED,
-    FinancierID INT NOT NULL REFERENCES Finance.StockholderCreditor (FinancierID),
-    EmployeeID INT NOT NULL REFERENCES HumanResources.Employees (EmployeeID),
+    StockId uniqueidentifier NOT NULL PRIMARY KEY default NEWID(),
+    FinancierId  uniqueidentifier NOT NULL REFERENCES Finance.Financiers (FinancierId),    
     SharesIssured INT CHECK (SharesIssured >= 0) NOT NULL,
     PricePerShare DECIMAL(18,2) CHECK (PricePerShare >= 0) NOT NULL,
     StockIssueDate DATETIME2(0) NOT NULL,
+    UserId  [uniqueidentifier] NOT NULL REFERENCES HumanResources.Users (UserId),
     CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
     LastModifiedDate datetime2(7) NULL
 )
 GO
 
-CREATE INDEX idx_StockSubscription$FinancierID 
-  ON Finance.StockSubscriptions (FinancierID)
+CREATE INDEX idx_StockSubscription$FinancierId 
+  ON Finance.StockSubscriptions (FinancierId)
 GO
 
-CREATE INDEX idx_StockSubscription$EmployeeID 
-  ON Finance.StockSubscriptions (EmployeeID)
+CREATE INDEX idx_StockSubscription$UserId 
+  ON Finance.StockSubscriptions (UserId)
 GO
 
 INSERT INTO Finance.StockSubscriptions
-    (StockID, FinancierID, EmployeeID, SharesIssured, PricePerShare, StockIssueDate)
+    (StockId, FinancierId, SharesIssured, PricePerShare, StockIssueDate, UserId)
 VALUES
-    (1001, 1001,101, 50000, 1.00, '2020-09-03'),
-    (1002, 1002,101, 50000, 1.00, '2020-09-03'),
-    (1003, 1001,101, 25000, 1.00, '2020-11-01'),
-    (1004, 1002,101, 10000, 1.00, '2020-11-01'),
-    (1005, 1004,101, 35000, 3.00, '2021-03-01')
+    ('6d663bb9-763c-4797-91ea-b2d9b7a19ba4', '01da50f9-021b-4d03-853a-3fd2c95e207d', 50000, 1.00, '2020-09-03','4b900a74-e2d9-4837-b9a4-9e828752716e'),
+    ('62d6e2e6-215d-4157-b7ec-1ba9b137c770', 'bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 50000, 1.00, '2020-09-03','4b900a74-e2d9-4837-b9a4-9e828752716e'),
+    ('fb39b013-1633-4479-8186-9f9b240b5727', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 25000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', '01da50f9-021b-4d03-853a-3fd2c95e207d', 10000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '12998229-7ede-4834-825a-0c55bde75695', 35000, 3.00, '2021-03-01','660bb318-649e-470d-9d2b-693bfb0b2744')
 GO
 
