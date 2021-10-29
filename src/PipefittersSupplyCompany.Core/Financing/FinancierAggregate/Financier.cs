@@ -4,20 +4,25 @@ using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
+using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
 
 namespace PipefittersSupplyCompany.Core.Financing.FinancierAggregate
 {
     public class Financier : AggregateRoot<Guid>, IAggregateRoot
     {
+        private List<LoanAgreement> _loanAgreements = new List<LoanAgreement>();
+
         protected Financier() { }
 
         public Financier(ExternalAgent agent, OrganizationName name, PhoneNumber telephone, IsActive isActive, Guid userID)
         {
             ExternalAgent = agent ?? throw new ArgumentNullException("The external agent is required.");
+
             Id = agent.Id;
             FinancierName = name ?? throw new ArgumentNullException("The financier name parameter is required.");
             Telephone = telephone ?? throw new ArgumentNullException("The telephone parameter is required.");
             IsActive = isActive ?? throw new ArgumentNullException("The is active parameter is required.");
+
             if (userID == default)
             {
                 throw new ArgumentNullException("The user id (employee creating this record) parameter is required.");
@@ -35,26 +40,18 @@ namespace PipefittersSupplyCompany.Core.Financing.FinancierAggregate
 
         public Guid UserId { get; private set; }
 
+        public virtual IReadOnlyList<LoanAgreement> LoanAgreements => _loanAgreements;
+
         public void UpdateFinancierName(OrganizationName value)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("Financier name can not be updated with null.");
-            }
-
-            FinancierName = value;
+            FinancierName = value ?? throw new ArgumentNullException("The financier name parameter is required.");
             CheckValidity();
         }
 
 
         public void UpdateTelephone(PhoneNumber value)
         {
-            if (value == null)
-            {
-                throw new ArgumentNullException("Financier telephone can not be updated with null.");
-            }
-
-            Telephone = value;
+            Telephone = value ?? throw new ArgumentNullException("The telephone parameter is required.");
             CheckValidity();
         }
 
@@ -75,9 +72,9 @@ namespace PipefittersSupplyCompany.Core.Financing.FinancierAggregate
 
         protected override void CheckValidity()
         {
-            if (ExternalAgent.AgentType != AgentType.Financier)
+            if (ExternalAgent.AgentType is not AgentType.Financier)
             {
-                throw new InvalidOperationException("Invalid external agent type, it should be 'AgentType.Financier'.");
+                throw new ArgumentException("Invalid ExternalAgent type; it must be 'AgentType.Financier'.");
             }
         }
 

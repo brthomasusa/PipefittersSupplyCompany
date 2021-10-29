@@ -13,9 +13,35 @@ namespace PipefittersSupplyCompany.Core.Shared
     {
         private EventType _eventType;
 
-        public EconomicEvent()
-        {
+        protected EconomicEvent() { }
 
+        public EconomicEvent(Guid eventId, EventType eventType)
+            : this()
+        {
+            if (eventId == default)
+            {
+                throw new ArgumentNullException("The event id is required.");
+            }
+
+            Id = eventId;
+            EventType = eventType;
         }
+
+        public EventType EventType
+        {
+            get { return _eventType; }
+
+            private set
+            {
+                if (!Enum.IsDefined(typeof(EventType), value))
+                {
+                    throw new ArgumentException("Undefined event type.");
+                }
+
+                _eventType = value;
+            }
+        }
+
+        public virtual LoanAgreement LoanAgreement { get; private set; }
     }
 }
