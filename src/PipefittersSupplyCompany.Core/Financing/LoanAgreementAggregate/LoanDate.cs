@@ -25,7 +25,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         private static void CheckValidity(DateTime value)
         {
-            if (value != default)
+            if (value == default)
             {
                 throw new ArgumentNullException("The loan date is required.", nameof(value));
             }

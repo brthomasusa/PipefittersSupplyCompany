@@ -45,6 +45,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             Assert.IsType<Financier>(financier);
         }
 
+
         [Fact]
         public void ShouldRaiseError_NewFinancier_WithNullExternalAgent()
         {
