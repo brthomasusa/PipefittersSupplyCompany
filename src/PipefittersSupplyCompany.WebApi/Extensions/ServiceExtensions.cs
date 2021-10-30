@@ -9,6 +9,7 @@ using PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.Helpe
 using PipefittersSupplyCompany.Infrastructure;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.Financiers;
+using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.LoanAgreements;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Services.Financing;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
@@ -62,7 +63,9 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                     .AddScoped<FinancierAggregateCommandHandler>()
                     .AddScoped<FinancierAggregateCommandHandler>()
                     .AddScoped<IFinancierQueryService, FinancierQueryService>()
-                    .AddScoped<IFinancierQueryRequestHandler, FinancierQueryRequestHandler>();
+                    .AddScoped<IFinancierQueryRequestHandler, FinancierQueryRequestHandler>()
+                    .AddScoped<ILoanAgreementAggregateRepository, LoanAgreementAggregateRepository>()
+                    .AddScoped<LoanAgreementAggregateCommandHandler>();
 
 
 

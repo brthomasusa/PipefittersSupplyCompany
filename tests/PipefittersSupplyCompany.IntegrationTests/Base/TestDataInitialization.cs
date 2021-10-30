@@ -255,9 +255,9 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             INSERT INTO Finance.LoanAgreements
                 (LoanId, FinancierId, LoanAmount, InterestRate, LoanDate, MaturityDate, PymtsPerYear, UserId)
             VALUES
-                ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '12998229-7ede-4834-825a-0c55bde75695', 50000.00, 0.086250, '2020-12-02', '2022-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                ('09b53ffb-9983-4cde-b1d6-8a49e785177f', '94b1d516-a1c3-4df8-ae85-be1f34966601', 50000.00, 0.086250, '2020-12-02', '2022-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                ('1511c20b-6df0-4313-98a5-7c3561757dc2', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 100000.00, 0.072500, '2020-12-15', '2022-12-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e')         
+                ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '12998229-7ede-4834-825a-0c55bde75695', 50000.00, 0.086250, '2020-12-02', '2021-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                ('09b53ffb-9983-4cde-b1d6-8a49e785177f', '94b1d516-a1c3-4df8-ae85-be1f34966601', 50000.00, 0.086250, '2020-12-02', '2021-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                ('1511c20b-6df0-4313-98a5-7c3561757dc2', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 100000.00, 0.072500, '2020-12-15', '2021-12-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e')         
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
