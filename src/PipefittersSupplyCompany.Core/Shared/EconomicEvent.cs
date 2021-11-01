@@ -41,7 +41,5 @@ namespace PipefittersSupplyCompany.Core.Shared
                 _eventType = value;
             }
         }
-
-        public virtual LoanAgreement LoanAgreement { get; private set; }
     }
 }

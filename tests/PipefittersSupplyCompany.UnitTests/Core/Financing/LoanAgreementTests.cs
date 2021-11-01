@@ -31,7 +31,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
 
             LoanAgreement agreement = new LoanAgreement
             (
-                economicEvent,
+                Guid.NewGuid(),
                 financier,
                 LoanAmount.Create(10000),
                 InterestRate.Create(.006),
@@ -54,7 +54,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             {
                 new LoanAgreement
                 (
-                    economicEvent,
+                    Guid.NewGuid(),
                     financier,
                     LoanAmount.Create(0),
                     InterestRate.Create(.006),
@@ -76,7 +76,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             {
                 new LoanAgreement
                 (
-                    economicEvent,
+                    Guid.NewGuid(),
                     financier,
                     LoanAmount.Create(10000),
                     InterestRate.Create(-1),
@@ -98,7 +98,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             {
                 new LoanAgreement
                 (
-                    economicEvent,
+                    Guid.NewGuid(),
                     financier,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
@@ -120,7 +120,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             {
                 new LoanAgreement
                 (
-                    economicEvent,
+                    Guid.NewGuid(),
                     financier,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
@@ -142,7 +142,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             {
                 new LoanAgreement
                 (
-                    economicEvent,
+                    Guid.NewGuid(),
                     financier,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
@@ -164,7 +164,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             {
                 new LoanAgreement
                 (
-                    economicEvent,
+                    Guid.NewGuid(),
                     financier,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),

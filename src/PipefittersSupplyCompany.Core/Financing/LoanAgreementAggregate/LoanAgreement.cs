@@ -14,7 +14,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public LoanAgreement
         (
-            EconomicEvent economicEvent,
+            Guid id,
             Financier financier,
             LoanAmount loanAmount,
             InterestRate interestRate,
@@ -24,14 +24,11 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
             Guid userID
         )
         {
-            EconomicEvent = economicEvent ?? throw new ArgumentNullException("The economic event is required.");
-
-            if (economicEvent.EventType is not EventType.LoanAgreement)
+            if (id == default)
             {
-                throw new ArgumentException("Invalid EconomicEvent type; it must be 'EventType.LoanAgreement'.");
+                throw new ArgumentNullException("The loan id is required.");
             }
-
-            Id = economicEvent.Id;
+            Id = id;
 
             Financier = financier ?? throw new ArgumentNullException("The financier of this loan agreement is required.");
             LoanAmount = loanAmount ?? throw new ArgumentNullException("The loan amount for this loan agreement is required.");
@@ -48,8 +45,6 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
             CheckValidity();
         }
-
-        public virtual EconomicEvent EconomicEvent { get; private set; }
 
         public virtual Financier Financier { get; private set; }
 

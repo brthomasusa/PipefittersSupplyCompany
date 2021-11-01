@@ -43,6 +43,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
 
         private static async Task HandleUpdate(EditFinancierInfo model, IFinancierAggregateRepository repo, IUnitOfWork unitOfWork)
         {
+            //TODO Disallow setting a Financier's status to inactive if there are unpaid loan balances or pending dividend payments
+
             var financier = await repo.GetByIdAsync(model.Id);
 
             if (financier == null)

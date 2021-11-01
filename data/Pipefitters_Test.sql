@@ -407,7 +407,7 @@ CREATE TABLE Finance.LoanAgreements
     LoanId uniqueidentifier NOT NULL PRIMARY KEY default NEWID(),
     FinancierId  uniqueidentifier NOT NULL REFERENCES Finance.Financiers (FinancierId),    
     LoanAmount DECIMAL(18,2) CHECK(LoanAmount > 0) NOT NULL,
-    InterestRate NUMERIC(9,6) CHECK(InterestRate >= 0) NOT NULL,        
+    InterestRate NUMERIC(5,4) CHECK(InterestRate >= 0) NOT NULL,        
     LoanDate DATETIME2(0) NOT NULL,
     MaturityDate DATETIME2(0) NOT NULL,
     PymtsPerYear INT CHECK(PymtsPerYear > 0) NOT NULL,
@@ -426,11 +426,6 @@ CREATE INDEX idx_LoanAgreement$UserID
   ON Finance.LoanAgreements (UserId);
 GO
 
-ALTER TABLE Finance.LoanAgreements WITH CHECK ADD CONSTRAINT [FK_LoanAgreements$LoanId_EconomicEvents$EventId] 
-    FOREIGN KEY(LoanId)
-    REFERENCES Shared.EconomicEvents (EventId)
-    ON DELETE NO ACTION
-GO
 
 CREATE TABLE Finance.StockSubscriptions
 (
@@ -453,12 +448,35 @@ CREATE INDEX idx_StockSubscription$UserId
   ON Finance.StockSubscriptions (UserId)
 GO
 
-ALTER TABLE Finance.StockSubscriptions WITH CHECK ADD CONSTRAINT [FK_StockSubscriptions$StockId_EconomicEvents$EventId] 
-    FOREIGN KEY(StockId)
-    REFERENCES Shared.EconomicEvents (EventId)
-    ON DELETE NO ACTION
+INSERT INTO Finance.LoanAgreements
+    (LoanId, FinancierId, LoanAmount, InterestRate, LoanDate, MaturityDate, PymtsPerYear, UserId)
+VALUES
+    ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '12998229-7ede-4834-825a-0c55bde75695', 50000.00, 0.08625, '2020-12-02', '2021-11-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('09b53ffb-9983-4cde-b1d6-8a49e785177f', '94b1d516-a1c3-4df8-ae85-be1f34966601', 50000.00, 0.08625, '2021-04-02', '2022-03-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('1511c20b-6df0-4313-98a5-7c3561757dc2', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 100000.00, 0.07250, '2021-09-15', '2022-08-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e')
 GO
 
+INSERT INTO Finance.StockSubscriptions
+    (StockId, FinancierId, SharesIssured, PricePerShare, StockIssueDate, UserId)
+VALUES
+    ('6d663bb9-763c-4797-91ea-b2d9b7a19ba4', '01da50f9-021b-4d03-853a-3fd2c95e207d', 50000, 1.00, '2020-09-03','4b900a74-e2d9-4837-b9a4-9e828752716e'),
+    ('62d6e2e6-215d-4157-b7ec-1ba9b137c770', 'bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 50000, 1.00, '2020-09-03','4b900a74-e2d9-4837-b9a4-9e828752716e'),
+    ('fb39b013-1633-4479-8186-9f9b240b5727', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 25000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', '01da50f9-021b-4d03-853a-3fd2c95e207d', 10000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
+    ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '12998229-7ede-4834-825a-0c55bde75695', 35000, 3.00, '2021-03-01','660bb318-649e-470d-9d2b-693bfb0b2744')
+GO
+
+-- ALTER TABLE Finance.LoanAgreements WITH CHECK ADD CONSTRAINT [FK_LoanAgreements$LoanId_EconomicEvents$EventId] 
+--     FOREIGN KEY(LoanId)
+--     REFERENCES Shared.EconomicEvents (EventId)
+--     ON DELETE NO ACTION
+-- GO
+
+-- ALTER TABLE Finance.StockSubscriptions WITH CHECK ADD CONSTRAINT [FK_StockSubscriptions$StockId_EconomicEvents$EventId] 
+--     FOREIGN KEY(StockId)
+--     REFERENCES Shared.EconomicEvents (EventId)
+--     ON DELETE NO ACTION
+-- GO
 
 INSERT INTO Shared.EconomicEvents
     (EventId, EventTypeId)
@@ -473,26 +491,6 @@ VALUES
     ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', 3),
     ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', 3)                         
 GO
-
-INSERT INTO Finance.LoanAgreements
-    (LoanId, FinancierId, LoanAmount, InterestRate, LoanDate, MaturityDate, PymtsPerYear, UserId)
-VALUES
-    ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '12998229-7ede-4834-825a-0c55bde75695', 50000.00, 0.086250, '2020-12-02', '2021-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    ('09b53ffb-9983-4cde-b1d6-8a49e785177f', '94b1d516-a1c3-4df8-ae85-be1f34966601', 50000.00, 0.086250, '2020-12-02', '2021-12-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    ('1511c20b-6df0-4313-98a5-7c3561757dc2', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 100000.00, 0.072500, '2020-12-15', '2021-12-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e')
-GO
-
-INSERT INTO Finance.StockSubscriptions
-    (StockId, FinancierId, SharesIssured, PricePerShare, StockIssueDate, UserId)
-VALUES
-    ('6d663bb9-763c-4797-91ea-b2d9b7a19ba4', '01da50f9-021b-4d03-853a-3fd2c95e207d', 50000, 1.00, '2020-09-03','4b900a74-e2d9-4837-b9a4-9e828752716e'),
-    ('62d6e2e6-215d-4157-b7ec-1ba9b137c770', 'bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 50000, 1.00, '2020-09-03','4b900a74-e2d9-4837-b9a4-9e828752716e'),
-    ('fb39b013-1633-4479-8186-9f9b240b5727', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 25000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
-    ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', '01da50f9-021b-4d03-853a-3fd2c95e207d', 10000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
-    ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '12998229-7ede-4834-825a-0c55bde75695', 35000, 3.00, '2021-03-01','660bb318-649e-470d-9d2b-693bfb0b2744')
-GO
-
-
 
 
 

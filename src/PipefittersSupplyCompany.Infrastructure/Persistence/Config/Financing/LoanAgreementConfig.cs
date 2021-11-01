@@ -1,7 +1,4 @@
-using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
-using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
-using PipefittersSupplyCompany.Core.Shared;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 

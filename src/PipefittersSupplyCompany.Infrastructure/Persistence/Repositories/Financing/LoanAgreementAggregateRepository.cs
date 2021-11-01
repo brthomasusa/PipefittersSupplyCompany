@@ -19,7 +19,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Finan
 
         public async Task AddAsync(LoanAgreement entity)
         {
-            await _dbContext.EconomicEvents.AddAsync(entity.EconomicEvent);
             await _dbContext.LoanAgreements.AddAsync(entity);
         }
 
@@ -28,7 +27,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Finan
         public void Delete(LoanAgreement entity)
         {
             _dbContext.LoanAgreements.Remove(entity);
-            _dbContext.EconomicEvents.Remove(entity.EconomicEvent);
         }
 
 
