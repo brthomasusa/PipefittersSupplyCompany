@@ -56,9 +56,9 @@ INSERT INTO Shared.EconomicEventTypes
     (EventName)
 VALUES
     ('SalesInvoice'),
-    ('LoanAgreement'),
-    ('StockSubscription'),
-    ('TimeCard'),
+    ('LoanPayment'),
+    ('DividentPayment'),
+    ('TimeCardPayment'),
     ('InventoryReceipt')
 GO
 
@@ -492,7 +492,26 @@ VALUES
     ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', 3)                         
 GO
 
+CREATE TABLE Finance.CashAccounts
+(
+    CashAccountId uniqueidentifier NOT NULL PRIMARY KEY default NEWID(),
+    BankName  NVARCHAR(50) NOT NULL,    
+    AccountNumber NVARCHAR(50) NOT NULL,
+    TransitABA NVARCHAR(25) NOT NULL,
+    DateOpened DATETIME2(0) NOT NULL,    
+    UserId  [uniqueidentifier] NOT NULL REFERENCES HumanResources.Users (UserId),
+    CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+    LastModifiedDate datetime2(7) NULL
+)
+GO
 
+CREATE UNIQUE INDEX idx_CashAccounts$AccountNumber 
+  ON Finance.CashAccounts (AccountNumber)
+GO
+
+CREATE INDEX idx_CashAccounts$UserId 
+  ON Finance.CashAccounts (UserId)
+GO
 
 -- Triggers
 CREATE TRIGGER HumanResources.SetEmployeeModifiedDate

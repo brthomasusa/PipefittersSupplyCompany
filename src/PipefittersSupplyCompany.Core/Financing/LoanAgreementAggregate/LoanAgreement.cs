@@ -1,9 +1,6 @@
 using System;
-using System.Collections.Generic;
-using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
-using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 
 namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate

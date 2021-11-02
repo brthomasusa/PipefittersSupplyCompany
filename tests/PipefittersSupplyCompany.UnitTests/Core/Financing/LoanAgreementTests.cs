@@ -10,14 +10,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
     public class LoanAgreementTests
     {
         [Fact]
-        public void ShouldReturn_ValidExternalAgent()
-        {
-            var result = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
-
-            Assert.IsType<EconomicEvent>(result);
-        }
-
-        [Fact]
         public void ShouldRaiseError_InvalidAgentTypeId()
         {
             Assert.Throws<ArgumentException>(() => new EconomicEvent(Guid.NewGuid(), 0));
@@ -26,7 +18,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldReturn_NewLoanAgreement()
         {
-            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
             Financier financier = GetFinancier();
 
             LoanAgreement agreement = new LoanAgreement
@@ -47,7 +38,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_InvalidLoanAmount()
         {
-            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentException>(() =>
@@ -69,7 +59,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_InvalidInterestRate()
         {
-            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentException>(() =>
@@ -91,7 +80,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_DefaultLoanDate()
         {
-            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentNullException>(() =>
@@ -113,7 +101,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_DefaultMaturityDate()
         {
-            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentNullException>(() =>
@@ -135,7 +122,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_LoanDateGreaterThanMaturityDate()
         {
-            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentException>(() =>
@@ -157,7 +143,6 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_InvalidPymtsPerYear()
         {
-            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.LoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
