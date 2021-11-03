@@ -2,121 +2,88 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using PipefittersSupplyCompany.SharedKernel;
+using PipefittersSupplyCompany.SharedKernel.Interfaces;
 
 namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
 {
-    public class CashAccount : AggregateRoot<Guid>
+    public class CashAccount : AggregateRoot<Guid>, IAggregateRoot
     {
-        private string _bankName;
-        private string _accountName;
-        private string _accountNumber;
-        private string _transitABA;
-        private DateTime _openedDate;
         private List<CashAccountTransaction> _cashTransactions = new List<CashAccountTransaction>();
 
         protected CashAccount() { }
 
-        public CashAccount(Guid id, string bankName, string acctName, string acctNumber, string transAba, DateTime openedDate)
+        public CashAccount
+        (
+            Guid id,
+            BankName bankName,
+            CashAccountName acctName,
+            CashAccountNumber acctNumber,
+            RoutingTransitNumber routingTransitNumber,
+            DateOpened openedDate,
+            Guid userID
+        )
             : this()
         {
-
-        }
-
-        public string bankName
-        {
-            get { return _bankName; }
-
-            private set
+            if (id == default)
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("The bank name is required.", nameof(value));
-                }
-
-                if (value.Length > 25)
-                {
-                    throw new ArgumentException("The bank name maximum length is 25 characters.", nameof(value));
-                }
-
-                _bankName = value;
+                throw new ArgumentNullException("The cash account id is required.", nameof(id));
             }
-        }
 
-        public string AccountName
-        {
-            get { return _accountName; }
+            Id = id;
+            BankName = bankName ?? throw new ArgumentNullException("The bank name is required");
+            CashAccountName = acctName ?? throw new ArgumentNullException("The cash account name is required.", nameof(acctName));
+            CashAccountNumber = acctNumber ?? throw new ArgumentNullException("The cash account number is required.", nameof(acctNumber));
+            RoutingTransitNumber = routingTransitNumber ?? throw new ArgumentNullException("The bank routing number is required.", nameof(routingTransitNumber));
+            DateOpened = openedDate ?? throw new ArgumentNullException("The account open date is required.", nameof(openedDate)); ;
 
-            private set
+            if (userID == default)
             {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("The account name is required.", nameof(value));
-                }
-
-                if (value.Length > 25)
-                {
-                    throw new ArgumentException("The account name maximum length is 25 characters.", nameof(value));
-                }
-
-                _accountName = value;
+                throw new ArgumentNullException("The user id (the employee creating this record) parameter is required.");
             }
+            UserId = userID;
+
+            CheckValidity();
         }
 
-        public string AccountNumber
-        {
-            get { return _accountNumber; }
+        public virtual BankName BankName { get; private set; }
 
-            private set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("The account number is required.", nameof(value));
-                }
+        public virtual CashAccountName CashAccountName { get; private set; }
 
-                if (value.Length > 25)
-                {
-                    throw new ArgumentException("The account number maximum length is 25 characters.", nameof(value));
-                }
+        public virtual CashAccountNumber CashAccountNumber { get; private set; }
 
-                _accountNumber = value;
-            }
-        }
+        public virtual RoutingTransitNumber RoutingTransitNumber { get; private set; }
 
-        public string TransitABA
-        {
-            get { return _transitABA; }
+        public virtual DateOpened DateOpened { get; private set; }
 
-            private set
-            {
-                if (string.IsNullOrEmpty(value))
-                {
-                    throw new ArgumentNullException("The transit ABA number is required.", nameof(value));
-                }
-
-                if (value.Length > 25)
-                {
-                    throw new ArgumentException("The transit ABA number maximum length is 25 characters.", nameof(value));
-                }
-
-                _transitABA = value;
-            }
-        }
-
-        public DateTime OpenedDate
-        {
-            get { return _openedDate; }
-
-            private set
-            {
-                if (value == default)
-                {
-                    throw new ArgumentNullException("The account open date is required.", nameof(value));
-                }
-
-                _openedDate = value;
-            }
-        }
+        public Guid UserId { get; private set; }
 
         public virtual IReadOnlyList<CashAccountTransaction> CashTransactions => _cashTransactions.ToList();
+
+        public void UpdateBankName(BankName value) => BankName = value;
+
+        public void UpdateCashAccountName(CashAccountName value) => CashAccountName = value;
+
+        public void UpdateCashAccountNumber(CashAccountNumber value) => CashAccountNumber = value;
+
+        public void UpdateRoutingTransitNumber(RoutingTransitNumber value) => RoutingTransitNumber = value;
+
+        public void UpdateDateOpened(DateOpened value) => DateOpened = value;
+
+        public void UpdateUserId(Guid value)
+        {
+            if (value == default)
+            {
+                throw new ArgumentNullException("The user id (the employee updating this record) parameter is required.");
+            }
+        }
+
+        protected override void CheckValidity()
+        {
+            if (Id == default)
+            {
+                throw new ArgumentException("The cash account id is required'.");
+            }
+
+        }
     }
 }

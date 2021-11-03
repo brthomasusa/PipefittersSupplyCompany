@@ -326,17 +326,9 @@ GO
 CREATE TABLE Finance.CashReceiptTypes
 (
   CashReceiptTypeID INT PRIMARY KEY CLUSTERED,
-  EventTypeName NVARCHAR(25) NOT NULL,
-  PayeeTypeName NVARCHAR(25) NOT NULL
+  EventTypeName NVARCHAR(25) NOT NULL UNIQUE,
+  PayeeTypeName NVARCHAR(25) NOT NULL UNIQUE
 )
-GO
-
-CREATE UNIQUE INDEX idx_CashReceiptType$EventTypeName
-    ON Finance.CashReceiptTypes (EventTypeName)
-GO
-
-CREATE UNIQUE INDEX idx_CashReceiptType$PayeeTypeName
-    ON Finance.CashReceiptTypes (PayeeTypeName)
 GO
 
 INSERT INTO Finance.CashReceiptTypes
