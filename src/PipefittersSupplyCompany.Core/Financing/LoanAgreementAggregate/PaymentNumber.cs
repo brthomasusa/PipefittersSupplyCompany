@@ -17,23 +17,23 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public static implicit operator int(PaymentNumber self) => self.Value;
 
-        public static PaymentNumber Create(int paymentNumber, LoanAgreement loanAgreement)
+        public static PaymentNumber Create(int paymentNumber)
         {
-            CheckValidity(paymentNumber, loanAgreement);
+            CheckValidity(paymentNumber);
             return new PaymentNumber(paymentNumber);
         }
 
-        private static void CheckValidity(int value, LoanAgreement loanAgreement)
+        private static void CheckValidity(int value)
         {
             if (value < 1)
             {
                 throw new ArgumentOutOfRangeException("The payment number must be greater than or equal to one.", nameof(value));
             }
 
-            if (value > (MonthDiff(loanAgreement.LoanDate, loanAgreement.MaturityDate)))
-            {
-                throw new ArgumentOutOfRangeException("Payment number can not be greater than the length (in months) of the loan agreement.", nameof(value));
-            }
+            // if (value > (MonthDiff(loanAgreement.LoanDate, loanAgreement.MaturityDate)))
+            // {
+            //     throw new ArgumentOutOfRangeException("Payment number can not be greater than the length (in months) of the loan agreement.", nameof(value));
+            // }
         }
 
         private static int MonthDiff(DateTime startDate, DateTime endDate)

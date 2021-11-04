@@ -17,23 +17,23 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public static implicit operator DateTime(PaymentDueDate self) => self.Value;
 
-        public static PaymentDueDate Create(DateTime paymentDueDate, LoanAgreement loanAgreement)
+        public static PaymentDueDate Create(DateTime paymentDueDate)
         {
-            CheckValidity(paymentDueDate, loanAgreement);
+            CheckValidity(paymentDueDate);
             return new PaymentDueDate(paymentDueDate);
         }
 
-        private static void CheckValidity(DateTime value, LoanAgreement loanAgreement)
+        private static void CheckValidity(DateTime value)
         {
             if (value == default)
             {
                 throw new ArgumentNullException("The payment due date is required.", nameof(value));
             }
 
-            if (value < loanAgreement.LoanDate)
-            {
-                throw new ArgumentOutOfRangeException("Payment due date can not be before loan date.", nameof(value));
-            }
+            // if (value < loanAgreement.LoanDate)
+            // {
+            //     throw new ArgumentOutOfRangeException("Payment due date can not be before loan date.", nameof(value));
+            // }
         }
     }
 }

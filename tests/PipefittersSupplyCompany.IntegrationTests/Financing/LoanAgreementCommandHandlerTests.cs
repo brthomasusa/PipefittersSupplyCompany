@@ -6,6 +6,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing.LoanAgreements;
+using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 
@@ -39,7 +40,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
                 LoanDate = new DateTime(2021, 1, 5),
                 MaturityDate = new DateTime(2022, 1, 5),
                 PaymentsPerYear = 12,
-                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId = UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             };
 
             await _cmdHdlr.Handle(model);
@@ -61,7 +62,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
                 LoanDate = new DateTime(2021, 1, 5),
                 MaturityDate = new DateTime(2022, 1, 5),
                 PaymentsPerYear = 12,
-                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId = UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             };
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _cmdHdlr.Handle(model));
@@ -79,7 +80,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
                 LoanDate = new DateTime(2021, 1, 5),
                 MaturityDate = new DateTime(2022, 1, 5),
                 PaymentsPerYear = 12,
-                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId = UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             };
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _cmdHdlr.Handle(model));
@@ -96,7 +97,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
                 LoanDate = new DateTime(2021, 1, 5),
                 MaturityDate = new DateTime(2023, 1, 5),
                 PaymentsPerYear = 24,
-                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId = UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             };
 
             await _cmdHdlr.Handle(model);
@@ -119,7 +120,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
                 LoanDate = new DateTime(2021, 1, 5),
                 MaturityDate = new DateTime(2023, 1, 5),
                 PaymentsPerYear = 24,
-                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId = UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             };
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _cmdHdlr.Handle(model));
@@ -131,7 +132,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             var model = new DeleteLoanAgreementInfo
             {
                 Id = new Guid("1511c20b-6df0-4313-98a5-7c3561757dc2"),
-                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId = UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             };
 
             await _cmdHdlr.Handle(model);
@@ -146,7 +147,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             var model = new DeleteLoanAgreementInfo
             {
                 Id = new Guid("0000c20b-6df0-4313-98a5-7c3561757dc2"),
-                UserId = new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId = UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             };
 
             await Assert.ThrowsAsync<InvalidOperationException>(async () => await _cmdHdlr.Handle(model));

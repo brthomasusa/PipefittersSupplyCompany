@@ -10,6 +10,14 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
     public class LoanAgreementTests
     {
         [Fact]
+        public void ShouldReturn_ValidExternalAgent()
+        {
+            var result = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
+
+            Assert.IsType<EconomicEvent>(result);
+        }
+
+        [Fact]
         public void ShouldRaiseError_InvalidAgentTypeId()
         {
             Assert.Throws<ArgumentException>(() => new EconomicEvent(Guid.NewGuid(), 0));
@@ -18,18 +26,19 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldReturn_NewLoanAgreement()
         {
+            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
             Financier financier = GetFinancier();
 
             LoanAgreement agreement = new LoanAgreement
             (
-                Guid.NewGuid(),
-                financier,
+                economicEvent,
+                financier.Id,
                 LoanAmount.Create(10000),
                 InterestRate.Create(.006),
                 LoanDate.Create(new DateTime(2020, 12, 31)),
                 MaturityDate.Create(new DateTime(2021, 12, 31)),
                 PaymentsPerYear.Create(12),
-                new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             );
 
             Assert.IsType<LoanAgreement>(agreement);
@@ -38,20 +47,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_InvalidLoanAmount()
         {
+            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentException>(() =>
             {
                 new LoanAgreement
                 (
-                    Guid.NewGuid(),
-                    financier,
+                    economicEvent,
+                    financier.Id,
                     LoanAmount.Create(0),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2020, 12, 31)),
                     MaturityDate.Create(new DateTime(2021, 12, 31)),
                     PaymentsPerYear.Create(12),
-                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                    UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
                 );
             });
         }
@@ -59,20 +69,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_InvalidInterestRate()
         {
+            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentException>(() =>
             {
                 new LoanAgreement
                 (
-                    Guid.NewGuid(),
-                    financier,
+                    economicEvent,
+                    financier.Id,
                     LoanAmount.Create(10000),
                     InterestRate.Create(-1),
                     LoanDate.Create(new DateTime(2020, 12, 31)),
                     MaturityDate.Create(new DateTime(2021, 12, 31)),
                     PaymentsPerYear.Create(12),
-                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                    UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
                 );
             });
         }
@@ -80,20 +91,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_DefaultLoanDate()
         {
+            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new LoanAgreement
                 (
-                    Guid.NewGuid(),
-                    financier,
+                    economicEvent,
+                    financier.Id,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime()),
                     MaturityDate.Create(new DateTime(2021, 12, 31)),
                     PaymentsPerYear.Create(12),
-                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                    UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
                 );
             });
         }
@@ -101,20 +113,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_DefaultMaturityDate()
         {
+            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentNullException>(() =>
             {
                 new LoanAgreement
                 (
-                    Guid.NewGuid(),
-                    financier,
+                    economicEvent,
+                    financier.Id,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2021, 12, 31)),
                     MaturityDate.Create(new DateTime()),
                     PaymentsPerYear.Create(12),
-                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                    UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
                 );
             });
         }
@@ -122,20 +135,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_LoanDateGreaterThanMaturityDate()
         {
+            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentException>(() =>
             {
                 new LoanAgreement
                 (
-                    Guid.NewGuid(),
-                    financier,
+                    economicEvent,
+                    financier.Id,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2021, 12, 31)),
                     MaturityDate.Create(new DateTime(2021, 11, 30)),
                     PaymentsPerYear.Create(12),
-                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                    UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
                 );
             });
         }
@@ -143,20 +157,21 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
         [Fact]
         public void ShouldRaiseError_InvalidPymtsPerYear()
         {
+            var economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement);
             Financier financier = GetFinancier();
 
             Assert.Throws<ArgumentOutOfRangeException>(() =>
             {
                 new LoanAgreement
                 (
-                    Guid.NewGuid(),
-                    financier,
+                    economicEvent,
+                    financier.Id,
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2020, 12, 31)),
                     MaturityDate.Create(new DateTime(2021, 12, 31)),
                     PaymentsPerYear.Create(0),
-                    new Guid("660bb318-649e-470d-9d2b-693bfb0b2744")
+                    UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
                 );
             });
         }

@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using PipefittersSupplyCompany.SharedKernel;
-using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
-using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
-
 
 namespace PipefittersSupplyCompany.Core.Shared
 {
@@ -41,5 +36,8 @@ namespace PipefittersSupplyCompany.Core.Shared
                 _eventType = value;
             }
         }
+
+        // public virtual LoanAgreement LoanAgreement { get; private set; } <-- Uncomment this for 2-way navigation
+        // public virtual LoanPayment LoanPayment { get; private set; }     <-- Uncomment this for 2-way navigation
     }
 }

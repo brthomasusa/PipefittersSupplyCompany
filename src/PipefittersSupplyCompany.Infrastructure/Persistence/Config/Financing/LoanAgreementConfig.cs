@@ -1,16 +1,20 @@
+using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
 {
-    public class LoanAgreementConfig : IEntityTypeConfiguration<LoanAgreement>
+    internal class LoanAgreementConfig : IEntityTypeConfiguration<LoanAgreement>
     {
         public void Configure(EntityTypeBuilder<LoanAgreement> entity)
         {
             entity.ToTable("LoanAgreements", schema: "Finance");
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("LoanId");
+            entity.HasOne(p => p.EconomicEvent).WithOne().HasForeignKey<LoanAgreement>(p => p.Id);
+            entity.HasMany(p => p.LoanPayments).WithOne(p => p.LoanAgreement).HasForeignKey(p => p.Id);
+            entity.Property(p => p.FinancierId).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("FinancierId");
             entity.Property(p => p.LoanAmount)
                 .HasConversion(p => p.Value, p => LoanAmount.Create(p))
                 .HasColumnType("DECIMAL(18,2)")
@@ -37,6 +41,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
                 .HasColumnName("PymtsPerYear")
                 .IsRequired();
             entity.Property(p => p.UserId)
+                .HasConversion(p => p.Value, p => UserId.Create(p))
                 .HasColumnType("UNIQUEIDENTIFIER")
                 .HasColumnName("UserId")
                 .IsRequired();

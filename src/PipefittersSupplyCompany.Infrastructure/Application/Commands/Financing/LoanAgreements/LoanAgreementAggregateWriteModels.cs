@@ -1,4 +1,5 @@
 using System;
+using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 
@@ -13,7 +14,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
         public DateTime LoanDate { get; set; }
         public DateTime MaturityDate { get; set; }
         public int PaymentsPerYear { get; set; }
-        public Guid UserId { get; set; }
+        public UserId UserId { get; set; }
     }
 
     public class EditLoanAgreementInfo : IWriteModel
@@ -24,13 +25,13 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
         public DateTime LoanDate { get; set; }
         public DateTime MaturityDate { get; set; }
         public int PaymentsPerYear { get; set; }
-        public Guid UserId { get; set; }
+        public UserId UserId { get; set; }
     }
 
     public class DeleteLoanAgreementInfo : IWriteModel
     {
         public Guid Id { get; set; }
-        public Guid UserId { get; set; }
+        public UserId UserId { get; set; }
     }
 }
 

@@ -1,8 +1,8 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
+using PipefittersSupplyCompany.Core.Shared;
 
 namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
 {
@@ -20,26 +20,16 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
             CashAccountNumber acctNumber,
             RoutingTransitNumber routingTransitNumber,
             DateOpened openedDate,
-            Guid userID
+            UserId userID
         )
             : this()
         {
-            if (id == default)
-            {
-                throw new ArgumentNullException("The cash account id is required.", nameof(id));
-            }
-
             Id = id;
-            BankName = bankName ?? throw new ArgumentNullException("The bank name is required");
-            CashAccountName = acctName ?? throw new ArgumentNullException("The cash account name is required.", nameof(acctName));
-            CashAccountNumber = acctNumber ?? throw new ArgumentNullException("The cash account number is required.", nameof(acctNumber));
-            RoutingTransitNumber = routingTransitNumber ?? throw new ArgumentNullException("The bank routing number is required.", nameof(routingTransitNumber));
-            DateOpened = openedDate ?? throw new ArgumentNullException("The account open date is required.", nameof(openedDate)); ;
-
-            if (userID == default)
-            {
-                throw new ArgumentNullException("The user id (the employee creating this record) parameter is required.");
-            }
+            BankName = bankName;
+            CashAccountName = acctName;
+            CashAccountNumber = acctNumber;
+            RoutingTransitNumber = routingTransitNumber;
+            DateOpened = openedDate;
             UserId = userID;
 
             CheckValidity();
@@ -55,9 +45,9 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
 
         public virtual DateOpened DateOpened { get; private set; }
 
-        public Guid UserId { get; private set; }
+        public virtual UserId UserId { get; private set; }
 
-        public virtual IReadOnlyList<CashAccountTransaction> CashTransactions => _cashTransactions.ToList();
+        public virtual IReadOnlyList<CashAccountTransaction> CashAccountTransactions { get; private set; } = new List<CashAccountTransaction>();
 
         public void UpdateBankName(BankName value) => BankName = value;
 
@@ -81,9 +71,8 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
         {
             if (Id == default)
             {
-                throw new ArgumentException("The cash account id is required'.");
+                throw new ArgumentNullException("The cash account id is required.");
             }
-
         }
     }
 }
