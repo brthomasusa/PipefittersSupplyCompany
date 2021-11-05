@@ -29,7 +29,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             .EnableDetailedErrors()
             .UseLazyLoadingProxies();
 
-
             _dbContext = new AppDbContext(optionsBuilder.Options);
         }
 

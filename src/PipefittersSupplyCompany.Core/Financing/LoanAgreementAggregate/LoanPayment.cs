@@ -24,6 +24,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
             Id = economicEvent.Id;
             LoanAgreement = loanAgreement;
+            LoanId = LoanId.Create(loanAgreement.Id);
             PaymentNumber = paymentNumber;
             PaymentDueDate = paymentDueDate;
             LoanPrincipalAmount = principalAmount;
@@ -37,6 +38,8 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
         public virtual EconomicEvent EconomicEvent { get; private set; }
 
         public virtual LoanAgreement LoanAgreement { get; private set; }
+
+        public virtual LoanId LoanId { get; private set; }
 
         public virtual PaymentNumber PaymentNumber { get; private set; }
 

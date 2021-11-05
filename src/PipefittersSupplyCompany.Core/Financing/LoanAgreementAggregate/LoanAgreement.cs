@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
@@ -8,6 +9,8 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 {
     public class LoanAgreement : AggregateRoot<Guid>, IAggregateRoot
     {
+        private HashSet<LoanPayment> _loanPayments = new HashSet<LoanPayment>();
+
         protected LoanAgreement() { }
 
         public LoanAgreement
@@ -51,7 +54,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public UserId UserId { get; private set; }
 
-        public virtual IReadOnlyList<LoanPayment> LoanPayments { get; private set; } = new List<LoanPayment>();
+        public virtual IReadOnlyCollection<LoanPayment> LoanPayments => _loanPayments.ToList();
 
         public void UpdateLoanAmount(LoanAmount value)
         {
@@ -91,6 +94,11 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
             UserId = value;
             CheckValidity();
+        }
+
+        public void AddLoanPayment(LoanPayment payment)
+        {
+            _loanPayments.Add(payment);
         }
 
         protected override void CheckValidity()

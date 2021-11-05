@@ -29,7 +29,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Finan
             _dbContext.LoanAgreements.Remove(entity);
         }
 
-
         public void Dispose()
         {
             Dispose(true);
