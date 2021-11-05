@@ -558,110 +558,6 @@ VALUES
     ('6a7ed605-c02c-4ec8-89c4-eac6306c885e', 'First Bank and Trust', 'Financing Proceeds', '36547-9888249', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e')
 GO
 
-
-
-CREATE TABLE Finance.CashDisbursementTypes
-(
-  CashDisbursementTypeId INT IDENTITY PRIMARY KEY CLUSTERED,
-  EventTypeName NVARCHAR(25) NOT NULL UNIQUE,
-  AgentTypeName NVARCHAR(25) NOT NULL UNIQUE
-)
-GO
-
-INSERT INTO Finance.CashDisbursementTypes
-    (EventTypeName, AgentTypeName)
-VALUES
-    ('TimeCard Payment', 'Employee'),
-    ('Inventory Receipt', 'Vendor'),
-    ('Loan Payment', 'Financier - Creditor'),
-    ('Dividend Payments', 'Financier - Stockholder')
-GO
-
-CREATE TABLE Finance.CashDisbursements
-(
-	CashDisbursementId INT IDENTITY PRIMARY KEY CLUSTERED,
-	CashDisbursementTypeId INT NOT NULL REFERENCES Finance.CashDisbursementTypes(CashDisbursementTypeId),
-	CashAccountId uniqueidentifier NOT NULL REFERENCES Finance.CashAccounts(CashAccountId),
-	TransactionDate DATETIME2(0) NOT NULL,
-	TransactionAmount DECIMAL(18,2) NOT NULL,
-	AgentId uniqueidentifier NOT NULL REFERENCES Shared.ExternalAgents (AgentId),
-	EventId uniqueidentifier NOT NULL REFERENCES Shared.EconomicEvents (EventId),
-	CheckNumber NVARCHAR(25) NOT NULL,
-	RemittanceAdvice NVARCHAR(50) NULL,
-	UserId uniqueidentifier NOT NULL REFERENCES HumanResources.Users (UserId),
-	CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-	LastModifiedDate datetime2(7) NULL
-)
-GO
-
-CREATE INDEX idx_CashDisbursements$CashDisbursementTypeId 
-  ON Finance.CashDisbursements (CashDisbursementTypeId)
-GO
-CREATE INDEX idx_CashDisbursements$CashAccountId 
-  ON Finance.CashDisbursements (CashAccountId)
-GO
-CREATE INDEX idx_CashDisbursements$AgentId 
-  ON Finance.CashDisbursements (AgentId)
-GO
-CREATE INDEX idx_CashDisbursements$EventId 
-  ON Finance.CashDisbursements (EventId)
-GO
-CREATE INDEX idx_CashDisbursements$UserId
-  ON Finance.CashDisbursements (UserId)
-GO
-CREATE UNIQUE INDEX idx_CashDisbursements$CashAccountID_CheckNumber
-  ON Finance.CashDisbursements (CashAccountId, CheckNumber)
-GO
-
-CREATE TABLE Finance.CashReceiptTypes
-(
-  CashReceiptTypeId INT IDENTITY PRIMARY KEY CLUSTERED,
-  EventTypeName NVARCHAR(25) NOT NULL UNIQUE,
-  AgentTypeName NVARCHAR(25) NOT NULL UNIQUE
-)
-GO
-
-INSERT INTO Finance.CashReceiptTypes
-    (EventTypeName, AgentTypeName)
-VALUES
-    ('Sales Invoice', 'Customer'),
-    ('Debt Issue', 'Financier - Creditor'),
-    ('Stock Issue', 'Financier - Stockholder')
-GO
-
-CREATE TABLE Finance.CashReceipts
-(
-	CashReceiptId INT IDENTITY PRIMARY KEY CLUSTERED,
-	CashReceiptTypeId INT NOT NULL REFERENCES Finance.CashReceiptTypes(CashReceiptTypeId),
-	CashAccountId uniqueidentifier NOT NULL REFERENCES Finance.CashAccounts(CashAccountId),
-	TransactionDate DATETIME2(0) NOT NULL,
-	TransactionAmount DECIMAL(18,2) NOT NULL,
-	AgentId uniqueidentifier NOT NULL REFERENCES Shared.ExternalAgents (AgentId),
-	EventId uniqueidentifier NOT NULL REFERENCES Shared.EconomicEvents (EventId),
-	CheckNumber NVARCHAR(25) NOT NULL,
-	RemittanceAdvice NVARCHAR(50) NULL,
-	UserId uniqueidentifier NOT NULL REFERENCES HumanResources.Users (UserId),
-	CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
-	LastModifiedDate datetime2(7) NULL
-)
-GO
-
-CREATE INDEX idx_CashReceipts$CashReceiptTypeId 
-  ON Finance.CashReceipts (CashReceiptTypeId)
-GO
-CREATE INDEX idx_CashReceipts$CashAccountId 
-  ON Finance.CashReceipts (CashAccountId)
-GO
-CREATE INDEX idx_CashReceipts$AgentId 
-  ON Finance.CashReceipts (AgentId)
-GO
-CREATE INDEX idx_CashReceipts$EventId 
-  ON Finance.CashReceipts (EventId)
-GO
-CREATE INDEX idx_CashReceipts$UserId
-  ON Finance.CashReceipts (UserId)
-GO
-
 CREATE TABLE Finance.LoanPaymentSchedules
 (
     LoanPaymentId uniqueidentifier NOT NULL PRIMARY KEY default NEWID(),
@@ -736,8 +632,62 @@ VALUES
     ('409e60dc-bbe6-4ca9-95c2-ebf6886e8c4c', '1511c20b-6df0-4313-98a5-7c3561757dc2', 12, '2022-09-15', 52.03, 8612.10, 0, '660bb318-649e-470d-9d2b-693bfb0b2744')
 GO 
 
-INSERT INTO Finance.CashReceipts
-    (CashReceiptTypeId, CashAccountId, TransactionDate, TransactionAmount, AgentId, EventId, CheckNumber, UserId)
+CREATE TABLE Finance.CashTransactionTypes
+(
+  CashTransactionTypeId INT IDENTITY PRIMARY KEY CLUSTERED,
+  CashTransactionTypeName NVARCHAR(50) NOT NULL UNIQUE
+)
+GO
+
+INSERT INTO Finance.CashTransactionTypes
+    (CashTransactionTypeName)
+VALUES
+    ('Cash Receipt Sales'),
+    ('Cash Receipt Debt Issue Proceeds'),
+    ('Cash Receipt Stock Issue Proceeds'),
+    ('Cash Disbursement Loan Payment'),    
+    ('Cash Disbursement Divident Payment'),
+    ('Cash Disbursement TimeCard Payment'),
+    ('Cash Disbursement Inventory Receipt'),
+    ('Cash Receipt Adjustment'),
+    ('Cash Disbursement Adjustment')    
+GO
+
+CREATE TABLE Finance.CashAccountTransactions
+(
+	CashTransactionId INT IDENTITY PRIMARY KEY CLUSTERED,
+	CashTransactionTypeId INT NOT NULL REFERENCES Finance.CashTransactionTypes(CashTransactionTypeId),
+	CashAccountId uniqueidentifier NOT NULL REFERENCES Finance.CashAccounts(CashAccountId),
+	CashAcctTransactionDate DATETIME2(0) NOT NULL,
+	CashAcctTransactionAmount DECIMAL(18,2) NOT NULL,
+	AgentId uniqueidentifier NOT NULL REFERENCES Shared.ExternalAgents (AgentId),
+	EventId uniqueidentifier NOT NULL REFERENCES Shared.EconomicEvents (EventId),
+	CheckNumber NVARCHAR(25) NOT NULL,
+	RemittanceAdvice NVARCHAR(50) NULL,
+	UserId uniqueidentifier NOT NULL REFERENCES HumanResources.Users (UserId),
+	CreatedDate datetime2(7) DEFAULT sysdatetime() NOT NULL,
+	LastModifiedDate datetime2(7) NULL
+)
+GO
+
+CREATE INDEX idx_CashAcctTransactions$CashTransactionTypeId 
+  ON Finance.CashAccountTransactions (CashTransactionTypeId)
+GO
+CREATE INDEX idx_CashAcctTransactions$CashAccountId 
+  ON Finance.CashAccountTransactions (CashAccountId)
+GO
+CREATE INDEX idx_CashAcctTransactions$AgentId 
+  ON Finance.CashAccountTransactions (AgentId)
+GO
+CREATE INDEX idx_CashAcctTransactions$EventId 
+  ON Finance.CashAccountTransactions (EventId)
+GO
+CREATE INDEX idx_CashAcctTransactions$UserId
+  ON Finance.CashAccountTransactions (UserId)
+GO
+
+INSERT INTO Finance.CashAccountTransactions
+    (CashTransactionTypeId, CashAccountId, CashAcctTransactionDate, CashAcctTransactionAmount, AgentId, EventId, CheckNumber, UserId)
 VALUES
 	(2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-12-02', 50000, '12998229-7ede-4834-825a-0c55bde75695', '41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '65874', '660bb318-649e-470d-9d2b-693bfb0b2744'),
 	(2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-09-15', 100000, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '1511c20b-6df0-4313-98a5-7c3561757dc2', '100120', '660bb318-649e-470d-9d2b-693bfb0b2744'),
@@ -746,37 +696,25 @@ VALUES
 	(3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-11-01', 25000, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'fb39b013-1633-4479-8186-9f9b240b5727', '68001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
 	(3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-09-03', 50000, '01da50f9-021b-4d03-853a-3fd2c95e207d', '6d663bb9-763c-4797-91ea-b2d9b7a19ba4', '1001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
 	(3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-11-01', 10000, '01da50f9-021b-4d03-853a-3fd2c95e207d', '6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', '180001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-	(3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-03-01', 105000, '12998229-7ede-4834-825a-0c55bde75695', '264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '9800322', '660bb318-649e-470d-9d2b-693bfb0b2744')  
+	(3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-03-01', 105000, '12998229-7ede-4834-825a-0c55bde75695', '264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '9800322', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+	(4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-01-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', '2301', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-02-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'f479f59a-5001-47af-9d6c-2eae07077490', '2302', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-03-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '76e6164a-249d-47a2-b47c-f09a332181b6', '2303', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-04-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'caaa8b0c-bd5e-4b74-abe7-437a6e1cde15', '2305', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2306', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'e4860060-778b-4b70-9f92-3b1af108a58d', '2308', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '710cbc7d-be46-4822-aea6-a5c89213efa3', '2310', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '769a7c0d-0005-445e-b110-cbfb2321f40e', '2311', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '43e96119-c4c8-4fe9-a568-4dd3dc569501', '2330', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '0e04afc1-b006-4ef5-8265-ce24e456c0f8', '2331', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2307', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '97fa51e0-e02a-46c1-9f09-73f72a5519c9', '2309', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'e4ca6c30-6fd7-44ea-89b5-e11ecfc5989b', '2312', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'b5c98492-2155-404e-b020-0b8c1481ec73', '2313', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'eda455e3-1cc9-4d23-8434-37b9da13c71f', '2332', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '839b2060-3ea5-4f5c-b313-f7a17a0cc0ec', '2333', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+    (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-15', 8664.21, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '2205ebde-58dc-4af7-958b-9124d9645b38', '2340', '660bb318-649e-470d-9d2b-693bfb0b2744')      
 GO
-
-INSERT INTO Finance.CashDisbursements
-	(CashDisbursementTypeId, CashAccountId, TransactionDate, TransactionAmount, AgentId, EventId, CheckNumber, UserId)
-VALUES
-	(3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-01-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', '2301', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-02-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'f479f59a-5001-47af-9d6c-2eae07077490', '2302', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-03-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '76e6164a-249d-47a2-b47c-f09a332181b6', '2303', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-04-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'caaa8b0c-bd5e-4b74-abe7-437a6e1cde15', '2305', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2306', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'e4860060-778b-4b70-9f92-3b1af108a58d', '2308', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '710cbc7d-be46-4822-aea6-a5c89213efa3', '2310', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '769a7c0d-0005-445e-b110-cbfb2321f40e', '2311', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '43e96119-c4c8-4fe9-a568-4dd3dc569501', '2330', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '0e04afc1-b006-4ef5-8265-ce24e456c0f8', '2331', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2307', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '97fa51e0-e02a-46c1-9f09-73f72a5519c9', '2309', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'e4ca6c30-6fd7-44ea-89b5-e11ecfc5989b', '2312', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'b5c98492-2155-404e-b020-0b8c1481ec73', '2313', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'eda455e3-1cc9-4d23-8434-37b9da13c71f', '2332', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '839b2060-3ea5-4f5c-b313-f7a17a0cc0ec', '2333', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-    (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-15', 8664.21, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '2205ebde-58dc-4af7-958b-9124d9645b38', '2340', '660bb318-649e-470d-9d2b-693bfb0b2744')
-GO
-
-
-
-
-
-
-
 
 
 

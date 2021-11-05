@@ -14,8 +14,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 "Shared.Addresses",
                 "Shared.ContactPersons",
                 // "Shared.EconomicEventTypes",
-                "Finance.CashReceipts",
-                "Finance.CashDisbursements"
+                "Finance.CashAccountTransactions"
             };
 
             foreach (var table in tables)
@@ -30,9 +29,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
 
         private static void ClearData(AppDbContext ctx)
         {   //
-            ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.CashDisbursements");
+            ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.CashAccountTransactions");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.LoanPaymentSchedules");
-            ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.CashReceipts");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.CashAccounts");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.StockSubscriptions");
             ctx.Database.ExecuteSqlRaw("DELETE FROM Finance.LoanAgreements");
@@ -261,50 +259,50 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             INSERT INTO Shared.EconomicEvents
                 (EventId, EventTypeId)
             VALUES
-    ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', 2),
-    ('09b53ffb-9983-4cde-b1d6-8a49e785177f', 2),
-    ('1511c20b-6df0-4313-98a5-7c3561757dc2', 2),
-    ('6d663bb9-763c-4797-91ea-b2d9b7a19ba4', 3),
-    ('62d6e2e6-215d-4157-b7ec-1ba9b137c770', 3),
-    ('fb39b013-1633-4479-8186-9f9b240b5727', 3),
-    ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', 3),
-    ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', 3),
-    ('93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', 4),
-    ('f479f59a-5001-47af-9d6c-2eae07077490', 4),
-    ('76e6164a-249d-47a2-b47c-f09a332181b6', 4),
-    ('caaa8b0c-bd5e-4b74-abe7-437a6e1cde15', 4),
-    ('94cf5110-435a-4c30-b9a7-1a0a334528da', 4),
-    ('e4860060-778b-4b70-9f92-3b1af108a58d', 4),
-    ('710cbc7d-be46-4822-aea6-a5c89213efa3', 4),
-    ('769a7c0d-0005-445e-b110-cbfb2321f40e', 4),
-    ('43e96119-c4c8-4fe9-a568-4dd3dc569501', 4),
-    ('0e04afc1-b006-4ef5-8265-ce24e456c0f8', 4),
-    ('b71d5303-6035-4e96-9915-41c3724de721', 4),
-    ('cf4279a1-da26-4d10-bff0-cf6e0933661c', 4),
-    ('8e804651-5021-4577-bbda-e7ee45a74e44', 4),
-    ('97fa51e0-e02a-46c1-9f09-73f72a5519c9', 4),
-    ('e4ca6c30-6fd7-44ea-89b5-e11ecfc5989b', 4),
-    ('b5c98492-2155-404e-b020-0b8c1481ec73', 4),
-    ('eda455e3-1cc9-4d23-8434-37b9da13c71f', 4),
-    ('839b2060-3ea5-4f5c-b313-f7a17a0cc0ec', 4),
-    ('083082b0-9332-4cae-8522-5af12f3c618d', 4),
-    ('08ae781a-27c4-4d43-9c55-d96a956f3418', 4),
-    ('22e0ccd6-9308-4c59-a5e8-2d65c40e1974', 4),
-    ('4110e43c-b8ca-4ee1-85cc-46ef54d98893', 4),
-    ('e673b4ef-1c5c-4a6e-8e4e-253c61c9c85c', 4),
-    ('12ad37a2-8bb1-4b10-85d9-5eb9cee15ccc', 4),
-    ('2205ebde-58dc-4af7-958b-9124d9645b38', 4),
-    ('e82648a3-8744-424f-badd-5a19a979574a', 4),
-    ('0801632b-55d5-48fb-99d8-05e6fba1fcaf', 4),
-    ('89eb8ba8-5dbb-42b5-8fd5-b733986ea10c', 4),
-    ('1fe9c955-b05e-42aa-8770-d36593689790', 4),
-    ('7711b4bc-5a44-4c68-8457-f85783f7f57e', 4),
-    ('6a61a2eb-08b4-4baf-a6e6-a518b6d3de80', 4),
-    ('992c8ad6-6858-44fa-9c97-343ea578f640', 4),
-    ('b4a74b84-00cc-4d89-8669-25436309becb', 4),
-    ('5696f5fa-3c7a-4401-97aa-bb2bdf425596', 4),
-    ('b14fa6a6-740a-437b-9bac-55dd6e7824de', 4),
-    ('409e60dc-bbe6-4ca9-95c2-ebf6886e8c4c', 4)                         
+                ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', 2),
+                ('09b53ffb-9983-4cde-b1d6-8a49e785177f', 2),
+                ('1511c20b-6df0-4313-98a5-7c3561757dc2', 2),
+                ('6d663bb9-763c-4797-91ea-b2d9b7a19ba4', 3),
+                ('62d6e2e6-215d-4157-b7ec-1ba9b137c770', 3),
+                ('fb39b013-1633-4479-8186-9f9b240b5727', 3),
+                ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', 3),
+                ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', 3),
+                ('93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', 4),
+                ('f479f59a-5001-47af-9d6c-2eae07077490', 4),
+                ('76e6164a-249d-47a2-b47c-f09a332181b6', 4),
+                ('caaa8b0c-bd5e-4b74-abe7-437a6e1cde15', 4),
+                ('94cf5110-435a-4c30-b9a7-1a0a334528da', 4),
+                ('e4860060-778b-4b70-9f92-3b1af108a58d', 4),
+                ('710cbc7d-be46-4822-aea6-a5c89213efa3', 4),
+                ('769a7c0d-0005-445e-b110-cbfb2321f40e', 4),
+                ('43e96119-c4c8-4fe9-a568-4dd3dc569501', 4),
+                ('0e04afc1-b006-4ef5-8265-ce24e456c0f8', 4),
+                ('b71d5303-6035-4e96-9915-41c3724de721', 4),
+                ('cf4279a1-da26-4d10-bff0-cf6e0933661c', 4),
+                ('8e804651-5021-4577-bbda-e7ee45a74e44', 4),
+                ('97fa51e0-e02a-46c1-9f09-73f72a5519c9', 4),
+                ('e4ca6c30-6fd7-44ea-89b5-e11ecfc5989b', 4),
+                ('b5c98492-2155-404e-b020-0b8c1481ec73', 4),
+                ('eda455e3-1cc9-4d23-8434-37b9da13c71f', 4),
+                ('839b2060-3ea5-4f5c-b313-f7a17a0cc0ec', 4),
+                ('083082b0-9332-4cae-8522-5af12f3c618d', 4),
+                ('08ae781a-27c4-4d43-9c55-d96a956f3418', 4),
+                ('22e0ccd6-9308-4c59-a5e8-2d65c40e1974', 4),
+                ('4110e43c-b8ca-4ee1-85cc-46ef54d98893', 4),
+                ('e673b4ef-1c5c-4a6e-8e4e-253c61c9c85c', 4),
+                ('12ad37a2-8bb1-4b10-85d9-5eb9cee15ccc', 4),
+                ('2205ebde-58dc-4af7-958b-9124d9645b38', 4),
+                ('e82648a3-8744-424f-badd-5a19a979574a', 4),
+                ('0801632b-55d5-48fb-99d8-05e6fba1fcaf', 4),
+                ('89eb8ba8-5dbb-42b5-8fd5-b733986ea10c', 4),
+                ('1fe9c955-b05e-42aa-8770-d36593689790', 4),
+                ('7711b4bc-5a44-4c68-8457-f85783f7f57e', 4),
+                ('6a61a2eb-08b4-4baf-a6e6-a518b6d3de80', 4),
+                ('992c8ad6-6858-44fa-9c97-343ea578f640', 4),
+                ('b4a74b84-00cc-4d89-8669-25436309becb', 4),
+                ('5696f5fa-3c7a-4401-97aa-bb2bdf425596', 4),
+                ('b14fa6a6-740a-437b-9bac-55dd6e7824de', 4),
+                ('409e60dc-bbe6-4ca9-95c2-ebf6886e8c4c', 4)                         
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -352,26 +350,6 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('417f8a5f-60e7-411a-8e87-dfab0ae62589', 'First Bank and Trust', 'Primary Checking', '36547-9871222', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e'),
                 ('c98ac84f-00bb-463d-9116-5828b2e9f718', 'First Bank and Trust', 'Payroll', '36547-9098812', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e'),
                 ('6a7ed605-c02c-4ec8-89c4-eac6306c885e', 'First Bank and Trust', 'Financing Proceeds', '36547-9888249', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e')      
-            ";
-
-            ctx.Database.ExecuteSqlRaw(sql);
-        }
-
-        private static void InsertCashReceipts(AppDbContext ctx)
-        {
-            string sql =
-            @"
-            INSERT INTO Finance.CashReceipts
-                (CashReceiptTypeId, CashAccountId, TransactionDate, TransactionAmount, AgentId, EventId, CheckNumber, UserId)
-            VALUES
-                (2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-12-02', 50000, '12998229-7ede-4834-825a-0c55bde75695', '41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '65874', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-09-15', 100000, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '1511c20b-6df0-4313-98a5-7c3561757dc2', '100120', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-04-02', 50000, '94b1d516-a1c3-4df8-ae85-be1f34966601', '09b53ffb-9983-4cde-b1d6-8a49e785177f', '980', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-09-03', 50000, 'bf19cf34-f6ba-4fb2-b70e-ab19d3371886', '62d6e2e6-215d-4157-b7ec-1ba9b137c770', '114980', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-11-01', 25000, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'fb39b013-1633-4479-8186-9f9b240b5727', '68001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-09-03', 50000, '01da50f9-021b-4d03-853a-3fd2c95e207d', '6d663bb9-763c-4797-91ea-b2d9b7a19ba4', '1001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-11-01', 10000, '01da50f9-021b-4d03-853a-3fd2c95e207d', '6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', '180001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-03-01', 105000, '12998229-7ede-4834-825a-0c55bde75695', '264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '9800322', '660bb318-649e-470d-9d2b-693bfb0b2744')                      
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -427,30 +405,38 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             ctx.Database.ExecuteSqlRaw(sql);
         }
 
-        private static void InsertCashDisbursements(AppDbContext ctx)
+        private static void InsertCashAccountTransactions(AppDbContext ctx)
         {
             string sql =
             @"
-            INSERT INTO Finance.CashDisbursements
-                (CashDisbursementTypeId, CashAccountId, TransactionDate, TransactionAmount, AgentId, EventId, CheckNumber, UserId)
+            INSERT INTO Finance.CashAccountTransactions
+                (CashTransactionTypeId, CashAccountId, CashAcctTransactionDate, CashAcctTransactionAmount, AgentId, EventId, CheckNumber, UserId)
             VALUES
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-01-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', '2301', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-02-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'f479f59a-5001-47af-9d6c-2eae07077490', '2302', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-03-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '76e6164a-249d-47a2-b47c-f09a332181b6', '2303', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-04-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'caaa8b0c-bd5e-4b74-abe7-437a6e1cde15', '2305', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2306', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'e4860060-778b-4b70-9f92-3b1af108a58d', '2308', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '710cbc7d-be46-4822-aea6-a5c89213efa3', '2310', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '769a7c0d-0005-445e-b110-cbfb2321f40e', '2311', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '43e96119-c4c8-4fe9-a568-4dd3dc569501', '2330', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '0e04afc1-b006-4ef5-8265-ce24e456c0f8', '2331', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2307', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '97fa51e0-e02a-46c1-9f09-73f72a5519c9', '2309', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'e4ca6c30-6fd7-44ea-89b5-e11ecfc5989b', '2312', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'b5c98492-2155-404e-b020-0b8c1481ec73', '2313', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'eda455e3-1cc9-4d23-8434-37b9da13c71f', '2332', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '839b2060-3ea5-4f5c-b313-f7a17a0cc0ec', '2333', '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                (3, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-15', 8664.21, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '2205ebde-58dc-4af7-958b-9124d9645b38', '2340', '660bb318-649e-470d-9d2b-693bfb0b2744')                     
+                (2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-12-02', 50000, '12998229-7ede-4834-825a-0c55bde75695', '41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '65874', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-09-15', 100000, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '1511c20b-6df0-4313-98a5-7c3561757dc2', '100120', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (2, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-04-02', 50000, '94b1d516-a1c3-4df8-ae85-be1f34966601', '09b53ffb-9983-4cde-b1d6-8a49e785177f', '980', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-09-03', 50000, 'bf19cf34-f6ba-4fb2-b70e-ab19d3371886', '62d6e2e6-215d-4157-b7ec-1ba9b137c770', '114980', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-11-01', 25000, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'fb39b013-1633-4479-8186-9f9b240b5727', '68001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-09-03', 50000, '01da50f9-021b-4d03-853a-3fd2c95e207d', '6d663bb9-763c-4797-91ea-b2d9b7a19ba4', '1001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2020-11-01', 10000, '01da50f9-021b-4d03-853a-3fd2c95e207d', '6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', '180001', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (3, '6a7ed605-c02c-4ec8-89c4-eac6306c885e', '2021-03-01', 105000, '12998229-7ede-4834-825a-0c55bde75695', '264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '9800322', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-01-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', '2301', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-02-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'f479f59a-5001-47af-9d6c-2eae07077490', '2302', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-03-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '76e6164a-249d-47a2-b47c-f09a332181b6', '2303', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-04-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'caaa8b0c-bd5e-4b74-abe7-437a6e1cde15', '2305', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2306', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', 'e4860060-778b-4b70-9f92-3b1af108a58d', '2308', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '710cbc7d-be46-4822-aea6-a5c89213efa3', '2310', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '769a7c0d-0005-445e-b110-cbfb2321f40e', '2311', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '43e96119-c4c8-4fe9-a568-4dd3dc569501', '2330', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '12998229-7ede-4834-825a-0c55bde75695', '0e04afc1-b006-4ef5-8265-ce24e456c0f8', '2331', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-05-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '94cf5110-435a-4c30-b9a7-1a0a334528da', '2307', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-06-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '97fa51e0-e02a-46c1-9f09-73f72a5519c9', '2309', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-07-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'e4ca6c30-6fd7-44ea-89b5-e11ecfc5989b', '2312', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-08-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'b5c98492-2155-404e-b020-0b8c1481ec73', '2313', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-09-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', 'eda455e3-1cc9-4d23-8434-37b9da13c71f', '2332', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-02', 4363.89, '94b1d516-a1c3-4df8-ae85-be1f34966601', '839b2060-3ea5-4f5c-b313-f7a17a0cc0ec', '2333', '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                (4, '417f8a5f-60e7-411a-8e87-dfab0ae62589', '2021-10-15', 8664.21, 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', '2205ebde-58dc-4af7-958b-9124d9645b38', '2340', '660bb318-649e-470d-9d2b-693bfb0b2744')                    
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -473,10 +459,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 InsertLoanAgreements(ctx);
                 InsertStockSubscriptions(ctx);
                 InsertCashAccounts(ctx);
-                InsertCashReceipts(ctx);
                 InsertLoanPaymentSchedules(ctx);
-                InsertCashDisbursements(ctx);
-
+                InsertCashAccountTransactions(ctx);
             }
             catch (Exception ex)
             {
