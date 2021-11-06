@@ -21,7 +21,6 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
         )
         {
             EconomicEvent = economicEvent ?? throw new ArgumentNullException("The economic event is required.");
-
             Id = economicEvent.Id;
             LoanAgreement = loanAgreement;
             LoanId = LoanId;

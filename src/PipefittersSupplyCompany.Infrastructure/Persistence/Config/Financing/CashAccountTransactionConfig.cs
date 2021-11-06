@@ -13,7 +13,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("INT").HasColumnName("CashTransactionId");
             entity.Property(p => p.CashAccountId)
-                .HasConversion(p => p.Value, p => CashAccountId.Create(p))
                 .HasColumnType("UNIQUEIDENTIFIER")
                 .HasColumnName("CashAccountId")
                 .IsRequired();

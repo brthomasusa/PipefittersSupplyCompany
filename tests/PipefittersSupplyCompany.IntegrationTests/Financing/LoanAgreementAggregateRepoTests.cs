@@ -6,10 +6,8 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
-using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
 using PipefittersSupplyCompany.Core.Shared;
-using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 
 namespace PipefittersSupplyCompany.IntegrationTests.Financing
@@ -27,7 +25,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
         }
 
         [Fact]
-        public async Task ShouldInsert_EconomicEventAndLoanAgreement_UsingRepo()
+        public async Task ShouldInsert_LoanAgreement_UsingLoanAgreementRepo()
         {
             LoanAgreement agreement = new LoanAgreement
             (
@@ -47,6 +45,35 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             var result = await _loanAgreementRepo.Exists(agreement.Id);
 
             Assert.True(result);
+        }
+
+        [Fact]
+        public async Task ShouldUpdate_LoanAgreement_UsingLoanAgreementRepo()
+        {
+            LoanAgreement agreement = await _loanAgreementRepo.GetByIdAsync(new Guid("09b53ffb-9983-4cde-b1d6-8a49e785177f"));
+
+            agreement.UpdateInterestRate(InterestRate.Create(.0975));
+            agreement.UpdateLoanAmount(LoanAmount.Create(52128M));
+
+            await _unitOfWork.Commit();
+
+            LoanAgreement result = await _loanAgreementRepo.GetByIdAsync(new Guid("09b53ffb-9983-4cde-b1d6-8a49e785177f"));
+            Assert.Equal(.0975, result.InterestRate);
+            Assert.Equal(52128M, result.LoanAmount);
+        }
+
+        [Fact]
+        public async void ShouldDelete_LoanAgreement_UsingLoanAgreementRepo()
+        {
+            LoanAgreement agreement = await _loanAgreementRepo.GetByIdAsync(new Guid("0a7181c0-3ce9-4981-9559-157fd8e09cfb"));
+            Assert.NotNull(agreement);
+
+            _loanAgreementRepo.Delete(agreement);
+            await _unitOfWork.Commit();
+
+            LoanAgreement result = await _loanAgreementRepo.GetByIdAsync(new Guid("0a7181c0-3ce9-4981-9559-157fd8e09cfb"));
+
+            Assert.Null(result);
         }
 
         [Fact]

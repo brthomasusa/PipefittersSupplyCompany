@@ -87,7 +87,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('94b1d516-a1c3-4df8-ae85-be1f34966601', 6),
                 ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 6),
                 ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 6),
-                ('01da50f9-021b-4d03-853a-3fd2c95e207d', 6)                         
+                ('01da50f9-021b-4d03-853a-3fd2c95e207d', 6),
+                ('84164388-28ff-4b47-bd63-dd9326d32236', 6)                         
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -125,7 +126,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('94b1d516-a1c3-4df8-ae85-be1f34966601', 'Paul Van Horn Enterprises', '415-328-9870', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
                 ('bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 'New World Tatoo Parlor', '630-321-9875', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
                 ('b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 'Bertha Mae Jones Innovative Financing', '886-587-0001', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Pimps-R-US Financial Management, Inc.', '415-912-5570', 1, '660bb318-649e-470d-9d2b-693bfb0b2744')       
+                ('01da50f9-021b-4d03-853a-3fd2c95e207d', 'Pimps-R-US Financial Management, Inc.', '415-912-5570', 1, '660bb318-649e-470d-9d2b-693bfb0b2744'),
+                ('84164388-28ff-4b47-bd63-dd9326d32236', 'I Exist-Only-To-Be-Deleted', '415-912-5570', 1, '660bb318-649e-470d-9d2b-693bfb0b2744')       
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -262,11 +264,13 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', 2),
                 ('09b53ffb-9983-4cde-b1d6-8a49e785177f', 2),
                 ('1511c20b-6df0-4313-98a5-7c3561757dc2', 2),
+                ('0a7181c0-3ce9-4981-9559-157fd8e09cfb', 2),                
                 ('6d663bb9-763c-4797-91ea-b2d9b7a19ba4', 3),
                 ('62d6e2e6-215d-4157-b7ec-1ba9b137c770', 3),
                 ('fb39b013-1633-4479-8186-9f9b240b5727', 3),
                 ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', 3),
                 ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', 3),
+                ('5997f125-bfca-4540-a144-01e444f6dc25', 3),
                 ('93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', 4),
                 ('f479f59a-5001-47af-9d6c-2eae07077490', 4),
                 ('76e6164a-249d-47a2-b47c-f09a332181b6', 4),
@@ -317,7 +321,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             VALUES
                 ('41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', '12998229-7ede-4834-825a-0c55bde75695', 50000.00, 0.08625, '2020-12-02', '2021-11-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
                 ('09b53ffb-9983-4cde-b1d6-8a49e785177f', '94b1d516-a1c3-4df8-ae85-be1f34966601', 50000.00, 0.08625, '2021-04-02', '2022-03-02', 12, '660bb318-649e-470d-9d2b-693bfb0b2744'),
-                ('1511c20b-6df0-4313-98a5-7c3561757dc2', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 100000.00, 0.07250, '2021-09-15', '2022-08-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e')        
+                ('1511c20b-6df0-4313-98a5-7c3561757dc2', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 100000.00, 0.07250, '2021-09-15', '2022-08-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e'),
+                ('0a7181c0-3ce9-4981-9559-157fd8e09cfb', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 33000.00, 0.07250, '2021-11-15', '2022-10-15', 12, '4b900a74-e2d9-4837-b9a4-9e828752716e')        
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -334,7 +339,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
                 ('62d6e2e6-215d-4157-b7ec-1ba9b137c770', 'bf19cf34-f6ba-4fb2-b70e-ab19d3371886', 50000, 1.00, '2020-09-03','4b900a74-e2d9-4837-b9a4-9e828752716e'),
                 ('fb39b013-1633-4479-8186-9f9b240b5727', 'b49471a0-5c1e-4a4d-97e7-288fb0f6338a', 25000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
                 ('6632cec7-29c5-4ec3-a5a9-c82bf8f5eae3', '01da50f9-021b-4d03-853a-3fd2c95e207d', 10000, 1.00, '2020-11-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
-                ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '12998229-7ede-4834-825a-0c55bde75695', 35000, 3.00, '2021-03-01','660bb318-649e-470d-9d2b-693bfb0b2744')       
+                ('264632b4-20bd-473f-9a9b-dd6f3b6ddbac', '12998229-7ede-4834-825a-0c55bde75695', 35000, 3.00, '2021-03-01','660bb318-649e-470d-9d2b-693bfb0b2744'),
+                ('5997f125-bfca-4540-a144-01e444f6dc25', '12998229-7ede-4834-825a-0c55bde75695', 12567, 0.13, '2021-11-06','660bb318-649e-470d-9d2b-693bfb0b2744')       
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);
@@ -349,7 +355,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             VALUES
                 ('417f8a5f-60e7-411a-8e87-dfab0ae62589', 'First Bank and Trust', 'Primary Checking', '36547-9871222', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e'),
                 ('c98ac84f-00bb-463d-9116-5828b2e9f718', 'First Bank and Trust', 'Payroll', '36547-9098812', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e'),
-                ('6a7ed605-c02c-4ec8-89c4-eac6306c885e', 'First Bank and Trust', 'Financing Proceeds', '36547-9888249', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e')      
+                ('6a7ed605-c02c-4ec8-89c4-eac6306c885e', 'First Bank and Trust', 'Financing Proceeds', '36547-9888249', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e'),
+                ('765ec2b0-406a-4e42-b831-c9aa63800e76', 'BackAlley Money Washing, LLC', 'Slush Fund', 'XXXXX-XXXXXXX', '703452098', '2020-09-03', '4b900a74-e2d9-4837-b9a4-9e828752716e')      
             ";
 
             ctx.Database.ExecuteSqlRaw(sql);

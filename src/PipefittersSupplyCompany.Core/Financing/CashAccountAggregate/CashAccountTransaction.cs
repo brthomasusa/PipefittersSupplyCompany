@@ -42,7 +42,7 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
 
         public virtual CashTransactionType CashTransactionType { get; private set; }
 
-        public virtual CashAccountId CashAccountId { get; private set; }
+        public virtual Guid CashAccountId { get; private set; }
 
         public virtual CashAcctTransactionDate CashAcctTransactionDate { get; }
 

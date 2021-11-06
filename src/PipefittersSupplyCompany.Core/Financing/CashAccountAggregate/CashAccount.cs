@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
 using PipefittersSupplyCompany.Core.Shared;
@@ -8,13 +9,13 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
 {
     public class CashAccount : AggregateRoot<Guid>, IAggregateRoot
     {
-        private List<CashAccountTransaction> _cashTransactions = new List<CashAccountTransaction>();
+        private List<CashAccountTransaction> _cashAccountTransactions = new List<CashAccountTransaction>();
 
         protected CashAccount() { }
 
         public CashAccount
         (
-            Guid id,
+            CashAccountId id,
             BankName bankName,
             CashAccountName acctName,
             CashAccountNumber acctNumber,
@@ -47,7 +48,7 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
 
         public virtual UserId UserId { get; private set; }
 
-        public virtual IReadOnlyList<CashAccountTransaction> CashAccountTransactions { get; private set; } = new List<CashAccountTransaction>();
+        public virtual IReadOnlyList<CashAccountTransaction> CashAccountTransactions => _cashAccountTransactions.ToList();
 
         public void UpdateBankName(BankName value) => BankName = value;
 
@@ -67,12 +68,15 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
             }
         }
 
+        public void AddCashAccountTransaction(CashAccountTransaction cashAccountTransaction)
+        {
+            //TODO check for duplicate loan payment
+            _cashAccountTransactions.Add(cashAccountTransaction);
+        }
+
         protected override void CheckValidity()
         {
-            if (Id == default)
-            {
-                throw new ArgumentNullException("The cash account id is required.");
-            }
+            //
         }
     }
 }

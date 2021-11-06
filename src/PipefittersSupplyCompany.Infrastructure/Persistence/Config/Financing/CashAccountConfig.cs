@@ -12,7 +12,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
             entity.ToTable("CashAccounts", schema: "Finance");
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("CashAccountId");
-            entity.HasMany(p => p.CashAccountTransactions);
+            entity.HasMany(p => p.CashAccountTransactions).WithOne().HasForeignKey(p => p.CashAccountId);
             entity.Property(p => p.BankName)
                 .HasConversion(p => p.Value, p => BankName.Create(p))
                 .HasColumnType("NVARCHAR(50)")

@@ -33,7 +33,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
             LoanDate = loanDate ?? throw new ArgumentNullException("The loan agreement date is required.");
             MaturityDate = maturityDate ?? throw new ArgumentNullException("The loan maturity date is required.");
             PaymentsPerYear = paymentsPerYear ?? throw new ArgumentNullException("The number of loan payments per year is required.");
-            UserId = userID;
+            UserId = userID ?? throw new ArgumentNullException("The id of the employee creating this loan agreement is required."); ;
 
             CheckValidity();
         }
@@ -54,7 +54,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public virtual UserId UserId { get; private set; }
 
-        public virtual List<LoanPayment> LoanPayments => _loanPayments;
+        public virtual IReadOnlyList<LoanPayment> LoanPayments => _loanPayments.ToList();
 
         public void UpdateLoanAmount(LoanAmount value)
         {

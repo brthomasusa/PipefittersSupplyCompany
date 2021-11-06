@@ -65,7 +65,8 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                     .AddScoped<IFinancierQueryService, FinancierQueryService>()
                     .AddScoped<IFinancierQueryRequestHandler, FinancierQueryRequestHandler>()
                     .AddScoped<ILoanAgreementAggregateRepository, LoanAgreementAggregateRepository>()
-                    .AddScoped<LoanAgreementAggregateCommandHandler>();
+                    .AddScoped<LoanAgreementAggregateCommandHandler>()
+                    .AddScoped<ICashAccountAggregateRepository, CashAccountAggregateRepository>();
 
 
 
