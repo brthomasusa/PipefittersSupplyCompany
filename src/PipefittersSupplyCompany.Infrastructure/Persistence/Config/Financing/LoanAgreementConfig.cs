@@ -13,7 +13,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("LoanId");
             entity.HasOne(p => p.EconomicEvent).WithOne().HasForeignKey<LoanAgreement>(p => p.Id);
-            entity.HasMany(p => p.LoanPayments).WithOne(p => p.LoanAgreement).HasForeignKey(p => p.Id);
             entity.Property(p => p.FinancierId).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("FinancierId");
             entity.Property(p => p.LoanAmount)
                 .HasConversion(p => p.Value, p => LoanAmount.Create(p))

@@ -24,7 +24,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
             Id = economicEvent.Id;
             LoanAgreement = loanAgreement;
-            LoanId = LoanId.Create(loanAgreement.Id);
+            LoanId = LoanId;
             PaymentNumber = paymentNumber;
             PaymentDueDate = paymentDueDate;
             LoanPrincipalAmount = principalAmount;
@@ -37,21 +37,56 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public virtual EconomicEvent EconomicEvent { get; private set; }
 
+        public Guid LoanId { get; private set; }
         public virtual LoanAgreement LoanAgreement { get; private set; }
 
-        public virtual LoanId LoanId { get; private set; }
-
         public virtual PaymentNumber PaymentNumber { get; private set; }
+        public void UpdatePaymentNumber(PaymentNumber value)
+        {
+            PaymentNumber = value ?? throw new ArgumentNullException("The payment number is required.");
+            UpdateLastModifiedDate();
+            CheckValidity();
+        }
 
         public virtual PaymentDueDate PaymentDueDate { get; private set; }
+        public void UpdatePaymentDueDate(PaymentDueDate value)
+        {
+            PaymentDueDate = value ?? throw new ArgumentNullException("The payment due date is required.");
+            UpdateLastModifiedDate();
+            CheckValidity();
+        }
 
         public virtual LoanPrincipalAmount LoanPrincipalAmount { get; private set; }
+        public void UpdateLoanPrincipalAmount(LoanPrincipalAmount value)
+        {
+            LoanPrincipalAmount = value ?? throw new ArgumentNullException("The loan principal amount is required.");
+            UpdateLastModifiedDate();
+            CheckValidity();
+        }
 
         public virtual LoanInterestAmount LoanInterestAmount { get; private set; }
+        public void UpdateLoanInterestAmount(LoanInterestAmount value)
+        {
+            LoanInterestAmount = value ?? throw new ArgumentNullException("The loan principal amount is required.");
+            UpdateLastModifiedDate();
+            CheckValidity();
+        }
 
         public virtual LoanPrincipalRemaining LoanPrincipalRemaining { get; private set; }
+        public void UpdateLoanPrincipalRemaining(LoanPrincipalRemaining value)
+        {
+            LoanPrincipalRemaining = value ?? throw new ArgumentNullException("The loan principal balance remaining is required.");
+            UpdateLastModifiedDate();
+            CheckValidity();
+        }
 
         public virtual UserId UserId { get; private set; }
+        public void UpdateUserId(UserId value)
+        {
+            UserId = value ?? throw new ArgumentNullException("The user id is required.");
+            UpdateLastModifiedDate();
+            CheckValidity();
+        }
 
         protected override void CheckValidity()
         {

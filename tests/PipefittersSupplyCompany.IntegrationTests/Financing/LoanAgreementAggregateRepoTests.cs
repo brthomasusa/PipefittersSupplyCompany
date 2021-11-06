@@ -85,5 +85,37 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             Assert.True(result);
         }
 
+        [Fact]
+        public async Task ShouldUpdate_LoanPayment_UsingLoanAgreementAggregate()
+        {
+            LoanAgreement agreement = await _loanAgreementRepo.GetByIdAsync(new Guid("1511c20b-6df0-4313-98a5-7c3561757dc2"));
+
+            LoanPayment payment = agreement.LoanPayments.FirstOrDefault(p => p.Id == new Guid("2205ebde-58dc-4af7-958b-9124d9645b38"));
+            payment.UpdatePaymentDueDate(PaymentDueDate.Create(new DateTime(2021, 1, 10)));
+            payment.UpdateLoanInterestAmount(LoanInterestAmount.Create(360.07M));
+
+            agreement.UpdateLoanPayment(payment);
+            await _unitOfWork.Commit();
+
+            LoanPayment result = agreement.LoanPayments.FirstOrDefault(p => p.Id == new Guid("2205ebde-58dc-4af7-958b-9124d9645b38"));
+
+            Assert.Equal(new DateTime(2021, 1, 10), result.PaymentDueDate);
+            Assert.Equal(360.07M, result.LoanInterestAmount);
+        }
+
+        [Fact]
+        public async Task ShouldDelete_LoanPayment_UsingLoanAgreementAggregate()
+        {
+            LoanAgreement agreement = await _loanAgreementRepo.GetByIdAsync(new Guid("1511c20b-6df0-4313-98a5-7c3561757dc2"));
+
+            LoanPayment payment = agreement.LoanPayments.FirstOrDefault(p => p.Id == new Guid("409e60dc-bbe6-4ca9-95c2-ebf6886e8c4c"));
+
+            agreement.DeleteLoanPayment(payment.Id);
+            await _unitOfWork.Commit();
+
+            LoanPayment result = agreement.LoanPayments.FirstOrDefault(p => p.Id == new Guid("409e60dc-bbe6-4ca9-95c2-ebf6886e8c4c"));
+
+            Assert.Null(result);
+        }
     }
 }

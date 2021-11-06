@@ -9,7 +9,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 {
     public class LoanAgreement : AggregateRoot<Guid>, IAggregateRoot
     {
-        private HashSet<LoanPayment> _loanPayments = new HashSet<LoanPayment>();
+        private List<LoanPayment> _loanPayments = new List<LoanPayment>();
 
         protected LoanAgreement() { }
 
@@ -52,53 +52,84 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public virtual PaymentsPerYear PaymentsPerYear { get; private set; }
 
-        public UserId UserId { get; private set; }
+        public virtual UserId UserId { get; private set; }
 
-        public virtual IReadOnlyCollection<LoanPayment> LoanPayments => _loanPayments.ToList();
+        public virtual List<LoanPayment> LoanPayments => _loanPayments;
 
         public void UpdateLoanAmount(LoanAmount value)
         {
             LoanAmount = value ?? throw new ArgumentNullException("The loan amount for this loan agreement is required.");
+            UpdateLastModifiedDate();
             CheckValidity();
         }
 
         public void UpdateInterestRate(InterestRate value)
         {
             InterestRate = value ?? throw new ArgumentNullException("The interest rate is required; if zero then pass in 0.");
+            UpdateLastModifiedDate();
             CheckValidity();
         }
 
         public void UpdateLoanDate(LoanDate value)
         {
             LoanDate = value ?? throw new ArgumentNullException("The loan agreement date is required.");
+            UpdateLastModifiedDate();
             CheckValidity();
         }
 
         public void UpdateMaturityDate(MaturityDate value)
         {
             MaturityDate = value ?? throw new ArgumentNullException("The loan maturity date is required.");
+            UpdateLastModifiedDate();
+            CheckValidity();
         }
 
         public void UpdatePaymentsPerYear(PaymentsPerYear value)
         {
             PaymentsPerYear = value ?? throw new ArgumentNullException("The number of loan payments per year is required.");
+            UpdateLastModifiedDate();
             CheckValidity();
         }
 
         public void UpdateUserId(UserId value)
         {
-            if (value == default)
-            {
-                throw new ArgumentNullException("User id can not be updated with default Guid value.");
-            }
-
-            UserId = value;
+            UserId = value ?? throw new ArgumentNullException("The user id is required.");
+            UpdateLastModifiedDate();
             CheckValidity();
         }
 
         public void AddLoanPayment(LoanPayment payment)
         {
+            //TODO check for duplicate loan payment
             _loanPayments.Add(payment);
+        }
+
+        public void UpdateLoanPayment(LoanPayment payment)
+        {
+            string errMsg = $"Update failed, a loan payment with id '{payment.Id}' could not be found!";
+
+            LoanPayment found =
+                ((List<LoanPayment>)LoanPayments).Find(p => p.Id == payment.Id)
+                    ?? throw new InvalidOperationException(errMsg);
+
+            found.UpdateLoanInterestAmount(payment.LoanInterestAmount);
+            found.UpdatePaymentNumber(payment.PaymentNumber);
+            found.UpdatePaymentDueDate(payment.PaymentDueDate);
+            found.UpdateLoanPrincipalAmount(payment.LoanPrincipalAmount);
+            found.UpdateLoanInterestAmount(payment.LoanInterestAmount);
+            found.UpdateLoanPrincipalRemaining(payment.LoanPrincipalRemaining);
+            found.UpdateUserId(payment.UserId);
+        }
+
+        public void DeleteLoanPayment(Guid loanPaymentId)
+        {
+            string errMsg = $"Delete failed, a loan payment with id '{loanPaymentId}' could not be found!";
+
+            LoanPayment found =
+                ((List<LoanPayment>)LoanPayments).Find(p => p.Id == loanPaymentId)
+                    ?? throw new InvalidOperationException(errMsg);
+
+            _loanPayments.Remove(found);
         }
 
         protected override void CheckValidity()

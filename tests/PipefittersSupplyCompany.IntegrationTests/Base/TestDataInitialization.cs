@@ -360,7 +360,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Base
             string sql =
             @"
             INSERT INTO Finance.LoanPaymentSchedules
-                (LoanPaymentId, LoanId, PaymentNumber, PaymentDueDate, PrincipalAmount, InterestAmount, PrincipalRemaining, UserId)
+                (LoanPaymentId, LoanId, PaymentNumber, PaymentDueDate, InterestAmount, PrincipalAmount, PrincipalRemaining, UserId)
             VALUES
                 ('93adf7e5-bf6c-4ec8-881a-bfdf37aaf12e', '41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', 1, '2021-01-02', 359.38, 4004.51, 45995.49, '660bb318-649e-470d-9d2b-693bfb0b2744'),
                 ('f479f59a-5001-47af-9d6c-2eae07077490', '41ca2b0a-0ed5-478b-9109-5dfda5b2eba1', 2, '2021-02-02', 330.59, 4033.30, 41962.19, '660bb318-649e-470d-9d2b-693bfb0b2744'),

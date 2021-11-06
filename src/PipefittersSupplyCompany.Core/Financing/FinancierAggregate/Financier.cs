@@ -12,6 +12,7 @@ namespace PipefittersSupplyCompany.Core.Financing.FinancierAggregate
     {
         private List<LoanAgreement> _loanAgreements = new List<LoanAgreement>();
 
+
         protected Financier() { }
 
         public Financier(ExternalAgent agent, OrganizationName name, PhoneNumber telephone, IsActive isActive, Guid userID)
