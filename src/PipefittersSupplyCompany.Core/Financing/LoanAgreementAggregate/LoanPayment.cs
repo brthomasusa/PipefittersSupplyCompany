@@ -22,14 +22,14 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
         {
             EconomicEvent = economicEvent ?? throw new ArgumentNullException("The economic event is required.");
             Id = economicEvent.Id;
-            LoanAgreement = loanAgreement;
-            LoanId = LoanId;
-            PaymentNumber = paymentNumber;
-            PaymentDueDate = paymentDueDate;
-            LoanPrincipalAmount = principalAmount;
-            LoanInterestAmount = interestAmount;
-            LoanPrincipalRemaining = remainPrincipal;
-            UserId = userID;
+            LoanAgreement = loanAgreement ?? throw new ArgumentNullException("The loan agreement is required.");
+            LoanId = loanAgreement.Id;
+            PaymentNumber = paymentNumber ?? throw new ArgumentNullException("The payment number is required.");
+            PaymentDueDate = paymentDueDate ?? throw new ArgumentNullException("The payment due date is required.");
+            LoanPrincipalAmount = principalAmount ?? throw new ArgumentNullException("The principal amount is required.");
+            LoanInterestAmount = interestAmount ?? throw new ArgumentNullException("The interest amount is required.");
+            LoanPrincipalRemaining = remainPrincipal ?? throw new ArgumentNullException("The balance remaining is required.");
+            UserId = userID ?? throw new ArgumentNullException("The user id is required.");
 
             CheckValidity();
         }

@@ -41,7 +41,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Finan
 
             if (disposing)
             {
-                // free managed resources
                 _dbContext.Dispose();
             }
 
