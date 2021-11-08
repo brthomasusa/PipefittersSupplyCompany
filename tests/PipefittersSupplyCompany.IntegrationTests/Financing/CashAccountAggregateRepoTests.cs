@@ -30,7 +30,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             CashAccount account = new CashAccount
             (
                 CashAccountId.Create(new Guid("1e5b3dcf-9ffd-4671-95ee-373e4ca08804")),
-                BankName.Create("ABCDEFG Banking Hair Stylist, Inc."),
+                BankName.Create("ABCDEFG Banking & Hair Stylist, Inc."),
                 CashAccountName.Create("Entertainment"),
                 CashAccountNumber.Create("12345-678987"),
                 RoutingTransitNumber.Create("125478991"),

@@ -4,6 +4,7 @@ using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
 using PipefittersSupplyCompany.Core.Financing.CashAccountAggregate;
+using PipefittersSupplyCompany.Core.Financing.StockSubscriptionAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using Microsoft.EntityFrameworkCore;
 
@@ -31,6 +32,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence
         public DbSet<LoanPayment> LoanPaymentSchedules { get; set; }
         public DbSet<CashAccount> CashAccounts { get; set; }
         public DbSet<CashAccountTransaction> CashAccountTransactions { get; set; }
+        public DbSet<StockSubscription> StockSubscriptions { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ContactPerson> ContactPersons { get; set; }
         public DbSet<User> Users { get; set; }
