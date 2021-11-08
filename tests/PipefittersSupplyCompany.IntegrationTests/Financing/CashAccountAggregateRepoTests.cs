@@ -84,5 +84,70 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             Assert.Null(result);
         }
 
+        [Fact]
+        public async Task ShouldInsert_CashTransaction_UsingCashAccountAggregate()
+        {
+            CashAccount account = await _cashAcctRepo.GetByIdAsync(new Guid("6a7ed605-c02c-4ec8-89c4-eac6306c885e"));
+
+            CashAccountTransaction transaction = new CashAccountTransaction
+            (
+                CashTransactionType.CashDisbursementLoanPayment,
+                CashAccountId.Create(account.Id),
+                CashAcctTransactionDate.Create(new DateTime(2021, 11, 7)),
+                CashAcctTransactionAmount.Create(4363.82M),
+                ExternalAgentId.Create(new Guid("12998229-7ede-4834-825a-0c55bde75695")),
+                EconomicEventId.Create(new Guid("cf4279a1-da26-4d10-bff0-cf6e0933661c")),
+                CheckNumber.Create("12214554"),
+                "12M877",
+                UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
+            );
+
+            account.AddCashAccountTransaction(transaction);
+            _cashAcctRepo.Update(account);
+            await _unitOfWork.Commit();
+        }
+
+        [Fact]
+        public async Task ShouldUpdate_CashTransaction_UsingCashAccountAggregate()
+        {
+            CashAccount account = await _cashAcctRepo.GetByIdAsync(new Guid("417f8a5f-60e7-411a-8e87-dfab0ae62589"));
+            CashAccountTransaction transaction = account.CashAccountTransactions.FirstOrDefault(p => p.Id.Equals(25));
+
+            transaction.UpdateCashAcctTransactionDate(CashAcctTransactionDate.Create(new DateTime(2021, 10, 16)));
+            transaction.UpdateCashAcctTransactionAmount(CashAcctTransactionAmount.Create(8664.99M));
+
+            //TODO Need to know the business rules for these two.
+            // transaction.UpdateExternalAgentId(cashAccountTransaction.AgentId);
+            // transaction.UpdateEconomicEventId(cashAccountTransaction.EventId);
+
+            transaction.UpdateCheckNumber(CheckNumber.Create("99999"));
+            transaction.UpdateRemittanceAdvice("0000000");
+            transaction.UpdateUserId(UserId.Create(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e")));
+
+            account.UpdateCashAccountTransaction(transaction);
+            _cashAcctRepo.Update(account);
+            await _unitOfWork.Commit();
+
+            CashAccountTransaction result = account.CashAccountTransactions.FirstOrDefault(p => p.Id.Equals(25));
+
+            Assert.Equal(transaction.CashAcctTransactionDate, result.CashAcctTransactionDate);
+            Assert.Equal(transaction.CashAcctTransactionAmount, result.CashAcctTransactionAmount);
+            Assert.Equal(transaction.CheckNumber, result.CheckNumber);
+            Assert.Equal(transaction.RemittanceAdvice, result.RemittanceAdvice);
+            Assert.Equal(transaction.UserId, result.UserId);
+        }
+
+        [Fact]
+        public async Task ShouldDelete_CashTransaction_UsingCashAccountAggregate()
+        {
+            CashAccount account = await _cashAcctRepo.GetByIdAsync(new Guid("417f8a5f-60e7-411a-8e87-dfab0ae62589"));
+            CashAccountTransaction transaction = account.CashAccountTransactions.FirstOrDefault(p => p.Id.Equals(25));
+
+            account.DeleteCashAccountTransaction(transaction);
+            CashAccountTransaction result = account.CashAccountTransactions.FirstOrDefault(p => p.Id.Equals(25));
+
+            Assert.Null(result);
+        }
+
     }
 }

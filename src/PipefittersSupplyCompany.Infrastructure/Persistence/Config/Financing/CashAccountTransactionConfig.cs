@@ -48,9 +48,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
             entity.Property(p => p.RemittanceAdvice)
                 .HasColumnType("NVARCHAR(50)")
                 .HasColumnName("RemittanceAdvice");
-            entity.Property(p => p.Notes)
-                .HasColumnType("NVARCHAR(3072)")
-                .HasColumnName("Notes");
             entity.Property(p => p.UserId)
                 .HasConversion(p => p.Value, p => UserId.Create(p))
                 .HasColumnType("UNIQUEIDENTIFIER")

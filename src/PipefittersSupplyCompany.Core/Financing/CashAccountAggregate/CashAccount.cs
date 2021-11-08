@@ -90,6 +90,7 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
         public void AddCashAccountTransaction(CashAccountTransaction cashAccountTransaction)
         {
             //TODO check for duplicate loan payment
+            //TODO Check that cashAccountTransaction.CashAccountId = this.Id
             _cashAccountTransactions.Add(cashAccountTransaction);
         }
 
@@ -101,13 +102,14 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
                 ((List<CashAccountTransaction>)CashAccountTransactions).Find(p => p.Id == cashAccountTransaction.Id)
                     ?? throw new InvalidOperationException(errMsg);
 
-            // found.UpdateLoanInterestAmount(payment.LoanInterestAmount);
-            // found.UpdatePaymentNumber(payment.PaymentNumber);
-            // found.UpdatePaymentDueDate(payment.PaymentDueDate);
-            // found.UpdateLoanPrincipalAmount(payment.LoanPrincipalAmount);
-            // found.UpdateLoanInterestAmount(payment.LoanInterestAmount);
-            // found.UpdateLoanPrincipalRemaining(payment.LoanPrincipalRemaining);
-            // found.UpdateUserId(payment.UserId);
+            found.UpdateCashTransactionType(cashAccountTransaction.CashTransactionType);
+            found.UpdateCashAcctTransactionDate(cashAccountTransaction.CashAcctTransactionDate);
+            found.UpdateCashAcctTransactionAmount(cashAccountTransaction.CashAcctTransactionAmount);
+            found.UpdateExternalAgentId(cashAccountTransaction.AgentId);
+            found.UpdateEconomicEventId(cashAccountTransaction.EventId);
+            found.UpdateCheckNumber(cashAccountTransaction.CheckNumber);
+            found.UpdateRemittanceAdvice(cashAccountTransaction.RemittanceAdvice);
+            found.UpdateUserId(cashAccountTransaction.UserId);
         }
 
         public void DeleteCashAccountTransaction(CashAccountTransaction cashAccountTransaction)

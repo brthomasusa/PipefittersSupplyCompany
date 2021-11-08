@@ -77,7 +77,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
         }
 
         [Fact]
-        public async Task ShouldInsert_LoanPymt_UsingLoanAgreementRepo()
+        public async Task ShouldInsert_LoanAgreementAndLoanPymt_UsingLoanAgreementAggregate()
         {
             LoanAgreement agreement = new LoanAgreement
             (
@@ -109,7 +109,36 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
 
             var result = await _loanAgreementRepo.Exists(agreement.Id);
 
-            Assert.True(result);
+            Assert.True(result);    //TODO Test navigation to LoanPayment
+        }
+
+        [Fact]
+        public async Task ShouldInsert_LoanPymt_UsingLoanAgreementAggregate()
+        {
+            LoanAgreement agreement = await _loanAgreementRepo.GetByIdAsync(new Guid("0a7181c0-3ce9-4981-9559-157fd8e09cfb"));
+
+            EconomicEvent economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashDisbursementForLoanPayment);
+            await _loanAgreementRepo.AddEconomicEventAsync(economicEvent);
+
+            LoanPayment loanPayment = new LoanPayment
+            (
+                economicEvent,
+                agreement,
+                PaymentNumber.Create(1),
+                PaymentDueDate.Create(new DateTime(2021, 12, 5)),
+                LoanPrincipalAmount.Create(14135.13M),
+                LoanInterestAmount.Create(984),
+                LoanPrincipalRemaining.Create(160862.13M),
+                UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
+            );
+
+            agreement.AddLoanPayment(loanPayment);
+            _loanAgreementRepo.Update(agreement);
+            await _unitOfWork.Commit();
+
+            LoanPayment result = agreement.LoanPayments.FirstOrDefault(p => p.Id == loanPayment.EconomicEvent.Id);
+
+            Assert.NotNull(result);
         }
 
         [Fact]

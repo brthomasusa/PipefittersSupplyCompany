@@ -7,7 +7,6 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
     public class CashAccountTransaction : Entity<int>
     {
         private string _emittanceAdvice;
-        private string _notes;
 
         protected CashAccountTransaction() { }
 
@@ -21,7 +20,6 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
             EconomicEventId eventId,
             CheckNumber checkNumber,
             string remittanceAdvice,
-            string notes,
             UserId userID
         )
             : this()
@@ -34,7 +32,6 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
             EventId = eventId ?? throw new ArgumentNullException("The cash economic event id is required.");
             CheckNumber = checkNumber ?? throw new ArgumentNullException("The check number is required.");
             RemittanceAdvice = remittanceAdvice;
-            Notes = notes;
             UserId = userID ?? throw new ArgumentNullException("The user id is required.");
 
             CheckValidity();
@@ -121,33 +118,6 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
         {
             //TODO add validation to remittance advice
             RemittanceAdvice = remittanceAdvice;
-            UpdateLastModifiedDate();
-        }
-
-        public string Notes
-        {
-            get { return _notes; }
-
-            private set
-            {
-                if (!string.IsNullOrEmpty(value))
-                {
-                    if (value.Length <= 3072)
-                    {
-                        _notes = value;
-                    }
-                    else
-                    {
-                        throw new ArgumentException("The notes maximum length is 3072 characters.", nameof(value));
-                    }
-                }
-            }
-        }
-
-        public void UpdateNotes(string notes)
-        {
-            //TODO add validation to notes
-            Notes = notes;
             UpdateLastModifiedDate();
         }
 

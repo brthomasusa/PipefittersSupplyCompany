@@ -54,8 +54,6 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public virtual UserId UserId { get; private set; }
 
-        public virtual IReadOnlyList<LoanPayment> LoanPayments => _loanPayments.ToList();
-
         public void UpdateLoanAmount(LoanAmount value)
         {
             LoanAmount = value ?? throw new ArgumentNullException("The loan amount for this loan agreement is required.");
@@ -97,6 +95,8 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
             UpdateLastModifiedDate();
             CheckValidity();
         }
+
+        public virtual IReadOnlyList<LoanPayment> LoanPayments => _loanPayments.ToList();
 
         public void AddLoanPayment(LoanPayment payment)
         {

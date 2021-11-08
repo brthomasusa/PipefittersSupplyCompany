@@ -2,6 +2,7 @@ using System;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
+using PipefittersSupplyCompany.Core.Shared;
 
 namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing
 {
@@ -20,6 +21,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Finan
         public async Task AddAsync(LoanAgreement entity)
         {
             await _dbContext.LoanAgreements.AddAsync(entity);
+        }
+
+        public async Task AddEconomicEventAsync(EconomicEvent economicEvent)
+        {
+            await _dbContext.EconomicEvents.AddAsync(economicEvent);
         }
 
         public void Update(LoanAgreement entity) => _dbContext.LoanAgreements.Update(entity);
