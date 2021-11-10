@@ -7,6 +7,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces.Financing;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.Financing;
 using PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate;
+using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.IntegrationTests.Base;
 
@@ -30,7 +31,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             LoanAgreement agreement = new LoanAgreement
             (
                 new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement),
-                new Guid("b49471a0-5c1e-4a4d-97e7-288fb0f6338a"),
+                FinancierId.Create(new Guid("b49471a0-5c1e-4a4d-97e7-288fb0f6338a")),
                 LoanAmount.Create(175000),
                 InterestRate.Create(.0675),
                 LoanDate.Create(new DateTime(2021, 11, 5)),
@@ -82,7 +83,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             LoanAgreement agreement = new LoanAgreement
             (
                 new EconomicEvent(Guid.NewGuid(), EventType.CashReceiptFromLoanAgreement),
-                new Guid("b49471a0-5c1e-4a4d-97e7-288fb0f6338a"),
+                FinancierId.Create(new Guid("b49471a0-5c1e-4a4d-97e7-288fb0f6338a")),
                 LoanAmount.Create(175000),
                 InterestRate.Create(.0675),
                 LoanDate.Create(new DateTime(2021, 11, 5)),

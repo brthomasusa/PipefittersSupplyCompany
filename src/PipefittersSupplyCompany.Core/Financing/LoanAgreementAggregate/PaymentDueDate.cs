@@ -29,11 +29,6 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
             {
                 throw new ArgumentNullException("The payment due date is required.", nameof(value));
             }
-
-            // if (value < loanAgreement.LoanDate)
-            // {
-            //     throw new ArgumentOutOfRangeException("Payment due date can not be before loan date.", nameof(value));
-            // }
         }
     }
 }

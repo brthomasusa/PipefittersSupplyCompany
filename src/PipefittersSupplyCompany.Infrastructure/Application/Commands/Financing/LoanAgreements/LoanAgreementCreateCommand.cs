@@ -30,7 +30,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.Financing
             LoanAgreement loanAgreement = new LoanAgreement
             (
                 new EconomicEvent(model.Id, EventType.CashReceiptFromLoanAgreement),
-                financier.Id,
+                FinancierId.Create(financier.Id),
                 LoanAmount.Create(model.LoanAmount),
                 InterestRate.Create(model.InterestRate),
                 LoanDate.Create(model.LoanDate),

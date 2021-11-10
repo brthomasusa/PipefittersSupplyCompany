@@ -4,6 +4,7 @@ using System.Linq;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel;
 using PipefittersSupplyCompany.SharedKernel.Interfaces;
+using PipefittersSupplyCompany.Core.Financing.FinancierAggregate;
 
 namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 {
@@ -16,7 +17,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
         public LoanAgreement
         (
             EconomicEvent economicEvent,
-            Guid financierId,
+            FinancierId financierId,
             LoanAmount loanAmount,
             InterestRate interestRate,
             LoanDate loanDate,
@@ -33,7 +34,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
             LoanDate = loanDate ?? throw new ArgumentNullException("The loan agreement date is required.");
             MaturityDate = maturityDate ?? throw new ArgumentNullException("The loan maturity date is required.");
             PaymentsPerYear = paymentsPerYear ?? throw new ArgumentNullException("The number of loan payments per year is required.");
-            UserId = userID ?? throw new ArgumentNullException("The id of the employee creating this loan agreement is required."); ;
+            UserId = userID ?? throw new ArgumentNullException("The id of the employee recording this loan agreement is required.");
 
             CheckValidity();
         }

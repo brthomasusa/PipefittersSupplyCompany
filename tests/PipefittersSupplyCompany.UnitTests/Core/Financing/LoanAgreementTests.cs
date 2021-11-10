@@ -32,7 +32,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
             LoanAgreement agreement = new LoanAgreement
             (
                 economicEvent,
-                financier.Id,
+                FinancierId.Create(financier.Id),
                 LoanAmount.Create(10000),
                 InterestRate.Create(.006),
                 LoanDate.Create(new DateTime(2020, 12, 31)),
@@ -55,7 +55,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 new LoanAgreement
                 (
                     economicEvent,
-                    financier.Id,
+                    FinancierId.Create(financier.Id),
                     LoanAmount.Create(0),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2020, 12, 31)),
@@ -77,7 +77,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 new LoanAgreement
                 (
                     economicEvent,
-                    financier.Id,
+                    FinancierId.Create(financier.Id),
                     LoanAmount.Create(10000),
                     InterestRate.Create(-1),
                     LoanDate.Create(new DateTime(2020, 12, 31)),
@@ -99,7 +99,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 new LoanAgreement
                 (
                     economicEvent,
-                    financier.Id,
+                    FinancierId.Create(financier.Id),
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime()),
@@ -121,7 +121,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 new LoanAgreement
                 (
                     economicEvent,
-                    financier.Id,
+                    FinancierId.Create(financier.Id),
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2021, 12, 31)),
@@ -143,7 +143,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 new LoanAgreement
                 (
                     economicEvent,
-                    financier.Id,
+                    FinancierId.Create(financier.Id),
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2021, 12, 31)),
@@ -165,7 +165,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 new LoanAgreement
                 (
                     economicEvent,
-                    financier.Id,
+                    FinancierId.Create(financier.Id),
                     LoanAmount.Create(10000),
                     InterestRate.Create(.006),
                     LoanDate.Create(new DateTime(2020, 12, 31)),
