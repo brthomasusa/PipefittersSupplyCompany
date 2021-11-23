@@ -9,6 +9,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
+using Microsoft.AspNetCore.Authentication;
 using NLog;
 using PipefittersSupplyCompany.WebApi.ActionFilters;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
