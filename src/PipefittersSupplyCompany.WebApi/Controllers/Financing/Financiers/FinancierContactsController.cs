@@ -43,7 +43,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                     PersonID = personId,
                 };
 
-            var retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext);
+            var retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext, Response);
 
             return retValue;
         }
@@ -57,7 +57,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                 await _commandHandler.Handle(writeModel);
                 GetFinancierContact queryParams = new GetFinancierContact { PersonID = writeModel.PersonId };
 
-                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext);
+                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancierContact>(queryParams, HttpContext, Response);
 
                 return CreatedAtAction(nameof(GetFinancierContactDetails), new { personId = writeModel.PersonId }, (retValue as OkObjectResult).Value);
             }

@@ -7,7 +7,7 @@ using System.Net;
 using System.Net.Http;
 using Newtonsoft.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
-using Microsoft.Net.Http.Headers;
+// using Microsoft.Net.Http.Headers;
 using Xunit;
 using PipefittersSupplyCompany.WebApi;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;

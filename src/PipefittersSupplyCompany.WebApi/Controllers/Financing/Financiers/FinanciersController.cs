@@ -47,7 +47,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
             try
             {
-                var retValue = await _queryRequestHandler.Handle<GetFinanciers>(queryParams, HttpContext);
+                var retValue = await _queryRequestHandler.Handle<GetFinanciers>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -70,7 +70,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
             try
             {
-                var retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
+                var retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -90,7 +90,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
                 GetFinancier queryParams = new GetFinancier { FinancierID = writeModel.Id };
 
-                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext);
+                IActionResult retValue = await _queryRequestHandler.Handle<GetFinancier>(queryParams, HttpContext, Response);
 
                 return CreatedAtAction(nameof(GetFinancierDetails), new { financierId = writeModel.Id }, (retValue as OkObjectResult).Value);
 
@@ -156,7 +156,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
                         FinancierID = writeModel.Id
                     };
 
-                IActionResult retValue = await _queryRequestHandler.Handle<DoFinancierDependencyCheck>(queryParams, HttpContext);
+                IActionResult retValue = await _queryRequestHandler.Handle<DoFinancierDependencyCheck>(queryParams, HttpContext, Response);
                 if (retValue is BadRequestObjectResult)
                 {
                     return retValue;
@@ -189,7 +189,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
             try
             {
-                var retValue = await _queryRequestHandler.Handle<GetFinancierAddresses>(queryParams, HttpContext);
+                var retValue = await _queryRequestHandler.Handle<GetFinancierAddresses>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -214,7 +214,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers
 
             try
             {
-                var retValue = await _queryRequestHandler.Handle<GetFinancierContacts>(queryParams, HttpContext);
+                var retValue = await _queryRequestHandler.Handle<GetFinancierContacts>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)

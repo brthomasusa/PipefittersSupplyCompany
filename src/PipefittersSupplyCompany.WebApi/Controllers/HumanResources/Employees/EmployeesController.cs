@@ -47,7 +47,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(queryParams, HttpContext);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -72,7 +72,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployeesSupervisedBy>(queryParams, HttpContext);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployeesSupervisedBy>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -97,7 +97,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployeesOfRole>(queryParams, HttpContext);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployeesOfRole>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -120,7 +120,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployee>(queryParams, HttpContext);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployee>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -140,7 +140,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
                 GetEmployee queryParams = new GetEmployee { EmployeeID = writeModel.Id };
 
-                IActionResult retValue = await _employeeQryReqHdler.Handle<GetEmployee>(queryParams, HttpContext);
+                IActionResult retValue = await _employeeQryReqHdler.Handle<GetEmployee>(queryParams, HttpContext, Response);
 
                 return CreatedAtAction(nameof(Details), new { employeeId = writeModel.Id }, (retValue as OkObjectResult).Value);
 
@@ -180,7 +180,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                         EmployeeID = writeModel.Id
                     };
 
-                IActionResult retValue = await _employeeQryReqHdler.Handle<DoEmployeeDependencyCheck>(queryParams, HttpContext);
+                IActionResult retValue = await _employeeQryReqHdler.Handle<DoEmployeeDependencyCheck>(queryParams, HttpContext, Response);
                 if (retValue is BadRequestObjectResult)
                 {
                     return retValue;
@@ -236,7 +236,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeAddresses>(queryParams, HttpContext);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeAddresses>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -261,7 +261,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeContacts>(queryParams, HttpContext);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeContacts>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)

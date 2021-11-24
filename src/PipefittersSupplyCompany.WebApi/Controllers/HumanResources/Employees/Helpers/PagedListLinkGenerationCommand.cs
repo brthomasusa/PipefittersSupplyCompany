@@ -23,6 +23,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                 case PagedList<EmployeeListItem>:
                     LinksWrapperList<EmployeeListItem> linksWrappers = new LinksWrapperList<EmployeeListItem>();
                     var Employees = queryResult.ReadModels as IEnumerable<EmployeeListItem>;
+                    linksWrappers.MetaData = queryResult.MetaData;
 
                     foreach (var listItem in Employees)
                     {
@@ -43,6 +44,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                 case PagedList<EmployeeListItemWithRoles>:
                     LinksWrapperList<EmployeeListItemWithRoles> roleMemberLinksWrappers = new LinksWrapperList<EmployeeListItemWithRoles>();
                     var roleMembers = queryResult.ReadModels as IEnumerable<EmployeeListItemWithRoles>;
+                    roleMemberLinksWrappers.MetaData = queryResult.MetaData;
 
                     foreach (var listItem in roleMembers)
                     {
@@ -63,6 +65,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                 case PagedList<EmployeeAddressListItem>:
                     LinksWrapperList<EmployeeAddressListItem> addressLinksWrappers = new LinksWrapperList<EmployeeAddressListItem>();
                     var EmployeeAddresses = queryResult.ReadModels as IEnumerable<EmployeeAddressListItem>;
+                    addressLinksWrappers.MetaData = queryResult.MetaData;
 
                     foreach (var listItem in EmployeeAddresses)
                     {
@@ -83,6 +86,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                 case PagedList<EmployeeContactListItem>:
                     LinksWrapperList<EmployeeContactListItem> contactLinksWrappers = new LinksWrapperList<EmployeeContactListItem>();
                     var EmployeeContacts = queryResult.ReadModels as IEnumerable<EmployeeContactListItem>;
+                    contactLinksWrappers.MetaData = queryResult.MetaData;
 
                     foreach (var listItem in EmployeeContacts)
                     {

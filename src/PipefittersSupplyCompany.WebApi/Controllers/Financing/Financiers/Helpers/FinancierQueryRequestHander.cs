@@ -24,13 +24,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
         public async Task<IActionResult> Handle<TQueryParam>
         (
             TQueryParam queryParam,
-            HttpContext httpContext
+            HttpContext httpContext,
+            HttpResponse httpResponse
         ) =>
             queryParam switch
             {
                 GetFinanciers param =>
                     ActionResultPagedListCommand.CreateActionResult<FinancierListItem>(await _queryService.Query(param),
                                                                                        httpContext,
+                                                                                       httpResponse,
                                                                                        _linkGenerator,
                                                                                        PagedListLinkGenerationCommand.Execute<FinancierListItem>),
                 GetFinancier param
@@ -40,7 +42,9 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
                                                                                        ReadModelLinkGenerationCommand.Execute<FinancierDetail>),
                 GetFinancierAddresses param
                     => ActionResultPagedListCommand.CreateActionResult<FinancierAddressListItem>(await _queryService.Query(param),
-                                                                                                 httpContext, _linkGenerator,
+                                                                                                 httpContext,
+                                                                                                 httpResponse,
+                                                                                                 _linkGenerator,
                                                                                                  PagedListLinkGenerationCommand.Execute<FinancierAddressListItem>),
                 GetFinancierAddress param
                     => ActionResultReadModelCommand.CreateActionResult<FinancierAddressDetail>(await _queryService.Query(param),
@@ -50,6 +54,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Financing.Financiers.Helpe
                 GetFinancierContacts param
                     => ActionResultPagedListCommand.CreateActionResult<FinancierContactListItem>(await _queryService.Query(param),
                                                                                                  httpContext,
+                                                                                                 httpResponse,
                                                                                                  _linkGenerator,
                                                                                                  PagedListLinkGenerationCommand.Execute<FinancierContactListItem>),
                 GetFinancierContact param

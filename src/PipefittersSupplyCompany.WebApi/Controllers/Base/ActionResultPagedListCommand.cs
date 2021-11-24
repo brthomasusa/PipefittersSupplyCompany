@@ -1,7 +1,6 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
-using Microsoft.Net.Http.Headers;
 using Microsoft.AspNetCore.Routing;
 using Microsoft.Extensions.Primitives;
 using PipefittersSupplyCompany.WebApi.Interfaces;
@@ -22,12 +21,13 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Base
         (
             PagedList<TReadModel> queryResult,
             HttpContext httpContext,
+            HttpResponse httpResponse,
             LinkGenerator generator,
             PagedListLinkGenerationCommandDelegate<TReadModel> funcPointer
         )
         {
             // 1 Add paging info to response header
-            AddPagingInfoToResponseHeaderCommand<TReadModel>.Execute(queryResult, httpContext);
+            AddPagingInfoToResponseHeaderCommand<TReadModel>.Execute(queryResult, httpResponse);
 
             // 2 Add hateoas links
             // 3 Add LinkWrapper to IActionResult and return it to caller
@@ -38,14 +38,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Base
             }
 
             // 4 Return IActionResult
-            return new OkObjectResult(queryResult.ReadModels);
-        }
-
-        private static bool ShouldGenerateLinks(HttpContext httpContext)
-        {
-            var mediaType = httpContext.Items["AcceptHeaderMediaType"] as MediaTypeHeaderValue;
-
-            return mediaType.SubTypeWithoutSuffix.EndsWith("hateoas", StringComparison.InvariantCultureIgnoreCase);
+            // return new OkObjectResult(queryResult.ReadModels);
+            return new OkObjectResult(queryResult);
         }
 
         private static bool ShouldGenerateLinks(IHeaderDictionary dict)

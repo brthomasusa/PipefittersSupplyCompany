@@ -1,4 +1,5 @@
-using System.Text.Json;
+// using System.Text.Json;
+using Newtonsoft.Json;
 using Microsoft.AspNetCore.Http;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 
@@ -6,12 +7,11 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.Base
 {
     public class AddPagingInfoToResponseHeaderCommand<T>
     {
-        public static void Execute(PagedList<T> queryResult, HttpContext httpContext)
+        public static void Execute(PagedList<T> queryResult, HttpResponse httpResponse)
         {
-            httpContext
-                .Response
+            httpResponse
                 .Headers
-                .Add("X-Pagination", JsonSerializer.Serialize((queryResult as PagedList<T>).MetaData));
+                .Add("X-Pagination", JsonConvert.SerializeObject((queryResult as PagedList<T>).MetaData));
         }
     }
 }

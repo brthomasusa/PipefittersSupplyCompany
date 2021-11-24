@@ -25,23 +25,28 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
         public async Task<IActionResult> Handle<TQueryParam>
         (
             TQueryParam queryParam,
-            HttpContext httpContext
+            HttpContext httpContext,
+            HttpResponse httpResponse
         ) =>
             queryParam switch
             {
                 GetEmployees param =>
                     ActionResultPagedListCommand.CreateActionResult<EmployeeListItem>(await _queryService.Query(param),
                                                                                       httpContext,
+                                                                                      httpResponse,
                                                                                       _linkGenerator,
                                                                                       PagedListLinkGenerationCommand.Execute<EmployeeListItem>),
                 GetEmployeesSupervisedBy param =>
                     ActionResultPagedListCommand.CreateActionResult<EmployeeListItem>(await _queryService.Query(param),
+
                                                                                       httpContext,
+                                                                                      httpResponse,
                                                                                       _linkGenerator,
                                                                                       PagedListLinkGenerationCommand.Execute<EmployeeListItem>),
                 GetEmployeesOfRole param =>
                     ActionResultPagedListCommand.CreateActionResult<EmployeeListItemWithRoles>(await _queryService.Query(param),
                                                                                                httpContext,
+                                                                                               httpResponse,
                                                                                                _linkGenerator,
                                                                                                PagedListLinkGenerationCommand.Execute<EmployeeListItemWithRoles>),
                 GetEmployee param =>
@@ -52,6 +57,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                 GetEmployeeAddresses param =>
                     ActionResultPagedListCommand.CreateActionResult<EmployeeAddressListItem>(await _queryService.Query(param),
                                                                                       httpContext,
+                                                                                      httpResponse,
                                                                                       _linkGenerator,
                                                                                       PagedListLinkGenerationCommand.Execute<EmployeeAddressListItem>),
                 GetEmployeeAddress param =>
@@ -62,6 +68,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees.H
                 GetEmployeeContacts param =>
                     ActionResultPagedListCommand.CreateActionResult<EmployeeContactListItem>(await _queryService.Query(param),
                                                                                       httpContext,
+                                                                                      httpResponse,
                                                                                       _linkGenerator,
                                                                                       PagedListLinkGenerationCommand.Execute<EmployeeContactListItem>),
                 GetEmployeeContact param =>

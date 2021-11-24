@@ -7,6 +7,6 @@ namespace PipefittersSupplyCompany.WebApi.Interfaces
 {
     public interface IQueryRequestHandler
     {
-        Task<IActionResult> Handle<TQueryParam>(TQueryParam queryParam, HttpContext httpContext);
+        Task<IActionResult> Handle<TQueryParam>(TQueryParam queryParam, HttpContext httpContext, HttpResponse httpResponse);
     }
 }

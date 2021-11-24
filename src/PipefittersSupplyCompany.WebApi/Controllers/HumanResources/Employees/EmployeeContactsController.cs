@@ -45,7 +45,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeContact>(queryParams, HttpContext);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployeeContact>(queryParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
@@ -65,7 +65,7 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
 
                 GetEmployeeContact queryParams = new GetEmployeeContact { PersonID = writeModel.PersonId };
 
-                IActionResult retValue = await _employeeQryReqHdler.Handle<GetEmployeeContact>(queryParams, HttpContext);
+                IActionResult retValue = await _employeeQryReqHdler.Handle<GetEmployeeContact>(queryParams, HttpContext, Response);
 
                 return CreatedAtAction(nameof(GetEmployeeContact), new { personId = writeModel.PersonId }, (retValue as OkObjectResult).Value);
             }
