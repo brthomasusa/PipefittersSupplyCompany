@@ -46,31 +46,68 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
 
         public async Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters)
         {
-            var sql =
-            @"SELECT 
-                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive, ee.SupervisorId,
-                supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial 
-            FROM HumanResources.Employees ee
-            INNER JOIN
-            (
-                SELECT 
-                    EmployeeId, LastName, FirstName, MiddleInitial 
-                FROM HumanResources.Employees emp
-                WHERE EmployeeId IN (SELECT DISTINCT SupervisorId FROM HumanResources.Employees)
-            ) supv ON ee.SupervisorId = supv.EmployeeId          
-            ORDER BY ee.LastName, ee.FirstName, ee.MiddleInitial
-            OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
-
             var parameters = new DynamicParameters();
+
+            var sql = "SELECT";
+            sql += " ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive, ee.SupervisorId,";
+            sql += " supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial";
+            sql += " FROM HumanResources.Employees ee";
+            sql += " INNER JOIN";
+            sql += " (";
+            sql += " SELECT EmployeeId, LastName, FirstName, MiddleInitial";
+            sql += " FROM HumanResources.Employees emp";
+            sql += " WHERE EmployeeId IN (SELECT DISTINCT SupervisorId FROM HumanResources.Employees)";
+            sql += " ) supv ON ee.SupervisorId = supv.EmployeeId WHERE 1 = 1";
+
+            if (!string.IsNullOrEmpty(queryParameters.EmployeeLastName))
+            {
+                parameters.Add("EmployeeLastName", queryParameters.EmployeeLastName, DbType.String);
+                sql += " AND ee.LastName LIKE @EmployeeLastName + '%'";
+            }
+            if (!string.IsNullOrEmpty(queryParameters.SupervisorLastName))
+            {
+                parameters.Add("SupervisorLastName", queryParameters.SupervisorLastName, DbType.String);
+                sql += " AND supv.LastName LIKE @SupervisorLastName + '%'";
+            }
+
+            if (!string.IsNullOrEmpty(queryParameters.SortField))
+            {
+                parameters.Add("SortField", queryParameters.SortField, DbType.String);
+
+                if (!string.IsNullOrEmpty(queryParameters.SortOrder))
+                {
+                    sql += queryParameters.SortOrder.ToUpper() == "ASC"
+                        ? " ORDER BY @SortField ASC" : " ORDER BY @SortField DESC";
+                }
+                else
+                {
+                    sql += " ORDER BY @SortField";
+                }
+            }
+            else
+            {
+                if (!string.IsNullOrEmpty(queryParameters.SortOrder))
+                {
+                    sql += queryParameters.SortOrder.ToUpper() == "ASC"
+                        ? " ORDER BY ee.LastName ASC" : " ORDER BY ee.LastName DESC";
+                }
+                else
+                {
+                    sql += " ORDER BY ee.LastName";
+                }
+            }
+
             parameters.Add("Offset", Offset(queryParameters.Page, queryParameters.PageSize), DbType.Int32);
             parameters.Add("PageSize", queryParameters.PageSize, DbType.Int32);
 
-            var totalRecordsSql = $"SELECT COUNT(EmployeeId) FROM HumanResources.Employees";
+            string stmt = sql + " OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             using (var connection = _dapperCtx.CreateConnection())
             {
-                int count = await connection.ExecuteScalarAsync<int>(totalRecordsSql);
-                var items = await connection.QueryAsync<EmployeeListItem>(sql, parameters);
+                var items = await connection.QueryAsync<EmployeeListItem>(stmt, parameters);
+                var totalItems = await connection.QueryAsync<EmployeeListItem>(sql, parameters);
+                int count = totalItems.ToList().Count;
+
                 var pagedList = PagedList<EmployeeListItem>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
             }
@@ -82,6 +119,20 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
             {
                 throw new ArgumentException($"{queryParameters.SupervisorID} is not a valid supervisor Id.");
             }
+
+            // var stmt = "SELECT";
+            // stmt += " ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive, ee.SupervisorId,";
+            // stmt += " supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial";
+            // stmt += " FROM HumanResources.Employees ee";
+            // stmt += " INNER JOIN";
+            // stmt += " (";
+            // stmt += " SELECT EmployeeId, LastName, FirstName, MiddleInitial";
+            // stmt += " FROM HumanResources.Employees emp";
+            // stmt += " WHERE EmployeeId IN (SELECT DISTINCT SupervisorId FROM HumanResources.Employees)";
+            // stmt += " ) supv ON ee.SupervisorId = supv.EmployeeId";
+            // stmt += " WHERE ee.SupervisorId = @ID";
+            // stmt += " ORDER BY ee.LastName, ee.FirstName, ee.MiddleInitial";
+            // stmt += " OFFSET @Offset ROWS FETCH NEXT @PageSize ROWS ONLY";
 
             var sql =
             @"SELECT 

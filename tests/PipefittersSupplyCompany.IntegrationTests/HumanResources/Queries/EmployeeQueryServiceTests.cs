@@ -27,6 +27,24 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
         }
 
         [Fact]
+        public async Task ShouldGet_EmployeeListItems_UsingGetEmployeesFilteredByName()
+        {
+            var getEmployees = new GetEmployees
+            {
+                Page = 1,
+                PageSize = 10,
+                EmployeeLastName = "B",
+                SortOrder = "DESC"
+            };
+
+            var result = await _employeeQrySvc.Query(getEmployees);
+
+            int resultCount = result.ReadModels.ToList().Count;
+
+            Assert.True(resultCount > 0);
+        }
+
+        [Fact]
         public async Task ShouldGet_EmployeeListItems_UsingGetEmployeesSupervisedByQueryParameters()
         {
             var getEmployeesSupervisedBy =

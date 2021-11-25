@@ -36,18 +36,11 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
         [HttpGet]
         [Route("list")]
         [ServiceFilter(typeof(ValidateMediaTypeAttribute))]
-        public async Task<IActionResult> GetEmployees([FromQuery] PagingParameters pagingParams)
+        public async Task<IActionResult> GetEmployees([FromQuery] GetEmployees getEmployeesParams)
         {
-            GetEmployees queryParams =
-                new GetEmployees
-                {
-                    Page = pagingParams.Page,
-                    PageSize = pagingParams.PageSize
-                };
-
             try
             {
-                var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(queryParams, HttpContext, Response);
+                var retValue = await _employeeQryReqHdler.Handle<GetEmployees>(getEmployeesParams, HttpContext, Response);
                 return retValue;
             }
             catch (Exception ex)
