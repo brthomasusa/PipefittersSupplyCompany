@@ -34,6 +34,8 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Queries
                 Page = 1,
                 PageSize = 10,
                 EmployeeLastName = "B",
+                SupervisorLastName = null,
+                SortField = "LastName",
                 SortOrder = "DESC"
             };
 
