@@ -1,3 +1,4 @@
+using System.Collections.ObjectModel;
 using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries;
 using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
@@ -7,6 +8,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources
     public interface IEmployeeQueryService
     {
         Task<EmployeeDependencyCheckResult> Query(DoEmployeeDependencyCheck queryParameters);
+        Task<ReadOnlyCollection<SupervisorLookup>> GetSupervisorLookups();
         Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters);
         Task<PagedList<EmployeeListItem>> Query(GetEmployeesSupervisedBy queryParameters);
         Task<PagedList<EmployeeListItemWithRoles>> Query(GetEmployeesOfRole queryParameters);

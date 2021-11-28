@@ -9,6 +9,12 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
         public int Contacts { get; set; }
     }
 
+    public class SupervisorLookup : IReadModel
+    {
+        public Guid ManagerId { get; set; }
+        public string ManagerName { get; set; }
+    }
+
     public class EmployeeDetail : IReadModel
     {
         public Guid EmployeeId { get; set; }
@@ -16,9 +22,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
         public string ManagerLastName { get; set; }
         public string ManagerFirstName { get; set; }
         public string ManagerMiddleInitial { get; set; }
+        public string SupervisorFullName { get; set; }
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string MiddleInitial { get; set; }
+        public string EmployeeFullName { get; set; }
         public string SSN { get; set; }
         public string Telephone { get; set; }
         public string MaritalStatus { get; set; }
@@ -36,12 +44,14 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
         public string LastName { get; set; }
         public string FirstName { get; set; }
         public string MiddleInitial { get; set; }
+        public string EmployeeFullName { get; set; }
         public string Telephone { get; set; }
         public bool IsActive { get; set; }
         public Guid SupervisorId { get; set; }
         public string ManagerLastName { get; set; }
         public string ManagerFirstName { get; set; }
         public string ManagerMiddleInitial { get; set; }
+        public string SupervisorFullName { get; set; }
     }
 
     public class EmployeeListItemWithRoles

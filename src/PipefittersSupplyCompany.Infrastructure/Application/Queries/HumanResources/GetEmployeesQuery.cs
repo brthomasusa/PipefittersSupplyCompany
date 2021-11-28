@@ -14,9 +14,13 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
         {
             var parameters = new DynamicParameters();
 
+
             var sql = "SELECT";
-            sql += " ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive, ee.SupervisorId,";
-            sql += " supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial";
+            sql += " ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial,";
+            sql += " CONCAT(ee.FirstName,' ',COALESCE(ee.MiddleInitial,''),' ',ee.LastName) as EmployeeFullName,";
+            sql += " ee.Telephone, ee.IsActive, ee.SupervisorId,";
+            sql += " supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial,";
+            sql += " CONCAT(supv.FirstName,' ',COALESCE(supv.MiddleInitial,''),' ',supv.LastName) as SupervisorFullName";
             sql += " FROM HumanResources.Employees ee";
             sql += " INNER JOIN";
             sql += " (";

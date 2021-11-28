@@ -1,5 +1,5 @@
 using System;
-using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Data;
@@ -18,6 +18,12 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
         public EmployeeQueryService(DapperContext ctx) => _dapperCtx = ctx;
 
         private static int Offset(int page, int pageSize) => (page - 1) * pageSize;
+
+        public async Task<ReadOnlyCollection<SupervisorLookup>> GetSupervisorLookups() =>
+            await GetSupervisorLookup.Query(_dapperCtx);
+
+        public async Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters) =>
+            await GetEmployeesQuery.Query(queryParameters, _dapperCtx);
 
         public async Task<EmployeeDependencyCheckResult> Query(DoEmployeeDependencyCheck queryParameters)
         {
@@ -43,10 +49,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
                 return await connection.QueryFirstOrDefaultAsync<EmployeeDependencyCheckResult>(sql, parameters);
             }
         }
-
-        public async Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters) =>
-                await GetEmployeesQuery.Query(queryParameters, _dapperCtx);
-
 
         public async Task<PagedList<EmployeeListItem>> Query(GetEmployeesSupervisedBy queryParameters)
         {
@@ -158,10 +160,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
 
             var sql =
             @"SELECT 
-                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, ee.Telephone, ee.IsActive,
-                ee.SupervisorId, supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName,
-                supv.MiddleInitial AS ManagerMiddleInitial, ee.SSN, ee.MaritalStatus, ee.Exemptions,
-                ee.PayRate, ee.StartDate, ee.IsActive, ee.CreatedDate, ee.LastModifiedDate
+                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, 
+                CONCAT(ee.FirstName,' ',COALESCE(ee.MiddleInitial,''),' ',ee.LastName) as EmployeeFullName, ee.Telephone, ee.IsActive,
+                ee.SupervisorId, supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial,
+                CONCAT(supv.FirstName,' ',COALESCE(supv.MiddleInitial,''),' ',supv.LastName) as SupervisorFullName,
+                ee.SSN, ee.MaritalStatus, ee.Exemptions, ee.PayRate, ee.StartDate, ee.IsActive, ee.CreatedDate, ee.LastModifiedDate                
             FROM HumanResources.Employees ee
             INNER JOIN
             (
