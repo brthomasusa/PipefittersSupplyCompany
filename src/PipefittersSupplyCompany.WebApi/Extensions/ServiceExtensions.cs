@@ -30,7 +30,8 @@ namespace Microsoft.Extensions.DependencyInjection //PipefittersSupplyCompany.We
                 options.AddPolicy("CorsPolicy", builder =>
                     builder.AllowAnyOrigin()
                            .AllowAnyMethod()
-                           .AllowAnyHeader());
+                           .AllowAnyHeader()
+                           .WithExposedHeaders("X-Pagination"));
             });
 
         public static IServiceCollection ConfigureLoggingService(this IServiceCollection services) =>
