@@ -25,6 +25,9 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
         public async Task<PagedList<EmployeeListItem>> Query(GetEmployees queryParameters) =>
             await GetEmployeesQuery.Query(queryParameters, _dapperCtx);
 
+        public async Task<EmployeeDetail> Query(GetEmployee queryParameters) =>
+            await GetEmployeeDetailsQuery.Query(queryParameters, _dapperCtx);
+
         public async Task<EmployeeDependencyCheckResult> Query(DoEmployeeDependencyCheck queryParameters)
         {
             if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
@@ -148,39 +151,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Services.HumanReso
                 var items = await connection.QueryAsync<EmployeeListItemWithRoles>(sql, parameters);
                 var pagedList = PagedList<EmployeeListItemWithRoles>.CreatePagedList(items.ToList(), count, queryParameters.Page, queryParameters.PageSize);
                 return pagedList;
-            }
-        }
-
-        public async Task<EmployeeDetail> Query(GetEmployee queryParameters)
-        {
-            if (await IsValidEmployeeID(queryParameters.EmployeeID) == false)
-            {
-                throw new ArgumentException($"No employee record found where EmployeeId equals {queryParameters.EmployeeID}.");
-            }
-
-            var sql =
-            @"SELECT 
-                ee.EmployeeId,  ee.LastName, ee.FirstName, ee.MiddleInitial, 
-                CONCAT(ee.FirstName,' ',COALESCE(ee.MiddleInitial,''),' ',ee.LastName) as EmployeeFullName, ee.Telephone, ee.IsActive,
-                ee.SupervisorId, supv.LastName AS ManagerLastName, supv.FirstName AS ManagerFirstName, supv.MiddleInitial AS ManagerMiddleInitial,
-                CONCAT(supv.FirstName,' ',COALESCE(supv.MiddleInitial,''),' ',supv.LastName) as SupervisorFullName,
-                ee.SSN, ee.MaritalStatus, ee.Exemptions, ee.PayRate, ee.StartDate, ee.IsActive, ee.CreatedDate, ee.LastModifiedDate                
-            FROM HumanResources.Employees ee
-            INNER JOIN
-            (
-                SELECT 
-                    EmployeeId, LastName, FirstName, MiddleInitial 
-                FROM HumanResources.Employees emp
-                WHERE EmployeeId IN (SELECT DISTINCT SupervisorId FROM HumanResources.Employees)
-            ) supv ON ee.SupervisorId = supv.EmployeeId          
-            WHERE ee.EmployeeId = @ID";
-
-            var parameters = new DynamicParameters();
-            parameters.Add("ID", queryParameters.EmployeeID, DbType.Guid);
-
-            using (var connection = _dapperCtx.CreateConnection())
-            {
-                return await connection.QueryFirstOrDefaultAsync<EmployeeDetail>(sql, parameters);
             }
         }
 
