@@ -13,37 +13,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public static Task Execute(IWriteModel model, IEmployeeAggregateRepository repo, IUnitOfWork unitOfWork) =>
             model switch
             {
-                CreateEmployeeInfo createModel => HandleCreate(createModel, repo, unitOfWork),
+                CreateEmployeeInfo createModel => EmployeeCreateCommand.Execute(createModel, repo, unitOfWork),
                 EditEmployeeInfo updateModel => HandleUpdate(updateModel, repo, unitOfWork),
                 DeleteEmployeeInfo deleteModel => HandleDelete(deleteModel, repo, unitOfWork),
                 _ => throw new ArgumentOutOfRangeException("Unknown employee write command.", nameof(model))
             };
-
-        private static async Task HandleCreate(CreateEmployeeInfo model, IEmployeeAggregateRepository repo, IUnitOfWork unitOfWork)
-        {
-            if (await repo.Exists(model.Id))
-            {
-                throw new InvalidOperationException($"This employee already exists!");
-            }
-
-            Employee employee = new Employee
-            (
-                new ExternalAgent(model.Id, AgentType.Employee),
-                SupervisorId.Create(model.SupervisorId),
-                PersonName.Create(model.FirstName, model.LastName, model.MiddleInitial),
-                SSN.Create(model.SSN),
-                PhoneNumber.Create(model.Telephone),
-                MaritalStatus.Create(model.MaritalStatus),
-                TaxExemption.Create(model.Exemptions),
-                PayRate.Create(model.PayRate),
-                StartDate.Create(model.StartDate),
-                IsActive.Create(model.IsActive)
-            );
-
-            await repo.AddAsync(employee);
-            await unitOfWork.Commit();
-            model.Id = employee.Id;
-        }
 
         private static async Task HandleUpdate(EditEmployeeInfo model, IEmployeeAggregateRepository repo, IUnitOfWork unitOfWork)
         {
