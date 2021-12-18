@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Xunit;
@@ -7,8 +8,10 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Persistence;
 using PipefittersSupplyCompany.Infrastructure.Persistence.Repositories.HumanResources;
 using PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources;
+using PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
 using PipefittersSupplyCompany.IntegrationTests.Base;
+
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {
@@ -161,32 +164,119 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
         }
 
         [Fact]
-        public async Task ShouldUpdate_EmployeeAddress_Using_UpdateEmployeeAddressInfoCommand()
+        public async Task ShouldAdd_EmployeeAddress_UsingEmployeeAggregate()
         {
-            Employee employee = await _dbContext.Employees.FindAsync(new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e"));
+            EditEmployeeInfo employee = GetEmployeeInfoForEditing();
 
-            var command = new EditEmployeeAddressInfo
+            EditEmployeeAddressInfo newAddress = new EditEmployeeAddressInfo
             {
-                AddressId = 2,
+                AddressId = 0,
                 EmployeeId = employee.Id,
-                AddressLine1 = "32145 Main Stree",
+                AddressLine1 = "32145 Main Street",
                 AddressLine2 = "3rd Floor",
                 City = "Dallas",
                 StateCode = "TX",
-                Zipcode = "75021"
+                Zipcode = "75021",
+                Status = RecordStatus.New
             };
 
-            await _employeeCmdHdlr.Handle(command);
+            employee.Addresses.Add(newAddress);
+            await _employeeCmdHdlr.Handle(employee);
 
-            var address = (from item in employee.Addresses()
-                           where item.AddressDetails.AddressLine1.Equals(command.AddressLine1) &&
-                                item.AddressDetails.AddressLine2.Equals(command.AddressLine2) &&
-                                item.AddressDetails.City.Equals(command.City) &&
-                                item.AddressDetails.StateCode.Equals(command.StateCode) &&
-                                item.AddressDetails.Zipcode.Equals(command.Zipcode)
-                           select item).SingleOrDefault();
+            Employee result = await _dbContext.Employees.FindAsync(employee.Id);
 
-            Assert.NotNull(address);
+            var found = (from item in result.Addresses()
+                         where item.AddressDetails.AddressLine1.Equals(newAddress.AddressLine1) &&
+                               item.AddressDetails.AddressLine2.Equals(newAddress.AddressLine2) &&
+                               item.AddressDetails.City.Equals(newAddress.City) &&
+                               item.AddressDetails.StateCode.Equals(newAddress.StateCode) &&
+                               item.AddressDetails.Zipcode.Equals(newAddress.Zipcode)
+                         select item).SingleOrDefault();
+
+            Assert.NotNull(found);
+        }
+
+        [Fact]
+        public async Task ShouldUpdate_EmployeeAddress_UsingEmployeeAggregate()
+        {
+            EditEmployeeInfo employee = GetEmployeeInfoForEditing();
+            EditEmployeeAddressInfo address = employee.Addresses.Where(a => a.AddressId == 1).FirstOrDefault();
+            address.AddressLine2 = "Ste 15";
+            address.Status = RecordStatus.Modified;
+
+            await _employeeCmdHdlr.Handle(employee);
+
+            Employee result = await _dbContext.Employees.FindAsync(employee.Id);
+            var found = (from item in result.Addresses()
+                         where item.AddressDetails.AddressLine2.Equals(address.AddressLine2)
+                         select item).SingleOrDefault();
+
+            Assert.NotNull(found);
+        }
+
+        [Fact]
+        public async Task ShouldDelete_EmployeeAddress_UsingEmployeeAggregate()
+        {
+            EditEmployeeInfo employee = GetEmployeeInfoForEditing();
+            EditEmployeeAddressInfo address = employee.Addresses.Where(a => a.AddressId == 1).FirstOrDefault();
+            address.Status = RecordStatus.Deleted;
+
+            await _employeeCmdHdlr.Handle(employee);
+
+            Employee result = await _dbContext.Employees.FindAsync(employee.Id);
+
+            var found = (from item in result.Addresses()
+                         where item.Id.Equals(address.AddressId)
+                         select item).SingleOrDefault();
+
+            Assert.Null(found);
+        }
+
+        private EditEmployeeInfo GetEmployeeInfoForEditing()
+        {
+            Guid empID = new Guid("4b900a74-e2d9-4837-b9a4-9e828752716e");
+
+            EditEmployeeInfo employeeInfo = new EditEmployeeInfo
+            {
+                Id = empID,
+                SupervisorId = empID,
+                LastName = "Sanchez",
+                FirstName = "Ken",
+                MiddleInitial = "J",
+                SSN = "123789999",
+                Telephone = "817-987-1234",
+                MaritalStatus = "M",
+                Exemptions = 5,
+                PayRate = 40.00M,
+                StartDate = new DateTime(1998, 12, 2),
+                IsActive = true
+            };
+
+            EditEmployeeAddressInfo addressInfo1 = new EditEmployeeAddressInfo
+            {
+                AddressId = 1,
+                EmployeeId = empID,
+                AddressLine1 = "321 Tarrant Pl",
+                City = "Fort Worth",
+                StateCode = "TX",
+                Zipcode = "78965"
+            };
+
+            EditEmployeeAddressInfo addressInfo2 = new EditEmployeeAddressInfo
+            {
+                AddressId = 2,
+                EmployeeId = empID,
+                AddressLine1 = "1 Desoto Plaza",
+                AddressLine2 = "1st Floor",
+                City = "Desoto",
+                StateCode = "TX",
+                Zipcode = "75115"
+            };
+
+            employeeInfo.Addresses.Add(addressInfo1);
+            employeeInfo.Addresses.Add(addressInfo2);
+
+            return employeeInfo;
         }
     }
 }

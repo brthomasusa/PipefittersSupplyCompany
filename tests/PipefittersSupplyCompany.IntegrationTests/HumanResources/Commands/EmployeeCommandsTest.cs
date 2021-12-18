@@ -3,9 +3,9 @@ using System.Linq;
 using Microsoft.EntityFrameworkCore;
 using Xunit;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
-using PipefittersSupplyCompany.IntegrationTests.Base;
 using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
+using PipefittersSupplyCompany.IntegrationTests.Base;
 
 namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 {

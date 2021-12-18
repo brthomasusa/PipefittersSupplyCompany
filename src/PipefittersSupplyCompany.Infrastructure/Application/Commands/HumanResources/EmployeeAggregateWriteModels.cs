@@ -4,7 +4,7 @@ using PipefittersSupplyCompany.Infrastructure.Interfaces;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources
 {
-    public class CreateEmployeeInfo : IWriteModel
+    public class CreateEmployeeInfo : DataXferObject, IWriteModel
     {
         public Guid Id { get; set; }
         public Guid SupervisorId { get; set; }
@@ -18,11 +18,11 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public decimal PayRate { get; set; }
         public DateTime StartDate { get; set; }
         public bool IsActive { get; set; }
-        public List<CreateEmployeeAddressInfo> Addresses { get; set; }
-        public List<CreateEmployeeContactInfo> Contacts { get; set; }
+        public List<CreateEmployeeAddressInfo> Addresses { get; set; } = new();
+        public List<CreateEmployeeContactInfo> Contacts { get; set; } = new();
     }
 
-    public class EditEmployeeInfo : IWriteModel
+    public class EditEmployeeInfo : DataXferObject, IWriteModel
     {
         public Guid Id { get; set; }
         public Guid SupervisorId { get; set; }
@@ -36,8 +36,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public decimal PayRate { get; set; }
         public DateTime StartDate { get; set; }
         public bool IsActive { get; set; }
-        public List<EditEmployeeAddressInfo> Addresses { get; set; }
-        public List<EditEmployeeContactInfo> Contacts { get; set; }
+        public List<EditEmployeeAddressInfo> Addresses { get; set; } = new();
+        public List<EditEmployeeContactInfo> Contacts { get; set; } = new();
     }
 
     public class DeleteEmployeeInfo : IWriteModel
@@ -57,7 +57,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public bool IsActive { get; } = false;
     }
 
-    public class CreateEmployeeAddressInfo : IWriteModel
+    public class CreateEmployeeAddressInfo : DataXferObject, IWriteModel
     {
         public int AddressId { get; set; }
         public Guid EmployeeId { get; set; }
@@ -68,7 +68,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public string Zipcode { get; set; }
     }
 
-    public class EditEmployeeAddressInfo : IWriteModel
+    public class EditEmployeeAddressInfo : DataXferObject, IWriteModel
     {
         public int AddressId { get; set; }
         public Guid EmployeeId { get; set; }

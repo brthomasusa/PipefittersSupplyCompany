@@ -3,7 +3,6 @@ using System.Threading.Tasks;
 using PipefittersSupplyCompany.Infrastructure.Interfaces;
 using PipefittersSupplyCompany.Infrastructure.Interfaces.HumanResources;
 using PipefittersSupplyCompany.Core.HumanResources.EmployeeAggregate;
-using PipefittersSupplyCompany.Core.Shared;
 using PipefittersSupplyCompany.SharedKernel.CommonValueObjects;
 
 namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanResources
@@ -14,7 +13,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             model switch
             {
                 CreateEmployeeInfo createModel => EmployeeCreateCommand.Execute(createModel, repo, unitOfWork),
-                EditEmployeeInfo updateModel => HandleUpdate(updateModel, repo, unitOfWork),
+                EditEmployeeInfo updateModel => EmployeeUpdateCommand.Execute(updateModel, repo, unitOfWork),
                 DeleteEmployeeInfo deleteModel => HandleDelete(deleteModel, repo, unitOfWork),
                 _ => throw new ArgumentOutOfRangeException("Unknown employee write command.", nameof(model))
             };

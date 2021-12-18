@@ -19,7 +19,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Queries.HumanResou
 
             var sql =
             @"SELECT 
-                PersonId, AgentId AS 'EmployeeId', Telephone, Notes,
+                PersonId, AgentId AS 'EmployeeId', FirstName, LastName, MiddleInitial, Telephone, Notes,
                 CONCAT(FirstName,' ',COALESCE(MiddleInitial,''),' ',LastName) AS FullName                
             FROM Shared.ContactPersons       
             WHERE AgentId = @ID 
