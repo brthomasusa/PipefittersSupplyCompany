@@ -85,7 +85,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public Guid EmployeeId { get; set; }
     }
 
-    public class CreateEmployeeContactInfo : IWriteModel
+    public class CreateEmployeeContactInfo : DataXferObject, IWriteModel
     {
         public int PersonId { get; set; }
         public Guid EmployeeId { get; set; }
@@ -96,7 +96,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
         public string Notes { get; set; }
     }
 
-    public class EditEmployeeContactInfo : IWriteModel
+    public class EditEmployeeContactInfo : DataXferObject, IWriteModel
     {
         public int PersonId { get; set; }
         public Guid EmployeeId { get; set; }

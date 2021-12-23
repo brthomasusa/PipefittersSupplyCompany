@@ -36,19 +36,41 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
                 }
             }
 
-            foreach (var address in model.Addresses)
+            if (model.Addresses != null && model.Addresses.Count > 0)
             {
-                if (address.Status == RecordStatus.New)
+                foreach (var address in model.Addresses)
                 {
-                    employee.AddAddress(0, AddressVO.Create(address.AddressLine1, address.AddressLine2, address.City, address.StateCode, address.Zipcode));
+                    if (address.Status == RecordStatus.New)
+                    {
+                        employee.AddAddress(0, AddressVO.Create(address.AddressLine1, address.AddressLine2, address.City, address.StateCode, address.Zipcode));
+                    }
+                    else if (address.Status == RecordStatus.Modified)
+                    {
+                        employee.UpdateAddress(address.AddressId, AddressVO.Create(address.AddressLine1, address.AddressLine2, address.City, address.StateCode, address.Zipcode));
+                    }
+                    else if (address.Status == RecordStatus.Deleted)
+                    {
+                        employee.DeleteAddress(address.AddressId);
+                    }
                 }
-                else if (address.Status == RecordStatus.Modified)
+            }
+
+            if (model.Contacts != null && model.Contacts.Count > 0)
+            {
+                foreach (var contact in model.Contacts)
                 {
-                    employee.UpdateAddress(address.AddressId, AddressVO.Create(address.AddressLine1, address.AddressLine2, address.City, address.StateCode, address.Zipcode));
-                }
-                else if (address.Status == RecordStatus.Deleted)
-                {
-                    employee.DeleteAddress(address.AddressId);
+                    if (contact.Status == RecordStatus.New)
+                    {
+                        employee.AddContactPerson(0, PersonName.Create(contact.FirstName, contact.LastName, contact.MiddleInitial), PhoneNumber.Create(contact.Telephone), contact.Notes);
+                    }
+                    else if (contact.Status == RecordStatus.Modified)
+                    {
+                        employee.UpdateContactPerson(contact.PersonId, PersonName.Create(contact.FirstName, contact.LastName, contact.MiddleInitial), PhoneNumber.Create(contact.Telephone), contact.Notes);
+                    }
+                    if (contact.Status == RecordStatus.Deleted)
+                    {
+                        employee.DeleteContactPerson(contact.PersonId);
+                    }
                 }
             }
 

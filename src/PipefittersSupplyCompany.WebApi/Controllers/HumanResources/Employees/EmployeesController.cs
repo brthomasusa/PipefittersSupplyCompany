@@ -162,15 +162,15 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
         }
 
         [HttpDelete]
-        [Route("deleteemployeeinfo")]
-        public async Task<IActionResult> DeleteEmployeeInfo([FromBody] DeleteEmployeeInfo writeModel)
+        [Route("deleteemployeeinfo/{employeeId:Guid}")]
+        public async Task<IActionResult> DeleteEmployeeInfo(Guid employeeId)
         {
             try
             {
                 DoEmployeeDependencyCheck queryParams =
                     new DoEmployeeDependencyCheck
                     {
-                        EmployeeID = writeModel.Id
+                        EmployeeID = employeeId
                     };
 
                 IActionResult retValue = await _employeeQryReqHdler.Handle<DoEmployeeDependencyCheck>(queryParams, HttpContext, Response);
@@ -178,7 +178,8 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
                 {
                     return retValue;
                 }
-                await _employeeCmdHdlr.Handle(writeModel);
+
+                await _employeeCmdHdlr.Handle(new DeleteEmployeeInfo() { Id = employeeId });
                 return Ok();
             }
             catch (Exception ex)
