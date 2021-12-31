@@ -14,7 +14,7 @@ namespace PipefittersSupplyCompany.Infrastructure.Application.Commands.HumanReso
             {
                 CreateEmployeeInfo createModel => EmployeeCreateCommand.Execute(createModel, repo, unitOfWork),
                 EditEmployeeInfo updateModel => EmployeeUpdateCommand.Execute(updateModel, repo, unitOfWork),
-                DeleteEmployeeInfo deleteModel => HandleDelete(deleteModel, repo, unitOfWork),
+                DeleteEmployeeInfo deleteModel => EmployeeDeleteCommand.Execute(deleteModel, repo, unitOfWork),
                 _ => throw new ArgumentOutOfRangeException("Unknown employee write command.", nameof(model))
             };
 

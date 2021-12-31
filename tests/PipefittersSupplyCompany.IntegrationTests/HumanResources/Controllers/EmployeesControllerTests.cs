@@ -149,6 +149,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Controllers
         public async Task ShouldDelete_EmployeeInfo_UsingEmployeeController()
         {
             var employeeId = new Guid("e6b86ea3-6479-48a2-b8d4-54bd6cbbdbc5");
+
             var response = await _client.GetAsync($"{serviceAddress}{_rootAddress}/details/{employeeId}");
             Assert.True(response.IsSuccessStatusCode);
 

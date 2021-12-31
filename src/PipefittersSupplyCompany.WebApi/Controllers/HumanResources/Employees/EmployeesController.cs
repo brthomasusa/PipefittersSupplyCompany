@@ -167,17 +167,17 @@ namespace PipefittersSupplyCompany.WebApi.Controllers.HumanResources.Employees
         {
             try
             {
-                DoEmployeeDependencyCheck queryParams =
-                    new DoEmployeeDependencyCheck
-                    {
-                        EmployeeID = employeeId
-                    };
+                // DoEmployeeDependencyCheck queryParams =
+                //     new DoEmployeeDependencyCheck
+                //     {
+                //         EmployeeID = employeeId
+                //     };
 
-                IActionResult retValue = await _employeeQryReqHdler.Handle<DoEmployeeDependencyCheck>(queryParams, HttpContext, Response);
-                if (retValue is BadRequestObjectResult)
-                {
-                    return retValue;
-                }
+                // IActionResult retValue = await _employeeQryReqHdler.Handle<DoEmployeeDependencyCheck>(queryParams, HttpContext, Response);
+                // if (retValue is BadRequestObjectResult)
+                // {
+                //     return retValue;
+                // }
 
                 await _employeeCmdHdlr.Handle(new DeleteEmployeeInfo() { Id = employeeId });
                 return Ok();
