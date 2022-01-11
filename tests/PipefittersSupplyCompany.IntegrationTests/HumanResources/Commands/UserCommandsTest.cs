@@ -35,12 +35,12 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
                 IsActive.Create(true)
             );
 
-            User user = new User
+            DomainUser user = new DomainUser
             (
                 userID,
-                "george.m.orwell@pipefitterssupplycompany.com",
-                "george.m.orwell@pipefitterssupplycompany.com",
-                employee
+                "george",
+                "orwell",
+                "m"
             );
 
             _dbContext.ExternalAgents.Add(employeeAgent);
@@ -50,7 +50,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources.Commands
 
             var result = _dbContext.Users.Find(userID);
 
-            Assert.IsType<User>(result);
+            Assert.IsType<DomainUser>(result);
         }
     }
 }

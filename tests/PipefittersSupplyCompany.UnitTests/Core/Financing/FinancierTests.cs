@@ -101,7 +101,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
 
 
 
-        private User GetUser()
+        private DomainUser GetUser()
         {
             var agent = new ExternalAgent(Guid.NewGuid(), AgentType.Employee);
 
@@ -119,7 +119,7 @@ namespace PipefittersSupplyCompany.UnitTests.Core.Financing
                 IsActive.Create(true)
             );
 
-            return new User(agent.Id, "FakeUser", "fakeuser@fakedomain.co", employee);
+            return new DomainUser(agent.Id, "Jon", "Doe", "");
         }
     }
 }

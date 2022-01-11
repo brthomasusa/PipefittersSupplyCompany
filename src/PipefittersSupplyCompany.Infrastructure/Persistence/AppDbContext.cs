@@ -7,6 +7,7 @@ using PipefittersSupplyCompany.Core.Financing.CashAccountAggregate;
 using PipefittersSupplyCompany.Core.Financing.StockSubscriptionAggregate;
 using PipefittersSupplyCompany.Core.Shared;
 using Microsoft.EntityFrameworkCore;
+using PipefittersSupplyCompany.Infrastructure.Identity;
 
 namespace PipefittersSupplyCompany.Infrastructure.Persistence
 {
@@ -23,7 +24,6 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence
         //     optionsBuilder.UseLazyLoadingProxies();
         // }
 
-        public DbSet<Role> Roles { get; set; }
         public DbSet<ExternalAgent> ExternalAgents { get; set; }
         public DbSet<EconomicEvent> EconomicEvents { get; set; }
         public DbSet<Employee> Employees { get; set; }
@@ -35,8 +35,8 @@ namespace PipefittersSupplyCompany.Infrastructure.Persistence
         public DbSet<StockSubscription> StockSubscriptions { get; set; }
         public DbSet<Address> Addresses { get; set; }
         public DbSet<ContactPerson> ContactPersons { get; set; }
-        public DbSet<User> Users { get; set; }
-        public DbSet<UserRole> UserRoles { get; set; }
+        public DbSet<DomainUser> DomainUsers { get; set; }
+        public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
