@@ -61,14 +61,5 @@ namespace PipefittersSupplyCompany.IntegrationTests.HumanResources
 
             Assert.True(count >= 1);
         }
-
-        [Fact]
-        public void ShouldReturnAtLeast_8_Users()
-        {
-            List<DomainUser> users = _dbContext.Users.AsNoTracking().ToList();
-            int count = users.Count;
-
-            Assert.True(count >= 8);
-        }
     }
 }

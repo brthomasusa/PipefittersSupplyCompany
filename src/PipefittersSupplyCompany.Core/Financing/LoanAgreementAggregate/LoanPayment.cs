@@ -107,8 +107,8 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
             int m2;
             if (startDate < endDate)
             {
-                m1 = (endDate.Month - startDate.Month);//for years
-                m2 = (endDate.Year - startDate.Year) * 12; //for months
+                m1 = (endDate.Month - startDate.Month);         //for years
+                m2 = (endDate.Year - startDate.Year) * 12;      //for months
             }
             else
             {

@@ -90,7 +90,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
                 UserId.Create(new Guid("660bb318-649e-470d-9d2b-693bfb0b2744"))
             );
 
-            DividendPaymentRate dividendPayment = new DividendPaymentRate
+            DividendPayment dividendPayment = new DividendPayment
             (
                 new EconomicEvent(Guid.NewGuid(), EventType.CashDisbursementForDividentPayment),
                 stockSubscription,
@@ -116,7 +116,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             EconomicEvent economicEvent = new EconomicEvent(Guid.NewGuid(), EventType.CashDisbursementForDividentPayment);
             await _stockSubscriptionRepo.AddEconomicEventAsync(economicEvent);
 
-            DividendPaymentRate dividendPayment = new DividendPaymentRate
+            DividendPayment dividendPayment = new DividendPayment
             (
                 economicEvent,
                 stockSubscription,
@@ -129,7 +129,7 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
             _stockSubscriptionRepo.Update(stockSubscription);
             await _unitOfWork.Commit();
 
-            DividendPaymentRate result = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == dividendPayment.EconomicEvent.Id);
+            DividendPayment result = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == dividendPayment.EconomicEvent.Id);
 
             Assert.NotNull(result);
         }
@@ -139,14 +139,14 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
         {
             StockSubscription stockSubscription = await _stockSubscriptionRepo.GetByIdAsync(new Guid("264632b4-20bd-473f-9a9b-dd6f3b6ddbac"));
 
-            DividendPaymentRate dividendPayment = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
+            DividendPayment dividendPayment = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
             dividendPayment.UpdateDividendDeclarationDate(DividendDeclarationDate.Create(new DateTime(2021, 3, 16)));
             dividendPayment.UpdateDividendPerShare(DividendPerShare.Create(.035M));
 
             stockSubscription.UpdateDividendPaymentRate(dividendPayment);
             await _unitOfWork.Commit();
 
-            DividendPaymentRate result = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
+            DividendPayment result = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
 
             Assert.Equal(new DateTime(2021, 3, 16), result.DividendDeclarationDate);
             Assert.Equal(.035M, result.DividendPerShare);
@@ -157,12 +157,12 @@ namespace PipefittersSupplyCompany.IntegrationTests.Financing
         {
             StockSubscription stockSubscription = await _stockSubscriptionRepo.GetByIdAsync(new Guid("264632b4-20bd-473f-9a9b-dd6f3b6ddbac"));
 
-            DividendPaymentRate dividendPayment = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
+            DividendPayment dividendPayment = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
 
             stockSubscription.DeleteDividendPaymentRate(dividendPayment.Id);
             await _unitOfWork.Commit();
 
-            DividendPaymentRate result = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
+            DividendPayment result = stockSubscription.DividendPaymentRates.FirstOrDefault(p => p.Id == new Guid("24d6936a-beb5-451b-a950-0f30e3ad463d"));
 
             Assert.Null(result);
         }

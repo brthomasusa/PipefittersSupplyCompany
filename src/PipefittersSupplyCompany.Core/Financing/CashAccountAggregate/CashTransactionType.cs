@@ -8,7 +8,7 @@ namespace PipefittersSupplyCompany.Core.Financing.CashAccountAggregate
         CashDisbursementLoanPayment = 4,
         CashDisbursementDividentPayment = 5,
         CashDisbursementTimeCardPayment = 6,
-        CashDisbursementInventoryReceipt = 7,
+        CashDisbursementPurchaseReceipt = 7,
         CashReceiptAdjustment = 8,
         CashDisbursementAdjustment = 9
     }

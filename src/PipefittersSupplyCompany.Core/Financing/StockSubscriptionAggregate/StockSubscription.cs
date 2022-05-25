@@ -10,7 +10,7 @@ namespace PipefittersSupplyCompany.Core.Financing.StockSubscriptionAggregate
 {
     public class StockSubscription : AggregateRoot<Guid>, IAggregateRoot
     {
-        private List<DividendPaymentRate> _dividendPaymentRates = new List<DividendPaymentRate>();
+        private List<DividendPayment> _dividendPaymentRates;
 
         protected StockSubscription() { }
 
@@ -31,6 +31,9 @@ namespace PipefittersSupplyCompany.Core.Financing.StockSubscriptionAggregate
             SharesIssured = sharesIssured ?? throw new ArgumentNullException("The shares issued amount is required.");
             PricePerShare = pricePerShare ?? throw new ArgumentNullException("The price per share is required.");
             UserId = userId ?? throw new ArgumentNullException("The id of the employee recording this stock subscription is required.");
+
+            CheckValidity();
+            _dividendPaymentRates = new List<DividendPayment>();
         }
 
         public virtual EconomicEvent EconomicEvent { get; private set; }
@@ -69,20 +72,20 @@ namespace PipefittersSupplyCompany.Core.Financing.StockSubscriptionAggregate
             CheckValidity();
         }
 
-        public virtual IReadOnlyList<DividendPaymentRate> DividendPaymentRates => _dividendPaymentRates.ToList();
+        public virtual IReadOnlyList<DividendPayment> DividendPaymentRates => _dividendPaymentRates.ToList();
 
-        public void AddDividendPaymentRate(DividendPaymentRate dividendDeclaration)
+        public void AddDividendPaymentRate(DividendPayment dividendDeclaration)
         {
             //TODO check for duplicate dividend declaration
             _dividendPaymentRates.Add(dividendDeclaration);
         }
 
-        public void UpdateDividendPaymentRate(DividendPaymentRate dividendDeclaration)
+        public void UpdateDividendPaymentRate(DividendPayment dividendDeclaration)
         {
             string errMsg = $"Update failed, a dividend declaration with id '{dividendDeclaration.Id}' could not be found!";
 
-            DividendPaymentRate found =
-                ((List<DividendPaymentRate>)DividendPaymentRates).Find(p => p.Id == dividendDeclaration.Id)
+            DividendPayment found =
+                ((List<DividendPayment>)DividendPaymentRates).Find(p => p.Id == dividendDeclaration.Id)
                     ?? throw new InvalidOperationException(errMsg);
 
             found.UpdateDividendDeclarationDate(dividendDeclaration.DividendDeclarationDate);
@@ -94,8 +97,8 @@ namespace PipefittersSupplyCompany.Core.Financing.StockSubscriptionAggregate
         {
             string errMsg = $"Delete failed, a dividend declaration with id '{dividendId}' could not be found!";
 
-            DividendPaymentRate found =
-                ((List<DividendPaymentRate>)DividendPaymentRates).Find(p => p.Id == dividendId)
+            DividendPayment found =
+                ((List<DividendPayment>)DividendPaymentRates).Find(p => p.Id == dividendId)
                     ?? throw new InvalidOperationException(errMsg);
 
             _dividendPaymentRates.Remove(found);

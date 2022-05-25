@@ -27,9 +27,9 @@ namespace PipefittersSupplyCompany.UnitTests.Core.HumanResources.EmployeeAggrega
 
             Action action = () => SupervisorId.Create(eeID);
 
-            var caughtException = Assert.Throws<ArgumentNullException>(action);
+            var caughtException = Assert.Throws<ArgumentOutOfRangeException>(action);
 
-            Assert.Equal("The supervisor id is required.", caughtException.ParamName);
+            Assert.Equal("The installment number must be greater than or equal to one.", caughtException.Message);
         }
 
 

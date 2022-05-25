@@ -10,7 +10,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 {
     public class LoanAgreement : AggregateRoot<Guid>, IAggregateRoot
     {
-        private List<LoanPayment> _loanPayments = new List<LoanPayment>();
+        private List<LoanPayment> _loanPayments;
 
         protected LoanAgreement() { }
 
@@ -37,6 +37,7 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
             UserId = userID ?? throw new ArgumentNullException("The id of the employee recording this loan agreement is required.");
 
             CheckValidity();
+            _loanPayments = new List<LoanPayment>();
         }
 
         public virtual EconomicEvent EconomicEvent { get; private set; }
@@ -101,8 +102,28 @@ namespace PipefittersSupplyCompany.Core.Financing.LoanAgreementAggregate
 
         public void AddLoanPayment(LoanPayment payment)
         {
-            //TODO check for duplicate loan payment
+            LoanPayment found = ((List<LoanPayment>)LoanPayments).Find(p => p.Id == payment.Id);
+
+            if (found != null)
+            {
+                string errMsg = $"Create new loan payment failed, a loan payment with id '{payment.Id}' already exists!";
+                throw new InvalidOperationException(errMsg);
+            }
+
             _loanPayments.Add(payment);
+        }
+
+        public void AddLoanPayment(List<LoanPayment> payments)
+        {
+            // LoanPayment found = ((List<LoanPayment>)LoanPayments).Find(p => p.Id == payment.Id);
+
+            // if (found != null)
+            // {
+            //     string errMsg = $"Create new loan payment failed, a loan payment with id '{payment.Id}' already exists!";
+            //     throw new InvalidOperationException(errMsg);
+            // }
+
+            _loanPayments.AddRange(payments);
         }
 
         public void UpdateLoanPayment(LoanPayment payment)

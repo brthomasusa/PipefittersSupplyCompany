@@ -4,11 +4,11 @@ using PipefittersSupplyCompany.SharedKernel;
 
 namespace PipefittersSupplyCompany.Core.Financing.StockSubscriptionAggregate
 {
-    public class DividendPaymentRate : Entity<Guid>
+    public class DividendPayment : Entity<Guid>
     {
-        protected DividendPaymentRate() { }
+        protected DividendPayment() { }
 
-        public DividendPaymentRate
+        public DividendPayment
         (
             EconomicEvent economicEvent,
             StockSubscription stockSubscription,

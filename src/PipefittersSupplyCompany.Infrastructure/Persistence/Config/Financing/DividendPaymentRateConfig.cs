@@ -5,14 +5,14 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace PipefittersSupplyCompany.Infrastructure.Persistence.Config.Financing
 {
-    internal class DividendPaymentRateConfig : IEntityTypeConfiguration<DividendPaymentRate>
+    internal class DividendPaymentRateConfig : IEntityTypeConfiguration<DividendPayment>
     {
-        public void Configure(EntityTypeBuilder<DividendPaymentRate> entity)
+        public void Configure(EntityTypeBuilder<DividendPayment> entity)
         {
             entity.ToTable("DividendPymtRates", schema: "Finance");
             entity.HasKey(e => e.Id);
             entity.Property(p => p.Id).HasColumnType("UNIQUEIDENTIFIER").HasColumnName("DividendId");
-            entity.HasOne(p => p.EconomicEvent).WithOne().HasForeignKey<DividendPaymentRate>(p => p.Id);
+            entity.HasOne(p => p.EconomicEvent).WithOne().HasForeignKey<DividendPayment>(p => p.Id);
             entity.HasOne(p => p.StockSubscription).WithMany(p => p.DividendPaymentRates).HasForeignKey(p => p.StockId);
             entity.Property(p => p.StockId)
                 .HasColumnType("UNIQUEIDENTIFIER")
